@@ -189,6 +189,7 @@ static const char *lalSimulationApproximantNames[] = {
     INITIALIZE_NAME(IMRPhenomT),
     INITIALIZE_NAME(IMRPhenomTHM),
     INITIALIZE_NAME(IMRPhenomTP),
+    INITIALIZE_NAME(ENIGMA),
     INITIALIZE_NAME(IMRPhenomTPHM)
 };
 #undef INITIALIZE_NAME
@@ -360,7 +361,7 @@ int XLALSimInspiralChooseTDWaveform(
     const REAL8 phiRef,                         /**< reference orbital phase (rad) */
     const REAL8 longAscNodes,                   /**< longitude of ascending nodes, degenerate with the polarization angle, Omega in documentation */
     const REAL8 eccentricity,                   /**< eccentrocity at reference epoch */
-    const REAL8 UNUSED meanPerAno,              /**< mean anomaly of periastron */
+    const REAL8 meanPerAno,                     /**< mean anomaly of periastron */
     const REAL8 deltaT,                         /**< sampling interval (s) */
     const REAL8 f_min,                          /**< starting GW frequency (Hz) */
     REAL8 f_ref,                                /**< reference GW frequency (Hz) */
@@ -1168,6 +1169,19 @@ int XLALSimInspiralChooseTDWaveform(
         case IMRPhenomXPHM:
             polariz = 0;
             ret = XLALSimInspiralTDFromFD(hplus, hcross, m1, m2, S1x, S1y, S1z, S2x, S2y, S2z, distance, inclination, phiRef, longAscNodes, eccentricity, meanPerAno, deltaT, f_min, f_ref, LALparams, approximant);
+	    break;
+
+        case ENIGMA:
+            /* Waveform-specific sanity checks */
+            if( !XLALSimInspiralWaveformParamsFlagsAreDefault(LALparams) )
+                XLAL_ERROR(XLAL_EINVAL, "Non-default flags given, but this approximant does not support this case.");
+            if( !checkSpinsZero(S1x, S1y, S1z, S2x, S2y, S2z) )
+                XLAL_ERROR(XLAL_EINVAL, "Non-zero spins were given, but this is a non-spinning approximant.");
+            if( !checkTidesZero(lambda1, lambda2) )
+                XLAL_ERROR(XLAL_EINVAL, "Non-zero tidal parameters were given, but this is approximant doe not have tidal corrections.");
+            /* Call the waveform driver routine */
+            ret = XLALSimIMRENIGMA(hplus, hcross,
+                    phiRef, inclination, eccentricity, meanPerAno, deltaT, m1, m2, distance, f_min, f_ref);
             break;
 
         case IMRPhenomT:
@@ -6456,6 +6470,7 @@ int XLALSimInspiralImplementedTDApproximants(
         case IMRPhenomTHM:
         case IMRPhenomTP:
         case IMRPhenomTPHM:
+        case ENIGMA:
             return 1;
 
         default:
@@ -6993,6 +7008,9 @@ int XLALSimInspiralGetSpinSupportFromApproximant(Approximant approx){
     case EOB:
     case IMRPhenomFA:
     case GeneratePPN:
+    case ENIGMA:
+      spin_support=LAL_SIM_INSPIRAL_SPINLESS;
+      break;
     case TEOBResum_ROM:
       spin_support=LAL_SIM_INSPIRAL_SPINLESS;
       break;
@@ -7102,6 +7120,7 @@ int XLALSimInspiralGetSpinFreqFromApproximant(Approximant approx){
     case EOB:
     case IMRPhenomFA:
     case GeneratePPN:
+    case ENIGMA:
     case TEOBResum_ROM:
     case IMRPhenomT:
     case IMRPhenomTHM:
@@ -7258,6 +7277,7 @@ int XLALSimInspiralApproximantAcceptTestGRParams(Approximant approx){
     case IMRPhenomD_NRTidalv2:
     case IMRPhenomHM:
     case IMRPhenomPv3:
+    case ENIGMA:
     case IMRPhenomPv3HM:
       testGR_accept=LAL_SIM_INSPIRAL_TESTGR_PARAMS;
       break;

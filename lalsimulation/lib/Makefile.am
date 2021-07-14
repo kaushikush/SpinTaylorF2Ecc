@@ -264,7 +264,10 @@ noinst_HEADERS = \
 	LALSimInspiralFDPrecAngles_internals.h \
 	LALSimNRSurRemnantUtils.h \
 	LALSimNRSur7dq4Remnant.h \
-	LALSimNRSur3dq8Remnant.h
+	LALSimNRSur3dq8Remnant.h \
+	ENIGMA_GPEMergerRingdown.c \
+	ENIGMA_PNInspiral.c \
+	ENIGMA_PNMatch.c
 	$(END_OF_LIST)
 
 lib_LTLIBRARIES = liblalsimulation.la
@@ -375,7 +378,8 @@ liblalsimulation_la_SOURCES = \
 	LALSimInspiralFDPrecAngles.c \
 	LALSimNRSurRemnantUtils.c \
 	LALSimNRSur7dq4Remnant.c \
-	LALSimNRSur3dq8Remnant.c
+	LALSimNRSur3dq8Remnant.c \
+	LALSimENIGMA.c
 
 nodist_liblalsimulation_la_SOURCES = \
 	LALSimulationBuildInfoHeader.h \
