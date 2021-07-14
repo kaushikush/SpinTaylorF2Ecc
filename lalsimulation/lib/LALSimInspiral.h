@@ -441,6 +441,7 @@ typedef enum tagApproximant {
 		    * @remarks Implemented in lalsimulation (frequency domain). */
    SEOBNRv4HM_PA,    /** Spin non-precessing EOBNR model v4 with higher modes post-adiabatic dynamics (time domain), PhysRevD.104.124087 [arXiv:2105.06983] */
    pSEOBNRv4HM_PA,    /** Spin non-precessing EOBNR model v4 with higher modes post-adiabatic dynamics (time domain) and TGR ringdown effects, PhysRevD.104.124087 [arXiv:2105.06983] */
+   ENIGMA,        /**< Time domain, eccentric model. */
    NumApproximants,	/**< Number of elements in enum, useful for checking bounds */
  } Approximant;
 

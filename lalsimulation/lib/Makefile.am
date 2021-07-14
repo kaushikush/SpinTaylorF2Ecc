@@ -271,6 +271,9 @@ noinst_HEADERS = \
 	LALSimIMRSpinEOBFactorizedFlux_PA.c \
 	LALSimIMRSpinEOBFactorizedWaveform_PA.c \
 	LALSimInspiralEOBPostAdiabatic.h \
+	ENIGMA_GPEMergerRingdown.c \
+	ENIGMA_PNInspiral.c \
+	ENIGMA_PNMatch.c
 	$(END_OF_LIST)
 
 lib_LTLIBRARIES = liblalsimulation.la
@@ -386,6 +389,7 @@ liblalsimulation_la_SOURCES = \
 	LALSimInspiralEOBPANumericalFuncs.c \
 	LALSimInspiralEOBPAAuxiliaryFuncs.c \
 	LALSimIMRSpinEOBFactorizedWaveform_PA.c \
+	LALSimENIGMA.c \
 	$(END_OF_LIST)
 
 nodist_liblalsimulation_la_SOURCES = \
