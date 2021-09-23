@@ -29,6 +29,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include<complex.h>
 
 #include <gsl/gsl_blas.h>
 #include <gsl/gsl_eigen.h>
@@ -232,8 +233,8 @@ static int eccentric_x_model_odes(REAL8 t, const REAL8 y[], REAL8 dydt[],
                                   void *params);
 
 /* PN radiation */
-static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi);
-static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi);
+static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi,long vpn);
+static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi,long vpn);
 static REAL8 phi_e(REAL8 e);
 static REAL8 psi_e(REAL8 e);
 static REAL8 zed_e(REAL8 e);
@@ -367,6 +368,8 @@ static REAL8 pow7_2(const REAL8 x) { return sqrt(pow7(x)); }
 #include "ENIGMA_GPEMergerRingdown.c"
 #include "ENIGMA_PNInspiral.c"
 #include "ENIGMA_PNMatch.c"
+#include "ENIGMA_GOterms.c"
+
 
 static REAL8 *interp_to_uniform_and_point(
     const REAL8 *t_vec, const REAL8 *val_vec, const long vec_length,
@@ -432,9 +435,20 @@ static void compute_strain_from_dynamics(
 
   const REAL8 total_mass = mass1 + mass2;
   const REAL8 reduced_mass = mass1 * mass2 / total_mass;
+  //const REAL8 delta = (mass1-mass2)/total_mass;
+  const REAL8 eta = (mass1*mass2)/(total_mass*total_mass); //Symmetric Mass Ratio
 
+  // REAL8 hplus_05pn;
+  // REAL8 hcross_05pn;
+  
+  
   /* overall factor in waveform polarizations */
   REAL8 h_factor = reduced_mass * LAL_MRSUN_SI / R;
+
+  /*The desired PN order correction. 
+  Note that we are defining this in terms of powers of v = x^2*/
+  long pn_factor_max = 6; //3PN correction
+
 
   for (long i = 0; i < length; ++i) {
     t_vec[i] *= total_mass;
@@ -448,6 +462,18 @@ static void compute_strain_from_dynamics(
 
     /* The leading order (quadrupolar) post-Newtonian GW polarizations *
      * Reference: Damour, Gopakumar, and Iyer (PRD 70 064028).         */
+     
+    //Defining the hplus and hcross general orbit term corrections
+    REAL8 hplusGOtotal=0;
+    REAL8 hcrossGOtotal=0;
+
+    for(long j=1;j<=pn_factor_max;j++){
+      hplusGOtotal = hplusGOtotal + hplusGO(total_mass,eta,r_vec[i],r_dot_vec[i],phi_vec[i],phi_dot_vec[i],euler_iota,euler_beta,R,j);
+      hcrossGOtotal = hcrossGOtotal + hcrossGO(total_mass,eta,r_vec[i],r_dot_vec[i],phi_vec[i],phi_dot_vec[i],euler_iota,euler_beta,R,j);
+    }
+
+
+                  
     h_plus[i] =
         (REAL8)(h_factor *
                 (-((cos(euler_iota) * cos(euler_iota) + 1.0) *
@@ -461,9 +487,10 @@ static void compute_strain_from_dynamics(
                    (total_mass / r_vec[i] -
                     r_vec[i] * r_vec[i] * phi_dot_vec[i] * phi_dot_vec[i] -
                     r_dot_vec[i] * r_dot_vec[i]) *
-                       sin(euler_iota) * sin(euler_iota))
-
-                 + hPlus(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i])));
+                       sin(euler_iota) * sin(euler_iota)) 
+                       + hPlus(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i],pn_factor_max))
+                       + hplusGOtotal);
+    
 
     h_cross[i] =
         (REAL8)(h_factor *
@@ -475,9 +502,10 @@ static void compute_strain_from_dynamics(
                         cos(2.0 * phi_vec[i]) * sin(2.0 * euler_beta)) -
                    2.0 * r_vec[i] * r_dot_vec[i] * phi_dot_vec[i] *
                        (cos(2.0 * phi_vec[i]) * cos(2.0 * euler_beta) +
-                        sin(2.0 * phi_vec[i]) * sin(2.0 * euler_beta))))
-
-                 + hCross(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i])));
+                        sin(2.0 * phi_vec[i]) * sin(2.0 * euler_beta))))  
+                        + hCross(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i],pn_factor_max))
+                        + hcrossGOtotal);
+    
   }
 }
 

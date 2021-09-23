@@ -1880,7 +1880,7 @@ static REAL8 zed_n(REAL8 e) {
   return (pre_f_1 * zed_e(e) - pre_f_2 * phi_e(e));
 }
 
-static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi) {
+static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, long vpn) {
   const REAL8 log2 = 0.693147180559945309417232121458;   // ln(2)
   const REAL8 log3_2 = 0.405465108108164381978013115464; // ln(3/2)
   /* some math:
@@ -1909,14 +1909,17 @@ static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi) {
   const REAL8 sin2a = 2 * sina * cosa;
   const REAL8 sin3a = 4 * sina * pow2(cosa) - sina;
   const REAL8 sin4a = 8 * sina * pow3(cosa) - 4 * sina * cosa;
+  const REAL8 sin5a = 16 * sina * pow4(cosa) - 12 * sina * pow2(cosa) + sina;
 
-  return 2 * x *
-         (-(((m1 - m2) * sqrt(x) *
-             ((0.625 + pow2(cos(i)) / 8.) * cos(a) -
-              (1.125 + (9 * pow2(cos(i))) / 8.) * cos3a) *
-             sin(i)) /
-            (m1 + m2)) +
-          x * ((3.1666666666666665 + (3 * pow2(cos(i))) / 2. -
+  double EulerGamma = 0.5772156649015329;
+
+  REAL8 Nu = (m1*m2)/(pow2(m1+m2));
+  REAL8 delta = (m1-m2)/(m1+m2);
+
+  if(vpn==1){
+  //Note : 0.5PN term is removed here
+  return (2 * x *
+         ( x * ((3.1666666666666665 + (3 * pow2(cos(i))) / 2. -
                 pow4(cos(i)) / 3. +
                 (m1 * m2 *
                  (-3.1666666666666665 + (11 * pow2(cos(i))) / 6. +
@@ -2056,10 +2059,420 @@ static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi) {
                    (11.2 - (32 * log2) / 3. +
                     (m1 * m2 * (-39.766666666666666 + 32 * log2)) /
                         pow2(m1 + m2)) *
-                   pow2(sin(i)) * sin4a));
+                   pow2(sin(i)) * sin4a)));}
+
+  else if(vpn==2){
+    //Till 1PN terms are removed
+    return (2 * x *
+         ( pow3_2(x) *
+              (-2 * M_PI * (1 + pow2(cos(i))) * cos2a +
+               ((m1 - m2) *
+                (0.296875 + (5 * pow2(cos(i))) / 16. - pow4(cos(i)) / 192. +
+                 (m1 * m2 *
+                  (-0.5104166666666666 + pow2(cos(i)) / 8. +
+                   pow4(cos(i)) / 96.)) /
+                     pow2(m1 + m2)) *
+                cos(a) * sin(i)) /
+                   (m1 + m2) +
+               ((m1 - m2) *
+                (-5.1328125 - (45 * pow2(cos(i))) / 16. +
+                 (81 * pow4(cos(i))) / 128. +
+                 (m1 * m2 *
+                  (3.515625 - (9 * pow2(cos(i))) / 8. -
+                   (81 * pow4(cos(i))) / 64.)) /
+                     pow2(m1 + m2)) *
+                cos3a * sin(i)) /
+                   (m1 + m2) +
+               (625 * (m1 - m2) * (1 - (2 * m1 * m2) / pow2(m1 + m2)) *
+                (1 + pow2(cos(i))) * cos5a * pow3(sin(i))) /
+                   (384. * (m1 + m2))) +
+          pow2(x) *
+              ((0.18333333333333332 + (33 * pow2(cos(i))) / 10. +
+                (29 * pow4(cos(i))) / 24. - pow6(cos(i)) / 24. +
+                (pow2(m1) * pow2(m2) *
+                 (-4.083333333333333 + (9 * pow2(cos(i))) / 2. -
+                  (7 * pow4(cos(i))) / 24. - (5 * pow6(cos(i))) / 24.)) /
+                    pow4(m1 + m2) +
+                (m1 * m2 *
+                 (9.805555555555555 - 3 * pow2(cos(i)) -
+                  (251 * pow4(cos(i))) / 72. + (5 * pow6(cos(i))) / 24.)) /
+                    pow2(m1 + m2)) *
+                   cos2a +
+               ((m1 - m2) * M_PI * (-0.625 - pow2(cos(i)) / 8.) * cos(a) *
+                sin(i)) /
+                   (m1 + m2) +
+               (27 * (m1 - m2) * M_PI * (1 + pow2(cos(i))) * cos3a * sin(i)) /
+                   (8. * (m1 + m2)) +
+               (2 *
+                (59 + 35 * pow2(cos(i)) - 8 * pow4(cos(i)) -
+                 (5 * m1 * m2 * (131 + 59 * pow2(cos(i)) - 24 * pow4(cos(i)))) /
+                     (3. * pow2(m1 + m2)) +
+                 (5 * pow2(m1) * pow2(m2) *
+                  (21 - 3 * pow2(cos(i)) - 8 * pow4(cos(i)))) /
+                     pow4(m1 + m2)) *
+                cos4a * pow2(sin(i))) /
+                   15. -
+               (81 *
+                (1 + (5 * pow2(m1) * pow2(m2)) / pow4(m1 + m2) -
+                 (5 * m1 * m2) / pow2(m1 + m2)) *
+                (1 + pow2(cos(i))) * cos6a * pow4(sin(i))) /
+                   40. +
+               ((m1 - m2) *
+                (0.275 + pow2(cos(i)) * (0.175 + log2 / 4.) + (5 * log2) / 4.) *
+                sin(i) * sin(a)) /
+                   (m1 + m2) +
+               ((m1 - m2) * (1 + pow2(cos(i))) * (-4.725 + (27 * log3_2) / 4.) *
+                sin(i) * sin3a) /
+                   (m1 + m2)) +
+          pow5_2(x) *
+              (M_PI *
+                   (6.333333333333333 + 3 * pow2(cos(i)) -
+                    (2 * pow4(cos(i))) / 3. +
+                    (m1 * m2 *
+                     (-5.333333333333333 + (14 * pow2(cos(i))) / 3. +
+                      2 * pow4(cos(i)))) /
+                        pow2(m1 + m2)) *
+                   cos2a +
+               ((m1 - m2) *
+                (0.3458984375 - (1667 * pow2(cos(i))) / 5120. +
+                 (217 * pow4(cos(i))) / 9216. - pow6(cos(i)) / 9216. +
+                 (pow2(m1) * pow2(m2) *
+                  (-0.3744574652777778 + (673 * pow2(cos(i))) / 3072. -
+                   (5 * pow4(cos(i))) / 9216. - pow6(cos(i)) / 3072.)) /
+                     pow4(m1 + m2) +
+                 (m1 * m2 *
+                  (2.66015625 + (13 * pow2(cos(i))) / 768. -
+                   (35 * pow4(cos(i))) / 768. + pow6(cos(i)) / 2304.)) /
+                     pow2(m1 + m2)) *
+                cos(a) * sin(i)) /
+                   (m1 + m2) +
+               ((m1 - m2) *
+                (3.4541015625 - (22977 * pow2(cos(i))) / 5120. -
+                 (15309 * pow4(cos(i))) / 5120. + (729 * pow6(cos(i))) / 5120. +
+                 (m1 * m2 *
+                  (-18.61640625 + (5529 * pow2(cos(i))) / 1280. +
+                   (7749 * pow4(cos(i))) / 1280. -
+                   (729 * pow6(cos(i))) / 1280.)) /
+                     pow2(m1 + m2) +
+                 (pow2(m1) * pow2(m2) *
+                  (5.6888671875 - (27267 * pow2(cos(i))) / 5120. -
+                   (1647 * pow4(cos(i))) / 5120. +
+                   (2187 * pow6(cos(i))) / 5120.)) /
+                     pow4(m1 + m2)) *
+                cos3a * sin(i)) /
+                   (m1 + m2) +
+               ((m1 - m2) *
+                (-11.732313368055555 + (40625 * pow2(cos(i))) / 9216. +
+                 (83125 * pow4(cos(i))) / 9216. -
+                 (15625 * pow6(cos(i))) / 9216. +
+                 (pow2(m1) * pow2(m2) *
+                  (-12.953016493055555 + (40625 * pow2(cos(i))) / 3072. +
+                   (44375 * pow4(cos(i))) / 9216. -
+                   (15625 * pow6(cos(i))) / 3072.)) /
+                     pow4(m1 + m2) +
+                 (m1 * m2 *
+                  (31.73828125 - (40625 * pow2(cos(i))) / 2304. -
+                   (48125 * pow4(cos(i))) / 2304. +
+                   (15625 * pow6(cos(i))) / 2304.)) /
+                     pow2(m1 + m2)) *
+                cos5a * sin(i)) /
+                   (m1 + m2) -
+               (16 * (1 - (3 * m1 * m2) / pow2(m1 + m2)) * M_PI *
+                (1 + pow2(cos(i))) * cos4a * pow2(sin(i))) /
+                   3. +
+               (117649 * (m1 - m2) *
+                (1 + (3 * pow2(m1) * pow2(m2)) / pow4(m1 + m2) -
+                 (4 * m1 * m2) / pow2(m1 + m2)) *
+                (1 + pow2(cos(i))) * cos7a * pow5(sin(i))) /
+                   (46080. * (m1 + m2)) +
+               (-1.8 + (14 * pow2(cos(i))) / 5. + (7 * pow4(cos(i))) / 5. +
+                (m1 * m2 *
+                 (32 + (56 * pow2(cos(i))) / 5. - (28 * pow4(cos(i))) / 5.)) /
+                    pow2(m1 + m2)) *
+                   sin2a +
+               (1 + pow2(cos(i))) *
+                   (11.2 - (32 * log2) / 3. +
+                    (m1 * m2 * (-39.766666666666666 + 32 * log2)) /
+                        pow2(m1 + m2)) *
+                   pow2(sin(i)) * sin4a)));}
+
+  else if(vpn==3){
+    //keeping only 1.5PN hereditary term
+    return (2 * x *
+         ( pow3_2(x) *
+              (-2 * M_PI * (1 + pow2(cos(i))) * cos2a) +
+          pow2(x) *
+              ((0.18333333333333332 + (33 * pow2(cos(i))) / 10. +
+                (29 * pow4(cos(i))) / 24. - pow6(cos(i)) / 24. +
+                (pow2(m1) * pow2(m2) *
+                 (-4.083333333333333 + (9 * pow2(cos(i))) / 2. -
+                  (7 * pow4(cos(i))) / 24. - (5 * pow6(cos(i))) / 24.)) /
+                    pow4(m1 + m2) +
+                (m1 * m2 *
+                 (9.805555555555555 - 3 * pow2(cos(i)) -
+                  (251 * pow4(cos(i))) / 72. + (5 * pow6(cos(i))) / 24.)) /
+                    pow2(m1 + m2)) *
+                   cos2a +
+               ((m1 - m2) * M_PI * (-0.625 - pow2(cos(i)) / 8.) * cos(a) *
+                sin(i)) /
+                   (m1 + m2) +
+               (27 * (m1 - m2) * M_PI * (1 + pow2(cos(i))) * cos3a * sin(i)) /
+                   (8. * (m1 + m2)) +
+               (2 *
+                (59 + 35 * pow2(cos(i)) - 8 * pow4(cos(i)) -
+                 (5 * m1 * m2 * (131 + 59 * pow2(cos(i)) - 24 * pow4(cos(i)))) /
+                     (3. * pow2(m1 + m2)) +
+                 (5 * pow2(m1) * pow2(m2) *
+                  (21 - 3 * pow2(cos(i)) - 8 * pow4(cos(i)))) /
+                     pow4(m1 + m2)) *
+                cos4a * pow2(sin(i))) /
+                   15. -
+               (81 *
+                (1 + (5 * pow2(m1) * pow2(m2)) / pow4(m1 + m2) -
+                 (5 * m1 * m2) / pow2(m1 + m2)) *
+                (1 + pow2(cos(i))) * cos6a * pow4(sin(i))) /
+                   40. +
+               ((m1 - m2) *
+                (0.275 + pow2(cos(i)) * (0.175 + log2 / 4.) + (5 * log2) / 4.) *
+                sin(i) * sin(a)) /
+                   (m1 + m2) +
+               ((m1 - m2) * (1 + pow2(cos(i))) * (-4.725 + (27 * log3_2) / 4.) *
+                sin(i) * sin3a) /
+                   (m1 + m2)) +
+          pow5_2(x) *
+              (M_PI *
+                   (6.333333333333333 + 3 * pow2(cos(i)) -
+                    (2 * pow4(cos(i))) / 3. +
+                    (m1 * m2 *
+                     (-5.333333333333333 + (14 * pow2(cos(i))) / 3. +
+                      2 * pow4(cos(i)))) /
+                        pow2(m1 + m2)) *
+                   cos2a +
+               ((m1 - m2) *
+                (0.3458984375 - (1667 * pow2(cos(i))) / 5120. +
+                 (217 * pow4(cos(i))) / 9216. - pow6(cos(i)) / 9216. +
+                 (pow2(m1) * pow2(m2) *
+                  (-0.3744574652777778 + (673 * pow2(cos(i))) / 3072. -
+                   (5 * pow4(cos(i))) / 9216. - pow6(cos(i)) / 3072.)) /
+                     pow4(m1 + m2) +
+                 (m1 * m2 *
+                  (2.66015625 + (13 * pow2(cos(i))) / 768. -
+                   (35 * pow4(cos(i))) / 768. + pow6(cos(i)) / 2304.)) /
+                     pow2(m1 + m2)) *
+                cos(a) * sin(i)) /
+                   (m1 + m2) +
+               ((m1 - m2) *
+                (3.4541015625 - (22977 * pow2(cos(i))) / 5120. -
+                 (15309 * pow4(cos(i))) / 5120. + (729 * pow6(cos(i))) / 5120. +
+                 (m1 * m2 *
+                  (-18.61640625 + (5529 * pow2(cos(i))) / 1280. +
+                   (7749 * pow4(cos(i))) / 1280. -
+                   (729 * pow6(cos(i))) / 1280.)) /
+                     pow2(m1 + m2) +
+                 (pow2(m1) * pow2(m2) *
+                  (5.6888671875 - (27267 * pow2(cos(i))) / 5120. -
+                   (1647 * pow4(cos(i))) / 5120. +
+                   (2187 * pow6(cos(i))) / 5120.)) /
+                     pow4(m1 + m2)) *
+                cos3a * sin(i)) /
+                   (m1 + m2) +
+               ((m1 - m2) *
+                (-11.732313368055555 + (40625 * pow2(cos(i))) / 9216. +
+                 (83125 * pow4(cos(i))) / 9216. -
+                 (15625 * pow6(cos(i))) / 9216. +
+                 (pow2(m1) * pow2(m2) *
+                  (-12.953016493055555 + (40625 * pow2(cos(i))) / 3072. +
+                   (44375 * pow4(cos(i))) / 9216. -
+                   (15625 * pow6(cos(i))) / 3072.)) /
+                     pow4(m1 + m2) +
+                 (m1 * m2 *
+                  (31.73828125 - (40625 * pow2(cos(i))) / 2304. -
+                   (48125 * pow4(cos(i))) / 2304. +
+                   (15625 * pow6(cos(i))) / 2304.)) /
+                     pow2(m1 + m2)) *
+                cos5a * sin(i)) /
+                   (m1 + m2) -
+               (16 * (1 - (3 * m1 * m2) / pow2(m1 + m2)) * M_PI *
+                (1 + pow2(cos(i))) * cos4a * pow2(sin(i))) /
+                   3. +
+               (117649 * (m1 - m2) *
+                (1 + (3 * pow2(m1) * pow2(m2)) / pow4(m1 + m2) -
+                 (4 * m1 * m2) / pow2(m1 + m2)) *
+                (1 + pow2(cos(i))) * cos7a * pow5(sin(i))) /
+                   (46080. * (m1 + m2)) +
+               (-1.8 + (14 * pow2(cos(i))) / 5. + (7 * pow4(cos(i))) / 5. +
+                (m1 * m2 *
+                 (32 + (56 * pow2(cos(i))) / 5. - (28 * pow4(cos(i))) / 5.)) /
+                    pow2(m1 + m2)) *
+                   sin2a +
+               (1 + pow2(cos(i))) *
+                   (11.2 - (32 * log2) / 3. +
+                    (m1 * m2 * (-39.766666666666666 + 32 * log2)) /
+                        pow2(m1 + m2)) *
+                   pow2(sin(i)) * sin4a)));
+                   }
+
+
+   else if(vpn==4){
+    //keeping only 1.5PN and 2PN hereditary term
+    return (2 * x *
+         ( pow3_2(x) *
+              (-2 * M_PI * (1 + pow2(cos(i))) * cos2a) +
+          pow2(x) *
+              (((m1 - m2) * M_PI * (-0.625 - pow2(cos(i)) / 8.) * cos(a) *
+                sin(i)) /
+                   (m1 + m2) +
+               (27 * (m1 - m2) * M_PI * (1 + pow2(cos(i))) * cos3a * sin(i)) /
+                   (8. * (m1 + m2)) +
+               ((m1 - m2) *
+                (0.275 + pow2(cos(i)) * (0.175 + log2 / 4.) + (5 * log2) / 4.) *
+                sin(i) * sin(a)) /
+                   (m1 + m2) +
+               ((m1 - m2) * (1 + pow2(cos(i))) * (-4.725 + (27 * log3_2) / 4.) *
+                sin(i) * sin3a) /
+                   (m1 + m2)) +
+          pow5_2(x) *
+              (M_PI *
+                   (6.333333333333333 + 3 * pow2(cos(i)) -
+                    (2 * pow4(cos(i))) / 3. +
+                    (m1 * m2 *
+                     (-5.333333333333333 + (14 * pow2(cos(i))) / 3. +
+                      2 * pow4(cos(i)))) /
+                        pow2(m1 + m2)) *
+                   cos2a +
+               ((m1 - m2) *
+                (0.3458984375 - (1667 * pow2(cos(i))) / 5120. +
+                 (217 * pow4(cos(i))) / 9216. - pow6(cos(i)) / 9216. +
+                 (pow2(m1) * pow2(m2) *
+                  (-0.3744574652777778 + (673 * pow2(cos(i))) / 3072. -
+                   (5 * pow4(cos(i))) / 9216. - pow6(cos(i)) / 3072.)) /
+                     pow4(m1 + m2) +
+                 (m1 * m2 *
+                  (2.66015625 + (13 * pow2(cos(i))) / 768. -
+                   (35 * pow4(cos(i))) / 768. + pow6(cos(i)) / 2304.)) /
+                     pow2(m1 + m2)) *
+                cos(a) * sin(i)) /
+                   (m1 + m2) +
+               ((m1 - m2) *
+                (3.4541015625 - (22977 * pow2(cos(i))) / 5120. -
+                 (15309 * pow4(cos(i))) / 5120. + (729 * pow6(cos(i))) / 5120. +
+                 (m1 * m2 *
+                  (-18.61640625 + (5529 * pow2(cos(i))) / 1280. +
+                   (7749 * pow4(cos(i))) / 1280. -
+                   (729 * pow6(cos(i))) / 1280.)) /
+                     pow2(m1 + m2) +
+                 (pow2(m1) * pow2(m2) *
+                  (5.6888671875 - (27267 * pow2(cos(i))) / 5120. -
+                   (1647 * pow4(cos(i))) / 5120. +
+                   (2187 * pow6(cos(i))) / 5120.)) /
+                     pow4(m1 + m2)) *
+                cos3a * sin(i)) /
+                   (m1 + m2) +
+               ((m1 - m2) *
+                (-11.732313368055555 + (40625 * pow2(cos(i))) / 9216. +
+                 (83125 * pow4(cos(i))) / 9216. -
+                 (15625 * pow6(cos(i))) / 9216. +
+                 (pow2(m1) * pow2(m2) *
+                  (-12.953016493055555 + (40625 * pow2(cos(i))) / 3072. +
+                   (44375 * pow4(cos(i))) / 9216. -
+                   (15625 * pow6(cos(i))) / 3072.)) /
+                     pow4(m1 + m2) +
+                 (m1 * m2 *
+                  (31.73828125 - (40625 * pow2(cos(i))) / 2304. -
+                   (48125 * pow4(cos(i))) / 2304. +
+                   (15625 * pow6(cos(i))) / 2304.)) /
+                     pow2(m1 + m2)) *
+                cos5a * sin(i)) /
+                   (m1 + m2) -
+               (16 * (1 - (3 * m1 * m2) / pow2(m1 + m2)) * M_PI *
+                (1 + pow2(cos(i))) * cos4a * pow2(sin(i))) /
+                   3. +
+               (117649 * (m1 - m2) *
+                (1 + (3 * pow2(m1) * pow2(m2)) / pow4(m1 + m2) -
+                 (4 * m1 * m2) / pow2(m1 + m2)) *
+                (1 + pow2(cos(i))) * cos7a * pow5(sin(i))) /
+                   (46080. * (m1 + m2)) +
+               (-1.8 + (14 * pow2(cos(i))) / 5. + (7 * pow4(cos(i))) / 5. +
+                (m1 * m2 *
+                 (32 + (56 * pow2(cos(i))) / 5. - (28 * pow4(cos(i))) / 5.)) /
+                    pow2(m1 + m2)) *
+                   sin2a +
+               (1 + pow2(cos(i))) *
+                   (11.2 - (32 * log2) / 3. +
+                    (m1 * m2 * (-39.766666666666666 + 32 * log2)) /
+                        pow2(m1 + m2)) *
+                   pow2(sin(i)) * sin4a)));}
+
+  else{
+    //keeping only 1.5PN, 2PN and 2.5PN term
+     return (2 * x *
+         ( pow3_2(x) *
+              (-2 * M_PI * (1 + pow2(cos(i))) * cos2a) +
+          pow2(x) *
+              (((m1 - m2) * M_PI * (-0.625 - pow2(cos(i)) / 8.) * cos(a) *
+                sin(i)) /
+                   (m1 + m2) +
+               (27 * (m1 - m2) * M_PI * (1 + pow2(cos(i))) * cos3a * sin(i)) /
+                   (8. * (m1 + m2)) +
+               ((m1 - m2) *
+                (0.275 + pow2(cos(i)) * (0.175 + log2 / 4.) + (5 * log2) / 4.) *
+                sin(i) * sin(a)) /
+                   (m1 + m2) +
+               ((m1 - m2) * (1 + pow2(cos(i))) * (-4.725 + (27 * log3_2) / 4.) *
+                sin(i) * sin3a) /
+                   (m1 + m2)) +
+          pow5_2(x) *
+              (M_PI *
+                   (6.333333333333333 + 3 * pow2(cos(i)) -
+                    (2 * pow4(cos(i))) / 3. +
+                    (m1 * m2 *
+                     (-5.333333333333333 + (14 * pow2(cos(i))) / 3. +
+                      2 * pow4(cos(i)))) /
+                        pow2(m1 + m2)) *
+                   cos2a   -
+               (16 * (1 - (3 * m1 * m2) / pow2(m1 + m2)) * M_PI *
+                (1 + pow2(cos(i))) * cos4a * pow2(sin(i)))/3. +
+               (-1.8 + (14 * pow2(cos(i))) / 5. + (7 * pow4(cos(i))) / 5. +
+                (m1 * m2 *
+                 (32 + (56 * pow2(cos(i))) / 5. - (28 * pow4(cos(i))) / 5. - (1435 - 5*(7 + 24*sqrt(35))*cos(i) + 
+     12*(35 + 16*sqrt(35))*cos(2*i) - 
+     21*cos(3*i) - 72*sqrt(35)*cos(3*i) - 
+     7*cos(4*i))/40.)) /
+                    pow2(m1 + m2)) *
+                   sin2a +
+               (1 + pow2(cos(i))) *
+                   (11.2 - (32 * log2) / 3. +
+                    (m1 * m2 * (-39.766666666666666 + 32 * log2 + 18*2*sqrt(1.4) )) /
+                        pow2(m1 + m2)) *
+                   pow2(sin(i)) * sin4a
+                   ) + pow3(x) * 
+                   (cos5a * ((3125*delta*M_PI*(-1 + 2*Nu)*(3 + cos(2*i))*pow3(sin(i)))/768.) +
+                   sin5a * ((delta*(3 + cos(2*i))*(565625 - 1129522*Nu + 437500*(-1 + 2*Nu)*log(2.5))*pow3(sin(i)))/
+                    53760.) +
+                    cos3a * ((27*delta*M_PI*(717 - 186*Nu + 4*(31 + 42*Nu)*cos(2*i) + 9*(-1 + 2*Nu)*cos(4*i))*sin(i))/1024.) +
+                    sin3a * (-(delta*(cos(4*i)*(Nu*(791374 + 612360*log(2) - 612360*log(3)) - 
+                    2187*(181 + 140*log(2) - 140*log(3))) - 
+                    21*(2*Nu*(69623 + 150660*log(2) - 150660*log(3)) + 
+                    81*(-9607 + 1020*log(2) + 6660*log(3) + 768*log(57.6650390625) - 768*log(1024))) + 
+                    28*cos(2*i)*(Nu*(270178 + 204120*log(2) - 204120*log(3)) - 
+                    243*(-173 + 660*log(2) - 20*log(3) + 64*log(57.6650390625) - 64*log(1024))))*sin(i))
+                    /645120.) +
+                    cosa * (-(delta*M_PI*(77*(9 - 2*Nu) + 4*(59 + 38*Nu)*cos(2*i) + (-1 + 2*Nu)*cos(4*i))*sin(i))/1536.) +
+                    sina * ((delta*(84043 + 385418*Nu + 291060*log(2) - 64680*Nu*log(2) + 
+                            3*cos(4*i)*(-181 + 4522*Nu - 140*log(2) + 280*Nu*log(2)) + 
+                            12*cos(2*i)*(5519 + 8260*log(2) + 70*Nu*(847 + 76*log(2))))*sin(i))/322560.) +
+                    cos2a * (((3 + cos(2*i))*(-116761 - 59920*EulerGamma + 
+                            4900*pow2(M_PI) - 119840*log(2) - 
+                            14980*log(pow2(x))))/14700.) +
+                    sin2a * ((856*(M_PI)*cos(i))/105.)
+                    )  ));
+    }
+
+
+
 }
 
-static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi) {
+static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, long vpn) {
   const REAL8 log2 = 0.693147180559945309417232121458;   // ln(2)
   const REAL8 log3_2 = 0.405465108108164381978013115464; // ln(3/2)
   /* some math:
@@ -2081,6 +2494,7 @@ static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi) {
   const REAL8 cos2a = 2 * pow2(cosa) - 1;
   const REAL8 cos3a = 4 * pow3(cosa) - 3 * cosa;
   const REAL8 cos4a = 8 * pow4(cosa) - 8 * pow2(cosa) + 1;
+  const REAL8 cos5a = 16 * pow5(cosa) - 20 * pow3(cosa) + 5 * cosa;
   const REAL8 sin2a = 2 * sina * cosa;
   const REAL8 sin3a = 4 * sina * pow2(cosa) - sina;
   const REAL8 sin4a = 8 * sina * pow3(cosa) - 4 * sina * cosa;
@@ -2089,12 +2503,17 @@ static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi) {
       32 * sina * pow5(cosa) - 32 * sina * pow3(cosa) + 6 * sina * cosa;
   const REAL8 sin7a = 64 * sina * pow6(cosa) - 80 * sina * pow4(cosa) +
                       24 * sina * pow2(cosa) - sina;
+  
+  double EulerGamma = 0.5772156649015329;
 
-  return 2 * x *
-         (((m1 - m2) * sqrt(x) * cos(i) * sin(i) *
-           ((-3 * sina) / 4. + (9 * sin3a) / 4.)) /
-              (m1 + m2) +
-          x * (cos(i) *
+  REAL8 Nu = (m1*m2)/(pow2(m1+m2));
+  REAL8 delta = (m1-m2)/(m1+m2);
+
+
+  if(vpn==1){
+  //Note : 0.5PN term is removed here
+  return (2 * x *
+         ( x * (cos(i) *
                    (5.666666666666667 - (4 * pow2(cos(i))) / 3. +
                     (m1 * m2 * (-4.333333333333333 + 4 * pow2(cos(i)))) /
                         pow2(m1 + m2)) *
@@ -2218,7 +2637,388 @@ static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi) {
                 (1 + (3 * pow2(m1) * pow2(m2)) / pow4(m1 + m2) -
                  (4 * m1 * m2) / pow2(m1 + m2)) *
                 cos(i) * pow5(sin(i)) * sin7a) /
-                   (23040. * (m1 + m2))));
+                   (23040. * (m1 + m2)))));}
+  
+  else if(vpn==2){
+    //1PN term removed
+    return (2 * x *
+         ( pow3_2(x) *
+              (((m1 - m2) * cos(i) *
+                (0.65625 - (5 * pow2(cos(i))) / 96. +
+                 (m1 * m2 * (-0.4791666666666667 + (5 * pow2(cos(i))) / 48.)) /
+                     pow2(m1 + m2)) *
+                sin(i) * sina) /
+                   (m1 + m2) -
+               4 * M_PI * cos(i) * sin2a +
+               ((m1 - m2) * cos(i) *
+                (-9.421875 + (135 * pow2(cos(i))) / 64. +
+                 (m1 * m2 * (5.34375 - (135 * pow2(cos(i))) / 32.)) /
+                     pow2(m1 + m2)) *
+                sin(i) * sin3a) /
+                   (m1 + m2) +
+               (625 * (m1 - m2) * (1 - (2 * m1 * m2) / pow2(m1 + m2)) * cos(i) *
+                pow3(sin(i)) * sin5a) /
+                   (192. * (m1 + m2))) +
+          pow2(x) * (((m1 - m2) * cos(i) * cos3a * (9.45 - (27 * log3_2) / 2.) *
+                      sin(i)) /
+                         (m1 + m2) +
+                     ((m1 - m2) * cos(i) * cosa * (-0.45 - (3 * log2) / 2.) *
+                      sin(i)) /
+                         (m1 + m2) -
+                     (3 * (m1 - m2) * M_PI * cos(i) * sin(i) * sina) /
+                         (4. * (m1 + m2)) +
+                     cos(i) *
+                         (1.1333333333333333 + (113 * pow2(cos(i))) / 30. -
+                          pow4(cos(i)) / 4. +
+                          (pow2(m1) * pow2(m2) *
+                           (-4.666666666666667 + (35 * pow2(cos(i))) / 6. -
+                            (5 * pow4(cos(i))) / 4.)) /
+                              pow4(m1 + m2) +
+                          (m1 * m2 *
+                           (15.88888888888889 - (245 * pow2(cos(i))) / 18. +
+                            (5 * pow4(cos(i))) / 4.)) /
+                              pow2(m1 + m2)) *
+                         sin2a +
+                     (27 * (m1 - m2) * M_PI * cos(i) * sin(i) * sin3a) /
+                         (4. * (m1 + m2)) +
+                     (4 * cos(i) *
+                      (55 - 12 * pow2(cos(i)) -
+                       (5 * m1 * m2 * (119 - 36 * pow2(cos(i)))) /
+                           (3. * pow2(m1 + m2)) +
+                       (5 * pow2(m1) * pow2(m2) * (17 - 12 * pow2(cos(i)))) /
+                           pow4(m1 + m2)) *
+                      pow2(sin(i)) * sin4a) /
+                         15. -
+                     (81 *
+                      (1 + (5 * pow2(m1) * pow2(m2)) / pow4(m1 + m2) -
+                       (5 * m1 * m2) / pow2(m1 + m2)) *
+                      cos(i) * pow4(sin(i)) * sin6a) /
+                         20.) +
+          pow5_2(x) *
+              (cos(i) *
+                   (2 - (22 * pow2(cos(i))) / 5. +
+                    (m1 * m2 * (-56.4 + (94 * pow2(cos(i))) / 5.)) /
+                        pow2(m1 + m2)) *
+                   cos2a +
+               (6 * m1 * m2 * cos(i) * pow2(sin(i))) / (5. * pow2(m1 + m2)) +
+               cos(i) * cos4a *
+                   (-22.4 +
+                    (m1 * m2 * (79.53333333333333 - 64 * log2)) /
+                        pow2(m1 + m2) +
+                    (64 * log2) / 3.) *
+                   pow2(sin(i)) +
+               ((m1 - m2) * cos(i) *
+                (-0.11888020833333333 + (1891 * pow2(cos(i))) / 11520. -
+                 (7 * pow4(cos(i))) / 4608. +
+                 (pow2(m1) * pow2(m2) *
+                  (-0.2823350694444444 + (301 * pow2(cos(i))) / 2304. -
+                   (7 * pow4(cos(i))) / 1536.)) /
+                     pow4(m1 + m2) +
+                 (m1 * m2 *
+                  (3.0338541666666665 - (235 * pow2(cos(i))) / 576. +
+                   (7 * pow4(cos(i))) / 1152.)) /
+                     pow2(m1 + m2)) *
+                sin(i) * sina) /
+                   (m1 + m2) +
+               M_PI * cos(i) *
+                   (11.333333333333334 - (8 * pow2(cos(i))) / 3. +
+                    (m1 * m2 * (-6.666666666666667 + 8 * pow2(cos(i)))) /
+                        pow2(m1 + m2)) *
+                   sin2a +
+               ((m1 - m2) * cos(i) *
+                (4.883203125 - (12069 * pow2(cos(i))) / 1280. +
+                 (1701 * pow4(cos(i))) / 2560. +
+                 (m1 * m2 *
+                  (-30.5953125 + (7821 * pow2(cos(i))) / 320. -
+                   (1701 * pow4(cos(i))) / 640.)) /
+                     pow2(m1 + m2) +
+                 (pow2(m1) * pow2(m2) *
+                  (7.383984375 - (11403 * pow2(cos(i))) / 1280. +
+                   (5103 * pow4(cos(i))) / 2560.)) /
+                     pow4(m1 + m2)) *
+                sin(i) * sin3a) /
+                   (m1 + m2) -
+               (32 * (1 - (3 * m1 * m2) / pow2(m1 + m2)) * M_PI * cos(i) *
+                pow2(sin(i)) * sin4a) /
+                   3. +
+               ((m1 - m2) * cos(i) *
+                (-22.108289930555557 + (6875 * pow2(cos(i))) / 256. -
+                 (21875 * pow4(cos(i))) / 4608. +
+                 (pow2(m1) * pow2(m2) *
+                  (-21.837022569444443 + (83125 * pow2(cos(i))) / 2304. -
+                   (21875 * pow4(cos(i))) / 1536.)) /
+                     pow4(m1 + m2) +
+                 (m1 * m2 *
+                  (58.05121527777778 - (44375 * pow2(cos(i))) / 576. +
+                   (21875 * pow4(cos(i))) / 1152.)) /
+                     pow2(m1 + m2)) *
+                sin(i) * sin5a) /
+                   (m1 + m2) +
+               (117649 * (m1 - m2) *
+                (1 + (3 * pow2(m1) * pow2(m2)) / pow4(m1 + m2) -
+                 (4 * m1 * m2) / pow2(m1 + m2)) *
+                cos(i) * pow5(sin(i)) * sin7a) /
+                   (23040. * (m1 + m2)))));
+  }
+
+  else if(vpn==3){
+    return (2 * x *
+         (pow3_2(x) *
+              ( -4 * M_PI * cos(i) * sin2a ) +
+          pow2(x) * (((m1 - m2) * cos(i) * cos3a * (9.45 - (27 * log3_2) / 2.) *
+                      sin(i)) /
+                         (m1 + m2) +
+                     ((m1 - m2) * cos(i) * cosa * (-0.45 - (3 * log2) / 2.) *
+                      sin(i)) /
+                         (m1 + m2) -
+                     (3 * (m1 - m2) * M_PI * cos(i) * sin(i) * sina) /
+                         (4. * (m1 + m2)) +
+                     cos(i) *
+                         (1.1333333333333333 + (113 * pow2(cos(i))) / 30. -
+                          pow4(cos(i)) / 4. +
+                          (pow2(m1) * pow2(m2) *
+                           (-4.666666666666667 + (35 * pow2(cos(i))) / 6. -
+                            (5 * pow4(cos(i))) / 4.)) /
+                              pow4(m1 + m2) +
+                          (m1 * m2 *
+                           (15.88888888888889 - (245 * pow2(cos(i))) / 18. +
+                            (5 * pow4(cos(i))) / 4.)) /
+                              pow2(m1 + m2)) *
+                         sin2a +
+                     (27 * (m1 - m2) * M_PI * cos(i) * sin(i) * sin3a) /
+                         (4. * (m1 + m2)) +
+                     (4 * cos(i) *
+                      (55 - 12 * pow2(cos(i)) -
+                       (5 * m1 * m2 * (119 - 36 * pow2(cos(i)))) /
+                           (3. * pow2(m1 + m2)) +
+                       (5 * pow2(m1) * pow2(m2) * (17 - 12 * pow2(cos(i)))) /
+                           pow4(m1 + m2)) *
+                      pow2(sin(i)) * sin4a) /
+                         15. -
+                     (81 *
+                      (1 + (5 * pow2(m1) * pow2(m2)) / pow4(m1 + m2) -
+                       (5 * m1 * m2) / pow2(m1 + m2)) *
+                      cos(i) * pow4(sin(i)) * sin6a) /
+                         20.) +
+          pow5_2(x) *
+              (cos(i) *
+                   (2 - (22 * pow2(cos(i))) / 5. +
+                    (m1 * m2 * (-56.4 + (94 * pow2(cos(i))) / 5.)) /
+                        pow2(m1 + m2)) *
+                   cos2a +
+               (6 * m1 * m2 * cos(i) * pow2(sin(i))) / (5. * pow2(m1 + m2)) +
+               cos(i) * cos4a *
+                   (-22.4 +
+                    (m1 * m2 * (79.53333333333333 - 64 * log2)) /
+                        pow2(m1 + m2) +
+                    (64 * log2) / 3.) *
+                   pow2(sin(i)) +
+               ((m1 - m2) * cos(i) *
+                (-0.11888020833333333 + (1891 * pow2(cos(i))) / 11520. -
+                 (7 * pow4(cos(i))) / 4608. +
+                 (pow2(m1) * pow2(m2) *
+                  (-0.2823350694444444 + (301 * pow2(cos(i))) / 2304. -
+                   (7 * pow4(cos(i))) / 1536.)) /
+                     pow4(m1 + m2) +
+                 (m1 * m2 *
+                  (3.0338541666666665 - (235 * pow2(cos(i))) / 576. +
+                   (7 * pow4(cos(i))) / 1152.)) /
+                     pow2(m1 + m2)) *
+                sin(i) * sina) /
+                   (m1 + m2) +
+               M_PI * cos(i) *
+                   (11.333333333333334 - (8 * pow2(cos(i))) / 3. +
+                    (m1 * m2 * (-6.666666666666667 + 8 * pow2(cos(i)))) /
+                        pow2(m1 + m2)) *
+                   sin2a +
+               ((m1 - m2) * cos(i) *
+                (4.883203125 - (12069 * pow2(cos(i))) / 1280. +
+                 (1701 * pow4(cos(i))) / 2560. +
+                 (m1 * m2 *
+                  (-30.5953125 + (7821 * pow2(cos(i))) / 320. -
+                   (1701 * pow4(cos(i))) / 640.)) /
+                     pow2(m1 + m2) +
+                 (pow2(m1) * pow2(m2) *
+                  (7.383984375 - (11403 * pow2(cos(i))) / 1280. +
+                   (5103 * pow4(cos(i))) / 2560.)) /
+                     pow4(m1 + m2)) *
+                sin(i) * sin3a) /
+                   (m1 + m2) -
+               (32 * (1 - (3 * m1 * m2) / pow2(m1 + m2)) * M_PI * cos(i) *
+                pow2(sin(i)) * sin4a) /
+                   3. +
+               ((m1 - m2) * cos(i) *
+                (-22.108289930555557 + (6875 * pow2(cos(i))) / 256. -
+                 (21875 * pow4(cos(i))) / 4608. +
+                 (pow2(m1) * pow2(m2) *
+                  (-21.837022569444443 + (83125 * pow2(cos(i))) / 2304. -
+                   (21875 * pow4(cos(i))) / 1536.)) /
+                     pow4(m1 + m2) +
+                 (m1 * m2 *
+                  (58.05121527777778 - (44375 * pow2(cos(i))) / 576. +
+                   (21875 * pow4(cos(i))) / 1152.)) /
+                     pow2(m1 + m2)) *
+                sin(i) * sin5a) /
+                   (m1 + m2) +
+               (117649 * (m1 - m2) *
+                (1 + (3 * pow2(m1) * pow2(m2)) / pow4(m1 + m2) -
+                 (4 * m1 * m2) / pow2(m1 + m2)) *
+                cos(i) * pow5(sin(i)) * sin7a) /
+                   (23040. * (m1 + m2)))));
+  }
+
+  else if(vpn==4){
+    //keeping only 1.5PN and 2PN hereditary term
+    return (2 * x *
+         (pow3_2(x) *
+              ( -4 * M_PI * cos(i) * sin2a ) +
+          pow2(x) * (((m1 - m2) * cos(i) * cos3a * (9.45 - (27 * log3_2) / 2.) *
+                      sin(i)) /
+                         (m1 + m2) +
+                     ((m1 - m2) * cos(i) * cosa * (-0.45 - (3 * log2) / 2.) *
+                      sin(i)) /
+                         (m1 + m2) -
+                     (3 * (m1 - m2) * M_PI * cos(i) * sin(i) * sina) /
+                         (4. * (m1 + m2))  +
+                     (27 * (m1 - m2) * M_PI * cos(i) * sin(i) * sin3a) /
+                         (4. * (m1 + m2))) +
+          pow5_2(x) *
+              (cos(i) *
+                   (2 - (22 * pow2(cos(i))) / 5. +
+                    (m1 * m2 * (-56.4 + (94 * pow2(cos(i))) / 5.)) /
+                        pow2(m1 + m2)) *
+                   cos2a +
+               (6 * m1 * m2 * cos(i) * pow2(sin(i))) / (5. * pow2(m1 + m2)) +
+               cos(i) * cos4a *
+                   (-22.4 +
+                    (m1 * m2 * (79.53333333333333 - 64 * log2)) /
+                        pow2(m1 + m2) +
+                    (64 * log2) / 3.) *
+                   pow2(sin(i)) +
+               ((m1 - m2) * cos(i) *
+                (-0.11888020833333333 + (1891 * pow2(cos(i))) / 11520. -
+                 (7 * pow4(cos(i))) / 4608. +
+                 (pow2(m1) * pow2(m2) *
+                  (-0.2823350694444444 + (301 * pow2(cos(i))) / 2304. -
+                   (7 * pow4(cos(i))) / 1536.)) /
+                     pow4(m1 + m2) +
+                 (m1 * m2 *
+                  (3.0338541666666665 - (235 * pow2(cos(i))) / 576. +
+                   (7 * pow4(cos(i))) / 1152.)) /
+                     pow2(m1 + m2)) *
+                sin(i) * sina) /
+                   (m1 + m2) +
+               M_PI * cos(i) *
+                   (11.333333333333334 - (8 * pow2(cos(i))) / 3. +
+                    (m1 * m2 * (-6.666666666666667 + 8 * pow2(cos(i)))) /
+                        pow2(m1 + m2)) *
+                   sin2a +
+               ((m1 - m2) * cos(i) *
+                (4.883203125 - (12069 * pow2(cos(i))) / 1280. +
+                 (1701 * pow4(cos(i))) / 2560. +
+                 (m1 * m2 *
+                  (-30.5953125 + (7821 * pow2(cos(i))) / 320. -
+                   (1701 * pow4(cos(i))) / 640.)) /
+                     pow2(m1 + m2) +
+                 (pow2(m1) * pow2(m2) *
+                  (7.383984375 - (11403 * pow2(cos(i))) / 1280. +
+                   (5103 * pow4(cos(i))) / 2560.)) /
+                     pow4(m1 + m2)) *
+                sin(i) * sin3a) /
+                   (m1 + m2) -
+               (32 * (1 - (3 * m1 * m2) / pow2(m1 + m2)) * M_PI * cos(i) *
+                pow2(sin(i)) * sin4a) /
+                   3. +
+               ((m1 - m2) * cos(i) *
+                (-22.108289930555557 + (6875 * pow2(cos(i))) / 256. -
+                 (21875 * pow4(cos(i))) / 4608. +
+                 (pow2(m1) * pow2(m2) *
+                  (-21.837022569444443 + (83125 * pow2(cos(i))) / 2304. -
+                   (21875 * pow4(cos(i))) / 1536.)) /
+                     pow4(m1 + m2) +
+                 (m1 * m2 *
+                  (58.05121527777778 - (44375 * pow2(cos(i))) / 576. +
+                   (21875 * pow4(cos(i))) / 1152.)) /
+                     pow2(m1 + m2)) *
+                sin(i) * sin5a) /
+                   (m1 + m2) +
+               (117649 * (m1 - m2) *
+                (1 + (3 * pow2(m1) * pow2(m2)) / pow4(m1 + m2) -
+                 (4 * m1 * m2) / pow2(m1 + m2)) *
+                cos(i) * pow5(sin(i)) * sin7a) /
+                   (23040. * (m1 + m2)))));
+  }
+
+  else {
+    //keeping only 1.5PN and 2PN hereditary term
+    return (2 * x *
+         (pow3_2(x) *
+              ( -4 * M_PI * cos(i) * sin2a ) +
+          pow2(x) * (((m1 - m2) * cos(i) * cos3a * (9.45 - (27 * log3_2) / 2.) *
+                      sin(i)) /
+                         (m1 + m2) +
+                     ((m1 - m2) * cos(i) * cosa * (-0.45 - (3 * log2) / 2.) *
+                      sin(i)) /
+                         (m1 + m2) -
+                     (3 * (m1 - m2) * M_PI * cos(i) * sin(i) * sina) /
+                         (4. * (m1 + m2))  +
+                     (27 * (m1 - m2) * M_PI * cos(i) * sin(i) * sin3a) /
+                         (4. * (m1 + m2))) +
+          pow5_2(x) *
+              (cos(i) *
+                   (2 - (22 * pow2(cos(i))) / 5. +
+                    (m1 * m2 * (-56.4 + (94 * pow2(cos(i))) / 5.) + (((1883 + 120*sqrt(35))*cos(i) - 
+     8*(7 + 24*sqrt(35))*cos(2*i) + 
+     (-35 + 72*sqrt(35))*cos(3*i))/40)) /
+                        pow2(m1 + m2)) *
+                   cos2a +
+               (6 * m1 * m2 * cos(i) * pow2(sin(i))) / (5. * pow2(m1 + m2)) +
+               cos(i) * cos4a *
+                   (-22.4 +
+                    (m1 * m2 * (79.53333333333333 - 64 * log2 + 72*sqrt(1.4))) /
+                        pow2(m1 + m2) +
+                    (64 * log2) / 3.) *
+                   pow2(sin(i)) +
+               M_PI * cos(i) *
+                   (11.333333333333334 - (8 * pow2(cos(i))) / 3. +
+                    (m1 * m2 * (-6.666666666666667 + 8 * pow2(cos(i)))) /
+                        pow2(m1 + m2)) *
+                   sin2a  -
+               (32 * (1 - (3 * m1 * m2) / pow2(m1 + m2)) * M_PI * cos(i) *
+                pow2(sin(i)) * sin4a) /
+                   3. ) 
+          + pow3(x) * ( cos5a* ((delta*cos(i)*(565625 - 1129522*Nu + 
+       437500*(-1 + 2*Nu)*log(2.5))*
+     pow3(sin(i)))/13440.) +
+          sin5a* ((-3125*delta*(-1 + 2*Nu)*M_PI*cos(i)*
+     pow3(sin(i)))/192.)  +
+          cos3a * ((delta*(3*cos(3*i)*(81*
+           (2411 + 2100*log(2) - 2100*log(3)) + 
+          Nu*(-390518 - 340200*log(2) + 
+             340200*log(3))) + 
+       7*cos(i)*(2*Nu*
+           (-13321 + 72900*log(2) - 72900*log(3))\
+           + 243*(-2861 + 660*log(2) + 
+             1900*log(3) + 
+             256*log(57.6650390625) - 
+             256*log(1024))))*sin(i))/161280.)  +
+          sin3a * ((27*delta*M_PI*(-119 + 30*Nu + 
+       (15 - 30*Nu)*cos(2*i))*sin(2*i))/256.)  +
+          cosa * ((delta*(20975 + Nu*(131794 - 4200*log(2)) + 
+       50820*log(2) + 
+       3*cos(2*i)*(-753 - 700*log(2) + 
+          14*Nu*(167 + 100*log(2))))*sin(2*i))/
+   80640.) +
+          sina * ((delta*M_PI*(121 - 10*Nu + 5*(-1 + 2*Nu)*cos(2*i))*
+     sin(2*i))/384.) +
+          cos2a * ((856*M_PI*cos(i))/105.) +
+          sin2a * ((cos(i)*(116761 + 59920*EulerGamma - 4900*pow2(M_PI) + 
+       119840*log(2) + 14980*log(pow2(x))))/
+   3675.) )));
+  }
+
+
+  
 }
 
 // q is the mass ratio (it can be either >1 or <1, it doesn't matter). Function
