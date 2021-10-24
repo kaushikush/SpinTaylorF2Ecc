@@ -556,7 +556,7 @@ int Attach_GPE_Merger_Ringdown(REAL8 dt, REAL8 **h_plus, REAL8 **h_cross,
                                REAL8 inspiral_matching_time,
                                REAL8 inspiral_matching_Hp,
                                REAL8 inspiral_matching_Hc, int *Length,
-                               TrainingSet *Dset, REAL8 m1, REAL8 m2,
+                               TrainingSet *Dset, REAL8 m1, REAL8 m2, REAL8 UNUSED S1z, REAL8 UNUSED S2z,
                                REAL8 inc) {
 
   int errorcode = XLAL_SUCCESS;
