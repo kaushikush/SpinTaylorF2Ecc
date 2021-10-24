@@ -232,8 +232,8 @@ static int eccentric_x_model_odes(REAL8 t, const REAL8 y[], REAL8 dydt[],
                                   void *params);
 
 /* PN radiation */
-static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi);
-static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi);
+static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, REAL8 S1z, REAL8 S2z);
+static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, REAL8 S1z, REAL8 S2z);
 static REAL8 phi_e(REAL8 e);
 static REAL8 psi_e(REAL8 e);
 static REAL8 zed_e(REAL8 e);
@@ -302,7 +302,9 @@ static int LoadSurrogateWaveformFile(REAL8 **hp, REAL8 **hc, LALH5File *file,
 static int
 x_model_eccbbh_imr_waveform(REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
                             REAL8 mass1,          /* mass1 in solar masses  */
-                            REAL8 mass2,          /* mass2 in solar masses  */
+                            REAL8 mass2,	    /* mass2 in solar masses  */
+                            REAL8 S1z,
+			    REAL8 S2z,
                             REAL8 e_init,         /* initial eccentricity   */
                             REAL8 f_gw_init,      /* initial GW frequency   */
                             REAL8 distance,       /* distance of source (m) */
@@ -317,6 +319,8 @@ static int x_model_eccbbh_inspiral_waveform(
     REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
     REAL8 mass1,          /* mass1 in solar masses  */
     REAL8 mass2,          /* mass2 in solar masses  */
+    REAL8 S1z,            /* z-component of the spin of companion 1 */
+    REAL8 S2z,            /* z-component of the spin of companion 2 */
     REAL8 e_init,         /* initial eccentricity   */
     REAL8 f_gw_init,      /* initial GW frequency   */
     REAL8 distance,       /* distance of source (m) */
@@ -331,7 +335,7 @@ static int Attach_GPE_Merger_Ringdown(REAL8 dt, REAL8 **h_plus, REAL8 **h_cross,
                                       REAL8 inspiral_matching_time,
                                       REAL8 matching_Hp, REAL8 matching_Hc,
                                       int *Length, TrainingSet *Dset, REAL8 m1,
-                                      REAL8 m2, REAL8 inc);
+                                      REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 inc);
 
 /***********************************************************************************/
 /************************** Static function definitions
@@ -425,7 +429,7 @@ XLAL_FAIL:
 // Note: this modifies t_vec, r_vec and phi_dot_vec by scaling by total_mass
 static void compute_strain_from_dynamics(
     REAL8 *t_vec, REAL8 *x_vec, REAL8 *phi_vec, REAL8 *phi_dot_vec,
-    REAL8 *r_vec, REAL8 *r_dot_vec, const REAL8 mass1, const REAL8 mass2,
+    REAL8 *r_vec, REAL8 *r_dot_vec, const REAL8 mass1, const REAL8 mass2, REAL8 S1z, REAL8 S2z,
     const REAL8 x0, const REAL8 euler_iota, const REAL8 euler_beta,
     const REAL8 R, const long length, REAL8 *h_plus, REAL8 *h_cross) {
   assert(h_plus != NULL && h_cross != NULL);
@@ -463,7 +467,7 @@ static void compute_strain_from_dynamics(
                     r_dot_vec[i] * r_dot_vec[i]) *
                        sin(euler_iota) * sin(euler_iota))
 
-                 + hPlus(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i])));
+                 + hPlus(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i], S1z, S2z)));
 
     h_cross[i] =
         (REAL8)(h_factor *
@@ -477,7 +481,7 @@ static void compute_strain_from_dynamics(
                        (cos(2.0 * phi_vec[i]) * cos(2.0 * euler_beta) +
                         sin(2.0 * phi_vec[i]) * sin(2.0 * euler_beta))))
 
-                 + hCross(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i])));
+                 + hCross(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i], S1z, S2z)));
   }
 }
 
@@ -485,6 +489,8 @@ static int x_model_eccbbh_inspiral_waveform(
     REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
     REAL8 mass1,          /* mass1 in solar mass    */
     REAL8 mass2,          /* mass2 in solar mass    */
+    REAL8 S1z,            /* z-component of the spin of companion 1 */
+    REAL8 S2z,            /* z-component of the spin of companion 2 */
     REAL8 e_init,         /* initial eccentricity   */
     REAL8 f_gw_init,      /* initial GW frequency   */
     REAL8 distance,       /* distance of source (m) */
@@ -538,7 +544,7 @@ static int x_model_eccbbh_inspiral_waveform(
       &time_evol, &x_evol, &eccentricity_evol, &mean_ano_evol, &phi_evol,
       &phi_dot_evol, &r_evol, &r_dot_evol, &imr_matching_time, &imr_matching_x,
       &imr_matching_eccentricity, &imr_matching_mean_ano, &imr_matching_phi,
-      &imr_matching_phi_dot, &imr_matching_r, &imr_matching_r_dot, mass1, mass2,
+      &imr_matching_phi_dot, &imr_matching_r, &imr_matching_r_dot, mass1, mass2, S1z, S2z,
       e_init, f_gw_init, mean_anom_init, ode_eps, sampling_rate);
   if (errorcode != XLAL_SUCCESS)
     XLAL_ERROR_FAIL(errorcode);
@@ -548,7 +554,7 @@ static int x_model_eccbbh_inspiral_waveform(
   // get inspiral waveform
   errorcode = XLALSimInspiralENIGMAStrainFromDynamics(
       &Hp, &Hc, time_evol->data, x_evol->data, phi_evol->data,
-      phi_dot_evol->data, r_evol->data, r_dot_evol->data, mass1, mass2,
+      phi_dot_evol->data, r_evol->data, r_dot_evol->data, mass1, mass2, S1z, S2z,
       euler_iota, euler_beta, distance);
   if (errorcode != XLAL_SUCCESS)
     XLAL_ERROR_FAIL(errorcode);
@@ -582,7 +588,9 @@ static int
 x_model_eccbbh_imr_waveform(REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
                             REAL8 mass1,          /* mass1 in solar mass    */
                             REAL8 mass2,          /* mass2 in solar mass    */
-                            REAL8 e_init,         /* initial eccentricity   */
+                            REAL8 S1z,         /* z-component of the spin of companion 1 */
+			    REAL8 S2z,         /* z-component of the spin of companion 2 */       
+			    REAL8 e_init,         /* initial eccentricity   */
                             REAL8 f_gw_init,      /* initial GW frequency   */
                             REAL8 distance,       /* distance of source (m) */
                             REAL8 mean_anom_init, /* initial mean-anomaly   */
@@ -635,7 +643,7 @@ x_model_eccbbh_imr_waveform(REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
       &time_evol, &x_evol, &eccentricity_evol, &mean_ano_evol, &phi_evol,
       &phi_dot_evol, &r_evol, &r_dot_evol, &imr_matching_time, &imr_matching_x,
       &imr_matching_eccentricity, &imr_matching_mean_ano, &imr_matching_phi,
-      &imr_matching_phi_dot, &imr_matching_r, &imr_matching_r_dot, mass1, mass2,
+      &imr_matching_phi_dot, &imr_matching_r, &imr_matching_r_dot, mass1, mass2, S1z, S2z,
       e_init, f_gw_init, mean_anom_init, ode_eps, sampling_rate);
   if (errorcode != XLAL_SUCCESS)
     XLAL_ERROR_FAIL(errorcode);
@@ -645,7 +653,7 @@ x_model_eccbbh_imr_waveform(REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
   // get inspiral waveform
   errorcode = XLALSimInspiralENIGMAStrainFromDynamics(
       &Hp, &Hc, time_evol->data, x_evol->data, phi_evol->data,
-      phi_dot_evol->data, r_evol->data, r_dot_evol->data, mass1, mass2,
+      phi_dot_evol->data, r_evol->data, r_dot_evol->data, mass1, mass2, S1z, S2z,
       euler_iota, euler_beta, distance);
   if (errorcode != XLAL_SUCCESS)
     XLAL_ERROR_FAIL(errorcode);
@@ -656,13 +664,13 @@ x_model_eccbbh_imr_waveform(REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
       imr_matching_time; // is modified by compute_strain_from_dynamics
   compute_strain_from_dynamics(
       &t_val, &imr_matching_x, &imr_matching_phi, &imr_matching_phi_dot,
-      &imr_matching_r, &imr_matching_r_dot, mass1, mass2, x_evol->data->data[0],
+      &imr_matching_r, &imr_matching_r_dot, mass1, mass2, S1z, S2z, x_evol->data->data[0],
       euler_iota, euler_beta, distance, 1, &matching_Hp, &matching_Hc);
 
   // get merger and ringdown and attach at the end of the existing time series
   errorcode = Attach_GPE_Merger_Ringdown(
       dt, &(Hp->data), &(Hc->data), imr_matching_time, matching_Hp, matching_Hc,
-      &Length, Dset, mass1, mass2, euler_iota);
+      &Length, Dset, mass1, mass2, S1z, S2z, euler_iota);
   if (errorcode != XLAL_SUCCESS)
     XLAL_ERROR_FAIL(errorcode);
 
@@ -700,7 +708,7 @@ int XLALSimInspiralENIGMAStrainFromDynamics(
     REAL8Vector **h_plus, REAL8Vector **h_cross, REAL8Vector *t_vector,
     REAL8Vector *x_vector, REAL8Vector *phi_vector, REAL8Vector *phi_dot_vector,
     REAL8Vector *r_vector, REAL8Vector *r_dot_vector, const REAL8 mass1,
-    const REAL8 mass2, const REAL8 euler_iota, const REAL8 euler_beta,
+    const REAL8 mass2, REAL8 S1z, REAL8 S2z, const REAL8 euler_iota, const REAL8 euler_beta,
     const REAL8 R) {
   int errorcode = XLAL_SUCCESS;
 
@@ -722,7 +730,7 @@ int XLALSimInspiralENIGMAStrainFromDynamics(
 
   compute_strain_from_dynamics(
       t_vector->data, x_vector->data, phi_vector->data, phi_dot_vector->data,
-      r_vector->data, r_dot_vector->data, mass1, mass2, x_vector->data[0],
+      r_vector->data, r_dot_vector->data, mass1, mass2, S1z, S2z, x_vector->data[0],
       euler_iota, euler_beta, R, length, (*h_plus)->data, (*h_cross)->data);
 
 XLAL_FAIL:
@@ -749,6 +757,8 @@ int XLALSimInspiralENIGMADynamics(
     REAL8 *imr_matching_r_dot,   /* I + MR attachment radial time derivative */
     REAL8 mass1,                 /* mass1 in solar mass    */
     REAL8 mass2,                 /* mass2 in solar mass    */
+    REAL8 S1z,                   /* z-component of the spin of companion 1 */
+    REAL8 S2z,                   /* z-component of the spin of companion 2*/
     REAL8 e_init,                /* initial eccentricity   */
     REAL8 f_gw_init,             /* initial GW frequency   */
     REAL8 mean_anom_init,        /* initial mean-anomaly   */
@@ -1377,6 +1387,8 @@ int XLALSimInspiralENIGMA(
     REAL8 deltaT,             /**< sampling interval (s) */
     REAL8 m1,                 /**< mass of companion 1 (kg) */
     REAL8 m2,                 /**< mass of companion 2 (kg) */
+    REAL8 S1z,                /**< z-component of the spin of companion 1 */
+    REAL8 S2z,                /**< z-component of the spin of companion 2 */
     REAL8 distance,           /**< distance of source (m) */
     REAL8 fMin,               /**< start GW frequency (Hz) */
     REAL8 fRef                /**< reference GW frequency (Hz) */
@@ -1421,7 +1433,7 @@ int XLALSimInspiralENIGMA(
   }
 
   XLAL_CALLGSL(errorcode = x_model_eccbbh_inspiral_waveform(
-                   *hplus, *hcross, m1, m2, eccentricity, fMin, distance,
+                   *hplus, *hcross, m1, m2, S1z, S2z,  eccentricity, fMin, distance,
                    meanPerAno, tol_in, inclination, beta, fsamp));
   if (errorcode != XLAL_SUCCESS)
     XLAL_ERROR_FAIL(XLAL_EFUNC);
@@ -1445,7 +1457,9 @@ int XLALSimIMRENIGMA(REAL8TimeSeries **hplus,  /**< OUTPUT h_+ vector */
                      REAL8 deltaT,       /**< sampling interval (s) */
                      REAL8 m1,           /**< mass of companion 1 (kg) */
                      REAL8 m2,           /**< mass of companion 2 (kg) */
-                     REAL8 distance,     /**< distance of source (m) */
+                     REAL8 S1z,       /**< z-component of the spin of companion 1 */
+		     REAL8 S2z,       /**< z-component of the spin of companion 2 */
+		     REAL8 distance,     /**< distance of source (m) */
                      REAL8 fMin,         /**< start GW frequency (Hz) */
                      REAL8 fRef          /**< reference GW frequency (Hz) */
 ) {
@@ -1497,7 +1511,7 @@ int XLALSimIMRENIGMA(REAL8TimeSeries **hplus,  /**< OUTPUT h_+ vector */
   }
 
   XLAL_CALLGSL(errorcode = x_model_eccbbh_imr_waveform(
-                   *hplus, *hcross, m1, m2, eccentricity, fMin, distance,
+                   *hplus, *hcross, m1, m2, S1z, S2z, eccentricity, fMin, distance,
                    meanPerAno, tol_in, inclination, beta, fsamp, Dset));
   if (errorcode != XLAL_SUCCESS)
     XLAL_ERROR_FAIL(XLAL_EFUNC);

@@ -20,7 +20,7 @@
 static REAL8 x_dot_0pn(REAL8 e, REAL8 eta) /* Eq. (A26) */
 {
   REAL8 x_0_pn;
-  REAL8 e_pow_2 = e * e;
+  REAL8 e_pow_2 = e * e; 
   REAL8 e_pow_4 = e_pow_2 * e_pow_2;
   REAL8 e_fact = 1.0 - e_pow_2;
   REAL8 num = 2. * eta * (37. * e_pow_4 + 292. * e_pow_2 + 96.);
@@ -1880,7 +1880,7 @@ static REAL8 zed_n(REAL8 e) {
   return (pre_f_1 * zed_e(e) - pre_f_2 * phi_e(e));
 }
 
-static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi) {
+static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, REAL8 S1z, REAL8 S2z) {
   const REAL8 log2 = 0.693147180559945309417232121458;   // ln(2)
   const REAL8 log3_2 = 0.405465108108164381978013115464; // ln(3/2)
   /* some math:
@@ -1911,12 +1911,12 @@ static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi) {
   const REAL8 sin4a = 8 * sina * pow3(cosa) - 4 * sina * cosa;
 
   return 2 * x *
-         (-(((m1 - m2) * sqrt(x) *
+         ((-(((m1 - m2) * sqrt(x) *
              ((0.625 + pow2(cos(i)) / 8.) * cos(a) -
               (1.125 + (9 * pow2(cos(i))) / 8.) * cos3a) *
              sin(i)) /
             (m1 + m2)) +
-          x * ((3.1666666666666665 + (3 * pow2(cos(i))) / 2. -
+          x * (((3.1666666666666665 + (3 * pow2(cos(i))) / 2. -
                 pow4(cos(i)) / 3. +
                 (m1 * m2 *
                  (-3.1666666666666665 + (11 * pow2(cos(i))) / 6. +
@@ -1925,9 +1925,9 @@ static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi) {
                    cos2a -
                (4 * (1 - (3 * m1 * m2) / pow2(m1 + m2)) * (1 + pow2(cos(i))) *
                 cos4a * pow2(sin(i))) /
-                   3.) +
+                   3.)+ sin(i) * ((S1z / pow2(m1) - S2z / pow2(m2))+ (m1 - m2) * (S1z / pow2(m1) + S2z / pow2(m2)) / (m1 + m2)) / 2. * cosa) +
           pow3_2(x) *
-              (-2 * M_PI * (1 + pow2(cos(i))) * cos2a +
+            ((-2 * M_PI * (1 + pow2(cos(i))) * cos2a +
                ((m1 - m2) *
                 (0.296875 + (5 * pow2(cos(i))) / 16. - pow4(cos(i)) / 192. +
                  (m1 * m2 *
@@ -1947,7 +1947,7 @@ static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi) {
                    (m1 + m2) +
                (625 * (m1 - m2) * (1 - (2 * m1 * m2) / pow2(m1 + m2)) *
                 (1 + pow2(cos(i))) * cos5a * pow3(sin(i))) /
-                   (384. * (m1 + m2))) +
+                   (384. * (m1 + m2)))+ 2 * ((1 + pow2(cos(i))) * ((S1z / pow2(m1) + S2z / pow2(m2))+ (m1 - m2) * (S1z / pow2(m1) - S2z / pow2(m2))) + m1 * m2 * (1 - 5 * pow2(cos(i))) * (S1z / pow2(m1) + S2z / pow2(m2)) / pow2(m1 + m2)) / 3. * cos2a) +
           pow2(x) *
               ((0.18333333333333332 + (33 * pow2(cos(i))) / 10. +
                 (29 * pow4(cos(i))) / 24. - pow6(cos(i)) / 24. +
@@ -2056,10 +2056,10 @@ static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi) {
                    (11.2 - (32 * log2) / 3. +
                     (m1 * m2 * (-39.766666666666666 + 32 * log2)) /
                         pow2(m1 + m2)) *
-                   pow2(sin(i)) * sin4a));
+                   pow2(sin(i)) * sin4a)));
 }
 
-static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi) {
+static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, REAL8 S1z, REAL8 S2z) {
   const REAL8 log2 = 0.693147180559945309417232121458;   // ln(2)
   const REAL8 log3_2 = 0.405465108108164381978013115464; // ln(3/2)
   /* some math:
@@ -2094,16 +2094,16 @@ static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi) {
          (((m1 - m2) * sqrt(x) * cos(i) * sin(i) *
            ((-3 * sina) / 4. + (9 * sin3a) / 4.)) /
               (m1 + m2) +
-          x * (cos(i) *
+          x *((cos(i) *
                    (5.666666666666667 - (4 * pow2(cos(i))) / 3. +
                     (m1 * m2 * (-4.333333333333333 + 4 * pow2(cos(i)))) /
                         pow2(m1 + m2)) *
                    sin2a -
                (8 * (1 - (3 * m1 * m2) / pow2(m1 + m2)) * cos(i) *
                 pow2(sin(i)) * sin4a) /
-                   3.) +
+                   3.)+ cos(i) * sin(i) * ((S1z / pow2(m1) - S2z / pow2(m2)) + (m1 - m2) * (S1z / pow2(m1) + S2z / pow2(m2)) / (m1 + m2)) / 2. * sina) +
           pow3_2(x) *
-              (((m1 - m2) * cos(i) *
+              ((((m1 - m2) * cos(i) *
                 (0.65625 - (5 * pow2(cos(i))) / 96. +
                  (m1 * m2 * (-0.4791666666666667 + (5 * pow2(cos(i))) / 48.)) /
                      pow2(m1 + m2)) *
@@ -2118,7 +2118,7 @@ static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi) {
                    (m1 + m2) +
                (625 * (m1 - m2) * (1 - (2 * m1 * m2) / pow2(m1 + m2)) * cos(i) *
                 pow3(sin(i)) * sin5a) /
-                   (192. * (m1 + m2))) +
+                   (192. * (m1 + m2))) + 4 * cos(i) * ((S1z / pow2(m1) + S2z / pow2(m2)) + (m1 - m2) * (S1z / pow2(m1) - S2z / pow2(m2)) / (m1 + m2) - m1 * m2 * (1 + 3 * pow2(cos(i))) * (S1z / pow2(m1) + S2z / pow2(m2)) / (2. * pow2(m1 + m2))) / 3. * sin2a) +
           pow2(x) * (((m1 - m2) * cos(i) * cos3a * (9.45 - (27 * log3_2) / 2.) *
                       sin(i)) /
                          (m1 + m2) +
