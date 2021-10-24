@@ -1700,6 +1700,8 @@ int XLALSimInspiralENIGMAStrainFromDynamics(
     REAL8Vector *r_dot_vector,   /**< Vector of values of x at timesteps */
     const REAL8 mass1,           /**< Mass of companion 1 (solar masses) */
     const REAL8 mass2,           /**< Mass of companion 2 (solar masses) */
+    REAL8 S1z,
+    REAL8 S2z,
     const REAL8 euler_iota,      /**< Inclination angle of source (rad) */
     const REAL8 euler_beta,      /**< Polarization angle of source (rad) */
     const REAL8 R                /**< Distance of source (m) */
@@ -1728,6 +1730,8 @@ int XLALSimInspiralENIGMADynamics(
                                      derivative */
     REAL8 mass1,                  /**< mass1 (solar mass)    */
     REAL8 mass2,                  /**< mass2 (solar mass)    */
+    REAL8 S1z,
+    REAL8 S2z,
     REAL8 e_init,                 /**< initial eccentricity   */
     REAL8 f_gw_init,              /**< initial GW frequency (Hz)   */
     REAL8 mean_anom_init,         /**< initial mean-anomaly (rad)  */
@@ -1747,6 +1751,8 @@ int XLALSimInspiralENIGMA(
     REAL8 deltaT,             /**< sampling interval (s) */
     REAL8 m1,                 /**< mass of companion 1 (kg) */
     REAL8 m2,                 /**< mass of companion 2 (kg) */
+    REAL8 S1z,
+    REAL8 S2z,
     REAL8 distance,           /**< distance of source (m) */
     REAL8 fMin,               /**< start GW frequency (Hz) */
     REAL8 fRef                /**< reference GW frequency (Hz) */
@@ -1762,6 +1768,8 @@ int XLALSimIMRENIGMA(
     REAL8 deltaT,             /**< sampling interval (s) */
     REAL8 m1,                 /**< mass of companion 1 (kg) */
     REAL8 m2,                 /**< mass of companion 2 (kg) */
+    REAL8 S1z,
+    REAL8 S2z,
     REAL8 distance,           /**< distance of source (m) */
     REAL8 fMin,               /**< start GW frequency (Hz) */
     REAL8 fRef                /**< reference GW frequency (Hz) */

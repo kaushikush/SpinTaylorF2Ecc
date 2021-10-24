@@ -1218,13 +1218,13 @@ int XLALSimInspiralChooseTDWaveform(
             /* Waveform-specific sanity checks */
             if( !XLALSimInspiralWaveformParamsFlagsAreDefault(LALparams) )
                 XLAL_ERROR(XLAL_EINVAL, "Non-default flags given, but this approximant does not support this case.");
-            if( !checkSpinsZero(S1x, S1y, S1z, S2x, S2y, S2z) )
-                XLAL_ERROR(XLAL_EINVAL, "Non-zero spins were given, but this is a non-spinning approximant.");
+	    if( !checkTransverseSpinsZero(S1x, S1y, S2x, S2y) )
+		    XLAL_ERROR(XLAL_EINVAL, "Non-zero transverse spins were given, but this is a non-precessing approximant.");
             if( !checkTidesZero(lambda1, lambda2) )
-                XLAL_ERROR(XLAL_EINVAL, "Non-zero tidal parameters were given, but this is approximant doe not have tidal corrections.");
+                XLAL_ERROR(XLAL_EINVAL, "Non-zero tidal parameters were given, but this is approximant does not have tidal corrections.");
             /* Call the waveform driver routine */
             ret = XLALSimIMRENIGMA(hplus, hcross,
-                    phiRef, inclination, eccentricity, meanPerAno, deltaT, m1, m2, distance, f_min, f_ref);
+                    phiRef, inclination, eccentricity, meanPerAno, deltaT, m1, m2, S1z, S2z, distance, f_min, f_ref);
             break;
 
         case IMRPhenomT:
@@ -7223,7 +7223,7 @@ int XLALSimInspiralGetSpinSupportFromApproximant(Approximant approx){
     case GeneratePPN:
     case InspiralENIGMA:
     case IMRENIGMA:
-      spin_support=LAL_SIM_INSPIRAL_SPINLESS;
+      spin_support=LAL_SIM_INSPIRAL_ALIGNEDSPIN;
       break;
     case TEOBResum_ROM:
       spin_support=LAL_SIM_INSPIRAL_SPINLESS;
