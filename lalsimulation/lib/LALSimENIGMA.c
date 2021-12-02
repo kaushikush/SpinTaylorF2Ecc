@@ -92,6 +92,10 @@ typedef struct {
 
 struct ode_parameters {
   REAL8 eta;
+  REAL8 m1;
+  REAL8 m2;
+  REAL8 S1z;
+  REAL8 S2z;
   int radiation_pn_order;
 };
 
@@ -192,12 +196,18 @@ static REAL8 separation(REAL8 u, REAL8 eta, REAL8 x, REAL8 e);
 
 static REAL8 x_dot_0pn(REAL8 e, REAL8 eta);
 static REAL8 x_dot_1pn(REAL8 e, REAL8 eta);
+static REAL8 x_dot_1_5_pn(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 x_dot_hereditary_1_5(REAL8 e, REAL8 eta, REAL8 x);
 static REAL8 x_dot_2pn(REAL8 e, REAL8 eta);
+static REAL8 x_dot_2pn_SS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+static REAL8 x_dot_2_5_pn(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 x_dot_hereditary_2_5(REAL8 e, REAL8 eta, REAL8 x);
 static REAL8 x_dot_hereditary_3(REAL8 e, REAL8 eta, REAL8 x);
 static REAL8 x_dot_3pn(REAL8 e, REAL8 eta, REAL8 x);
+static REAL8 x_dot_3pnSO(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+static REAL8 x_dot_3pnSS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 x_dot_3_5_pn(REAL8 e, REAL8 eta);
+static REAL8 x_dot_3_5pnSO(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 dxdt_4pn(REAL8 x, REAL8 eta);
 static REAL8 dxdt_4_5pn(REAL8 x, REAL8 eta);
 static REAL8 dxdt_5pn(REAL8 x, REAL8 eta);
@@ -219,14 +229,19 @@ static REAL8 l_dot_3pn(REAL8 e, REAL8 eta);
 
 static REAL8 phi_dot_0pn(REAL8 e, REAL8 eta, REAL8 u);
 static REAL8 phi_dot_1pn(REAL8 e, REAL8 eta, REAL8 u);
+static REAL8 phi_dot_1_5_pn(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
 static REAL8 phi_dot_2pn(REAL8 e, REAL8 eta, REAL8 u);
+static REAL8 phi_dot_2pn_SS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
+static REAL8 phi_dot_2_5_pn(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
+static REAL8 phi_dot_3_pn_spin(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
+static REAL8 phi_dot_3pn_SS(REAL8 eta, REAL8  m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
 static REAL8 phi_dot_3pn(REAL8 e, REAL8 eta, REAL8 u);
 
 /* PN evolution equations */
-static REAL8 dx_dt(int radiation_pn_order, REAL8 eta, REAL8 x, REAL8 e);
+static REAL8 dx_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x, REAL8 e);
 static REAL8 de_dt(int radiation_pn_order, REAL8 eta, REAL8 x, REAL8 e);
 static REAL8 dl_dt(REAL8 eta, REAL8 x, REAL8 e);
-static REAL8 dphi_dt(REAL8 u, REAL8 eta, REAL8 x, REAL8 e);
+static REAL8 dphi_dt(REAL8 u, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x, REAL8 e);
 
 static int eccentric_x_model_odes(REAL8 t, const REAL8 y[], REAL8 dydt[],
                                   void *params);
@@ -304,7 +319,7 @@ x_model_eccbbh_imr_waveform(REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
                             REAL8 mass1,          /* mass1 in solar masses  */
                             REAL8 mass2,	    /* mass2 in solar masses  */
                             REAL8 S1z,
-			    REAL8 S2z,
+			                REAL8 S2z,
                             REAL8 e_init,         /* initial eccentricity   */
                             REAL8 f_gw_init,      /* initial GW frequency   */
                             REAL8 distance,       /* distance of source (m) */
@@ -589,8 +604,8 @@ x_model_eccbbh_imr_waveform(REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
                             REAL8 mass1,          /* mass1 in solar mass    */
                             REAL8 mass2,          /* mass2 in solar mass    */
                             REAL8 S1z,         /* z-component of the spin of companion 1 */
-			    REAL8 S2z,         /* z-component of the spin of companion 2 */       
-			    REAL8 e_init,         /* initial eccentricity   */
+			                REAL8 S2z,         /* z-component of the spin of companion 2 */       
+			                REAL8 e_init,         /* initial eccentricity   */
                             REAL8 f_gw_init,      /* initial GW frequency   */
                             REAL8 distance,       /* distance of source (m) */
                             REAL8 mean_anom_init, /* initial mean-anomaly   */
@@ -757,8 +772,8 @@ int XLALSimInspiralENIGMADynamics(
     REAL8 *imr_matching_r_dot,   /* I + MR attachment radial time derivative */
     REAL8 mass1,                 /* mass1 in solar mass    */
     REAL8 mass2,                 /* mass2 in solar mass    */
-    REAL8 S1z,                   /* z-component of the spin of companion 1 */
-    REAL8 S2z,                   /* z-component of the spin of companion 2*/
+    REAL8 UNUSED S1z,                   /* z-component of the spin of companion 1 */
+    REAL8 UNUSED S2z,                   /* z-component of the spin of companion 2*/
     REAL8 e_init,                /* initial eccentricity   */
     REAL8 f_gw_init,             /* initial GW frequency   */
     REAL8 mean_anom_init,        /* initial mean-anomaly   */
@@ -1458,8 +1473,8 @@ int XLALSimIMRENIGMA(REAL8TimeSeries **hplus,  /**< OUTPUT h_+ vector */
                      REAL8 m1,           /**< mass of companion 1 (kg) */
                      REAL8 m2,           /**< mass of companion 2 (kg) */
                      REAL8 S1z,       /**< z-component of the spin of companion 1 */
-		     REAL8 S2z,       /**< z-component of the spin of companion 2 */
-		     REAL8 distance,     /**< distance of source (m) */
+		             REAL8 S2z,       /**< z-component of the spin of companion 2 */
+		             REAL8 distance,     /**< distance of source (m) */
                      REAL8 fMin,         /**< start GW frequency (Hz) */
                      REAL8 fRef          /**< reference GW frequency (Hz) */
 ) {
