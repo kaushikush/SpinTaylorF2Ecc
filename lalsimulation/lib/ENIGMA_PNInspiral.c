@@ -1880,7 +1880,7 @@ static REAL8 zed_n(REAL8 e) {
   return (pre_f_1 * zed_e(e) - pre_f_2 * phi_e(e));
 }
 
-static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, long vpn) {
+static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi,UINT4 vpn) {
   const REAL8 log2 = 0.693147180559945309417232121458;   // ln(2)
   const REAL8 log3_2 = 0.405465108108164381978013115464; // ln(3/2)
   /* some math:
@@ -2472,7 +2472,7 @@ static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, lo
 
 }
 
-static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, long vpn) {
+static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi,UINT4 vpn) {
   const REAL8 log2 = 0.693147180559945309417232121458;   // ln(2)
   const REAL8 log3_2 = 0.405465108108164381978013115464; // ln(3/2)
   /* some math:
