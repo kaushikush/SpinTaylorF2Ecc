@@ -456,6 +456,7 @@ static void compute_strain_from_dynamics(
   REAL8 h_factor = reduced_mass * LAL_MRSUN_SI / R;
 
   for (long i = 0; i < length; ++i) {
+    printf("Check flag: Reached the loop");
     t_vec[i] *= total_mass;
     r_vec[i] *= total_mass;
     phi_dot_vec[i] /= total_mass;
@@ -497,6 +498,8 @@ static void compute_strain_from_dynamics(
                         sin(2.0 * phi_vec[i]) * sin(2.0 * euler_beta))))
 
                  + hCross(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i], S1z, S2z)));
+   
+  
   }
 }
 
@@ -752,6 +755,7 @@ XLAL_FAIL:
   // We do not free h_plus or h_cross as this is the callers duty
   return errorcode;
 }
+
 
 int XLALSimInspiralENIGMADynamics(
     REAL8TimeSeries **time_evol,         /* Time steps */
@@ -1011,7 +1015,11 @@ int XLALSimInspiralENIGMADynamics(
 
   REAL8 time_omega_attach_reached = -1.;
   int i_omega_attach_reached = -1;
+  FILE *fout;
+  fout = fopen("fork_data.txt", "a");
+  printf("It has reached\n");
   for (i = 1; /* no end */; ++i) { /*{{{*/
+    printf("Entered the for loop\n");
     if (i >= statevec_allocated)
       allocate_statevec(2 * statevec_allocated);
 
@@ -1086,6 +1094,9 @@ int XLALSimInspiralENIGMADynamics(
     if (x_vec[i] >= x_final) {
       break;
     }
+    printf("%f,%f,%f,%f,%f,%f\n", t_vec[i], x_vec[i], e_vec[i], l_vec[i], phi_vec[i], phi_dot_vec[i]);
+    fprintf(fout, "%f,%f,%f,%f,%f,%f\n", t_vec[i], x_vec[i], e_vec[i], l_vec[i], phi_vec[i], phi_dot_vec[i]);
+    fflush(fout);
 
     if (phi_dot_vec[i] >= omega_attach) {
       if (time_omega_attach_reached < 0.) {
@@ -1104,6 +1115,8 @@ int XLALSimInspiralENIGMADynamics(
     }
 
   } /*}}}*/ /* end integration for loop */
+
+  fclose(fout);
 
   if (time_omega_attach_reached <
       0.) { /* never reached omega_attach before encountering ISCO */

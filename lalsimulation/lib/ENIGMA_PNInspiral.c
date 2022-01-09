@@ -93,6 +93,8 @@ static REAL8 x_dot_hereditary_1_5(REAL8 e, REAL8 eta, REAL8 x) /* Eq. (A28) */
 static REAL8 x_dot_2pn_SS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 {
  REAL8 x_dot_2pn_SS;
+ S1z = 0.0;
+ S2z = 0.0;
  REAL8 term1 = 20. * (S1z + S2z) * (S1z + S2z);
  REAL8 term2 = 20. * (m1 - m2) * (S1z + S2z) * (S2z / m2 - S1z / m1);
  REAL8 term3 = (4. - 20 * eta) * (m1 + m2) * (m1 + m2) * (S2z / m2 - S1z / m1) * (S2z / m2 - S1z / m1);
@@ -167,6 +169,8 @@ static REAL8 x_dot_hereditary_3(REAL8 e, REAL8 eta,
 static REAL8 x_dot_2_5_pn(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 {
  REAL8 x_2_5_pn;
+ S1z = 0.0;
+ S2z = 0.0;
  REAL8 pre_factor = 64. * eta / 5;
  REAL8 term1 = (- 5861. / 144 + 1001. / 12 * eta) * (S1z + S2z) / ((m1 + m2) * (m1 + m2)); 
  REAL8 term2 =((- 809. / 84 + 281. / 8 * eta) * (m1 - m2) * (S2z / m2 - S1z / m1)) / ((m1 + m2) * (m1 + m2));
@@ -178,6 +182,8 @@ static REAL8 x_dot_2_5_pn(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 static REAL8 x_dot_3pnSO(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 {
  REAL8 x_3_pn;
+ S1z = 0.0;
+ S2z = 0.0;
  REAL8 pre_factor = 64. * eta / 5;
  REAL8 term1 = (16. * M_PI * eta * (S1z + S2z)) / ((m1 + m2) * (m1 + m2));
  REAL8 term2 = (- 31. * M_PI * eta * (m1 - m2) * (S2z / m2 - S1z / m1)) / (6 * (m1 + m2) * (m1 + m2));
@@ -190,6 +196,8 @@ static REAL8 x_dot_3pnSO(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 static REAL8 x_dot_3pnSS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 {
  REAL8 x_3pn_SS;
+ S1z = 0.0;
+ S2z = 0.0;
  REAL8 pre_factor = 64. * eta / 5;
  REAL8 term1 = (S1z + S2z) * (S1z + S2z) * (- 83. / 126 - 86. * eta);
  REAL8 term2 = - (S1z + S2z) * (m1 + m2) * (S2z / m2 - S1z / m1) * (5783. * eta / 168 + (86. * (m1 - m2) * eta) / (m1 + m2));
@@ -322,12 +330,15 @@ static REAL8 x_dot_3_5pnSO(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 {
  REAL8 x_3_5pnSO;
  REAL8 pre_factor = 64. * eta / 5;
+ S1z = 0.0;
+ S2z = 0.0;
  REAL8 term1 = (S1z + S2z) * (3250129. * eta / 54432 + 4156277. * eta * eta / 1512 - 4319. * eta * eta * eta / 27) / ((m1 + m2) * (m1 + m2));
  REAL8 term2 = (S2z / m2 - S1z / m1) * (m1 - m2) * (19189. * eta / 336 + 552991. * eta * eta / 2016 - 10201. * eta * eta * eta / 144) / ((m1 + m2) * (m1 + m2));
  x_3_5pnSO = pre_factor * (term1 + term2);
 
  return (x_3_5pnSO);
 
+ printf("The value is:%f", x_3_5pnSO);
 }
 
 
@@ -617,7 +628,9 @@ static REAL8 phi_dot_1pn(REAL8 e, REAL8 eta, REAL8 u) /* Eq. (A12) */
 
 static REAL8 phi_dot_1_5_pn(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x)
 {
- return (2 * dx_dt(0, eta, m1, m2, S1z, S2z, x, 0) * ((235. * (S1z + S2z)) / 6 + (125. * (m1 - m2) * (S2z / m2 - S1z / m1)) / 8) / (5 * (m1 + m2)));
+ S1z = 0.0;
+ S2z = 0.0;
+ return (2 * dx_dt(0, eta, m1, m2, 0, 0, x, 0) * ((235. * (S1z + S2z)) / 6 + (125. * (m1 - m2) * (S2z / m2 - S1z / m1)) / 8) / (5 * (m1 + m2)));
 
 }	
 
@@ -670,13 +683,17 @@ static REAL8 phi_dot_2pn(REAL8 e, REAL8 eta, REAL8 u) /* Eq. (A13) */
 
 static REAL8 phi_dot_2pn_SS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x)
 {
- return (dx_dt(0, eta, m1, m2, S1z, S2z, x, 0) * (-100. * (S1z + S2z) * (S1z + S2z) - 100. * (m1 - m2) * (S1z + S2z) * (S2z / m2 - S1z / m1) + (m1 + m2) * (m1 + m2) * (S2z / m2 - S1z / m1) * (S2z / m2 - S1z / m1) * (- 405. / 16 + 100. * eta)) / (5. * (m1 + m2) * (m1 + m2) * (m1 + m2) * (m1 + m2)));
+ S1z = 0.0;
+ S2z = 0.0;
+ return (dx_dt(0, eta, m1, m2, 0, 0, x, 0) * (-100. * (S1z + S2z) * (S1z + S2z) - 100. * (m1 - m2) * (S1z + S2z) * (S2z / m2 - S1z / m1) + (m1 + m2) * (m1 + m2) * (S2z / m2 - S1z / m1) * (S2z / m2 - S1z / m1) * (- 405. / 16 + 100. * eta)) / (5. * (m1 + m2) * (m1 + m2) * (m1 + m2) * (m1 + m2)));
 }
 
 
 static REAL8 phi_dot_2_5_pn(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x)
 {
- return (2 * dx_dt(0, eta, m1, m2, S1z, S2z, x, 0) * ((S1z + S2z) * (- 554345. / 2016 - 55. / 8 * eta) + (m1 - m2) * (- 41745. / 448 + 15. / 8 * eta) * (S2z / m2 - S1z / m1)) / (5 * (m1 + m2)));
+ S1z = 0.0;
+ S2z = 0.0;
+ return (2 * dx_dt(0, eta, m1, m2, 0, 0, x, 0) * ((S1z + S2z) * (- 554345. / 2016 - 55. / 8 * eta) + (m1 - m2) * (- 41745. / 448 + 15. / 8 * eta) * (S2z / m2 - S1z / m1)) / (5 * (m1 + m2)));
 }
 
 
@@ -849,12 +866,16 @@ static REAL8 phi_dot_3pn(REAL8 e, REAL8 eta, REAL8 u) {
 
 static REAL8 phi_dot_3_pn_spin(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x)
 {
- return (dx_dt(0, eta, m1, m2, S1z, S2z, x, 0) * ((S1z + S2z) * (940. * M_PI / 3) - (745. * M_PI / 6) * (m1 - m2) * (S2z / m2 - S1z / m1)) / (5 * (m1 + m2)));
+ S1z = 0.0;
+ S2z = 0.0;
+ return (dx_dt(0, eta, m1, m2, 0, 0, x, 0) * ((S1z + S2z) * (940. * M_PI / 3) - (745. * M_PI / 6) * (m1 - m2) * (S2z / m2 - S1z / m1)) / (5 * (m1 + m2)));
 }
 
 static REAL8 phi_dot_3pn_SS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x)
 {
- return (dx_dt(0, eta, m1, m2, S1z, S2z, x, 0) * ((S1z + S2z) * (- 7915. / 63 + 120 * eta) + (S1z + S2z) * (m1 - m2) * (S2z / m2 - S1z / m1) * (2645. / 56 + 120. * eta) + (m1 + m2) * (m1 + m2) * (S2z / m2 - S1z / m1) * (S2z / m2 - S1z / m1) * (- 11515. / 896 + 5875. / 112 * eta - 120 * eta * eta)) / (5. * (m1 + m2) * (m1 + m2) * (m1 + m2) * (m1 + m2)));
+ S1z = 0.0;
+ S2z = 0.0;
+ return (dx_dt(0, eta, m1, m2, 0, 0, x, 0) * ((S1z + S2z) * (- 7915. / 63 + 120 * eta) + (S1z + S2z) * (m1 - m2) * (S2z / m2 - S1z / m1) * (2645. / 56 + 120. * eta) + (m1 + m2) * (m1 + m2) * (S2z / m2 - S1z / m1) * (S2z / m2 - S1z / m1) * (- 11515. / 896 + 5875. / 112 * eta - 120 * eta * eta)) / (5. * (m1 + m2) * (m1 + m2) * (m1 + m2) * (m1 + m2)));
 }
 
 static int eccentric_x_model_odes(REAL8 t, const REAL8 y[], REAL8 dydt[],
@@ -2006,6 +2027,10 @@ static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, RE
   const REAL8 sin2a = 2 * sina * cosa;
   const REAL8 sin3a = 4 * sina * pow2(cosa) - sina;
   const REAL8 sin4a = 8 * sina * pow3(cosa) - 4 * sina * cosa;
+  
+
+  S1z=0.0;
+  S2z=0.0;
 
   return 2 * x *
          ((-(((m1 - m2) * sqrt(x) *
@@ -2044,7 +2069,7 @@ static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, RE
                    (m1 + m2) +
                (625 * (m1 - m2) * (1 - (2 * m1 * m2) / pow2(m1 + m2)) *
                 (1 + pow2(cos(i))) * cos5a * pow3(sin(i))) /
-                   (384. * (m1 + m2)))+ 2 * ((1 + pow2(cos(i))) * ((S1z / pow2(m1) + S2z / pow2(m2))+ (m1 - m2) * (S1z / pow2(m1) - S2z / pow2(m2))) + m1 * m2 * (1 - 5 * pow2(cos(i))) * (S1z / pow2(m1) + S2z / pow2(m2)) / pow2(m1 + m2)) / 3. * cos2a) +
+                   (384. * (m1 + m2)))+ 2 * ((1 + pow2(cos(i))) * ((S1z / pow2(m1) + S2z / pow2(m2)) + (m1 - m2) * (S1z / pow2(m1) - S2z / pow2(m2))) + m1 * m2 * (1 - 5 * pow2(cos(i))) * (S1z / pow2(m1) + S2z / pow2(m2)) / pow2(m1 + m2)) / 3. * cos2a) +
           pow2(x) *
               ((0.18333333333333332 + (33 * pow2(cos(i))) / 10. +
                 (29 * pow4(cos(i))) / 24. - pow6(cos(i)) / 24. +
@@ -2082,7 +2107,7 @@ static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, RE
                    (m1 + m2) +
                ((m1 - m2) * (1 + pow2(cos(i))) * (-4.725 + (27 * log3_2) / 4.) *
                 sin(i) * sin3a) /
-                   (m1 + m2) - (((m1 + m2) / m1 * S1z + (m1 + m2) / m2 * S2z) * ((m1 + m2) / m1 * S1z + (m1 + m2) / m2 * S2z) - ((m1 + m2) / m1 * S1z + (m1 + m2) / m2 * S2z) * ((m1 + m2) / m1 * S1z + (m1 + m2) / m2 * S2z) * pow2(cos(i))) / ((m1 + m2) * (m1 + m2) * (m1 + m2) * (m1 + m2)) * cos2a) +
+                   (m1 + m2) + (-((m1 + m2) / m1 * S1z + (m1 + m2) / m2 * S2z) * ((m1 + m2) / m1 * S1z + (m1 + m2) / m2 * S2z) - ((m1 + m2) / m1 * S1z + (m1 + m2) / m2 * S2z) * ((m1 + m2) / m1 * S1z + (m1 + m2) / m2 * S2z) * pow2(cos(i))) / ((m1 + m2) * (m1 + m2) * (m1 + m2) * (m1 + m2)) * cos2a) +
           pow5_2(x) *
               (M_PI *
                    (6.333333333333333 + 3 * pow2(cos(i)) -
@@ -2186,6 +2211,10 @@ static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, R
       32 * sina * pow5(cosa) - 32 * sina * pow3(cosa) + 6 * sina * cosa;
   const REAL8 sin7a = 64 * sina * pow6(cosa) - 80 * sina * pow4(cosa) +
                       24 * sina * pow2(cosa) - sina;
+
+
+  S1z=0.0;
+  S2z=0.0;
 
   return 2 * x *
          (((m1 - m2) * sqrt(x) * cos(i) * sin(i) *
