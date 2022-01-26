@@ -317,9 +317,9 @@ static int LoadSurrogateWaveformFile(REAL8 **hp, REAL8 **hc, LALH5File *file,
 static int
 x_model_eccbbh_imr_waveform(REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
                             REAL8 mass1,          /* mass1 in solar masses  */
-                            REAL8 mass2,	    /* mass2 in solar masses  */
-                            REAL8 S1z,
-			                REAL8 S2z,
+                            REAL8 mass2,	        /* mass2 in solar masses  */
+                            REAL8 S1z,            /* z-ccomponent of spin of mass1*/ 
+			                      REAL8 S2z,            /* z-ccomponent of spin of mass2*/
                             REAL8 e_init,         /* initial eccentricity   */
                             REAL8 f_gw_init,      /* initial GW frequency   */
                             REAL8 distance,       /* distance of source (m) */
@@ -456,7 +456,8 @@ static void compute_strain_from_dynamics(
   REAL8 h_factor = reduced_mass * LAL_MRSUN_SI / R;
 
   for (long i = 0; i < length; ++i) {
-    printf("Check flag: Reached the loop");
+    /*printf("Check flag: Reached the loop");
+    fflush(NULL);*/
     t_vec[i] *= total_mass;
     r_vec[i] *= total_mass;
     phi_dot_vec[i] /= total_mass;
@@ -607,8 +608,8 @@ x_model_eccbbh_imr_waveform(REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
                             REAL8 mass1,          /* mass1 in solar mass    */
                             REAL8 mass2,          /* mass2 in solar mass    */
                             REAL8 S1z,         /* z-component of the spin of companion 1 */
-			                REAL8 S2z,         /* z-component of the spin of companion 2 */       
-			                REAL8 e_init,         /* initial eccentricity   */
+			                      REAL8 S2z,         /* z-component of the spin of companion 2 */       
+			                      REAL8 e_init,         /* initial eccentricity   */
                             REAL8 f_gw_init,      /* initial GW frequency   */
                             REAL8 distance,       /* distance of source (m) */
                             REAL8 mean_anom_init, /* initial mean-anomaly   */
@@ -816,14 +817,16 @@ int XLALSimInspiralENIGMADynamics(
   REAL8 y_dot_out[4];
   REAL8 y_dot_temp[4];
 
+  printf("Value of y_dot_in:%f,%f,%f,%f\n",y_dot_in[0],y_dot_in[1],y_dot_in[2],y_dot_in[3]);
+  fflush(NULL);
+
   /* vectors to store the data */
   REAL8 *uniform_t_vec = NULL;   /* uniformly sampled time */
   REAL8 *uniform_x_vec = NULL;   /* uniformly sampled PN expansion variable */
   REAL8 *uniform_phi_vec = NULL; /* uniformly sampled orbital phase */
   REAL8 *uniform_phi_dot_vec = NULL; /* uniformly sampled orbital frequency */
   REAL8 *uniform_r_vec = NULL;       /* uniformly sampled orbital separation */
-  REAL8 *uniform_r_dot_vec =
-      NULL; /* uniformly sampled orbital separation change rate */
+  REAL8 *uniform_r_dot_vec = NULL; /* uniformly sampled orbital separation change rate */
   REAL8 *uniform_e_vec = NULL; /* uniformly sampled eccentricity */
   REAL8 *uniform_l_vec = NULL; /* uniformly sampled mean anomaly */
   REAL8 *t_vec = NULL;         /* time                  */
@@ -892,6 +895,8 @@ int XLALSimInspiralENIGMADynamics(
   }
 
   total_mass = mass1 + mass2;
+  /*printf("total mass%f\n",total_mass);
+  fflush(NULL);*/
   reduced_mass = mass1 * mass2 / total_mass;
   sym_mass_ratio = reduced_mass / total_mass;
   mass_ratio = mass1 / mass2;
@@ -899,6 +904,8 @@ int XLALSimInspiralENIGMADynamics(
   /* initial orbital angular frequency in units of solar mass */
   omega_init = LAL_PI * f_gw_init * LAL_MTSUN_SI;
   x_init = pow(total_mass * omega_init, 2. / 3.);
+  /*printf("x init:%f\n",x_init);
+  fflush(NULL);*/
 
   /* Set con and pn orders to cover (q,M) space*/
 
@@ -977,6 +984,9 @@ int XLALSimInspiralENIGMADynamics(
   /* final value of x is at x(f_isco) = 1/6 */
   x_final = pow(LAL_PI * total_mass * f_gw_isco, 2. / 3.);
 
+  /*printf("value of y_dot_in[0]:%f\n",y_dot_in[0]);
+  fflush(NULL);*/
+
   /* initial conditions on dynamical variables */
   t_vec[0] = t = 0.;
   x_vec[0] = y[0] = x_init;
@@ -992,8 +1002,16 @@ int XLALSimInspiralENIGMADynamics(
   /* compute the intital value of r using Eq. (5) */
   r_vec[0] = separation(u_vec[0], sym_mass_ratio, x_vec[0], e_vec[0]);
 
+  /*printf("value of y_dot_in[0]:%f\n",y_dot_in[0]);
+  fflush(NULL);*/
+
+
   /* compute derivatives at the current value of t */
   eccentric_x_model_odes(t, y, y_dot_in, (void *)&ecc_params);
+  printf("\nValue of y_dot_in[0]:%f\n",y_dot_in[0]);
+  fflush(NULL);
+  printf("\nFound y_dot_in to be:%f,%f,%f,%f\n",y_dot_in[0],y_dot_in[1],y_dot_in[2],y_dot_in[3]);
+  fflush(NULL);
 
   /* initial orbital frequency */
   phi_dot_vec[0] = y_dot_in[3];
@@ -1017,9 +1035,13 @@ int XLALSimInspiralENIGMADynamics(
   int i_omega_attach_reached = -1;
   FILE *fout;
   fout = fopen("fork_data.txt", "a");
-  printf("It has reached\n");
+  /*printf("It has reached\n");
+  fflush(NULL);*/
+  /*printf("\nShow me omega_attach:%f\n",omega_attach);
+  fflush(NULL);*/
   for (i = 1; /* no end */; ++i) { /*{{{*/
-    printf("Entered the for loop\n");
+    printf("\nEntered the for loop i=%ld\n\n",i);
+    fflush(NULL);
     if (i >= statevec_allocated)
       allocate_statevec(2 * statevec_allocated);
 
@@ -1031,7 +1053,7 @@ int XLALSimInspiralENIGMADynamics(
       do {
         status = gsl_odeiv_step_apply(solver_step, t, step_size, y, yerr,
                                       y_dot_in, y_dot_out, &solver_system);
-
+        /*printf("Check status:%d\n",status);*/
         if (status != GSL_SUCCESS) {
           if (tempretries > 0) {
             tempretries--;
@@ -1045,6 +1067,9 @@ int XLALSimInspiralENIGMADynamics(
       } while (status != GSL_SUCCESS);
 
       t_next = t + step_size;
+      printf("\nShow me the values t_next, t, step_size:%f\n,%f\n,%f\n",t_next,t,step_size);
+      fflush(NULL);
+
 
       status = gsl_odeiv_control_hadjust(solver_control, solver_step, y, yerr,
                                          y_dot_out, &step_size);
@@ -1095,6 +1120,7 @@ int XLALSimInspiralENIGMADynamics(
       break;
     }
     printf("%f,%f,%f,%f,%f,%f\n", t_vec[i], x_vec[i], e_vec[i], l_vec[i], phi_vec[i], phi_dot_vec[i]);
+    fflush(NULL);
     fprintf(fout, "%f,%f,%f,%f,%f,%f\n", t_vec[i], x_vec[i], e_vec[i], l_vec[i], phi_vec[i], phi_dot_vec[i]);
     fflush(fout);
 

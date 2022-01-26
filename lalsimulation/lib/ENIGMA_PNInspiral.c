@@ -26,12 +26,18 @@ static REAL8 x_dot_0pn(REAL8 e, REAL8 eta) /* Eq. (A26) */
   REAL8 num = 2. * eta * (37. * e_pow_4 + 292. * e_pow_2 + 96.);
   REAL8 den = 15. * e_fact * e_fact * e_fact * sqrt(e_fact);
   REAL8 e_0_lim = 2. * eta * 96. / 15.;
+  printf("values of e and eta:%f,%f\n",e,eta);
+  fflush(NULL);
 
   if (e) {
     x_0_pn = num / den;
+    printf("x_dot_ecc_value:%f\n",x_0_pn);
+    fflush(NULL);
   } else {
     x_0_pn = e_0_lim;
     ;
+    printf("x_dot_zero_ecc:%f\n",x_0_pn);
+    fflush(NULL);
   }
 
   return (x_0_pn);
@@ -64,10 +70,18 @@ static REAL8 x_dot_1pn(REAL8 e, REAL8 eta) /* Eq. (A27) */
 static REAL8 x_dot_1_5_pn(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 {
  REAL8 x_1_5_pn;
+ S1z = 0.0;
+ S2z = 0.0;
  REAL8 pre_factor = 64. * eta / 5;
  REAL8 term1 = (- 47. * (S1z + S2z)) / (3. * (m1 + m2) * (m1 + m2));
  REAL8 term2 = (- 25. * (m1 - m2) * (S2z / m2 - S1z / m1)) / (4 * (m1 + m2) * (m1 + m2)); 
  x_1_5_pn = pre_factor * (term1 + term2);
+
+ printf("value of eta at x_dot_1_5_pn:%f\n",eta);
+ fflush(NULL);
+
+ printf("x_dot_1_5_pn:%f\n",x_1_5_pn);
+ fflush(NULL);
 
  return (x_1_5_pn);
 
@@ -100,6 +114,10 @@ static REAL8 x_dot_2pn_SS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
  REAL8 term3 = (4. - 20 * eta) * (m1 + m2) * (m1 + m2) * (S2z / m2 - S1z / m1) * (S2z / m2 - S1z / m1);
  REAL8 pre_factor = 64. * eta / 5;
  x_dot_2pn_SS = pre_factor * (term1 + term2 + term3) / ((m1 + m2) * (m1 + m2) * (m1 + m2) * (m1 + m2));
+
+ printf("x_dot_2pn_SS:%f\n",x_dot_2pn_SS);
+ fflush(NULL);
+
 
  return (x_dot_2pn_SS);
 }
@@ -176,6 +194,10 @@ static REAL8 x_dot_2_5_pn(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
  REAL8 term2 =((- 809. / 84 + 281. / 8 * eta) * (m1 - m2) * (S2z / m2 - S1z / m1)) / ((m1 + m2) * (m1 + m2));
  x_2_5_pn = pre_factor * (term1 + term2);
 
+ printf("x_dot_2_5_pn:%f\n",x_2_5_pn);
+ fflush(NULL);
+
+
  return (x_2_5_pn);
 }
 
@@ -188,6 +210,9 @@ static REAL8 x_dot_3pnSO(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
  REAL8 term1 = (16. * M_PI * eta * (S1z + S2z)) / ((m1 + m2) * (m1 + m2));
  REAL8 term2 = (- 31. * M_PI * eta * (m1 - m2) * (S2z / m2 - S1z / m1)) / (6 * (m1 + m2) * (m1 + m2));
  x_3_pn = pre_factor * (term1 + term2);
+
+ printf("x_dot_3pnSO:%f\n",x_3_pn);
+ fflush(NULL);  
 
  return (x_3_pn);
 
@@ -203,6 +228,9 @@ static REAL8 x_dot_3pnSS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
  REAL8 term2 = - (S1z + S2z) * (m1 + m2) * (S2z / m2 - S1z / m1) * (5783. * eta / 168 + (86. * (m1 - m2) * eta) / (m1 + m2));
  REAL8 term3 = (m1 + m2) * (m1 + m2) * (S2z / m2 - S1z / m1) * (S2z / m2 - S1z / m1) * (3841. / 224 + 26779. * eta / 672 + 86 * eta * eta);
  x_3pn_SS = pre_factor * (term1 + term2 + term3) / ((m1 + m2) * (m1 + m2) * (m1 + m2) * (m1 + m2));
+
+ printf("x_dot_1_5_pn:%f\n",x_3pn_SS);
+ fflush(NULL);
 
  return (x_3pn_SS);
 
@@ -336,9 +364,13 @@ static REAL8 x_dot_3_5pnSO(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
  REAL8 term2 = (S2z / m2 - S1z / m1) * (m1 - m2) * (19189. * eta / 336 + 552991. * eta * eta / 2016 - 10201. * eta * eta * eta / 144) / ((m1 + m2) * (m1 + m2));
  x_3_5pnSO = pre_factor * (term1 + term2);
 
+ printf("x_dot_3_5pnSO:%f\n",x_3_5pnSO);
+ fflush(NULL);  
+
  return (x_3_5pnSO);
 
- printf("The value is:%f", x_3_5pnSO);
+ /*printf("The value is:%f", x_3_5pnSO);
+ fflush(NULL);*/
 }
 
 
@@ -896,6 +928,11 @@ static int eccentric_x_model_odes(REAL8 t, const REAL8 y[], REAL8 dydt[],
   REAL8 e = y[1];
   REAL8 l = y[2];
 
+  /*printf("Show y[0]:%f\n",y[0]);
+  fflush(NULL);
+  printf("Show x:%f\n",x);
+  fflush(NULL);*/
+
   REAL8 u = pn_kepler_equation(eta, x, e, l);
 
   if (e) {
@@ -921,28 +958,42 @@ XLAL_FAIL:
 }
 
 static REAL8 dx_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x, REAL8 e) {
+  printf("Value of x:%f\n",x);
+  fflush(NULL);
   REAL8 x_pow_5 = x * x * x * x * x;
+  /*printf("Show x_pow_5:%f\n",x_pow_5);
+  fflush(NULL);*/
   REAL8 xdot = XLAL_REAL8_FAIL_NAN;
 
   if (radiation_pn_order == 0) /* 0 pN term */
   {
     xdot = x_dot_0pn(e, eta) * x_pow_5;
+    /*printf("Value of 0PN term:%f\n",xdot);
+    fflush(NULL);*/
   } else if (radiation_pn_order == 1) /* 0.5 pN term */
   {
     xdot = x_dot_0pn(e, eta) * x_pow_5;
+   /* printf("\n0.5PN:%f",xdot);
+    fflush(NULL);*/
   } else if (radiation_pn_order == 2) /* 1 pN term */
   {
     xdot = (x_dot_0pn(e, eta) + x_dot_1pn(e, eta) * x) * x_pow_5;
+   /* printf("\n1PN:%f",xdot);
+    fflush(NULL);*/
   } else if (radiation_pn_order == 3) /* Hereditary terms at 1.5PN order */	  
   {
     xdot = (x_dot_0pn(e, eta) + x_dot_1pn(e, eta) * x + x_dot_1_5_pn(eta, m1, m2, S1z, S2z) * x * sqrt(x)) * x_pow_5 + 
 	    x_dot_hereditary_1_5(e, eta, x);
+   /* printf("\n1.5PN:%f", xdot);
+    fflush(NULL);*/
   } else if (radiation_pn_order == 4) /* 2 pN term */
   {
     xdot = (x_dot_0pn(e, eta) + x_dot_1pn(e, eta) * x + x_dot_1_5_pn(eta, m1, m2, S1z, S2z) * x * sqrt(x) +
             x_dot_2pn(e, eta) * x * x + x_dot_2pn_SS(eta, m1, m2, S1z, S2z) * x * x) *
                x_pow_5 +
            x_dot_hereditary_1_5(e, eta, x);
+   /* printf("\n2PN:%f",xdot);
+    fflush(NULL);   */    
   } else if (radiation_pn_order ==
              5) /* 2 pN term + hereditary terms up to 2.5PN */
   {
@@ -950,62 +1001,93 @@ static REAL8 dx_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 
             x_dot_2pn(e, eta) * x * x +  x_dot_2pn_SS(eta, m1, m2, S1z, S2z) * x * x + x_dot_2_5_pn(eta, m1, m2, S1z, S2z) * x * x * sqrt(x)) *
                x_pow_5 +
            x_dot_hereditary_1_5(e, eta, x) + x_dot_hereditary_2_5(e, eta, x);
+   /* printf("\n2.5PN:%f",xdot);
+    fflush(NULL);  */     
   } else if (radiation_pn_order ==
              6) /* 3 pN term + hereditary terms up to 3PN */
   {
     xdot = (x_dot_0pn(e, eta) + x_dot_1pn(e, eta) * x + x_dot_1_5_pn(eta, m1, m2, S1z, S2z) * x * sqrt(x) +
-            x_dot_2pn(e, eta) * x * x +  x_dot_2pn_SS(eta, m1, m2, S1z, S2z) * x * x + x_dot_2_5_pn(eta, m1, m2, S1z, S2z) * x * x * sqrt(x) + x_dot_3pn(e, eta, x) * x * x * x + x_dot_3pnSO(eta, m1, m2, S1z, S2z) * x * x * x + x_dot_3pnSS(eta, m1, m2, S1z, S2z) * x * x * x) *
+            x_dot_2pn(e, eta) * x * x +  x_dot_2pn_SS(eta, m1, m2, S1z, S2z) * x * x + x_dot_2_5_pn(eta, m1, m2, S1z, S2z) * x * x * sqrt(x) 
+            + x_dot_3pn(e, eta, x) * x * x * x + x_dot_3pnSO(eta, m1, m2, S1z, S2z) * x * x * x + x_dot_3pnSS(eta, m1, m2, S1z, S2z) * x * x * x) *
                x_pow_5 +
            x_dot_hereditary_1_5(e, eta, x) + x_dot_hereditary_2_5(e, eta, x) +
            x_dot_hereditary_3(e, eta, x);
+    /*printf("\n3PN:%f",xdot);
+    fflush(NULL);  */     
   } else if (radiation_pn_order ==
              7) /* 3.5 pN term + hereditary terms up to 3PN */
   {
     xdot = (x_dot_0pn(e, eta) + x_dot_1pn(e, eta) * x + x_dot_1_5_pn(eta, m1, m2, S1z, S2z) * x * sqrt(x) +
-            x_dot_2pn(e, eta) * x * x +  x_dot_2pn_SS(eta, m1, m2, S1z, S2z) * x * x + x_dot_2_5_pn(eta, m1, m2, S1z, S2z) * x * x * sqrt(x) + x_dot_3pn(e, eta, x) * x * x * x + x_dot_3pnSO(eta,m1, m2, S1z, S2z) * x * x * x + x_dot_3pnSS(eta, m1, m2, S1z, S2z) * x * x * x + x_dot_3_5pnSO(eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x) + x_dot_3_5_pn(e, eta) * x * x * x * sqrt(x)) *
+            x_dot_2pn(e, eta) * x * x +  x_dot_2pn_SS(eta, m1, m2, S1z, S2z) * x * x + x_dot_2_5_pn(eta, m1, m2, S1z, S2z) * x * x * sqrt(x)
+             + x_dot_3pn(e, eta, x) * x * x * x + x_dot_3pnSO(eta,m1, m2, S1z, S2z) * x * x * x + x_dot_3pnSS(eta, m1, m2, S1z, S2z) * x * x * x 
+             + x_dot_3_5pnSO(eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x) + x_dot_3_5_pn(e, eta) * x * x * x * sqrt(x)) *
                x_pow_5 +
            x_dot_hereditary_1_5(e, eta, x) + x_dot_hereditary_2_5(e, eta, x) +
            x_dot_hereditary_3(e, eta, x);
+    /*printf("\n3.5PN:%f",xdot);
+    fflush(NULL);*/       
   } else if (radiation_pn_order == 8) /* 3PN eccentric terms + hereditary terms
                                          up to 3PN + 5PN flux + SF corrections*/
   {
     xdot = (x_dot_0pn(e, eta) + x_dot_1pn(e, eta) * x + x_dot_1_5_pn(eta, m1, m2, S1z, S2z) * x * sqrt(x) +
-            x_dot_2pn(e, eta) * x * x +  x_dot_2pn_SS(eta, m1, m2, S1z, S2z) * x * x + x_dot_2_5_pn(eta, m1, m2, S1z, S2z) * x * x * sqrt(x) + x_dot_3pn(e, eta, x) * x * x * x + x_dot_3pnSO(eta, m1, m2, S1z, S2z) * x * x * x + x_dot_3pnSS(eta, m1, m2, S1z, S2z) * x * x * x + x_dot_3_5pnSO(eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x) +
+            x_dot_2pn(e, eta) * x * x +  x_dot_2pn_SS(eta, m1, m2, S1z, S2z) * x * x + x_dot_2_5_pn(eta, m1, m2, S1z, S2z) * x * x * sqrt(x)
+             + x_dot_3pn(e, eta, x) * x * x * x + x_dot_3pnSO(eta, m1, m2, S1z, S2z) * x * x * x + x_dot_3pnSS(eta, m1, m2, S1z, S2z) * x * x * x 
+             + x_dot_3_5pnSO(eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x) +
             x_dot_3_5_pn(e, eta) * x * x * x * sqrt(x)) *
                x_pow_5 +
            x_dot_hereditary_1_5(e, eta, x) + x_dot_hereditary_2_5(e, eta, x) +
            x_dot_hereditary_3(e, eta, x) + dxdt_4pn(x, eta);
+   /* printf("\n4PN:%f",xdot);
+    fflush(NULL);   */    
   } else if (radiation_pn_order == 9) /* 3PN eccentric terms + hereditary terms
                                          up to 3PN + 6PN flux + SF corrections*/
   {
-    xdot = (x_dot_0pn(e, eta) + x_dot_1pn(e, eta) * x + x_dot_1_5_pn(eta, m1, m2, S1z, S2z) * x * sqrt(x) + x_dot_2pn(e, eta) * x * x +  x_dot_2pn_SS(eta, m1, m2, S1z, S2z) * x * x + x_dot_2_5_pn(eta, m1, m2, S1z, S2z) * x * x * sqrt(x) + x_dot_3pn(e, eta, x) * x * x * x + x_dot_3pnSO(eta, m1, m2, S1z, S2z) * x * x * x + x_dot_3pnSS(eta, m1, m2, S1z, S2z) * x * x * x + x_dot_3_5pnSO(eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x) + x_dot_3_5_pn(e, eta) * x * x * x * sqrt(x)) * x_pow_5 + x_dot_hereditary_1_5(e, eta, x) + x_dot_hereditary_2_5(e, eta, x) + x_dot_hereditary_3(e, eta, x) + dxdt_4_5pn(x, eta);
+    xdot = (x_dot_0pn(e, eta) + x_dot_1pn(e, eta) * x + x_dot_1_5_pn(eta, m1, m2, S1z, S2z) * x * sqrt(x) + x_dot_2pn(e, eta) * x * x 
+    +  x_dot_2pn_SS(eta, m1, m2, S1z, S2z) * x * x + x_dot_2_5_pn(eta, m1, m2, S1z, S2z) * x * x * sqrt(x) + x_dot_3pn(e, eta, x) * x * x * x 
+    + x_dot_3pnSO(eta, m1, m2, S1z, S2z) * x * x * x + x_dot_3pnSS(eta, m1, m2, S1z, S2z) * x * x * x + x_dot_3_5pnSO(eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x) 
+    + x_dot_3_5_pn(e, eta) * x * x * x * sqrt(x)) * x_pow_5 + x_dot_hereditary_1_5(e, eta, x) + x_dot_hereditary_2_5(e, eta, x) + x_dot_hereditary_3(e, eta, x)
+     + dxdt_4_5pn(x, eta);
+    /*printf("\n4.5PN:%f",xdot);
+    fflush(NULL);*/
   } else if (radiation_pn_order ==
              10) /* 3PN eccentric terms + hereditary terms up to 3PN + 6PN flux
                     +  SF corrections*/
   {
     xdot = (x_dot_0pn(e, eta) + x_dot_1pn(e, eta) * x + x_dot_1_5_pn(eta, m1, m2, S1z, S2z) * x * sqrt(x) +
-            x_dot_2pn(e, eta) * x * x +  x_dot_2pn_SS(eta, m1, m2, S1z, S2z) * x * x + x_dot_2_5_pn(eta, m1, m2, S1z, S2z) * x * x * sqrt(x) + x_dot_3pn(e, eta, x) * x * x * x + x_dot_3pnSO(eta,  m1, m2, S1z, S2z) * x * x * x + x_dot_3pnSS(eta, m1, m2, S1z, S2z) * x * x * x + x_dot_3_5pnSO(eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x)
+            x_dot_2pn(e, eta) * x * x +  x_dot_2pn_SS(eta, m1, m2, S1z, S2z) * x * x + x_dot_2_5_pn(eta, m1, m2, S1z, S2z) * x * x * sqrt(x)
+            + x_dot_3pn(e, eta, x) * x * x * x + x_dot_3pnSO(eta,  m1, m2, S1z, S2z) * x * x * x + x_dot_3pnSS(eta, m1, m2, S1z, S2z) * x * x * x 
+            + x_dot_3_5pnSO(eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x)
             + x_dot_3_5_pn(e, eta) * x * x * x * sqrt(x)) * x_pow_5 +
            x_dot_hereditary_1_5(e, eta, x) + x_dot_hereditary_2_5(e, eta, x) +
            x_dot_hereditary_3(e, eta, x) + dxdt_5pn(x, eta);
+   /* printf("\n5PN:%f",xdot);
+    fflush(NULL);  */     
   } else if (radiation_pn_order ==
              11) /* 3PN eccentric terms + hereditary terms up to 3PN + 6PN flux
                     +  SF corrections*/
   {
     xdot = (x_dot_0pn(e, eta) + x_dot_1pn(e, eta) * x + x_dot_1_5_pn(eta, m1, m2, S1z, S2z) * x * sqrt(x) +
-            x_dot_2pn(e, eta) * x * x +  x_dot_2pn_SS(eta, m1, m2, S1z, S2z) * x * x + x_dot_2_5_pn(eta, m1, m2, S1z, S2z) * x * x * sqrt(x) + x_dot_3pn(e, eta, x) * x * x * x + x_dot_3pnSO(eta,  m1, m2, S1z, S2z) * x * x * x + x_dot_3pnSS(eta, m1, m2, S1z, S2z) * x * x * x + x_dot_3_5pnSO(eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x)
+            x_dot_2pn(e, eta) * x * x +  x_dot_2pn_SS(eta, m1, m2, S1z, S2z) * x * x + x_dot_2_5_pn(eta, m1, m2, S1z, S2z) * x * x * sqrt(x) 
+            + x_dot_3pn(e, eta, x) * x * x * x + x_dot_3pnSO(eta,  m1, m2, S1z, S2z) * x * x * x + x_dot_3pnSS(eta, m1, m2, S1z, S2z) * x * x * x 
+            + x_dot_3_5pnSO(eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x)
             + x_dot_3_5_pn(e, eta) * x * x * x * sqrt(x)) * x_pow_5 +
            x_dot_hereditary_1_5(e, eta, x) + x_dot_hereditary_2_5(e, eta, x) +
            x_dot_hereditary_3(e, eta, x) + dxdt_5_5pn(x, eta);
+   /* printf("\n5.5PN:%f",xdot);
+    fflush(NULL);  */     
   } else if (radiation_pn_order ==
              12) /* 3PN eccentric terms + hereditary terms up to 3PN + 6PN flux
                     +  SF corrections*/
   {
     xdot = (x_dot_0pn(e, eta) + x_dot_1pn(e, eta) * x + x_dot_1_5_pn(eta, m1, m2, S1z, S2z) * x * sqrt(x) +
-            x_dot_2pn(e, eta) * x * x +  x_dot_2pn_SS(eta, m1, m2, S1z, S2z) * x * x  + x_dot_2_5_pn(eta, m1, m2, S1z, S2z) * x * x * sqrt(x) + x_dot_3pn(e, eta, x) * x * x * x + x_dot_3pnSO(eta, m1, m2, S1z, S2z) * x * x * x + x_dot_3pnSS(eta, m1, m2, S1z, S2z) * x * x * x + x_dot_3_5pnSO(eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x)
+            x_dot_2pn(e, eta) * x * x +  x_dot_2pn_SS(eta, m1, m2, S1z, S2z) * x * x  + x_dot_2_5_pn(eta, m1, m2, S1z, S2z) * x * x * sqrt(x)
+             + x_dot_3pn(e, eta, x) * x * x * x + x_dot_3pnSO(eta, m1, m2, S1z, S2z) * x * x * x + x_dot_3pnSS(eta, m1, m2, S1z, S2z) * x * x * x
+              + x_dot_3_5pnSO(eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x)
             + x_dot_3_5_pn(e, eta) * x * x * x * sqrt(x)) * x_pow_5 +
            x_dot_hereditary_1_5(e, eta, x) + x_dot_hereditary_2_5(e, eta, x) +
            x_dot_hereditary_3(e, eta, x) + dxdt_6pn(x, eta);
+   /* printf("\n6PN:%f",xdot);
+    fflush(NULL);   */    
   } else {
     // throw_exception( ECC_VALUE_ERROR, "error in conservative pn order" );
     XLAL_ERROR_REAL8(XLAL_EINVAL,
@@ -1013,9 +1095,43 @@ static REAL8 dx_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 
                      radiation_pn_order);
     return XLAL_REAL8_FAIL_NAN;
   }
-
+ /*printf("Value of dx_dt is:%f\n,%f\n,%f\n,%f,%f\n,%f", x_dot_1_5_pn(0.25, 10, 10, 0.0, 0.0),x_dot_2pn_SS(0.25, 10, 10, 0.0, 0.0), x_dot_2_5_pn(0.25, 10, 10, 0.0, 0.0), x_dot_3pnSS(0.25, 10, 10, 0.0, 0.0), x_dot_3_5pnSO(0.25, 10, 10, 0.0, 0.0), x_dot_3pnSO(0.25, 10, 10, 0.0, 0.0));
+ fflush(NULL);*/
   return xdot;
+  /*printf("\nFinal xdot:%f\n",xdot);
+  fflush(NULL);*/
 }
+
+/*int main()
+{
+ double x1=0.01;
+ printf("\nThe value of dx_dt at 0PN:%f\n",dx_dt(0, 0.25, 10, 10, 0.0, 0.0, x1, 0.0));
+ fflush(NULL);
+ printf("\nThe value of dx_dt at 0.5PN:%f\n",dx_dt(1, 0.25, 10, 10, 0.0, 0.0, x1, 0.0));
+ fflush(NULL);
+ printf("\nThe value of dx_dt at 1PN:%f\n",dx_dt(2, 0.25, 10, 10, 0.0, 0.0, x1, 0.0));
+ fflush(NULL);
+ printf("\nThe value of dx_dt at 1.5PN:%f\n",dx_dt(3, 0.25, 10, 10, 0.0, 0.0, x1, 0.0));
+ fflush(NULL);
+ printf("\nThe value of dx_dt at 2PN:%f\n",dx_dt(4, 0.25, 10, 10, 0.0, 0.0, x1, 0.0));
+ fflush(NULL);
+ printf("\nThe value of dx_dt at 2.5PN:%f\n",dx_dt(5, 0.25, 10, 10, 0.0, 0.0, x1, 0.0));
+ fflush(NULL);
+ printf("\nThe value of dx_dt at 3PN:%f\n",dx_dt(6, 0.25, 10, 10, 0.0, 0.0, x1, 0.0));
+ fflush(NULL);
+ printf("\nThe value of dx_dt at 3.5PN:%f\n",dx_dt(7, 0.25, 10, 10, 0.0, 0.0, x1, 0.0));
+ fflush(NULL);
+ printf("\nThe value of dx_dt at 4PN:%f\n",dx_dt(8, 0.25, 10, 10, 0.0, 0.0, x1, 0.0));
+ fflush(NULL);
+ printf("\nThe value of dx_dt at 4.5PN:%f\n",dx_dt(9, 0.25, 10, 10, 0.0, 0.0, x1, 0.0));
+ fflush(NULL);
+ printf("\nThe value of dx_dt at 5PN:%f\n",dx_dt(10, 0.25, 10, 10, 0.0, 0.0, x1, 0.0));
+ fflush(NULL);
+ printf("\nThe value of dx_dt at 5.5PN:%f\n",dx_dt(11, 0.25, 10, 10, 0.0, 0.0, x1, 0.0));
+ fflush(NULL);
+ printf("\nThe value of dx_dt at 6PN:%f\n",dx_dt(12, 0.25, 10, 10, 0.0, 0.0, x1, 0.0));
+ fflush(NULL);
+}*/
 
 static REAL8 de_dt(int radiation_pn_order, REAL8 eta, REAL8 x, REAL8 e) {
   REAL8 x_pow_4 = x * x * x * x;
