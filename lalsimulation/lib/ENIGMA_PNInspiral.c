@@ -77,6 +77,12 @@ static REAL8 x_dot_1_5_pn(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
  REAL8 term2 = (- 25. * (m1 - m2) * (S2z / m2 - S1z / m1)) / (4 * (m1 + m2) * (m1 + m2)); 
  x_1_5_pn = pre_factor * (term1 + term2);
 
+ printf("value of m1, m2 at x_dot_1_5_pn:%f,%f\n",m1,m2);
+ fflush(NULL); 
+
+ printf("value of term1, term2 at x_dot_1_5_pn:%f,%f\n",term1,term2);
+ fflush(NULL);
+
  printf("value of eta at x_dot_1_5_pn:%f\n",eta);
  fflush(NULL);
 
@@ -114,6 +120,18 @@ static REAL8 x_dot_2pn_SS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
  REAL8 term3 = (4. - 20 * eta) * (m1 + m2) * (m1 + m2) * (S2z / m2 - S1z / m1) * (S2z / m2 - S1z / m1);
  REAL8 pre_factor = 64. * eta / 5;
  x_dot_2pn_SS = pre_factor * (term1 + term2 + term3) / ((m1 + m2) * (m1 + m2) * (m1 + m2) * (m1 + m2));
+
+ printf("value of m1, m2 at x_dot_2pn_SS:%f,%f\n",m1,m2);
+ fflush(NULL); 
+
+ printf("value of eta at x_dot_2pn_SS:%f\n",eta);
+ fflush(NULL);
+
+
+ printf("value of term1, term2 at x_dot_2pn_SS:%f,%f,%f\n",term1,term2,term3);
+ fflush(NULL);
+
+
 
  printf("x_dot_2pn_SS:%f\n",x_dot_2pn_SS);
  fflush(NULL);
@@ -194,6 +212,18 @@ static REAL8 x_dot_2_5_pn(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
  REAL8 term2 =((- 809. / 84 + 281. / 8 * eta) * (m1 - m2) * (S2z / m2 - S1z / m1)) / ((m1 + m2) * (m1 + m2));
  x_2_5_pn = pre_factor * (term1 + term2);
 
+
+ printf("value of m1, m2 at x_dot_2_5_pn:%f,%f\n",m1,m2);
+ fflush(NULL); 
+
+ printf("value of eta at x_dot_2_5_pn:%f\n",eta);
+ fflush(NULL);
+
+
+ printf("value of term1, term2 at x_dot_2_5_pn:%f,%f\n",term1,term2);
+ fflush(NULL); 
+
+
  printf("x_dot_2_5_pn:%f\n",x_2_5_pn);
  fflush(NULL);
 
@@ -210,6 +240,19 @@ static REAL8 x_dot_3pnSO(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
  REAL8 term1 = (16. * M_PI * eta * (S1z + S2z)) / ((m1 + m2) * (m1 + m2));
  REAL8 term2 = (- 31. * M_PI * eta * (m1 - m2) * (S2z / m2 - S1z / m1)) / (6 * (m1 + m2) * (m1 + m2));
  x_3_pn = pre_factor * (term1 + term2);
+
+ printf("value of m1, m2 at x_dot_3pnSO:%f,%f\n",m1,m2);
+ fflush(NULL); 
+
+
+ printf("value of eta at x_dot_3pnSO:%f\n",eta);
+ fflush(NULL);
+
+
+ printf("value of term1, term2 at x_dot_3pnSO:%f,%f\n",term1,term2);
+ fflush(NULL);
+
+
 
  printf("x_dot_3pnSO:%f\n",x_3_pn);
  fflush(NULL);  
@@ -228,6 +271,19 @@ static REAL8 x_dot_3pnSS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
  REAL8 term2 = - (S1z + S2z) * (m1 + m2) * (S2z / m2 - S1z / m1) * (5783. * eta / 168 + (86. * (m1 - m2) * eta) / (m1 + m2));
  REAL8 term3 = (m1 + m2) * (m1 + m2) * (S2z / m2 - S1z / m1) * (S2z / m2 - S1z / m1) * (3841. / 224 + 26779. * eta / 672 + 86 * eta * eta);
  x_3pn_SS = pre_factor * (term1 + term2 + term3) / ((m1 + m2) * (m1 + m2) * (m1 + m2) * (m1 + m2));
+
+ printf("value of m1, m2 at x_dot_3pnSS:%f,%f\n",m1,m2);
+ fflush(NULL); 
+
+
+ printf("value of eta at x_dot_3pnSS:%f\n",eta);
+ fflush(NULL);
+
+
+ printf("value of term1, term2 at x_dot_3pnSS:%f,%f,%f\n",term1,term2,term3);
+ fflush(NULL);
+
+
 
  printf("x_dot_1_5_pn:%f\n",x_3pn_SS);
  fflush(NULL);
@@ -363,6 +419,17 @@ static REAL8 x_dot_3_5pnSO(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
  REAL8 term1 = (S1z + S2z) * (3250129. * eta / 54432 + 4156277. * eta * eta / 1512 - 4319. * eta * eta * eta / 27) / ((m1 + m2) * (m1 + m2));
  REAL8 term2 = (S2z / m2 - S1z / m1) * (m1 - m2) * (19189. * eta / 336 + 552991. * eta * eta / 2016 - 10201. * eta * eta * eta / 144) / ((m1 + m2) * (m1 + m2));
  x_3_5pnSO = pre_factor * (term1 + term2);
+
+ printf("value of m1, m2 at x_dot_3_5pnSO:%f,%f\n",m1,m2);
+ fflush(NULL); 
+
+ printf("value of eta at x_dot_3_5pnSO:%f\n",eta);
+ fflush(NULL);
+
+
+ printf("value of term1, term2 at x_dot_3_5pnSO:%f,%f\n",term1,term2);
+ fflush(NULL);
+
 
  printf("x_dot_3_5pnSO:%f\n",x_3_5pnSO);
  fflush(NULL);  
