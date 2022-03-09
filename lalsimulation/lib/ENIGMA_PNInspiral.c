@@ -26,18 +26,18 @@ static REAL8 x_dot_0pn(REAL8 e, REAL8 eta) /* Eq. (A26) */
   REAL8 num = 2. * eta * (37. * e_pow_4 + 292. * e_pow_2 + 96.);
   REAL8 den = 15. * e_fact * e_fact * e_fact * sqrt(e_fact);
   REAL8 e_0_lim = 2. * eta * 96. / 15.;
-  printf("values of e and eta:%f,%f\n",e,eta);
-  fflush(NULL);
+  /*printf("values of e and eta:%f,%f\n",e,eta);
+  fflush(NULL);*/
 
   if (e) {
     x_0_pn = num / den;
-    printf("x_dot_ecc_value:%f\n",x_0_pn);
-    fflush(NULL);
+    /*printf("x_dot_ecc_value:%f\n",x_0_pn);
+    fflush(NULL);*/
   } else {
     x_0_pn = e_0_lim;
     ;
-    printf("x_dot_zero_ecc:%f\n",x_0_pn);
-    fflush(NULL);
+    /*printf("x_dot_zero_ecc:%f\n",x_0_pn);
+    fflush(NULL);*/
   }
 
   return (x_0_pn);
@@ -70,14 +70,16 @@ static REAL8 x_dot_1pn(REAL8 e, REAL8 eta) /* Eq. (A27) */
 static REAL8 x_dot_1_5_pn(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 {
  REAL8 x_1_5_pn;
- S1z = 0.0;
- S2z = 0.0;
+ m1 /= LAL_MSUN_SI;
+ m2 /= LAL_MSUN_SI;
+ /*S1z = 0.0;
+ S2z = 0.0;*/
  REAL8 pre_factor = 64. * eta / 5;
  REAL8 term1 = (- 47. * (S1z + S2z)) / (3. * (m1 + m2) * (m1 + m2));
  REAL8 term2 = (- 25. * (m1 - m2) * (S2z / m2 - S1z / m1)) / (4 * (m1 + m2) * (m1 + m2)); 
  x_1_5_pn = pre_factor * (term1 + term2);
 
- printf("value of m1, m2 at x_dot_1_5_pn:%f,%f\n",m1,m2);
+ /*printf("value of m1, m2 at x_dot_1_5_pn:%f,%f\n",m1,m2);
  fflush(NULL); 
 
  printf("value of term1, term2 at x_dot_1_5_pn:%f,%f\n",term1,term2);
@@ -87,7 +89,7 @@ static REAL8 x_dot_1_5_pn(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
  fflush(NULL);
 
  printf("x_dot_1_5_pn:%f\n",x_1_5_pn);
- fflush(NULL);
+ fflush(NULL);*/
 
  return (x_1_5_pn);
 
@@ -113,15 +115,17 @@ static REAL8 x_dot_hereditary_1_5(REAL8 e, REAL8 eta, REAL8 x) /* Eq. (A28) */
 static REAL8 x_dot_2pn_SS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 {
  REAL8 x_dot_2pn_SS;
- S1z = 0.0;
- S2z = 0.0;
+ m1 /= LAL_MSUN_SI;
+ m2 /= LAL_MSUN_SI;
+ /*S1z = 0.0;
+ S2z = 0.0;*/
  REAL8 term1 = 20. * (S1z + S2z) * (S1z + S2z);
  REAL8 term2 = 20. * (m1 - m2) * (S1z + S2z) * (S2z / m2 - S1z / m1);
  REAL8 term3 = (4. - 20 * eta) * (m1 + m2) * (m1 + m2) * (S2z / m2 - S1z / m1) * (S2z / m2 - S1z / m1);
  REAL8 pre_factor = 64. * eta / 5;
  x_dot_2pn_SS = pre_factor * (term1 + term2 + term3) / ((m1 + m2) * (m1 + m2) * (m1 + m2) * (m1 + m2));
 
- printf("value of m1, m2 at x_dot_2pn_SS:%f,%f\n",m1,m2);
+ /*printf("value of m1, m2 at x_dot_2pn_SS:%f,%f\n",m1,m2);
  fflush(NULL); 
 
  printf("value of eta at x_dot_2pn_SS:%f\n",eta);
@@ -134,7 +138,7 @@ static REAL8 x_dot_2pn_SS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 
 
  printf("x_dot_2pn_SS:%f\n",x_dot_2pn_SS);
- fflush(NULL);
+ fflush(NULL);*/
 
 
  return (x_dot_2pn_SS);
@@ -205,15 +209,17 @@ static REAL8 x_dot_hereditary_3(REAL8 e, REAL8 eta,
 static REAL8 x_dot_2_5_pn(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 {
  REAL8 x_2_5_pn;
- S1z = 0.0;
- S2z = 0.0;
+ /*m1 /= LAL_MSUN_SI;
+ m2 /= LAL_MSUN_SI;*/
+ /*S1z = 0.0;
+ S2z = 0.0;*/
  REAL8 pre_factor = 64. * eta / 5;
  REAL8 term1 = (- 5861. / 144 + 1001. / 12 * eta) * (S1z + S2z) / ((m1 + m2) * (m1 + m2)); 
  REAL8 term2 =((- 809. / 84 + 281. / 8 * eta) * (m1 - m2) * (S2z / m2 - S1z / m1)) / ((m1 + m2) * (m1 + m2));
  x_2_5_pn = pre_factor * (term1 + term2);
 
 
- printf("value of m1, m2 at x_dot_2_5_pn:%f,%f\n",m1,m2);
+ /*printf("value of m1, m2 at x_dot_2_5_pn:%f,%f\n",m1,m2);
  fflush(NULL); 
 
  printf("value of eta at x_dot_2_5_pn:%f\n",eta);
@@ -225,7 +231,7 @@ static REAL8 x_dot_2_5_pn(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 
 
  printf("x_dot_2_5_pn:%f\n",x_2_5_pn);
- fflush(NULL);
+ fflush(NULL);*/
 
 
  return (x_2_5_pn);
@@ -234,14 +240,16 @@ static REAL8 x_dot_2_5_pn(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 static REAL8 x_dot_3pnSO(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 {
  REAL8 x_3_pn;
- S1z = 0.0;
- S2z = 0.0;
+ /*m1 /= LAL_MSUN_SI;
+ m2 /= LAL_MSUN_SI;*/
+ /*S1z = 0.0;
+ S2z = 0.0;*/
  REAL8 pre_factor = 64. * eta / 5;
  REAL8 term1 = (16. * M_PI * eta * (S1z + S2z)) / ((m1 + m2) * (m1 + m2));
  REAL8 term2 = (- 31. * M_PI * eta * (m1 - m2) * (S2z / m2 - S1z / m1)) / (6 * (m1 + m2) * (m1 + m2));
  x_3_pn = pre_factor * (term1 + term2);
 
- printf("value of m1, m2 at x_dot_3pnSO:%f,%f\n",m1,m2);
+ /*printf("value of m1, m2 at x_dot_3pnSO:%f,%f\n",m1,m2);
  fflush(NULL); 
 
 
@@ -255,7 +263,7 @@ static REAL8 x_dot_3pnSO(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 
 
  printf("x_dot_3pnSO:%f\n",x_3_pn);
- fflush(NULL);  
+ fflush(NULL);*/  
 
  return (x_3_pn);
 
@@ -264,15 +272,17 @@ static REAL8 x_dot_3pnSO(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 static REAL8 x_dot_3pnSS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 {
  REAL8 x_3pn_SS;
- S1z = 0.0;
- S2z = 0.0;
+ /*m1 /= LAL_MSUN_SI;
+ m2 /= LAL_MSUN_SI;*/
+ /*S1z = 0.0;
+ S2z = 0.0;*/
  REAL8 pre_factor = 64. * eta / 5;
  REAL8 term1 = (S1z + S2z) * (S1z + S2z) * (- 83. / 126 - 86. * eta);
  REAL8 term2 = - (S1z + S2z) * (m1 + m2) * (S2z / m2 - S1z / m1) * (5783. * eta / 168 + (86. * (m1 - m2) * eta) / (m1 + m2));
  REAL8 term3 = (m1 + m2) * (m1 + m2) * (S2z / m2 - S1z / m1) * (S2z / m2 - S1z / m1) * (3841. / 224 + 26779. * eta / 672 + 86 * eta * eta);
  x_3pn_SS = pre_factor * (term1 + term2 + term3) / ((m1 + m2) * (m1 + m2) * (m1 + m2) * (m1 + m2));
 
- printf("value of m1, m2 at x_dot_3pnSS:%f,%f\n",m1,m2);
+ /*printf("value of m1, m2 at x_dot_3pnSS:%f,%f\n",m1,m2);
  fflush(NULL); 
 
 
@@ -286,7 +296,7 @@ static REAL8 x_dot_3pnSS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 
 
  printf("x_dot_1_5_pn:%f\n",x_3pn_SS);
- fflush(NULL);
+ fflush(NULL);*/
 
  return (x_3pn_SS);
 
@@ -413,14 +423,16 @@ static REAL8 x_dot_3pn(REAL8 e, REAL8 eta,
 static REAL8 x_dot_3_5pnSO(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 {
  REAL8 x_3_5pnSO;
+ /*m1 /= LAL_MSUN_SI;
+ m2 /= LAL_MSUN_SI;*/
  REAL8 pre_factor = 64. * eta / 5;
- S1z = 0.0;
- S2z = 0.0;
+ /*S1z = 0.0;
+ S2z = 0.0;*/
  REAL8 term1 = (S1z + S2z) * (3250129. * eta / 54432 + 4156277. * eta * eta / 1512 - 4319. * eta * eta * eta / 27) / ((m1 + m2) * (m1 + m2));
  REAL8 term2 = (S2z / m2 - S1z / m1) * (m1 - m2) * (19189. * eta / 336 + 552991. * eta * eta / 2016 - 10201. * eta * eta * eta / 144) / ((m1 + m2) * (m1 + m2));
  x_3_5pnSO = pre_factor * (term1 + term2);
 
- printf("value of m1, m2 at x_dot_3_5pnSO:%f,%f\n",m1,m2);
+ /*printf("value of m1, m2 at x_dot_3_5pnSO:%f,%f\n",m1,m2);
  fflush(NULL); 
 
  printf("value of eta at x_dot_3_5pnSO:%f\n",eta);
@@ -432,7 +444,7 @@ static REAL8 x_dot_3_5pnSO(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 
 
  printf("x_dot_3_5pnSO:%f\n",x_3_5pnSO);
- fflush(NULL);  
+ fflush(NULL);  */
 
  return (x_3_5pnSO);
 
@@ -727,8 +739,10 @@ static REAL8 phi_dot_1pn(REAL8 e, REAL8 eta, REAL8 u) /* Eq. (A12) */
 
 static REAL8 phi_dot_1_5_pn(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x)
 {
- S1z = 0.0;
- S2z = 0.0;
+ /*S1z = 0.0;
+ S2z = 0.0;*/
+ /*m1 /= LAL_MSUN_SI;
+ m2 /= LAL_MSUN_SI;*/
  return (2 * dx_dt(0, eta, m1, m2, 0, 0, x, 0) * ((235. * (S1z + S2z)) / 6 + (125. * (m1 - m2) * (S2z / m2 - S1z / m1)) / 8) / (5 * (m1 + m2)));
 
 }	
@@ -782,16 +796,20 @@ static REAL8 phi_dot_2pn(REAL8 e, REAL8 eta, REAL8 u) /* Eq. (A13) */
 
 static REAL8 phi_dot_2pn_SS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x)
 {
- S1z = 0.0;
- S2z = 0.0;
+ /*S1z = 0.0;
+ S2z = 0.0;*/
+ /*m1 /= LAL_MSUN_SI;
+ m2 /= LAL_MSUN_SI;*/
  return (dx_dt(0, eta, m1, m2, 0, 0, x, 0) * (-100. * (S1z + S2z) * (S1z + S2z) - 100. * (m1 - m2) * (S1z + S2z) * (S2z / m2 - S1z / m1) + (m1 + m2) * (m1 + m2) * (S2z / m2 - S1z / m1) * (S2z / m2 - S1z / m1) * (- 405. / 16 + 100. * eta)) / (5. * (m1 + m2) * (m1 + m2) * (m1 + m2) * (m1 + m2)));
 }
 
 
 static REAL8 phi_dot_2_5_pn(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x)
 {
- S1z = 0.0;
- S2z = 0.0;
+ /*S1z = 0.0;
+ S2z = 0.0;*/
+/* m1 /= LAL_MSUN_SI;
+ m2 /= LAL_MSUN_SI;*/
  return (2 * dx_dt(0, eta, m1, m2, 0, 0, x, 0) * ((S1z + S2z) * (- 554345. / 2016 - 55. / 8 * eta) + (m1 - m2) * (- 41745. / 448 + 15. / 8 * eta) * (S2z / m2 - S1z / m1)) / (5 * (m1 + m2)));
 }
 
@@ -965,15 +983,19 @@ static REAL8 phi_dot_3pn(REAL8 e, REAL8 eta, REAL8 u) {
 
 static REAL8 phi_dot_3_pn_spin(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x)
 {
- S1z = 0.0;
- S2z = 0.0;
+ /*S1z = 0.0;
+ S2z = 0.0;*/
+ /*m1 /= LAL_MSUN_SI;
+ m2 /= LAL_MSUN_SI;*/
  return (dx_dt(0, eta, m1, m2, 0, 0, x, 0) * ((S1z + S2z) * (940. * M_PI / 3) - (745. * M_PI / 6) * (m1 - m2) * (S2z / m2 - S1z / m1)) / (5 * (m1 + m2)));
 }
 
 static REAL8 phi_dot_3pn_SS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x)
 {
- S1z = 0.0;
- S2z = 0.0;
+ /*S1z = 0.0;
+ S2z = 0.0;*/
+ /*m1 /= LAL_MSUN_SI;
+ m2 /= LAL_MSUN_SI;*/
  return (dx_dt(0, eta, m1, m2, 0, 0, x, 0) * ((S1z + S2z) * (- 7915. / 63 + 120 * eta) + (S1z + S2z) * (m1 - m2) * (S2z / m2 - S1z / m1) * (2645. / 56 + 120. * eta) + (m1 + m2) * (m1 + m2) * (S2z / m2 - S1z / m1) * (S2z / m2 - S1z / m1) * (- 11515. / 896 + 5875. / 112 * eta - 120 * eta * eta)) / (5. * (m1 + m2) * (m1 + m2) * (m1 + m2) * (m1 + m2)));
 }
 
@@ -1025,8 +1047,10 @@ XLAL_FAIL:
 }
 
 static REAL8 dx_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x, REAL8 e) {
-  printf("Value of x:%f\n",x);
+  /*printf("Value of m1,m2 at dx_dt:%f,%f\n",m1,m2);
   fflush(NULL);
+  printf("Value of x:%f\n",x);
+  fflush(NULL);*/
   REAL8 x_pow_5 = x * x * x * x * x;
   /*printf("Show x_pow_5:%f\n",x_pow_5);
   fflush(NULL);*/
@@ -1086,7 +1110,7 @@ static REAL8 dx_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 
   {
     xdot = (x_dot_0pn(e, eta) + x_dot_1pn(e, eta) * x + x_dot_1_5_pn(eta, m1, m2, S1z, S2z) * x * sqrt(x) +
             x_dot_2pn(e, eta) * x * x +  x_dot_2pn_SS(eta, m1, m2, S1z, S2z) * x * x + x_dot_2_5_pn(eta, m1, m2, S1z, S2z) * x * x * sqrt(x)
-             + x_dot_3pn(e, eta, x) * x * x * x + x_dot_3pnSO(eta,m1, m2, S1z, S2z) * x * x * x + x_dot_3pnSS(eta, m1, m2, S1z, S2z) * x * x * x 
+             + x_dot_3pn(e, eta, x) * x * x * x + x_dot_3pnSO(eta, m1, m2, S1z, S2z) * x * x * x + x_dot_3pnSS(eta, m1, m2, S1z, S2z) * x * x * x 
              + x_dot_3_5pnSO(eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x) + x_dot_3_5_pn(e, eta) * x * x * x * sqrt(x)) *
                x_pow_5 +
            x_dot_hereditary_1_5(e, eta, x) + x_dot_hereditary_2_5(e, eta, x) +
