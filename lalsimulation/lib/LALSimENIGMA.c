@@ -208,6 +208,9 @@ static REAL8 x_dot_3pnSO(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 x_dot_3pnSS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 x_dot_3_5_pn(REAL8 e, REAL8 eta);
 static REAL8 x_dot_3_5pnSO(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+/*static REAL8 x_dot_3_5pn_SS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);*/
+static REAL8 x_dot_3_5pn_cubicSpin(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+static REAL8 x_dot_4pn_SO(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 dxdt_4pn(REAL8 x, REAL8 eta);
 static REAL8 dxdt_4_5pn(REAL8 x, REAL8 eta);
 static REAL8 dxdt_5pn(REAL8 x, REAL8 eta);
@@ -448,8 +451,8 @@ static void compute_strain_from_dynamics(
     const REAL8 x0, const REAL8 euler_iota, const REAL8 euler_beta,
     const REAL8 R, const long length, REAL8 *h_plus, REAL8 *h_cross) {
   assert(h_plus != NULL && h_cross != NULL);
-  printf("value of mass1, mass2 at compute_strain_from_dynamics line 451 function before:%f,%f\n",mass1,mass2);
-  fflush(NULL);
+  /*printf("value of mass1, mass2 at compute_strain_from_dynamics line 451 function before:%f,%f\n",mass1,mass2);
+  fflush(NULL);*/
   const REAL8 total_mass = mass1 + mass2;
   const REAL8 reduced_mass = mass1 * mass2 / total_mass;
 
@@ -521,8 +524,8 @@ static int x_model_eccbbh_inspiral_waveform(
     REAL8 sampling_rate   /* sample rate in Hz      */
 ) {
 
-  printf("value of mass1, mass2 at x_model_eccbbh_inspiral_waveform function in line 524:%f,%f\n",mass1,mass2);
-  fflush(NULL);
+  /*printf("value of mass1, mass2 at x_model_eccbbh_inspiral_waveform function in line 524:%f,%f\n",mass1,mass2);
+  fflush(NULL);*/
 
   int errorcode = XLAL_SUCCESS; /* the current error state value */
 
@@ -543,8 +546,8 @@ static int x_model_eccbbh_inspiral_waveform(
     XLAL_ERROR_FAIL(errorcode);
   }
 
-  printf("value of mass1, mass2 at x_model_eccbbh_inspiral_waveform function in line 546:%f,%f\n",mass1,mass2);
-  fflush(NULL);
+  /*printf("value of mass1, mass2 at x_model_eccbbh_inspiral_waveform function in line 546:%f,%f\n",mass1,mass2);
+  fflush(NULL);*/
   /* computed variables */
   REAL8 total_mass = mass1 + mass2;
   int Length = -1;
@@ -565,8 +568,8 @@ static int x_model_eccbbh_inspiral_waveform(
   REAL8 imr_matching_r;            /* attachment radius */
   REAL8 imr_matching_r_dot;        /* attachment radial time derivative */
 
-  printf("value of mass1, mass2 at x_model_eccbbh_inspiral_waveform function before line 567:%f,%f\n",mass1,mass2);
-  fflush(NULL);
+  /*printf("value of mass1, mass2 at x_model_eccbbh_inspiral_waveform function before line 567:%f,%f\n",mass1,mass2);
+  fflush(NULL);*/
   // get inspiral dynamics
   errorcode = XLALSimInspiralENIGMADynamics(
       &time_evol, &x_evol, &eccentricity_evol, &mean_ano_evol, &phi_evol,
@@ -579,8 +582,8 @@ static int x_model_eccbbh_inspiral_waveform(
 
   Length = (int)ceil(imr_matching_time / dt) + 1;
 
-  printf("value of mass1, mass2 at XLALSimInspiralENIGMAStrainFromDynamics line 582 function before:%f,%f\n",mass1,mass2);
-  fflush(NULL);
+  /*printf("value of mass1, mass2 at XLALSimInspiralENIGMAStrainFromDynamics line 582 function before:%f,%f\n",mass1,mass2);
+  fflush(NULL);*/
   // get inspiral waveform
   errorcode = XLALSimInspiralENIGMAStrainFromDynamics(
       &Hp, &Hc, time_evol->data, x_evol->data, phi_evol->data,
@@ -589,8 +592,8 @@ static int x_model_eccbbh_inspiral_waveform(
   if (errorcode != XLAL_SUCCESS)
     XLAL_ERROR_FAIL(errorcode);
   
-  printf("value of mass1, mass2 at XLALSimInspiralENIGMAStrainFromDynamics line 592 function after:%f,%f\n",mass1,mass2);
-  fflush(NULL);
+  /*printf("value of mass1, mass2 at XLALSimInspiralENIGMAStrainFromDynamics line 592 function after:%f,%f\n",mass1,mass2);
+  fflush(NULL);*/
   /* store the sample interval in the output vectors */
   h_plus->data->length = h_cross->data->length = Length;
   h_plus->data->data = Hp->data;
@@ -633,8 +636,8 @@ x_model_eccbbh_imr_waveform(REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
                             TrainingSet *Dset) {
   int errorcode = XLAL_SUCCESS; /* the current error state value */
 
- printf("value of mass1, mass2 at x_model_eccbbh_imr_waveform line 633 function inside:%f,%f\n",mass1,mass2);
- fflush(NULL);
+ /*printf("value of mass1, mass2 at x_model_eccbbh_imr_waveform line 633 function inside:%f,%f\n",mass1,mass2);
+ fflush(NULL);*/
 
   /* Declare memory variables for storing dynamics */
   REAL8TimeSeries *time_evol = NULL;         /* Time steps */
@@ -657,8 +660,8 @@ x_model_eccbbh_imr_waveform(REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
   REAL8 total_mass = mass1 + mass2;
   int Length = -1;
 
- printf("value of mass1, mass2 at x_model_eccbbh_imr_waveform line 657 function inside:%f,%f\n",mass1,mass2);
- fflush(NULL);
+ /*printf("value of mass1, mass2 at x_model_eccbbh_imr_waveform line 657 function inside:%f,%f\n",mass1,mass2);
+ fflush(NULL);*/
 
 
   /* sampling interval [sec] */
@@ -677,8 +680,8 @@ x_model_eccbbh_imr_waveform(REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
   REAL8 imr_matching_r;            /* attachment radius */
   REAL8 imr_matching_r_dot;        /* attachment radial time derivative */
 
- printf("value of mass1, mass2 at x_model_eccbbh_imr_waveform line 680 function inside:%f,%f\n",mass1,mass2);
- fflush(NULL);
+ /*printf("value of mass1, mass2 at x_model_eccbbh_imr_waveform line 680 function inside:%f,%f\n",mass1,mass2);
+ fflush(NULL);*/
   // get inspiral dynamics
   errorcode = XLALSimInspiralENIGMADynamics(
       &time_evol, &x_evol, &eccentricity_evol, &mean_ano_evol, &phi_evol,
@@ -691,8 +694,8 @@ x_model_eccbbh_imr_waveform(REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
 
   Length = (int)ceil(imr_matching_time / dt) + 1;
 
- printf("value of mass1, mass2 at line 694 :%f,%f\n",mass1,mass2);
- fflush(NULL);
+ /*printf("value of mass1, mass2 at line 694 :%f,%f\n",mass1,mass2);
+ fflush(NULL);*/
 
   // get inspiral waveform
   errorcode = XLALSimInspiralENIGMAStrainFromDynamics(
@@ -702,8 +705,8 @@ x_model_eccbbh_imr_waveform(REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
   if (errorcode != XLAL_SUCCESS)
     XLAL_ERROR_FAIL(errorcode);
 
- printf("value of mass1, mass2 at line 705 :%f,%f\n",mass1,mass2);
- fflush(NULL);
+ /*printf("value of mass1, mass2 at line 705 :%f,%f\n",mass1,mass2);
+ fflush(NULL);*/
 
   // get strain at matching time
   REAL8 matching_Hp, matching_Hc;
@@ -714,8 +717,8 @@ x_model_eccbbh_imr_waveform(REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
       &imr_matching_r, &imr_matching_r_dot, mass1, mass2, S1z, S2z, x_evol->data->data[0],
       euler_iota, euler_beta, distance, 1, &matching_Hp, &matching_Hc);
   
- printf("value of mass1, mass2 at line 717 :%f,%f\n",mass1,mass2);
- fflush(NULL);
+ /*printf("value of mass1, mass2 at line 717 :%f,%f\n",mass1,mass2);
+ fflush(NULL);*/
   // get merger and ringdown and attach at the end of the existing time series
   errorcode = Attach_GPE_Merger_Ringdown(
       dt, &(Hp->data), &(Hc->data), imr_matching_time, matching_Hp, matching_Hc,
@@ -761,8 +764,8 @@ int XLALSimInspiralENIGMAStrainFromDynamics(
     const REAL8 mass2, REAL8 S1z, REAL8 S2z, const REAL8 euler_iota, const REAL8 euler_beta,
     const REAL8 R) {
 
-  printf("value of mass1, mass2 at line 762 :%f,%f\n",mass1,mass2);
-  fflush(NULL);       
+  /*printf("value of mass1, mass2 at line 762 :%f,%f\n",mass1,mass2);
+  fflush(NULL);*/       
   int errorcode = XLAL_SUCCESS;
 
   UINT4 length = t_vector->length;
@@ -780,16 +783,16 @@ int XLALSimInspiralENIGMAStrainFromDynamics(
     errorcode = XLAL_ENOMEM;
     XLAL_ERROR_FAIL(XLAL_EFUNC);
   }
-  printf("value of mass1, mass2 at line 781 :%f,%f\n",mass1,mass2);
-  fflush(NULL);
+  /*printf("value of mass1, mass2 at line 781 :%f,%f\n",mass1,mass2);
+  fflush(NULL);*/
 
   compute_strain_from_dynamics(
       t_vector->data, x_vector->data, phi_vector->data, phi_dot_vector->data,
       r_vector->data, r_dot_vector->data, mass1, mass2, S1z, S2z, x_vector->data[0],
       euler_iota, euler_beta, R, length, (*h_plus)->data, (*h_cross)->data);
  
-  printf("value of mass1, mass2 at line 789 :%f,%f\n",mass1,mass2);
-  fflush(NULL);
+  /*printf("value of mass1, mass2 at line 789 :%f,%f\n",mass1,mass2);
+  fflush(NULL);*/
 XLAL_FAIL:
   // We do not free h_plus or h_cross as this is the callers duty
   return errorcode;
@@ -816,8 +819,8 @@ int XLALSimInspiralENIGMADynamics(
     REAL8 *imr_matching_r_dot,   /* I + MR attachment radial time derivative */
     REAL8 mass1,                 /* mass1 in solar mass    */
     REAL8 mass2,                 /* mass2 in solar mass    */
-    REAL8 UNUSED S1z,                   /* z-component of the spin of companion 1 */
-    REAL8 UNUSED S2z,                   /* z-component of the spin of companion 2*/
+    REAL8 S1z,                   /* z-component of the spin of companion 1 */
+    REAL8 S2z,                   /* z-component of the spin of companion 2*/
     REAL8 e_init,                /* initial eccentricity   */
     REAL8 f_gw_init,             /* initial GW frequency   */
     REAL8 mean_anom_init,        /* initial mean-anomaly   */
@@ -825,8 +828,8 @@ int XLALSimInspiralENIGMADynamics(
     REAL8 sampling_rate          /* sample rate in Hz      */
 ) {
 
-  printf("value of mass1, mass2 at line 826 :%f,%f\n",mass1,mass2);
-  fflush(NULL);
+  /*printf("value of mass1, mass2 at line 826 :%f,%f\n",mass1,mass2);
+  fflush(NULL);*/
   int errorcode = XLAL_SUCCESS; /* the current error state value */
 
   // check input parameters
@@ -840,8 +843,8 @@ int XLALSimInspiralENIGMADynamics(
     errorcode = XLAL_EINVAL;
     XLAL_ERROR(errorcode);
   }
-  printf("value of mass1, mass2 at line 843 :%f,%f\n",mass1,mass2);
-  fflush(NULL);
+  /*printf("value of mass1, mass2 at line 843 :%f,%f\n",mass1,mass2);
+  fflush(NULL);*/
   /* parameters for the ODE system */
   struct ode_parameters ecc_params;
 
@@ -859,10 +862,10 @@ int XLALSimInspiralENIGMADynamics(
   REAL8 y_dot_in[4];
   REAL8 y_dot_out[4];
   REAL8 y_dot_temp[4];
-  printf("value of mass1, mass2 at line 862 :%f,%f\n",mass1,mass2);
+  /*printf("value of mass1, mass2 at line 862 :%f,%f\n",mass1,mass2);
   fflush(NULL);
   printf("Value of y_dot_in:%f,%f,%f,%f\n",y_dot_in[0],y_dot_in[1],y_dot_in[2],y_dot_in[3]);
-  fflush(NULL);
+  fflush(NULL);*/
 
   /* vectors to store the data */
   REAL8 *uniform_t_vec = NULL;   /* uniformly sampled time */
@@ -905,8 +908,8 @@ int XLALSimInspiralENIGMADynamics(
   gsl_odeiv_step *solver_step = NULL;
   gsl_odeiv_control *solver_control = NULL;
   gsl_odeiv_evolve *solver_evolve = NULL;
-  printf("value of mass1, mass2 at line 908 :%f,%f\n",mass1,mass2);
-  fflush(NULL);
+  /*printf("value of mass1, mass2 at line 908 :%f,%f\n",mass1,mass2);
+  fflush(NULL);*/
   /* Allocate memory for dynamics */
   LIGOTimeGPS epoch = LIGOTIMEGPSZERO;
   *time_evol = XLALCreateREAL8TimeSeries("time_evol", &epoch, f_gw_init,
@@ -931,19 +934,19 @@ int XLALSimInspiralENIGMADynamics(
     errorcode = XLAL_ENOMEM;
     XLAL_ERROR_FAIL(XLAL_EFUNC);
   }
-  printf("value of mass1, mass2 at line 933 :%f,%f\n",mass1,mass2);
-  fflush(NULL);
+  /*printf("value of mass1, mass2 at line 933 :%f,%f\n",mass1,mass2);
+  fflush(NULL);*/
   /* check the command line arguments */
   if (e_init < 0.0 || e_init >= 1.0) {
     errorcode = XLAL_EINVAL;
     XLAL_ERROR_FAIL(errorcode,
                     "ERROR: Invalid eccentricity, must be in range [0,1)");
   }
-  printf("value of mass1, mass2 at line 941 :%f,%f\n",mass1,mass2);
-  fflush(NULL);
+  /*printf("value of mass1, mass2 at line 941 :%f,%f\n",mass1,mass2);
+  fflush(NULL);*/
   total_mass = mass1 + mass2;
-  printf("total mass:%f\n",total_mass);
-  fflush(NULL);
+  /*printf("total mass:%f\n",total_mass);
+  fflush(NULL);*/
   reduced_mass = mass1 * mass2 / total_mass;
   sym_mass_ratio = reduced_mass / total_mass;
   mass_ratio = mass1 / mass2;
@@ -962,13 +965,18 @@ int XLALSimInspiralENIGMADynamics(
   if (errorcode != XLAL_SUCCESS)
     XLAL_ERROR_FAIL(XLAL_EFUNC);
   // omega_attach*= 0.5;
-  printf("value of mass1, mass2 at line 965 :%f,%f\n",mass1,mass2);
-  fflush(NULL);
+  /*printf("value of mass1, mass2 at line 965 :%f,%f\n",mass1,mass2);
+  fflush(NULL);*/
   /* store the mass and pn params in the param structure */
   ecc_params.eta = sym_mass_ratio;
   ecc_params.radiation_pn_order = rad_pn_order;
-  printf("value of mass1, mass2 at line 970 :%f,%f\n",mass1,mass2);
-  fflush(NULL);
+  ecc_params.m1 = mass1;
+  ecc_params.m2 = mass2;
+  ecc_params.S1z = S1z;
+  ecc_params.S2z = S2z;
+
+  /*printf("value of mass1, mass2 at line 970 :%f,%f\n",mass1,mass2);
+  fflush(NULL);*/
   /* GSL ode solver error tolerances */
   REAL8 absolute_step_error = 0.0;
   REAL8 relative_step_error = ode_eps;
@@ -1020,8 +1028,8 @@ int XLALSimInspiralENIGMADynamics(
     statevec_allocated = (n);                                                  \
   } while (0)
   allocate_statevec(1);
-  printf("value of mass1, mass2 at line 1023 :%f,%f\n",mass1,mass2);
-  fflush(NULL);
+  /*printf("value of mass1, mass2 at line 1023 :%f,%f\n",mass1,mass2);
+  fflush(NULL);*/
   /* scale the start, end and step times by t_sun */
   dt /= total_mass * LAL_MTSUN_SI;
 
@@ -1055,14 +1063,18 @@ int XLALSimInspiralENIGMADynamics(
   /*printf("value of y_dot_in[0]:%f\n",y_dot_in[0]);
   fflush(NULL);*/
 
-  printf("value of mass1, mass2 at line 1054 :%f,%f\n",mass1,mass2);
+  /*printf("value of mass1, mass2 at line 1054 :%f,%f\n",mass1,mass2);
   fflush(NULL);
+  printf("\nValue of y_dot_in[0] at line 1060:%f\n",y_dot_in[0]);
+  fflush(NULL);
+  printf("\nFound y_dot_in to be at line 1062:%f,%f,%f,%f\n",y_dot_in[0],y_dot_in[1],y_dot_in[2],y_dot_in[3]);
+  fflush(NULL);*/
   /* compute derivatives at the current value of t */
   eccentric_x_model_odes(t, y, y_dot_in, (void *)&ecc_params);
-  printf("\nValue of y_dot_in[0]:%f\n",y_dot_in[0]);
+  /*printf("\nValue of y_dot_in[0]:%f\n",y_dot_in[0]);
   fflush(NULL);
   printf("\nFound y_dot_in to be:%f,%f,%f,%f\n",y_dot_in[0],y_dot_in[1],y_dot_in[2],y_dot_in[3]);
-  fflush(NULL);
+  fflush(NULL);*/
 
   /* initial orbital frequency */
   phi_dot_vec[0] = y_dot_in[3];
@@ -1081,21 +1093,21 @@ int XLALSimInspiralENIGMADynamics(
                     "produce this waveform",
                     phi_dot_vec[0], omega_attach);
   }
-  printf("value of mass1, mass2 at line 1080 :%f,%f\n",mass1,mass2);
-  fflush(NULL);
+  /*printf("value of mass1, mass2 at line 1080 :%f,%f\n",mass1,mass2);
+  fflush(NULL);*/
   REAL8 time_omega_attach_reached = -1.;
   int i_omega_attach_reached = -1;
-  FILE *fout;
-  fout = fopen("fork_data.txt", "a");
+  /*FILE *fout;*/
+  /*fout = fopen("fork_data.txt", "a");*/
   /*printf("It has reached\n");
   fflush(NULL);*/
   /*printf("\nShow me omega_attach:%f\n",omega_attach);
   fflush(NULL);*/
   for (i = 1; /* no end */; ++i) { /*{{{*/
-    printf("\nEntered the for loop i=%ld\n\n",i);
+    /*printf("\nEntered the for loop i=%ld\n\n",i);
     fflush(NULL);
     printf("value of mass1, mass2 inside for loop :%f,%f\n",mass1,mass2);
-    fflush(NULL);
+    fflush(NULL);*/
     if (i >= statevec_allocated)
       allocate_statevec(2 * statevec_allocated);
 
@@ -1119,11 +1131,11 @@ int XLALSimInspiralENIGMADynamics(
           }
         }
       } while (status != GSL_SUCCESS);
-      printf("value of mass1, mass2 at line 1122 :%f,%f\n",mass1,mass2);
-      fflush(NULL);
+      /*printf("value of mass1, mass2 at line 1122 :%f,%f\n",mass1,mass2);
+      fflush(NULL);*/
       t_next = t + step_size;
-      printf("\nShow me the values t_next, t, step_size:%f\n,%f\n,%f\n",t_next,t,step_size);
-      fflush(NULL);
+      /*printf("\nShow me the values t_next, t, step_size:%f\n,%f\n,%f\n",t_next,t,step_size);
+      fflush(NULL);*/
 
 
       status = gsl_odeiv_control_hadjust(solver_control, solver_step, y, yerr,
@@ -1148,8 +1160,8 @@ int XLALSimInspiralENIGMADynamics(
     if (badnumber) {
       break;
     }
-    printf("value of mass1, mass2 at line 1151 :%f,%f\n",mass1,mass2);
-    fflush(NULL);
+    /*printf("value of mass1, mass2 at line 1151 :%f,%f\n",mass1,mass2);
+    fflush(NULL);*/
     /* compute derivatives at the current value of t */
     eccentric_x_model_odes(t, y, y_dot, (void *)&ecc_params);
 
@@ -1175,12 +1187,12 @@ int XLALSimInspiralENIGMADynamics(
     if (x_vec[i] >= x_final) {
       break;
     }
-    printf("%f,%f,%f,%f,%f,%f\n", t_vec[i], x_vec[i], e_vec[i], l_vec[i], phi_vec[i], phi_dot_vec[i]);
+    /*printf("%f,%f,%f,%f,%f,%f\n", t_vec[i], x_vec[i], e_vec[i], l_vec[i], phi_vec[i], phi_dot_vec[i]);
     fflush(NULL);
     fprintf(fout, "%f,%f,%f,%f,%f,%f\n", t_vec[i], x_vec[i], e_vec[i], l_vec[i], phi_vec[i], phi_dot_vec[i]);
     fflush(fout);
     printf("value of mass1, mass2 at line 1182 :%f,%f\n",mass1,mass2);
-    fflush(NULL);
+    fflush(NULL);*/
     if (phi_dot_vec[i] >= omega_attach) {
       if (time_omega_attach_reached < 0.) {
         if (i - 1 < 0) { /* reached omega_attach (way) too early */
@@ -1199,15 +1211,15 @@ int XLALSimInspiralENIGMADynamics(
 
   } /*}}}*/ /* end integration for loop */
 
-  fclose(fout);
+  /*fclose(fout);*/
 
   if (time_omega_attach_reached <
       0.) { /* never reached omega_attach before encountering ISCO */
     errorcode = XLAL_EMAXITER;
     XLAL_ERROR_FAIL(errorcode);
   }
-  printf("value of mass1, mass2 at line 1209 :%f,%f\n",mass1,mass2);
-  fflush(NULL);
+  /*printf("value of mass1, mass2 at line 1209 :%f,%f\n",mass1,mass2);
+  fflush(NULL);*/
   final_i_reached = i + 1;
 
   // determine when attachment point was reached
@@ -1226,8 +1238,8 @@ int XLALSimInspiralENIGMADynamics(
   assert(i_omega_attach_reached + 1 < final_i_reached);
   REAL8 t_lo = t_vec[i_omega_attach_reached];
   REAL8 t_hi = t_vec[i_omega_attach_reached + 1];
-  printf("value of mass1, mass2 at line 1229 :%f,%f\n",mass1,mass2);
-  fflush(NULL);
+  /*printf("value of mass1, mass2 at line 1229 :%f,%f\n",mass1,mass2);
+  fflush(NULL);*/
   // sanity check on initial bracket for bisection
   {
     REAL8 phi_dot_val = -1;
@@ -1261,8 +1273,8 @@ int XLALSimInspiralENIGMADynamics(
       XLAL_ERROR_FAIL(errorcode);
     }
   }
-  printf("value of mass1, mass2 at line 1264 :%f,%f\n",mass1,mass2);
-  fflush(NULL);
+  /*printf("value of mass1, mass2 at line 1264 :%f,%f\n",mass1,mass2);
+  fflush(NULL);*/
   // locate the matching time to within ~1e-3 of the sampling rate
   const double epsabs = 1e-3 * dt;
   const double epsrel = 0;
@@ -1296,8 +1308,8 @@ int XLALSimInspiralENIGMADynamics(
       break;
     }
   }
-  printf("value of mass1, mass2 at line 1299 :%f,%f\n",mass1,mass2);
-  fflush(NULL);
+  /*printf("value of mass1, mass2 at line 1299 :%f,%f\n",mass1,mass2);
+  fflush(NULL);*/
   // sanity check on final bracket after bisection
   {
     assert(dt > epsabs);
@@ -1357,8 +1369,8 @@ int XLALSimInspiralENIGMADynamics(
     }
   }
   matching_time = 0.5 * (t_lo + t_hi);
-  printf("value of mass1, mass2 at line 1360 :%f,%f\n",mass1,mass2);
-  fflush(NULL);
+  /*printf("value of mass1, mass2 at line 1360 :%f,%f\n",mass1,mass2);
+  fflush(NULL);*/
   // sanity check on length
   {
     REAL8 phi_dot_val = -1;
@@ -1394,8 +1406,8 @@ int XLALSimInspiralENIGMADynamics(
                       matching_time, t_hi, (Length - 1) * dt);
     }
   }
-  printf("value of mass1, mass2 at line 1381 :%f,%f\n",mass1,mass2);
-  fflush(NULL);
+  /*printf("value of mass1, mass2 at line 1381 :%f,%f\n",mass1,mass2);
+  fflush(NULL);*/
   // get uniform data for inspiral
   uniform_t_vec = (REAL8 *)LALMalloc(Length * sizeof(REAL8));
   if (uniform_t_vec == NULL) {
@@ -1429,8 +1441,8 @@ int XLALSimInspiralENIGMADynamics(
     }
     *uniform_args[i].interp_vals = uniform_vals;
   }
-  printf("value of mass1, mass2 at line 1432 :%f,%f\n",mass1,mass2);
-  fflush(NULL);
+  /*printf("value of mass1, mass2 at line 1432 :%f,%f\n",mass1,mass2);
+  fflush(NULL);*/
   /* store the sample interval in the output vectors */
   *imr_matching_time = matching_time;
   *imr_matching_x = matching_x;
@@ -1520,36 +1532,36 @@ int XLALSimInspiralENIGMA(
 
   int errorcode = XLAL_SUCCESS;
 
-  printf("value of m1, m2 at XLALSimInspiralENIGMA before conversion:%f,%f\n",m1,m2);
-  fflush(NULL);
+  /*printf("value of m1, m2 at XLALSimInspiralENIGMA before conversion:%f,%f\n",m1,m2);
+  fflush(NULL);*/
 
 
   m1 /= LAL_MSUN_SI;
   m2 /= LAL_MSUN_SI;
 
-  printf("value of m1, m2 at XLALSimInspiralENIGMA after conversion:%f,%f\n",m1,m2);
+  /*printf("value of m1, m2 at XLALSimInspiralENIGMA after conversion:%f,%f\n",m1,m2);
   fflush(NULL);
   printf("hello0, e=%f\n",eccentricity);
-  fflush(NULL);
+  fflush(NULL);*/
   // check input parameters
   if (m1 <= 0.0 || m2 <= 0.0 || eccentricity < 0.0 || eccentricity >= 1.0) {
     errorcode = XLAL_EINVAL;
     XLAL_ERROR(errorcode);
   }
-  printf("hello1\n");
-  fflush(NULL);
+  /*printf("hello1\n");
+  fflush(NULL);*/
   if (!hplus || !hcross) {
     errorcode = XLAL_EINVAL;
     XLAL_ERROR_FAIL(errorcode);
   }
-  printf("hello2\n");
-  fflush(NULL);
+  /*printf("hello2\n");
+  fflush(NULL);*/
   if (*hplus || *hcross) {
     errorcode = XLAL_EINVAL;
     XLAL_ERROR_FAIL(errorcode);
   }
-  printf("hello3\n");
-  fflush(NULL);
+  /*printf("hello3\n");
+  fflush(NULL);*/
   // the actually input tolerance (reset to 1.0e-16 for eccentricity=0.0)
   const REAL8 tol_in = eccentricity == 0.0 ? 1.0e-16 : 1e-12;
 
@@ -1563,8 +1575,8 @@ int XLALSimInspiralENIGMA(
     XLAL_ERROR_FAIL(XLAL_EFUNC);
   }
 
-  printf("value of m1, m2 at x_model_eccbbh_inspiral_waveform at line 1542:%f,%f\n",m1,m2);
-  fflush(NULL);
+  /*printf("value of m1, m2 at x_model_eccbbh_inspiral_waveform at line 1542:%f,%f\n",m1,m2);
+  fflush(NULL);*/
 
 
   XLAL_CALLGSL(errorcode = x_model_eccbbh_inspiral_waveform(
@@ -1580,8 +1592,8 @@ XLAL_FAIL:
     *hplus = *hcross = NULL;
   }
 
-  printf("value of m1, m2 at x_model_eccbbh_inspiral_waveform at line 1559:%f,%f\n",m1,m2);
-  fflush(NULL);
+  /*printf("value of m1, m2 at x_model_eccbbh_inspiral_waveform at line 1559:%f,%f\n",m1,m2);
+  fflush(NULL);*/
 
  
 
@@ -1611,14 +1623,14 @@ int XLALSimIMRENIGMA(REAL8TimeSeries **hplus,  /**< OUTPUT h_+ vector */
 
   int errorcode = XLAL_SUCCESS;
 
-  printf("value of m1, m2 at XLALSimIMRENIGMA before conversion at line 1614:%f,%f\n",m1,m2);
-  fflush(NULL);
+  /*printf("value of m1, m2 at XLALSimIMRENIGMA before conversion at line 1614:%f,%f\n",m1,m2);
+  fflush(NULL);*/
 
   m1 /= LAL_MSUN_SI;
   m2 /= LAL_MSUN_SI;
 
-  printf("value of m1, m2 at XLALSimIMRENIGMA after conversion at line 1620:%f,%f\n",m1,m2);
-  fflush(NULL);
+  /*printf("value of m1, m2 at XLALSimIMRENIGMA after conversion at line 1620:%f,%f\n",m1,m2);
+  fflush(NULL);*/
 
 
   // check input parameters
@@ -1657,8 +1669,8 @@ int XLALSimIMRENIGMA(REAL8TimeSeries **hplus,  /**< OUTPUT h_+ vector */
     errorcode = XLAL_ENOMEM;
     XLAL_ERROR_FAIL(XLAL_EFUNC);
   }
-  printf("value of m1, m2 at line 1636:%f,%f\n",m1,m2);
-  fflush(NULL);
+  /*printf("value of m1, m2 at line 1636:%f,%f\n",m1,m2);
+  fflush(NULL);*/
   XLAL_CALLGSL(errorcode = x_model_eccbbh_imr_waveform(
                    *hplus, *hcross, m1, m2, S1z, S2z, eccentricity, fMin, distance,
                    meanPerAno, tol_in, inclination, beta, fsamp, Dset));
