@@ -29,6 +29,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include<complex.h>
 
 #include <gsl/gsl_blas.h>
 #include <gsl/gsl_eigen.h>
@@ -196,21 +197,21 @@ static REAL8 separation(REAL8 u, REAL8 eta, REAL8 x, REAL8 e);
 
 static REAL8 x_dot_0pn(REAL8 e, REAL8 eta);
 static REAL8 x_dot_1pn(REAL8 e, REAL8 eta);
-static REAL8 x_dot_1_5_pn(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+static REAL8 x_dot_1_5_pn(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 x_dot_hereditary_1_5(REAL8 e, REAL8 eta, REAL8 x);
 static REAL8 x_dot_2pn(REAL8 e, REAL8 eta);
-static REAL8 x_dot_2pn_SS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
-static REAL8 x_dot_2_5_pn(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+static REAL8 x_dot_2pn_SS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+static REAL8 x_dot_2_5_pn(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 x_dot_hereditary_2_5(REAL8 e, REAL8 eta, REAL8 x);
 static REAL8 x_dot_hereditary_3(REAL8 e, REAL8 eta, REAL8 x);
 static REAL8 x_dot_3pn(REAL8 e, REAL8 eta, REAL8 x);
-static REAL8 x_dot_3pnSO(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
-static REAL8 x_dot_3pnSS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+static REAL8 x_dot_3pnSO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+static REAL8 x_dot_3pnSS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 x_dot_3_5_pn(REAL8 e, REAL8 eta);
-static REAL8 x_dot_3_5pnSO(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
-/*static REAL8 x_dot_3_5pn_SS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);*/
-static REAL8 x_dot_3_5pn_cubicSpin(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
-static REAL8 x_dot_4pn_SO(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+static REAL8 x_dot_3_5pnSO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+static REAL8 x_dot_3_5pn_SS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+static REAL8 x_dot_3_5pn_cubicSpin(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+/*static REAL8 x_dot_4pn_SO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);*/
 static REAL8 dxdt_4pn(REAL8 x, REAL8 eta);
 static REAL8 dxdt_4_5pn(REAL8 x, REAL8 eta);
 static REAL8 dxdt_5pn(REAL8 x, REAL8 eta);
@@ -225,33 +226,42 @@ static REAL8 e_rad_hereditary_2_5(REAL8 e, REAL8 eta, REAL8 x);
 static REAL8 e_rad_hereditary_3(REAL8 e, REAL8 eta, REAL8 x);
 static REAL8 e_dot_3pn(REAL8 e, REAL8 eta, REAL8 x);
 static REAL8 e_dot_3_5pn(REAL8 e, REAL8 eta);
+static REAL8 e_dot_1_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+static REAL8 e_dot_2pn_SS(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 
 static REAL8 l_dot_1pn(REAL8 e, REAL8 eta);
 static REAL8 l_dot_2pn(REAL8 e, REAL8 eta);
 static REAL8 l_dot_3pn(REAL8 e, REAL8 eta);
+static REAL8 l_dot_1_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+static REAL8 l_dot_2pn_SS(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+
 
 static REAL8 phi_dot_0pn(REAL8 e, REAL8 eta, REAL8 u);
 static REAL8 phi_dot_1pn(REAL8 e, REAL8 eta, REAL8 u);
-static REAL8 phi_dot_1_5_pn(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
+static REAL8 phi_dot_1_5_pn(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
 static REAL8 phi_dot_2pn(REAL8 e, REAL8 eta, REAL8 u);
-static REAL8 phi_dot_2pn_SS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
-static REAL8 phi_dot_2_5_pn(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
-static REAL8 phi_dot_3_pn_spin(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
-static REAL8 phi_dot_3pn_SS(REAL8 eta, REAL8  m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
+static REAL8 phi_dot_2pn_SS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
+static REAL8 phi_dot_2_5_pn(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
+static REAL8 phi_dot_3pn_SO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
+static REAL8 phi_dot_3pn_SS(REAL8 e, REAL8 eta, REAL8  m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
 static REAL8 phi_dot_3pn(REAL8 e, REAL8 eta, REAL8 u);
+static REAL8 phi_dot_3_5pn_SO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
+static REAL8 phi_dot_4pn_SO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
+static REAL8 phi_dot_1_5_pnSO_ecc(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 u);
+static REAL8 phi_dot_2_pnSS_ecc(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 u);
 
 /* PN evolution equations */
 static REAL8 dx_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x, REAL8 e);
-static REAL8 de_dt(int radiation_pn_order, REAL8 eta, REAL8 x, REAL8 e);
-static REAL8 dl_dt(REAL8 eta, REAL8 x, REAL8 e);
+static REAL8 de_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x, REAL8 e);
+static REAL8 dl_dt(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x, REAL8 e);
 static REAL8 dphi_dt(REAL8 u, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x, REAL8 e);
 
 static int eccentric_x_model_odes(REAL8 t, const REAL8 y[], REAL8 dydt[],
                                   void *params);
 
 /* PN radiation */
-static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, REAL8 S1z, REAL8 S2z);
-static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, REAL8 S1z, REAL8 S2z);
+static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, UINT4 vpn/*, REAL8 S1z, REAL8 S2z*/);
+static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, UINT4 vpn/*, REAL8 S1z, REAL8 S2z*/);
 static REAL8 phi_e(REAL8 e);
 static REAL8 psi_e(REAL8 e);
 static REAL8 zed_e(REAL8 e);
@@ -389,6 +399,7 @@ static REAL8 pow7_2(const REAL8 x) { return sqrt(pow7(x)); }
 #include "ENIGMA_GPEMergerRingdown.c"
 #include "ENIGMA_PNInspiral.c"
 #include "ENIGMA_PNMatch.c"
+#include "ENIGMA_GOterms.c"
 
 static REAL8 *interp_to_uniform_and_point(
     const REAL8 *t_vec, const REAL8 *val_vec, const long vec_length,
@@ -455,9 +466,14 @@ static void compute_strain_from_dynamics(
   fflush(NULL);*/
   const REAL8 total_mass = mass1 + mass2;
   const REAL8 reduced_mass = mass1 * mass2 / total_mass;
+  const REAL8 eta = (mass1*mass2)/(total_mass*total_mass); //Symmetric Mass Ratio
 
   /* overall factor in waveform polarizations */
   REAL8 h_factor = reduced_mass * LAL_MRSUN_SI / R;
+
+   /*The desired PN order correction. 
+  Note that we are defining this in terms of powers of v = x^2*/
+  UINT4 pn_order_amp = 7; //3.5PN correction
 
   for (long i = 0; i < length; ++i) {
     /*printf("Check flag: Reached the loop");
@@ -473,6 +489,17 @@ static void compute_strain_from_dynamics(
 
     /* The leading order (quadrupolar) post-Newtonian GW polarizations *
      * Reference: Damour, Gopakumar, and Iyer (PRD 70 064028).         */
+
+    //Defining the hplus and hcross general orbit term corrections
+    REAL8 hplusGOtotal=0;
+    REAL8 hcrossGOtotal=0;
+
+    for(long j=1;j<=pn_order_amp;j++){
+      hplusGOtotal = hplusGOtotal + hplusGO(total_mass,eta,r_vec[i],r_dot_vec[i],phi_vec[i],phi_dot_vec[i],euler_iota,euler_beta,R,j,S1z,S2z);
+      hcrossGOtotal = hcrossGOtotal + hcrossGO(total_mass,eta,r_vec[i],r_dot_vec[i],phi_vec[i],phi_dot_vec[i],euler_iota,euler_beta,R,j,S1z,S2z);
+    }
+
+
     h_plus[i] =
         (REAL8)(h_factor *
                 (-((cos(euler_iota) * cos(euler_iota) + 1.0) *
@@ -488,7 +515,8 @@ static void compute_strain_from_dynamics(
                     r_dot_vec[i] * r_dot_vec[i]) *
                        sin(euler_iota) * sin(euler_iota))
 
-                 + hPlus(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i], S1z, S2z)));
+                 + hPlus(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i], pn_order_amp/*, S1z, S2z*/)) 
+                 + hplusGOtotal);
 
     h_cross[i] =
         (REAL8)(h_factor *
@@ -502,7 +530,8 @@ static void compute_strain_from_dynamics(
                        (cos(2.0 * phi_vec[i]) * cos(2.0 * euler_beta) +
                         sin(2.0 * phi_vec[i]) * sin(2.0 * euler_beta))))
 
-                 + hCross(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i], S1z, S2z)));
+                 + hCross(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i], pn_order_amp/*, S1z, S2z*/))
+                 + hplusGOtotal);
    
   
   }
