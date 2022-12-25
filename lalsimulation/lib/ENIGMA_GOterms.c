@@ -11,11 +11,11 @@ static COMPLEX16 Complex(REAL8 real, REAL8 imag){
 static COMPLEX16 hGO_2_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT, UINT4 vpnorder, REAL8 S1z, REAL8 S2z){
     REAL8 kappa1 = 1.0; /*for black holes kappa and lambda is 1*/
     REAL8 kappa2 = 1.0;
-    REAL8 lambda1 = 1.0;
-    REAL8 lambda2 = 1.0;
+    // REAL8 lambda1 = 1.0;
+    // REAL8 lambda2 = 1.0;
     REAL8 delta = sqrt(1-4*Nu);
     
-    if (rDOT){
+    // if (rDOT){
 
     if(vpnorder == 2){
         return (21*pow(mass,2)*(-10 + Nu) - 27*(-1 
@@ -90,48 +90,48 @@ static COMPLEX16 hGO_2_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT, 
     else{
         return 0;
     } 
-    }
-    else{
-     REAL8 omega = PhiDOT;
+    // }
+    // else{
+    //  REAL8 omega = PhiDOT;
 
-     if(vpnorder == 3){
+    //  if(vpnorder == 3){
 
-         return ((-4*pow(mass,1.6666666666666667)*pow(omega,1.6666666666666667)*(S1z
-          + delta * S1z + S2z - delta*S2z - Nu*(S1z + S2z)))/3.);
-     }
-     else if (vpnorder == 4){
+    //      return ((-4*pow(mass,1.6666666666666667)*pow(omega,1.6666666666666667)*(S1z
+    //       + delta * S1z + S2z - delta*S2z - Nu*(S1z + S2z)))/3.);
+    //  }
+    //  else if (vpnorder == 4){
 
-         return (pow(mass,2)*pow(omega,2)*(kappa1*(1 + delta - 2*Nu)*pow(S1z,2) 
-         + S2z*(4*Nu*S1z - kappa2*(-1 + delta + 2*Nu)*S2z)));
-     }
-     else if (vpnorder == 5){
+    //      return (pow(mass,2)*pow(omega,2)*(kappa1*(1 + delta - 2*Nu)*pow(S1z,2) 
+    //      + S2z*(4*Nu*S1z - kappa2*(-1 + delta + 2*Nu)*S2z)));
+    //  }
+    //  else if (vpnorder == 5){
 
-         return ((2*pow(mass,2.3333333333333335)*pow(omega,2.3333333333333335)*(56*delta*Nu*(-S1z + S2z)
-          + 101*Nu*(S1z + S2z) + 132*pow(Nu,2)*(S1z + S2z) - 80*(S1z + delta*S1z + S2z - delta*S2z)))/63.);
-     }
-     else if (vpnorder == 6){
+    //      return ((2*pow(mass,2.3333333333333335)*pow(omega,2.3333333333333335)*(56*delta*Nu*(-S1z + S2z)
+    //       + 101*Nu*(S1z + S2z) + 132*pow(Nu,2)*(S1z + S2z) - 80*(S1z + delta*S1z + S2z - delta*S2z)))/63.);
+    //  }
+    //  else if (vpnorder == 6){
 
-         return (-0.015873015873015872*(pow(mass,2.6666666666666665)*pow(omega,2.6666666666666665)*
-     (84*(1 + delta)*(Complex(0,1) + 2*M_PI)*S1z - 4*(1 + delta)*(-7 + 9*kappa1)*pow(S1z,2) + 4*(-1 + delta)*S2z*(Complex(0,-21) - 42*M_PI + (-7 + 9*kappa2)*S2z) + 
-       12*pow(Nu,2)*((-7 + 17*kappa1)*pow(S1z,2) - 48*S1z*S2z + (-7 + 17*kappa2)*pow(S2z,2)) + 
-       Nu*(-168*(Complex(0,1) + M_PI)*S1z + (7*(9 + 17*delta) + 9*(15 + 7*delta)*kappa1)*pow(S1z,2) + 542*S1z*S2z + 
-          S2z*(-168*(Complex(0,1) + M_PI) - 7*delta*(17 + 9*kappa2)*S2z + 9*(7 + 15*kappa2)*S2z)))));
-     }
-     else if (vpnorder == 7){
+    //      return (-0.015873015873015872*(pow(mass,2.6666666666666665)*pow(omega,2.6666666666666665)*
+    //  (84*(1 + delta)*(Complex(0,1) + 2*M_PI)*S1z - 4*(1 + delta)*(-7 + 9*kappa1)*pow(S1z,2) + 4*(-1 + delta)*S2z*(Complex(0,-21) - 42*M_PI + (-7 + 9*kappa2)*S2z) + 
+    //    12*pow(Nu,2)*((-7 + 17*kappa1)*pow(S1z,2) - 48*S1z*S2z + (-7 + 17*kappa2)*pow(S2z,2)) + 
+    //    Nu*(-168*(Complex(0,1) + M_PI)*S1z + (7*(9 + 17*delta) + 9*(15 + 7*delta)*kappa1)*pow(S1z,2) + 542*S1z*S2z + 
+    //       S2z*(-168*(Complex(0,1) + M_PI) - 7*delta*(17 + 9*kappa2)*S2z + 9*(7 + 15*kappa2)*S2z)))));
+    //  }
+    //  else if (vpnorder == 7){
 
-         return ((pow(mass,3)*pow(omega,3)*(3318*pow(Nu,3)*(S1z + S2z) + Nu*(-504*((7 + delta)*kappa1 - 3*(3 + delta)*lambda1)*pow(S1z,3) - 
-          1008*pow(S1z,2)*(3*kappa1*M_PI - 3*(1 + delta)*S2z + 2*(1 + delta)*kappa1*S2z) + 
-          S1z*(17387 + 20761*delta + 1008*S2z*(6*M_PI + (-1 + delta)*(-3 + 2*kappa2)*S2z)) + 
-          S2z*(17387 - 20761*delta + 504*S2z*(-6*kappa2*M_PI + (-7 + delta)*kappa2*S2z - 3*(-3 + delta)*lambda2*S2z))) + 
-       2*(2809*(1 + delta)*S1z + 756*(1 + delta)*kappa1*M_PI*pow(S1z,2) + 756*(1 + delta)*(kappa1 - lambda1)*pow(S1z,3) - 
-          (-1 + delta)*S2z*(2809 + 756*S2z*(-(lambda2*S2z) + kappa2*(M_PI + S2z)))) - 
-       2*pow(Nu,2)*(708*delta*(-S1z + S2z) + (S1z + S2z)*(4427 + 1008*(kappa1*pow(S1z,2) + S2z*(-2*S1z + kappa2*S2z))))))/756.);
-     }
-     else{
-         return 0;
-     }
+    //      return ((pow(mass,3)*pow(omega,3)*(3318*pow(Nu,3)*(S1z + S2z) + Nu*(-504*((7 + delta)*kappa1 - 3*(3 + delta)*lambda1)*pow(S1z,3) - 
+    //       1008*pow(S1z,2)*(3*kappa1*M_PI - 3*(1 + delta)*S2z + 2*(1 + delta)*kappa1*S2z) + 
+    //       S1z*(17387 + 20761*delta + 1008*S2z*(6*M_PI + (-1 + delta)*(-3 + 2*kappa2)*S2z)) + 
+    //       S2z*(17387 - 20761*delta + 504*S2z*(-6*kappa2*M_PI + (-7 + delta)*kappa2*S2z - 3*(-3 + delta)*lambda2*S2z))) + 
+    //    2*(2809*(1 + delta)*S1z + 756*(1 + delta)*kappa1*M_PI*pow(S1z,2) + 756*(1 + delta)*(kappa1 - lambda1)*pow(S1z,3) - 
+    //       (-1 + delta)*S2z*(2809 + 756*S2z*(-(lambda2*S2z) + kappa2*(M_PI + S2z)))) - 
+    //    2*pow(Nu,2)*(708*delta*(-S1z + S2z) + (S1z + S2z)*(4427 + 1008*(kappa1*pow(S1z,2) + S2z*(-2*S1z + kappa2*S2z))))))/756.);
+    //  }
+    //  else{
+    //      return 0;
+    //  }
 
-    }
+    // }
 }
 
 static COMPLEX16 hl_2_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder, REAL8 S1z, REAL8 S2z){
@@ -160,10 +160,10 @@ static COMPLEX16 hl_2_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
 
  static COMPLEX16 hGO_2_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder, REAL8 S1z, REAL8 S2z){
     REAL8 delta = sqrt(1-4*Nu);
-    REAL8 kappa1 = 1.0;
-    REAL8 kappa2 = 1.0;
+    // REAL8 kappa1 = 1.0;
+    // REAL8 kappa2 = 1.0;
     
-    if (rDOT){
+    // if (rDOT){
 
     if(vpnorder == 1){
         return Complex(0,0.6666666666666666)*delta*mass*PhiDOT;
@@ -215,47 +215,47 @@ static COMPLEX16 hl_2_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
     else{
         return 0;
     }
-    }
-    else{
-        REAL8 omega = PhiDOT;
+    // }
+    // else{
+    //     REAL8 omega = PhiDOT;
 
-        if (vpnorder == 2){
+    //     if (vpnorder == 2){
 
-            return (Complex(0,-0.5)*pow(mass,1.3333333333333333)*pow(omega,1.3333333333333333)*(S1z - S2z + delta*(S1z + S2z)));
-        }
-        else if (vpnorder == 4){
+    //         return (Complex(0,-0.5)*pow(mass,1.3333333333333333)*pow(omega,1.3333333333333333)*(S1z - S2z + delta*(S1z + S2z)));
+    //     }
+    //     else if (vpnorder == 4){
 
-            return (Complex(0,0.023809523809523808)*pow(mass,2)*pow(omega,2)*(28*delta*M_PI + (-7 + 205*Nu + delta*(-7 + 33*Nu))*S1z 
-            + (7 - 205*Nu + delta*(-7 + 33*Nu))*S2z -  Complex(0,14)*delta*(1 + log(16))));
-        }
-        else if (vpnorder == 5){
+    //         return (Complex(0,0.023809523809523808)*pow(mass,2)*pow(omega,2)*(28*delta*M_PI + (-7 + 205*Nu + delta*(-7 + 33*Nu))*S1z 
+    //         + (7 - 205*Nu + delta*(-7 + 33*Nu))*S2z -  Complex(0,14)*delta*(1 + log(16))));
+    //     }
+    //     else if (vpnorder == 5){
 
-            return (Complex(0,-0.08333333333333333)*pow(mass,2.3333333333333335)*pow(omega,2.3333333333333335)*
-            (2*(-((1 + delta)*(5 + kappa1)) + 2*(6 + delta + (4 + 3*delta)*kappa1)*Nu)*pow(S1z,2) + 
-            S1z*(Complex(0,-3) - Complex(0,3)*delta + 6*(1 + delta)*M_PI - 16*delta*Nu*S2z - Complex(0,3)*(1 + delta)*log(16)) + 
-            S2z*(6*(-1 + delta)*M_PI - 2*(-1 + delta)*(5 + kappa2)*S2z + 4*(-6 + delta - 4*kappa2 + 3*delta*kappa2)*Nu*S2z 
-            - Complex(0,3)*(-1 + delta)*(1 + log(16)))));
-        }
-        else if (vpnorder == 6){
+    //         return (Complex(0,-0.08333333333333333)*pow(mass,2.3333333333333335)*pow(omega,2.3333333333333335)*
+    //         (2*(-((1 + delta)*(5 + kappa1)) + 2*(6 + delta + (4 + 3*delta)*kappa1)*Nu)*pow(S1z,2) + 
+    //         S1z*(Complex(0,-3) - Complex(0,3)*delta + 6*(1 + delta)*M_PI - 16*delta*Nu*S2z - Complex(0,3)*(1 + delta)*log(16)) + 
+    //         S2z*(6*(-1 + delta)*M_PI - 2*(-1 + delta)*(5 + kappa2)*S2z + 4*(-6 + delta - 4*kappa2 + 3*delta*kappa2)*Nu*S2z 
+    //         - Complex(0,3)*(-1 + delta)*(1 + log(16)))));
+    //     }
+    //     else if (vpnorder == 6){
 
-            return (Complex(0,0.0006613756613756613)*pow(mass,2.6666666666666665)*pow(omega,2.6666666666666665)*
-            (4*pow(Nu,2)*(-1365*(S1z - S2z) + 179*delta*(S1z + S2z)) - 6*(208*(1 + delta)*S1z + 63*(1 + delta)*kappa1*pow(S1z,3) + 
-            (-1 + delta)*S2z*(208 + 63*kappa2*pow(S2z,2))) + Nu*(378*(3 + delta)*kappa1*pow(S1z,3) + 378*(1 + delta)*(-2 + kappa1)*pow(S1z,2)*S2z + 
-            S1z*(8351 + 7027*delta + 378*(-1 + delta)*(-2 + kappa2)*pow(S2z,2)) + S2z*(-8351 + 7027*delta + 378*(-3 + delta)*kappa2*pow(S2z,2)))));
-        }
-        else if (vpnorder == 7){
+    //         return (Complex(0,0.0006613756613756613)*pow(mass,2.6666666666666665)*pow(omega,2.6666666666666665)*
+    //         (4*pow(Nu,2)*(-1365*(S1z - S2z) + 179*delta*(S1z + S2z)) - 6*(208*(1 + delta)*S1z + 63*(1 + delta)*kappa1*pow(S1z,3) + 
+    //         (-1 + delta)*S2z*(208 + 63*kappa2*pow(S2z,2))) + Nu*(378*(3 + delta)*kappa1*pow(S1z,3) + 378*(1 + delta)*(-2 + kappa1)*pow(S1z,2)*S2z + 
+    //         S1z*(8351 + 7027*delta + 378*(-1 + delta)*(-2 + kappa2)*pow(S2z,2)) + S2z*(-8351 + 7027*delta + 378*(-3 + delta)*kappa2*pow(S2z,2)))));
+    //     }
+    //     else if (vpnorder == 7){
 
-            return (Complex(0,0.0003968253968253968)*pow(mass,3)*pow(omega,3)*(10*(6*(1 + delta)*(63 + 26*kappa1) 
-            - (84*(26 + 17*delta) + (1069 + 757*delta)*kappa1)*Nu + (2844 + 312*delta + (1409 + 36*delta)*kappa1)*pow(Nu,2))*pow(S1z,2) + 
-            S2z*(30*(14 - 431*Nu + delta*(-14 + 87*Nu))*M_PI + 10*(6*(-1 + delta)*(63 + 26*kappa2) + (2184 - 1428*delta + 1069*kappa2 - 757*delta*kappa2)*Nu + 
-            (-2844 + 312*delta - 1409*kappa2 + 36*delta*kappa2)*pow(Nu,2))*S2z + Complex(0,3)*(66 - 66*delta - 2957*Nu + 4405*delta*Nu 
-            - 20*(14 - 14*delta - 431*Nu + 87*delta*Nu)*log(2))) + 3*S1z*(Complex(0,-1)*(66 + 66*delta - 2957*Nu - 280*log(2)) + 5*(-28*(1 + delta)*M_PI 
-            + 2*(431 + 87*delta)*Nu*M_PI + delta*Nu*(Complex(0,881) + 16*(7 + 23*Nu)*S2z) - Complex(0,4)*(431*Nu + delta*(-14 + 87*Nu))*log(2)))));
-        }
-        else {
-            return 0;
-        }
-    }
+    //         return (Complex(0,0.0003968253968253968)*pow(mass,3)*pow(omega,3)*(10*(6*(1 + delta)*(63 + 26*kappa1) 
+    //         - (84*(26 + 17*delta) + (1069 + 757*delta)*kappa1)*Nu + (2844 + 312*delta + (1409 + 36*delta)*kappa1)*pow(Nu,2))*pow(S1z,2) + 
+    //         S2z*(30*(14 - 431*Nu + delta*(-14 + 87*Nu))*M_PI + 10*(6*(-1 + delta)*(63 + 26*kappa2) + (2184 - 1428*delta + 1069*kappa2 - 757*delta*kappa2)*Nu + 
+    //         (-2844 + 312*delta - 1409*kappa2 + 36*delta*kappa2)*pow(Nu,2))*S2z + Complex(0,3)*(66 - 66*delta - 2957*Nu + 4405*delta*Nu 
+    //         - 20*(14 - 14*delta - 431*Nu + 87*delta*Nu)*log(2))) + 3*S1z*(Complex(0,-1)*(66 + 66*delta - 2957*Nu - 280*log(2)) + 5*(-28*(1 + delta)*M_PI 
+    //         + 2*(431 + 87*delta)*Nu*M_PI + delta*Nu*(Complex(0,881) + 16*(7 + 23*Nu)*S2z) - Complex(0,4)*(431*Nu + delta*(-14 + 87*Nu))*log(2)))));
+    //     }
+    //     else {
+    //         return 0;
+    //     }
+    // }
 }
 
 static COMPLEX16 hl_2_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder, REAL8 S1z, REAL8 S2z){
@@ -285,10 +285,10 @@ static COMPLEX16 hl_2_m_min1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
 //H33
 static COMPLEX16 hGO_3_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder, REAL8 S1z, REAL8 S2z){
     REAL8 delta = sqrt(1-4*Nu);
-    REAL8 kappa1 = 1.0;
-    REAL8 kappa2 = 1.0;
+    // REAL8 kappa1 = 1.0;
+    // REAL8 kappa2 = 1.0;
 
-    if (rDOT){
+    // if (rDOT){
 
     if(vpnorder == 1){
         return (sqrt(0.11904761904761904)*delta*(2*r*pow(Complex(0,1)*PhiDOT*r - rDOT,3) 
@@ -351,35 +351,35 @@ static COMPLEX16 hGO_3_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
     else{
         return 0;
     }
-    }
-    else {
-        REAL8 omega = PhiDOT;
+    // }
+    // else {
+    //     REAL8 omega = PhiDOT;
 
-        if (vpnorder == 4){
-            return (Complex(0,-0.375)*sqrt(0.04285714285714286)*pow(mass,2)*pow(omega,2)*
-            (60*delta*M_PI + 5*(-4 + 19*Nu + delta*(-4 + 5*Nu))*S1z + 5*(4 - 19*Nu + delta*(-4 + 5*Nu))*S2z + Complex(0,12)*delta*(-7 + log(57.6650390625))));
-        }
-        else if (vpnorder == 5){
-            return (Complex(0,1.125)*sqrt(1.0714285714285714)*pow(mass,2.3333333333333335)*pow(omega,2.3333333333333335)*
-            (kappa1*(-1 - delta + 2*(2 + delta)*Nu)*pow(S1z,2) + S2z*(-4*delta*Nu*S1z + kappa2*(1 - delta + 2*(-2 + delta)*Nu)*S2z)));
-        }
-        else if (vpnorder == 6){
-            return (Complex(0,-0.125)*sqrt(0.04285714285714286)*pow(mass,2.6666666666666665)*pow(omega,2.6666666666666665)*
-            (-(Nu*((279 + delta)*S1z + (-279 + delta)*S2z)) + 10*(S1z - S2z + delta*(S1z + S2z)) + pow(Nu,2)*(407*(S1z - S2z) + 241*delta*(S1z + S2z))));
-        }
-        else if (vpnorder == 7){
-            return ((Complex(0,-0.020833333333333332)*pow(mass,3)*pow(omega,3)*(-270*(-6*Nu*(-2 + delta*(-2 + Nu) + 6*Nu) 
-             + kappa1*(4 - Nu*(13 + 8*Nu) + delta*(4 + Nu*(-5 + 12*Nu))))* pow(S1z,2) + S1z*(810*(-4 + 19*Nu + delta*(-4 + 5*Nu))*M_PI
-             + 5*delta*Nu*(Complex(0,-541) + 216*(-10 + 9*Nu)*S2z) + Complex(0,61560)*Nu*atanh(1/5) + Complex(0,1)*(2349*delta - 14207*Nu 
-             + 81*(29 - 80*log(1.5))) + Complex(0,1620)*delta*(-4 + 5*Nu)*log(1.5)) + S2z*(810*(4 - 19*Nu + delta*(-4 + 5*Nu))*M_PI 
-             + Complex(0,1)*(2349*delta + 14207*Nu + 81*(-29 + 80*log(1.5))) - 5*(54*kappa2*(-4 + Nu*(13 + 8*Nu) + delta*(4 + Nu*(-5 + 12*Nu)))*S2z + 
-             Nu*(Complex(0,541)*delta - 324*(2 + delta*(-2 + Nu) - 6*Nu)*S2z - Complex(0,648)*(-19 + 5*delta)*atanh(1/5)) 
-             - Complex(0,324)*delta*log(1.5802469135802468) ) - Complex(0,486)*delta*log(1024))))/sqrt(210));
-        }
-        else {
-            return 0;
-        }
-    }
+    //     if (vpnorder == 4){
+    //         return (Complex(0,-0.375)*sqrt(0.04285714285714286)*pow(mass,2)*pow(omega,2)*
+    //         (60*delta*M_PI + 5*(-4 + 19*Nu + delta*(-4 + 5*Nu))*S1z + 5*(4 - 19*Nu + delta*(-4 + 5*Nu))*S2z + Complex(0,12)*delta*(-7 + log(57.6650390625))));
+    //     }
+    //     else if (vpnorder == 5){
+    //         return (Complex(0,1.125)*sqrt(1.0714285714285714)*pow(mass,2.3333333333333335)*pow(omega,2.3333333333333335)*
+    //         (kappa1*(-1 - delta + 2*(2 + delta)*Nu)*pow(S1z,2) + S2z*(-4*delta*Nu*S1z + kappa2*(1 - delta + 2*(-2 + delta)*Nu)*S2z)));
+    //     }
+    //     else if (vpnorder == 6){
+    //         return (Complex(0,-0.125)*sqrt(0.04285714285714286)*pow(mass,2.6666666666666665)*pow(omega,2.6666666666666665)*
+    //         (-(Nu*((279 + delta)*S1z + (-279 + delta)*S2z)) + 10*(S1z - S2z + delta*(S1z + S2z)) + pow(Nu,2)*(407*(S1z - S2z) + 241*delta*(S1z + S2z))));
+    //     }
+    //     else if (vpnorder == 7){
+    //         return ((Complex(0,-0.020833333333333332)*pow(mass,3)*pow(omega,3)*(-270*(-6*Nu*(-2 + delta*(-2 + Nu) + 6*Nu) 
+    //          + kappa1*(4 - Nu*(13 + 8*Nu) + delta*(4 + Nu*(-5 + 12*Nu))))* pow(S1z,2) + S1z*(810*(-4 + 19*Nu + delta*(-4 + 5*Nu))*M_PI
+    //          + 5*delta*Nu*(Complex(0,-541) + 216*(-10 + 9*Nu)*S2z) + Complex(0,61560)*Nu*atanh(1/5) + Complex(0,1)*(2349*delta - 14207*Nu 
+    //          + 81*(29 - 80*log(1.5))) + Complex(0,1620)*delta*(-4 + 5*Nu)*log(1.5)) + S2z*(810*(4 - 19*Nu + delta*(-4 + 5*Nu))*M_PI 
+    //          + Complex(0,1)*(2349*delta + 14207*Nu + 81*(-29 + 80*log(1.5))) - 5*(54*kappa2*(-4 + Nu*(13 + 8*Nu) + delta*(4 + Nu*(-5 + 12*Nu)))*S2z + 
+    //          Nu*(Complex(0,541)*delta - 324*(2 + delta*(-2 + Nu) - 6*Nu)*S2z - Complex(0,648)*(-19 + 5*delta)*atanh(1/5)) 
+    //          - Complex(0,324)*delta*log(1.5802469135802468) ) - Complex(0,486)*delta*log(1024))))/sqrt(210));
+    //     }
+    //     else {
+    //         return 0;
+    //     }
+    // }
 }
 
 static COMPLEX16 hl_3_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
@@ -408,11 +408,11 @@ static COMPLEX16 hl_3_m_min3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
 
 //H32
 static COMPLEX16 hGO_3_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
-    REAL8 delta = sqrt(1-4*Nu);
-    REAL8 kappa1 = 1.0;
-    REAL8 kappa2 = 1.0;
+   // REAL8 delta = sqrt(1-4*Nu);
+    // REAL8 kappa1 = 1.0;
+    // REAL8 kappa2 = 1.0;
 
-    if (rDOT){
+    // if (rDOT){
 
     if(vpnorder == 2){
         return (-(sqrt(0.7142857142857143)*mass*(-1 + 3*Nu)*PhiDOT*(4*PhiDOT*r 
@@ -466,38 +466,38 @@ static COMPLEX16 hGO_3_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
     else{
         return 0;
     }
-    }
-    else {
-       REAL8 omega = PhiDOT;
+    // }
+    // else {
+    //    REAL8 omega = PhiDOT;
 
-       if (vpnorder == 3){
+    //    if (vpnorder == 3){
 
-           return ((4*sqrt(0.7142857142857143)*pow(mass,1.6666666666666667)*Nu*pow(omega,1.6666666666666667)*(S1z + S2z))/3.);
-       }
-       else if (vpnorder == 5){
+    //        return ((4*sqrt(0.7142857142857143)*pow(mass,1.6666666666666667)*Nu*pow(omega,1.6666666666666667)*(S1z + S2z))/3.);
+    //    }
+    //    else if (vpnorder == 5){
 
-           return ((sqrt(0.7142857142857143)*pow(mass,2.3333333333333335)*pow(omega,2.3333333333333335)*
-            (43*delta*Nu*(S1z - S2z) - 3*Nu*(S1z + S2z) - 26*pow(Nu,2)*(S1z + S2z) - 8*(S1z + delta*S1z + S2z - delta*S2z)))/9.);
-       }
-       else if (vpnorder == 6){
+    //        return ((sqrt(0.7142857142857143)*pow(mass,2.3333333333333335)*pow(omega,2.3333333333333335)*
+    //         (43*delta*Nu*(S1z - S2z) - 3*Nu*(S1z + S2z) - 26*pow(Nu,2)*(S1z + S2z) - 8*(S1z + delta*S1z + S2z - delta*S2z)))/9.);
+    //    }
+    //    else if (vpnorder == 6){
 
-           return ((2*sqrt(0.7142857142857143)*pow(mass,2.6666666666666665)*pow(omega,2.6666666666666665)*
-            ((2*Nu*(-5 - 5*delta + 4*Nu) + 3*kappa1*(1 + delta - 2*(2 + delta)*Nu + 6*pow(Nu,2)))*pow(S1z,2) + 
-            S2z*(2*(4 + 9*kappa2)*pow(Nu,2)*S2z - 3*(-1 + delta)*(Complex(0,2) + kappa2*S2z) + 
-            2*Nu*(Complex(0,-15) + 6*M_PI + 5*(-1 + delta)*S2z + 3*(-2 + delta)*kappa2*S2z)) + 
-            2*S1z*(Complex(0,3) + Complex(0,3)*delta + Nu*(Complex(0,-15) + 6*M_PI + 2*S2z - 10*Nu*S2z))))/9.);
-       }
-       else if (vpnorder == 7){
+    //        return ((2*sqrt(0.7142857142857143)*pow(mass,2.6666666666666665)*pow(omega,2.6666666666666665)*
+    //         ((2*Nu*(-5 - 5*delta + 4*Nu) + 3*kappa1*(1 + delta - 2*(2 + delta)*Nu + 6*pow(Nu,2)))*pow(S1z,2) + 
+    //         S2z*(2*(4 + 9*kappa2)*pow(Nu,2)*S2z - 3*(-1 + delta)*(Complex(0,2) + kappa2*S2z) + 
+    //         2*Nu*(Complex(0,-15) + 6*M_PI + 5*(-1 + delta)*S2z + 3*(-2 + delta)*kappa2*S2z)) + 
+    //         2*S1z*(Complex(0,3) + Complex(0,3)*delta + Nu*(Complex(0,-15) + 6*M_PI + 2*S2z - 10*Nu*S2z))))/9.);
+    //    }
+    //    else if (vpnorder == 7){
 
-           return ((pow(mass,3)*pow(omega,3)*(-26902*pow(Nu,3)*(S1z + S2z) - 4664*(S1z + delta*S1z + S2z - delta*S2z) + 
-            Nu*(3960*(1 + delta)*kappa1*pow(S1z,3) + 3960*(1 + delta)*kappa1*pow(S1z,2)*S2z + S1z*(28921 - 18889*delta 
-            - 3960*(-1 + delta)*kappa2*pow(S2z,2)) +  S2z*(28921 + 18889*delta - 3960*(-1 + delta)*kappa2*pow(S2z,2))) 
-            -  2*pow(Nu,2)*(1351*delta*(S1z - S2z) + 6*(S1z + S2z)*(6773 + 660*(kappa1*pow(S1z,2) + S2z*(-2*S1z + kappa2*S2z))))))/(1188.*sqrt(35)));
-       }
-       else {
-           return 0;
-       }
-    }
+    //        return ((pow(mass,3)*pow(omega,3)*(-26902*pow(Nu,3)*(S1z + S2z) - 4664*(S1z + delta*S1z + S2z - delta*S2z) + 
+    //         Nu*(3960*(1 + delta)*kappa1*pow(S1z,3) + 3960*(1 + delta)*kappa1*pow(S1z,2)*S2z + S1z*(28921 - 18889*delta 
+    //         - 3960*(-1 + delta)*kappa2*pow(S2z,2)) +  S2z*(28921 + 18889*delta - 3960*(-1 + delta)*kappa2*pow(S2z,2))) 
+    //         -  2*pow(Nu,2)*(1351*delta*(S1z - S2z) + 6*(S1z + S2z)*(6773 + 660*(kappa1*pow(S1z,2) + S2z*(-2*S1z + kappa2*S2z))))))/(1188.*sqrt(35)));
+    //    }
+    //    else {
+    //        return 0;
+    //    }
+    // }
 }
 
 static COMPLEX16 hl_3_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
@@ -525,10 +525,10 @@ static COMPLEX16 hl_3_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
 //H31
 static COMPLEX16 hGO_3_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
     REAL8 delta = sqrt(1-4*Nu);
-    REAL8 kappa1 = 1.0;
-    REAL8 kappa2 = 1.0;
+    // REAL8 kappa1 = 1.0;
+    // REAL8 kappa2 = 1.0;
     
-    if (rDOT){
+    // if (rDOT){
     if(vpnorder == 1){
         return (delta*(mass*(Complex(0,7)*PhiDOT*r - 12*rDOT) - Complex(0,6)*r*(PhiDOT*r 
         - Complex(0,1)*rDOT)*pow(PhiDOT*r + Complex(0,1)*rDOT,2)))/(6.*sqrt(14)*r);
@@ -595,38 +595,38 @@ static COMPLEX16 hGO_3_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
     else{
         return 0;
     }
-    }
-    else {
-        REAL8 omega = PhiDOT;
+    // }
+    // else {
+    //     REAL8 omega = PhiDOT;
 
-        if(vpnorder == 4){
-            return ((Complex(0,0.041666666666666664)*pow(mass,2)*pow(omega,2)*(-4*S1z + 11*Nu*(S1z - S2z) 
-            + 4*S2z - 4*delta*(S1z + S2z) + 13*delta*Nu*(S1z + S2z)))/sqrt(14));
-        }
-        else if(vpnorder == 5){
+    //     if(vpnorder == 4){
+    //         return ((Complex(0,0.041666666666666664)*pow(mass,2)*pow(omega,2)*(-4*S1z + 11*Nu*(S1z - S2z) 
+    //         + 4*S2z - 4*delta*(S1z + S2z) + 13*delta*Nu*(S1z + S2z)))/sqrt(14));
+    //     }
+    //     else if(vpnorder == 5){
 
-            return ((Complex(0,-0.041666666666666664)*pow(mass,2.3333333333333335)*pow(omega,2.3333333333333335)*
-            (kappa1*(5 - 4*Nu + delta*(5 + 6*Nu))*pow(S1z,2) + S2z*(-12*delta*Nu*S1z + kappa2*(-5 + 5*delta + 4*Nu + 6*delta*Nu)*S2z)))/sqrt(14));
-        }
-        else if(vpnorder == 6){
+    //         return ((Complex(0,-0.041666666666666664)*pow(mass,2.3333333333333335)*pow(omega,2.3333333333333335)*
+    //         (kappa1*(5 - 4*Nu + delta*(5 + 6*Nu))*pow(S1z,2) + S2z*(-12*delta*Nu*S1z + kappa2*(-5 + 5*delta + 4*Nu + 6*delta*Nu)*S2z)))/sqrt(14));
+    //     }
+    //     else if(vpnorder == 6){
 
-            return ((Complex(0,-0.004629629629629629)*pow(mass,2.6666666666666665)*pow(omega,2.6666666666666665)*
-            (-70*(S1z - S2z + delta*(S1z + S2z)) + pow(Nu,2)*(931*(S1z - S2z) + 45*delta*(S1z + S2z)) + Nu*(59*(-S1z + S2z) + 99*delta*(S1z + S2z))))/sqrt(14));
-        }
-        else if(vpnorder == 7){
+    //         return ((Complex(0,-0.004629629629629629)*pow(mass,2.6666666666666665)*pow(omega,2.6666666666666665)*
+    //         (-70*(S1z - S2z + delta*(S1z + S2z)) + pow(Nu,2)*(931*(S1z - S2z) + 45*delta*(S1z + S2z)) + Nu*(59*(-S1z + S2z) + 99*delta*(S1z + S2z))))/sqrt(14));
+    //     }
+    //     else if(vpnorder == 7){
 
-            return ((Complex(0,0.001388888888888889)*pow(mass,3)*pow(omega,3)*(10*(32*(1 + delta)*kappa1 - (36*(1 + delta) + (65 + delta)*kappa1)*Nu + 
-            2*(150 + 33*delta + (76 + 22*delta)*kappa1)*pow(Nu,2))*pow(S1z,2) + 
-            S2z*(Complex(0,-315)*delta*Nu + 30*(4 - 11*Nu + delta*(-4 + 13*Nu))*M_PI + 60*Nu*(6 - 50*Nu + delta*(-6 + 11*Nu))*S2z + 
-            10*kappa2*(-32 + (65 - 152*Nu)*Nu + delta*(32 + Nu*(-1 + 44*Nu)))*S2z + Complex(0,3)*(-117 + 117*delta + 199*Nu - 80*log(2)) - 
-            Complex(0,60)*(-11*Nu + delta*(-4 + 13*Nu))*log(2)) + S1z*
-            (30*(-4 + 11*Nu + delta*(-4 + 13*Nu))*M_PI + 5*delta*Nu*(Complex(0,-63) + 8*(-34 + 11*Nu)*S2z) - Complex(0,60)*(11*Nu + delta*(-4 + 13*Nu))*log(2) + 
-            Complex(0,3)*(117 + 117*delta - 199*Nu + 80*log(2)))))/sqrt(14));
-        }
-        else {
-            return 0;
-        }
-    }
+    //         return ((Complex(0,0.001388888888888889)*pow(mass,3)*pow(omega,3)*(10*(32*(1 + delta)*kappa1 - (36*(1 + delta) + (65 + delta)*kappa1)*Nu + 
+    //         2*(150 + 33*delta + (76 + 22*delta)*kappa1)*pow(Nu,2))*pow(S1z,2) + 
+    //         S2z*(Complex(0,-315)*delta*Nu + 30*(4 - 11*Nu + delta*(-4 + 13*Nu))*M_PI + 60*Nu*(6 - 50*Nu + delta*(-6 + 11*Nu))*S2z + 
+    //         10*kappa2*(-32 + (65 - 152*Nu)*Nu + delta*(32 + Nu*(-1 + 44*Nu)))*S2z + Complex(0,3)*(-117 + 117*delta + 199*Nu - 80*log(2)) - 
+    //         Complex(0,60)*(-11*Nu + delta*(-4 + 13*Nu))*log(2)) + S1z*
+    //         (30*(-4 + 11*Nu + delta*(-4 + 13*Nu))*M_PI + 5*delta*Nu*(Complex(0,-63) + 8*(-34 + 11*Nu)*S2z) - Complex(0,60)*(11*Nu + delta*(-4 + 13*Nu))*log(2) + 
+    //         Complex(0,3)*(117 + 117*delta - 199*Nu + 80*log(2)))))/sqrt(14));
+    //     }
+    //     else {
+    //         return 0;
+    //     }
+    // }
 }
 
 static COMPLEX16 hl_3_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
@@ -654,12 +654,12 @@ static COMPLEX16 hl_3_m_min1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
 }
 
 //H44
-static COMPLEX16 hGO_4_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
-    REAL8 delta = sqrt(1-4*Nu);
-    REAL8 kappa1 = 1.0;
-    REAL8 kappa2 = 1.0;
+static COMPLEX16 hGO_4_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder/*,REAL8 S1z, REAL8 S2z*/){
+    //REAL8 delta = sqrt(1-4*Nu);
+    // REAL8 kappa1 = 1.0;
+    // REAL8 kappa2 = 1.0;
 
-    if(rDOT){
+    // if(rDOT){
     if(vpnorder == 2){
         return (sqrt(0.7142857142857143)*(-1 + 3*Nu)*(7*pow(mass,2) 
         + 6*pow(r,2)*pow(PhiDOT*r + Complex(0,1)*rDOT,4) 
@@ -722,57 +722,57 @@ static COMPLEX16 hGO_4_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
     else{
         return 0;
     }
-    }
-    else {
-        REAL8 omega = PhiDOT;
+    // }
+    // else {
+    //     REAL8 omega = PhiDOT;
 
-        if(vpnorder == 5){
-            return((-32*pow(mass,2.3333333333333335)*pow(omega,2.3333333333333335)*
-            (39*delta*Nu*(S1z - S2z) + 41*Nu*(S1z + S2z) - 42*pow(Nu,2)*(S1z + S2z) - 10*(S1z + delta*S1z + S2z - delta*S2z)))/(27.*sqrt(35)));
-        }
-        else if(vpnorder == 6){
-            return((16*sqrt(0.7142857142857143)*pow(mass,2.6666666666666665)*(-1 + 3*Nu)*pow(omega,2.6666666666666665)*
-            (kappa1*(1 + delta - 2*Nu)*pow(S1z,2) + S2z*(4*Nu*S1z - kappa2*(-1 + delta + 2*Nu)*S2z)))/9.);
-        }
-        else if(vpnorder == 7){
-            return((8*pow(mass,3)*pow(omega,3)*(6630*pow(Nu,3)*(S1z + S2z) - 786*(S1z + delta*S1z + S2z - delta*S2z) 
-            + 21*Nu*(273*delta*(S1z - S2z) + 173*(S1z + S2z)) -  2*pow(Nu,2)*(1557*delta*(S1z - S2z) + 2960*(S1z + S2z))))/(297.*sqrt(35)));
-        }
-        else {
-            return 0;
-        }
-    }
+    //     if(vpnorder == 5){
+    //         return((-32*pow(mass,2.3333333333333335)*pow(omega,2.3333333333333335)*
+    //         (39*delta*Nu*(S1z - S2z) + 41*Nu*(S1z + S2z) - 42*pow(Nu,2)*(S1z + S2z) - 10*(S1z + delta*S1z + S2z - delta*S2z)))/(27.*sqrt(35)));
+    //     }
+    //     else if(vpnorder == 6){
+    //         return((16*sqrt(0.7142857142857143)*pow(mass,2.6666666666666665)*(-1 + 3*Nu)*pow(omega,2.6666666666666665)*
+    //         (kappa1*(1 + delta - 2*Nu)*pow(S1z,2) + S2z*(4*Nu*S1z - kappa2*(-1 + delta + 2*Nu)*S2z)))/9.);
+    //     }
+    //     else if(vpnorder == 7){
+    //         return((8*pow(mass,3)*pow(omega,3)*(6630*pow(Nu,3)*(S1z + S2z) - 786*(S1z + delta*S1z + S2z - delta*S2z) 
+    //         + 21*Nu*(273*delta*(S1z - S2z) + 173*(S1z + S2z)) -  2*pow(Nu,2)*(1557*delta*(S1z - S2z) + 2960*(S1z + S2z))))/(297.*sqrt(35)));
+    //     }
+    //     else {
+    //         return 0;
+    //     }
+    // }
 }
 
-static COMPLEX16 hl_4_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_4_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/*,REAL8 S1z, REAL8 S2z*/){
     
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_4: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,4*M_PI/2) */ * hGO_4_m_4(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z) * cpolar(1,-4*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,4*M_PI/2) */ * hGO_4_m_4(mass,Nu,r,rDOT,PhiDOT,vpnorder/*,S1z,S2z*/) * cpolar(1,-4*Phi);
     }
 }
 
-static COMPLEX16 hl_4_m_min4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_4_m_min4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/*,REAL8 S1z, REAL8 S2z*/){
 
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_min4: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-4*M_PI/2)*/  * pow(-1,4) * conj(hGO_4_m_4(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z)) * cpolar(1,4*Phi); 
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-4*M_PI/2)*/  * pow(-1,4) * conj(hGO_4_m_4(mass,Nu,r,rDOT,PhiDOT,vpnorder/*,S1z,S2z*/)) * cpolar(1,4*Phi); 
     }
 }
 
 //H43
 static COMPLEX16 hGO_4_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
     REAL8 delta = sqrt(1-4*Nu);
-    REAL8 kappa1 = 1.0;
-    REAL8 kappa2 = 1.0;
+    // REAL8 kappa1 = 1.0;
+    // REAL8 kappa2 = 1.0;
 
-    if(rDOT){
+    // if(rDOT){
 
     if(vpnorder == 3){
         return (Complex(0,0.16666666666666666)*delta*mass*(-1 + 2*Nu)*PhiDOT*(4*mass 
@@ -810,31 +810,31 @@ static COMPLEX16 hGO_4_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
     else{
         return 0;
     }
-    }
-    else{
+    // }
+    // else{
 
-        REAL8 omega = PhiDOT;
+    //     REAL8 omega = PhiDOT;
 
-        if(vpnorder == 4){
+    //     if(vpnorder == 4){
 
-            return(Complex(0,-1.125)*sqrt(0.35714285714285715)*pow(mass,2)*Nu*pow(omega,2)*(-S1z + S2z + delta*(S1z + S2z)));
-        }
-        else if(vpnorder == 6){
-            return((Complex(0,0.03409090909090909)*pow(mass,2.6666666666666665)*pow(omega,2.6666666666666665)*
-            (220*(S1z - S2z + delta*(S1z + S2z)) + Nu*(-2403*(S1z - S2z) + 203*delta*(S1z + S2z)) + pow(Nu,2)*(3359*(S1z - S2z) + 457*delta*(S1z + S2z))))/sqrt(70));
-        }
-        else if(vpnorder == 7){
-            return((Complex(0,-0.020833333333333332)*pow(mass,3)*pow(omega,3)*(54*(10*(4 + delta)*pow(Nu,2) 
-            + kappa1*(5 + 5*delta*pow(1 - 2*Nu,2) - 30*Nu + 28*pow(Nu,2)))*
-            pow(S1z,2) + S1z*(Complex(0,297) - Nu*(Complex(0,283) + 810*M_PI) + delta*(Complex(0,297) - 5*Nu*(Complex(0,629) - 162*M_PI + 216*Nu*S2z)) + 
-            Complex(0,3240)*(-1 + delta)*Nu*atanh(1/5)) + S2z*(Complex(0,297)*(-1 + delta) + Nu*(Complex(0,283) + 810*M_PI) + 
-            54*kappa2*(-5 + 5*delta*pow(1 - 2*Nu,2) + 30*Nu - 28*pow(Nu,2))*S2z + 
-            5*Nu*(Complex(0,-629)*delta + 162*delta*M_PI - 432*Nu*S2z + 108*delta*Nu*S2z + Complex(0,648)*(1 + delta)*atanh(1/5)))))/sqrt(70));
-        }
-        else{
-            return 0;
-        }
-    }
+    //         return(Complex(0,-1.125)*sqrt(0.35714285714285715)*pow(mass,2)*Nu*pow(omega,2)*(-S1z + S2z + delta*(S1z + S2z)));
+    //     }
+    //     else if(vpnorder == 6){
+    //         return((Complex(0,0.03409090909090909)*pow(mass,2.6666666666666665)*pow(omega,2.6666666666666665)*
+    //         (220*(S1z - S2z + delta*(S1z + S2z)) + Nu*(-2403*(S1z - S2z) + 203*delta*(S1z + S2z)) + pow(Nu,2)*(3359*(S1z - S2z) + 457*delta*(S1z + S2z))))/sqrt(70));
+    //     }
+    //     else if(vpnorder == 7){
+    //         return((Complex(0,-0.020833333333333332)*pow(mass,3)*pow(omega,3)*(54*(10*(4 + delta)*pow(Nu,2) 
+    //         + kappa1*(5 + 5*delta*pow(1 - 2*Nu,2) - 30*Nu + 28*pow(Nu,2)))*
+    //         pow(S1z,2) + S1z*(Complex(0,297) - Nu*(Complex(0,283) + 810*M_PI) + delta*(Complex(0,297) - 5*Nu*(Complex(0,629) - 162*M_PI + 216*Nu*S2z)) + 
+    //         Complex(0,3240)*(-1 + delta)*Nu*atanh(1/5)) + S2z*(Complex(0,297)*(-1 + delta) + Nu*(Complex(0,283) + 810*M_PI) + 
+    //         54*kappa2*(-5 + 5*delta*pow(1 - 2*Nu,2) + 30*Nu - 28*pow(Nu,2))*S2z + 
+    //         5*Nu*(Complex(0,-629)*delta + 162*delta*M_PI - 432*Nu*S2z + 108*delta*Nu*S2z + Complex(0,648)*(1 + delta)*atanh(1/5)))))/sqrt(70));
+    //     }
+    //     else{
+    //         return 0;
+    //     }
+    // }
 }
 
 static COMPLEX16 hl_4_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
@@ -862,12 +862,12 @@ static COMPLEX16 hl_4_m_min3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
 }
 
 //H42
-static COMPLEX16 hGO_4_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
-    REAL8 delta = sqrt(1-4*Nu);
-    REAL8 kappa1 = 1.0;
-    REAL8 kappa2 = 1.0;
+static COMPLEX16 hGO_4_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder/*,REAL8 S1z, REAL8 S2z*/){
+    //REAL8 delta = sqrt(1-4*Nu);
+    // REAL8 kappa1 = 1.0;
+    // REAL8 kappa2 = 1.0;
 
-    if(rDOT){
+    // if(rDOT){
 
     if(vpnorder == 2){
         return (-(sqrt(5)*(-1 + 3*Nu)*(7*pow(mass,2) - 6*pow(r,2)*(PhiDOT*r 
@@ -930,60 +930,60 @@ static COMPLEX16 hGO_4_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
     else{
         return 0;
     }
-    }
-    else {
+    // }
+    // else {
 
-        REAL8 omega = PhiDOT;
+    //     REAL8 omega = PhiDOT;
 
-        if(vpnorder == 5){
+    //     if(vpnorder == 5){
 
-            return((4*pow(mass,2.3333333333333335)*pow(omega,2.3333333333333335)*(21*delta*Nu*(S1z - S2z) + 59*Nu*(S1z + S2z) - 78*pow(Nu,2)*(S1z + S2z) - 
-            10*(S1z + delta*S1z + S2z - delta*S2z)))/(189.*sqrt(5)));
-        }
-        else if (vpnorder == 6){
+    //         return((4*pow(mass,2.3333333333333335)*pow(omega,2.3333333333333335)*(21*delta*Nu*(S1z - S2z) + 59*Nu*(S1z + S2z) - 78*pow(Nu,2)*(S1z + S2z) - 
+    //         10*(S1z + delta*S1z + S2z - delta*S2z)))/(189.*sqrt(5)));
+    //     }
+    //     else if (vpnorder == 6){
 
-            return((2*sqrt(5)*pow(mass,2.6666666666666665)*pow(omega,2.6666666666666665)*
-            (kappa1*(1 + delta - 2*Nu + 6*pow(Nu,2))*pow(S1z,2) + S2z*(4*(1 - 3*Nu)*Nu*S1z - kappa2*(-1 + delta + 2*Nu - 6*pow(Nu,2))*S2z)))/63.);
-        }
-        else if(vpnorder == 7){
-            return((pow(mass,3)*pow(omega,3)*(-5958*delta*pow(Nu,2)*(S1z - S2z) + 45*delta*Nu*(-S1z + S2z) - 6009*Nu*(S1z + S2z) + 7528*pow(Nu,2)*(S1z + S2z) - 
-            1134*pow(Nu,3)*(S1z + S2z) + 1104*(S1z + delta*S1z + S2z - delta*S2z)))/(2079.*sqrt(5)));
-        }
-        else{
-            return 0;
-        }
-    }
+    //         return((2*sqrt(5)*pow(mass,2.6666666666666665)*pow(omega,2.6666666666666665)*
+    //         (kappa1*(1 + delta - 2*Nu + 6*pow(Nu,2))*pow(S1z,2) + S2z*(4*(1 - 3*Nu)*Nu*S1z - kappa2*(-1 + delta + 2*Nu - 6*pow(Nu,2))*S2z)))/63.);
+    //     }
+    //     else if(vpnorder == 7){
+    //         return((pow(mass,3)*pow(omega,3)*(-5958*delta*pow(Nu,2)*(S1z - S2z) + 45*delta*Nu*(-S1z + S2z) - 6009*Nu*(S1z + S2z) + 7528*pow(Nu,2)*(S1z + S2z) - 
+    //         1134*pow(Nu,3)*(S1z + S2z) + 1104*(S1z + delta*S1z + S2z - delta*S2z)))/(2079.*sqrt(5)));
+    //     }
+    //     else{
+    //         return 0;
+    //     }
+    // }
 }
 
-static COMPLEX16 hl_4_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_4_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/*,REAL8 S1z, REAL8 S2z*/){
     
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_2: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,2*M_PI/2) */ * hGO_4_m_2(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z) * cpolar(1,-2*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,2*M_PI/2) */ * hGO_4_m_2(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */) * cpolar(1,-2*Phi);
     }
 }
 
-static COMPLEX16 hl_4_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_4_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
 
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min2: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-2*M_PI/2) */ * pow(-1,4) * conj(hGO_4_m_2(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z)) * cpolar(1,2*Phi); 
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-2*M_PI/2) */ * pow(-1,4) * conj(hGO_4_m_2(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */)) * cpolar(1,2*Phi); 
     }
 }
 
 //H41
 static COMPLEX16 hGO_4_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
     REAL8 delta = sqrt(1-4*Nu);
-    REAL8 kappa1 = 1.0;
-    REAL8 kappa2 = 1.0;
+   /*  REAL8 kappa1 = 1.0;
+    REAL8 kappa2 = 1.0; */
 
-    if(rDOT){
+    // if(rDOT){
 
     if(vpnorder == 3){
         return (delta*mass*(-1 + 2*Nu)*PhiDOT*(Complex(0,-12)*mass 
@@ -1018,34 +1018,34 @@ static COMPLEX16 hGO_4_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
     else{
         return 0;
     }
-    }
-    else{
-         REAL8 omega = PhiDOT;
+    // }
+    // else{
+    //      REAL8 omega = PhiDOT;
 
-         if(vpnorder == 4){
+    //      if(vpnorder == 4){
 
-             return(Complex(0,0.005952380952380952)*sqrt(2.5)*pow(mass,2)*Nu*pow(omega,2)*(-S1z + S2z + delta*(S1z + S2z)));
-         }
-         else if(vpnorder == 6){
+    //          return(Complex(0,0.005952380952380952)*sqrt(2.5)*pow(mass,2)*Nu*pow(omega,2)*(-S1z + S2z + delta*(S1z + S2z)));
+    //      }
+    //      else if(vpnorder == 6){
 
-             return((Complex(0,-0.00018037518037518038)*pow(mass,2.6666666666666665)*pow(omega,2.6666666666666665)*
-             (220*(S1z - S2z + delta*(S1z + S2z)) + Nu*(-2247*(S1z - S2z) + 47*delta*(S1z + S2z)) + pow(Nu,2)*(2891*(S1z - S2z) 
-              + 613*delta*(S1z + S2z))))/sqrt(10));
-         }
-         else if(vpnorder == 7){
+    //          return((Complex(0,-0.00018037518037518038)*pow(mass,2.6666666666666665)*pow(omega,2.6666666666666665)*
+    //          (220*(S1z - S2z + delta*(S1z + S2z)) + Nu*(-2247*(S1z - S2z) + 47*delta*(S1z + S2z)) + pow(Nu,2)*(2891*(S1z - S2z) 
+    //           + 613*delta*(S1z + S2z))))/sqrt(10));
+    //      }
+    //      else if(vpnorder == 7){
 
-             return((Complex(0,0.000992063492063492)*pow(mass,3)*pow(omega,3)*(6*(10*(4 + delta)*pow(Nu,2) 
-             + kappa1*(5 + 5*delta*pow(1 - 2*Nu,2) + 6*Nu*(-5 + 2*Nu)))* pow(S1z,2) + S2z*(Complex(0,11)*(-1 + delta) 
-             + Nu*(Complex(0,-31) + 30*M_PI) + 6*kappa2*(-5 + 5*delta*pow(1 - 2*Nu,2) + 6*(5 - 2*Nu)*Nu)*S2z + 
-             15*Nu*(-4*(4*Nu*S2z + Complex(0,1)*log(2)) + delta*(2*M_PI + 4*Nu*S2z - Complex(0,1)*(5 + log(16))))) + 
-             S1z*(Complex(0,11) + Nu*(Complex(0,31) - 30*M_PI + Complex(0,60)*log(2)) + delta*(Complex(0,11) 
-             - 15*Nu*(-2*M_PI + 8*Nu*S2z + Complex(0,1)*(5 + log(16)))))))/sqrt(10));
-         }
-         else{
-             return 0;
-         }
+    //          return((Complex(0,0.000992063492063492)*pow(mass,3)*pow(omega,3)*(6*(10*(4 + delta)*pow(Nu,2) 
+    //          + kappa1*(5 + 5*delta*pow(1 - 2*Nu,2) + 6*Nu*(-5 + 2*Nu)))* pow(S1z,2) + S2z*(Complex(0,11)*(-1 + delta) 
+    //          + Nu*(Complex(0,-31) + 30*M_PI) + 6*kappa2*(-5 + 5*delta*pow(1 - 2*Nu,2) + 6*(5 - 2*Nu)*Nu)*S2z + 
+    //          15*Nu*(-4*(4*Nu*S2z + Complex(0,1)*log(2)) + delta*(2*M_PI + 4*Nu*S2z - Complex(0,1)*(5 + log(16))))) + 
+    //          S1z*(Complex(0,11) + Nu*(Complex(0,31) - 30*M_PI + Complex(0,60)*log(2)) + delta*(Complex(0,11) 
+    //          - 15*Nu*(-2*M_PI + 8*Nu*S2z + Complex(0,1)*(5 + log(16)))))))/sqrt(10));
+    //      }
+    //      else{
+    //          return 0;
+    //      }
 
-    }
+    // }
 }
 
 static COMPLEX16 hl_4_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
@@ -1073,12 +1073,12 @@ static COMPLEX16 hl_4_m_min1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
 }
 
 //H55
-static COMPLEX16 hGO_5_m_5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hGO_5_m_5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
     REAL8 delta = sqrt(1-4*Nu);
-    REAL8 kappa1 = 1.0;
-    REAL8 kappa2 = 1.0;
+   /*  REAL8 kappa1 = 1.0;
+    REAL8 kappa2 = 1.0; */
 
-    if(rDOT){
+    // if(rDOT){
 
     if(vpnorder == 3){
         return (delta*(-1 + 2*Nu)*(24*pow(r,2)*pow(Complex(0,-1)*PhiDOT*r + rDOT,5) 
@@ -1112,56 +1112,56 @@ static COMPLEX16 hGO_5_m_5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
     else{
         return 0;
     }
-    }
-    else{
-        REAL8 omega = PhiDOT;
+    // }
+    // else{
+    //     REAL8 omega = PhiDOT;
 
-        if(vpnorder == 6){
+    //     if(vpnorder == 6){
 
-            return((Complex(0,-21.70138888888889)*pow(mass,2.6666666666666665)*pow(omega,2.6666666666666665)*
-            ((1 + delta + 3*delta*(-1 + Nu)*Nu + Nu*(-7 + 11*Nu))*S1z + (-1 + delta + (7 - 11*Nu)*Nu + 3*delta*(-1 + Nu)*Nu)*S2z))/sqrt(66));
-        }
-        else if(vpnorder == 7){
+    //         return((Complex(0,-21.70138888888889)*pow(mass,2.6666666666666665)*pow(omega,2.6666666666666665)*
+    //         ((1 + delta + 3*delta*(-1 + Nu)*Nu + Nu*(-7 + 11*Nu))*S1z + (-1 + delta + (7 - 11*Nu)*Nu + 3*delta*(-1 + Nu)*Nu)*S2z))/sqrt(66));
+    //     }
+    //     else if(vpnorder == 7){
 
-            return((Complex(0,16.276041666666668)*pow(mass,3)*(-1 + 2*Nu)*pow(omega,3)*
-            (kappa1*(-1 - delta + 2*(2 + delta)*Nu)*pow(S1z,2) + S2z*(-4*delta*Nu*S1z + kappa2*(1 - delta + 2*(-2 + delta)*Nu)*S2z)))/sqrt(66));
-        }
-        else{
-            return 0;
-        }
-    }
+    //         return((Complex(0,16.276041666666668)*pow(mass,3)*(-1 + 2*Nu)*pow(omega,3)*
+    //         (kappa1*(-1 - delta + 2*(2 + delta)*Nu)*pow(S1z,2) + S2z*(-4*delta*Nu*S1z + kappa2*(1 - delta + 2*(-2 + delta)*Nu)*S2z)))/sqrt(66));
+    //     }
+    //     else{
+    //         return 0;
+    //     }
+    // }
 }
 
-static COMPLEX16 hl_5_m_5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_5_m_5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
 
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_5: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,5*M_PI/2) */ * hGO_5_m_5(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z) * cpolar(1,-5*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,5*M_PI/2) */ * hGO_5_m_5(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */) * cpolar(1,-5*Phi);
     }
 
 }
 
-static COMPLEX16 hl_5_m_min5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_5_m_min5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
     
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min5: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-5*M_PI/2)*/  * pow(-1,5) * conj(hGO_5_m_5(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z)) * cpolar(1,5*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-5*M_PI/2)*/  * pow(-1,5) * conj(hGO_5_m_5(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */)) * cpolar(1,5*Phi);
     }
     
 }
 
 //H54
-static COMPLEX16 hGO_5_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
-    REAL8 delta = sqrt(1-4*Nu);
+static COMPLEX16 hGO_5_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
+    //REAL8 delta = sqrt(1-4*Nu);
     
 
-    if(rDOT){
+    // if(rDOT){
 
     if(vpnorder == 4){
         return (-(mass*(1 - 5*Nu + 5*pow(Nu,2))*PhiDOT*(mass*(82*PhiDOT*r + Complex(0,22)*rDOT) 
@@ -1188,53 +1188,53 @@ static COMPLEX16 hGO_5_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
     else{
         return 0;
     }
-    }
-    else{
-        REAL8 omega = PhiDOT;
+    // }
+    // else{
+    //     REAL8 omega = PhiDOT;
 
-        if(vpnorder == 5){
+    //     if(vpnorder == 5){
 
-            return((32*pow(mass,2.3333333333333335)*Nu*pow(omega,2.3333333333333335)*((-1 + delta + 2*Nu)*S1z - (1 + delta - 2*Nu)*S2z))/(3.*sqrt(165)));
-        }
-        else if(vpnorder == 7){
-            return((-16*pow(mass,3)*pow(omega,3)*(530*pow(Nu,3)*(S1z + S2z) - 104*(S1z + delta*S1z + S2z - delta*S2z) + Nu*(1139*delta*(S1z - S2z) + 109*(S1z + S2z)) + 
-            2*pow(Nu,2)*(541*delta*(-S1z + S2z) + 120*(S1z + S2z))))/(117.*sqrt(165)));
-        }
-        else{
-            return 0;
-        }
-    }
+    //         return((32*pow(mass,2.3333333333333335)*Nu*pow(omega,2.3333333333333335)*((-1 + delta + 2*Nu)*S1z - (1 + delta - 2*Nu)*S2z))/(3.*sqrt(165)));
+    //     }
+    //     else if(vpnorder == 7){
+    //         return((-16*pow(mass,3)*pow(omega,3)*(530*pow(Nu,3)*(S1z + S2z) - 104*(S1z + delta*S1z + S2z - delta*S2z) + Nu*(1139*delta*(S1z - S2z) + 109*(S1z + S2z)) + 
+    //         2*pow(Nu,2)*(541*delta*(-S1z + S2z) + 120*(S1z + S2z))))/(117.*sqrt(165)));
+    //     }
+    //     else{
+    //         return 0;
+    //     }
+    // }
 }
 
-static COMPLEX16 hl_5_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_5_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
     
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_4: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,4*M_PI/2) */ * hGO_5_m_4(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z) * cpolar(1,-4*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,4*M_PI/2) */ * hGO_5_m_4(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */) * cpolar(1,-4*Phi);
     }
 }
 
-static COMPLEX16 hl_5_m_min4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_5_m_min4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
 
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min4: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-4*M_PI/2)*/ * pow(-1,5) * conj(hGO_5_m_4(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z)) * cpolar(1,4*Phi); 
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-4*M_PI/2)*/ * pow(-1,5) * conj(hGO_5_m_4(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */)) * cpolar(1,4*Phi); 
     }
 }
 
 //H53
-static COMPLEX16 hGO_5_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hGO_5_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
     REAL8 delta = sqrt(1-4*Nu);
-    REAL8 kappa1 = 1.0;
-    REAL8 kappa2 = 1.0;
+    /* REAL8 kappa1 = 1.0;
+    REAL8 kappa2 = 1.0; */
 
-    if(rDOT){
+    // if(rDOT){
 
     if(vpnorder == 3){
         return (delta*(-1 + 2*Nu)*(2*pow(mass,2)*(Complex(0,258)*PhiDOT*r - 205*rDOT) 
@@ -1268,54 +1268,54 @@ static COMPLEX16 hGO_5_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
     else{
         return 0;
     }
-    }
-    else{
-         REAL8 omega = PhiDOT;
+    // }
+    // else{
+    //      REAL8 omega = PhiDOT;
 
-        if(vpnorder == 6){
-            return(Complex(0,0.1875)*sqrt(0.02727272727272727)*pow(mass,2.6666666666666665)*pow(omega,2.6666666666666665)*
-            ((5 + Nu*(-27 + 31*Nu) + delta*(5 + 23*(-1 + Nu)*Nu))*S1z + (-5 + (27 - 31*Nu)*Nu + delta*(5 + 23*(-1 + Nu)*Nu))*S2z));
-        }
-        else if(vpnorder ==7){
-            return(Complex(0,-0.140625)*sqrt(0.02727272727272727)*pow(mass,3)*pow(omega,3)*
-            (kappa1*(5 + 5*delta*pow(1 - 2*Nu,2) - 30*Nu + 8*pow(Nu,2))*pow(S1z,2) + 
-            S2z*(20*delta*(1 - 2*Nu)*Nu*S1z + kappa2*(-5 + 5*delta*pow(1 - 2*Nu,2) + 30*Nu - 8*pow(Nu,2))*S2z)));
-        }
-        else{
-            return 0;
-        }
-    }
+    //     if(vpnorder == 6){
+    //         return(Complex(0,0.1875)*sqrt(0.02727272727272727)*pow(mass,2.6666666666666665)*pow(omega,2.6666666666666665)*
+    //         ((5 + Nu*(-27 + 31*Nu) + delta*(5 + 23*(-1 + Nu)*Nu))*S1z + (-5 + (27 - 31*Nu)*Nu + delta*(5 + 23*(-1 + Nu)*Nu))*S2z));
+    //     }
+    //     else if(vpnorder ==7){
+    //         return(Complex(0,-0.140625)*sqrt(0.02727272727272727)*pow(mass,3)*pow(omega,3)*
+    //         (kappa1*(5 + 5*delta*pow(1 - 2*Nu,2) - 30*Nu + 8*pow(Nu,2))*pow(S1z,2) + 
+    //         S2z*(20*delta*(1 - 2*Nu)*Nu*S1z + kappa2*(-5 + 5*delta*pow(1 - 2*Nu,2) + 30*Nu - 8*pow(Nu,2))*S2z)));
+    //     }
+    //     else{
+    //         return 0;
+    //     }
+    // }
 }
 
-static COMPLEX16 hl_5_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_5_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
 
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_3: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,3*M_PI/2) */ * hGO_5_m_3(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z) * cpolar(1,-3*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,3*M_PI/2) */ * hGO_5_m_3(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */) * cpolar(1,-3*Phi);
     }
 
 }
 
-static COMPLEX16 hl_5_m_min3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_5_m_min3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
     
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min3: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-3*M_PI/2) */ * pow(-1,5) * conj(hGO_5_m_3(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z)) * cpolar(1,3*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-3*M_PI/2) */ * pow(-1,5) * conj(hGO_5_m_3(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */)) * cpolar(1,3*Phi);
     }
     
 }
 
 //H52
-static COMPLEX16 hGO_5_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
-    REAL8 delta = sqrt(1-4*Nu);
+static COMPLEX16 hGO_5_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
+    //REAL8 delta = sqrt(1-4*Nu);
 
-    if(rDOT){
+    // if(rDOT){
 
     if(vpnorder == 4){
         return (mass*(1 - 5*Nu + 5*pow(Nu,2))*PhiDOT*(mass*(41*PhiDOT*r 
@@ -1345,53 +1345,53 @@ static COMPLEX16 hGO_5_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
     else{
         return 0;
     }
-    }
-    else{
-        REAL8 omega = PhiDOT;
+    // }
+    // else{
+    //     REAL8 omega = PhiDOT;
 
-        if(vpnorder == 5){
-            return((2*pow(mass,2.3333333333333335)*Nu*pow(omega,2.3333333333333335)*(S1z - delta*S1z + S2z + delta*S2z - 2*Nu*(S1z + S2z)))/(9.*sqrt(55)));
-        }
-        else if(vpnorder == 7){
-            return((pow(mass,3)*pow(omega,3)*(698*pow(Nu,3)*(S1z + S2z) - 104*(S1z + delta*S1z + S2z - delta*S2z) - 2*pow(Nu,2)*(457*delta*(S1z - S2z) + 48*(S1z + S2z)) + 
-             Nu*(1055*delta*(S1z - S2z) + 193*(S1z + S2z))))/(351.*sqrt(55)));
-        }
-        else{
-            return 0;
-        }
-    }
+    //     if(vpnorder == 5){
+    //         return((2*pow(mass,2.3333333333333335)*Nu*pow(omega,2.3333333333333335)*(S1z - delta*S1z + S2z + delta*S2z - 2*Nu*(S1z + S2z)))/(9.*sqrt(55)));
+    //     }
+    //     else if(vpnorder == 7){
+    //         return((pow(mass,3)*pow(omega,3)*(698*pow(Nu,3)*(S1z + S2z) - 104*(S1z + delta*S1z + S2z - delta*S2z) - 2*pow(Nu,2)*(457*delta*(S1z - S2z) + 48*(S1z + S2z)) + 
+    //          Nu*(1055*delta*(S1z - S2z) + 193*(S1z + S2z))))/(351.*sqrt(55)));
+    //     }
+    //     else{
+    //         return 0;
+    //     }
+    // }
 }
 
-static COMPLEX16 hl_5_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_5_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
     
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_2: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,2*M_PI/2) */ * hGO_5_m_2(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z) * cpolar(1,-2*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,2*M_PI/2) */ * hGO_5_m_2(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */) * cpolar(1,-2*Phi);
     }
 }
 
-static COMPLEX16 hl_5_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_5_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
 
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min2: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-2*M_PI/2) */  * pow(-1,5) * conj(hGO_5_m_2(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z)) * cpolar(1,2*Phi); 
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-2*M_PI/2) */  * pow(-1,5) * conj(hGO_5_m_2(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */)) * cpolar(1,2*Phi); 
     }
 }
 
 //H51
-static COMPLEX16 hGO_5_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hGO_5_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
     REAL8 delta = sqrt(1-4*Nu);
-    REAL8 kappa1 = 1.0;
+   /*  REAL8 kappa1 = 1.0;
     REAL8 kappa2 = 1.0;
+ */
 
-
-    if(rDOT){
+    // if(rDOT){
 
     if(vpnorder == 3){
         return (delta*(-1 + 2*Nu)*(120*pow(r,2)*pow(Complex(0,1)*PhiDOT*r 
@@ -1436,56 +1436,56 @@ static COMPLEX16 hGO_5_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
     else{
         return 0;
     }
-    }
-    else{
-        REAL8 omega = PhiDOT;
+    // }
+    // else{
+    //     REAL8 omega = PhiDOT;
 
-        if(vpnorder == 6){
+    //     if(vpnorder == 6){
 
-            return((Complex(0,-0.0023148148148148147)*pow(mass,2.6666666666666665)*pow(omega,2.6666666666666665)*
-            ((5 + Nu*(-23 + 19*Nu) + delta*(5 + 27*(-1 + Nu)*Nu))*S1z + (-5 + (23 - 19*Nu)*Nu + delta*(5 + 27*(-1 + Nu)*Nu))*S2z))/sqrt(385));
-        }
-        else if(vpnorder == 7){
+    //         return((Complex(0,-0.0023148148148148147)*pow(mass,2.6666666666666665)*pow(omega,2.6666666666666665)*
+    //         ((5 + Nu*(-23 + 19*Nu) + delta*(5 + 27*(-1 + Nu)*Nu))*S1z + (-5 + (23 - 19*Nu)*Nu + delta*(5 + 27*(-1 + Nu)*Nu))*S2z))/sqrt(385));
+    //     }
+    //     else if(vpnorder == 7){
 
-            return((Complex(0,0.001736111111111111)*pow(mass,3)*pow(omega,3)*(kappa1*(5 + 5*delta*pow(1 - 2*Nu,2) - 2*Nu*(15 + 4*Nu))*pow(S1z,2) + 
-            S2z*(20*delta*(1 - 2*Nu)*Nu*S1z + kappa2*(-5 + 5*delta*pow(1 - 2*Nu,2) + 30*Nu + 8*pow(Nu,2))*S2z)))/sqrt(385));
-        }
-        else{
-            return 0;
-        }
-    }
+    //         return((Complex(0,0.001736111111111111)*pow(mass,3)*pow(omega,3)*(kappa1*(5 + 5*delta*pow(1 - 2*Nu,2) - 2*Nu*(15 + 4*Nu))*pow(S1z,2) + 
+    //         S2z*(20*delta*(1 - 2*Nu)*Nu*S1z + kappa2*(-5 + 5*delta*pow(1 - 2*Nu,2) + 30*Nu + 8*pow(Nu,2))*S2z)))/sqrt(385));
+    //     }
+    //     else{
+    //         return 0;
+    //     }
+    // }
 }
 
-static COMPLEX16 hl_5_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_5_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
 
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_1: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,1*M_PI/2) */ * hGO_5_m_1(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z) * cpolar(1,-1*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,1*M_PI/2) */ * hGO_5_m_1(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */) * cpolar(1,-1*Phi);
     }
 
 }
 
-static COMPLEX16 hl_5_m_min1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_5_m_min1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
     
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min1: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-1*M_PI/2) */ * pow(-1,5) * conj(hGO_5_m_1(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z)) * cpolar(1,1*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-1*M_PI/2) */ * pow(-1,5) * conj(hGO_5_m_1(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */)) * cpolar(1,1*Phi);
     }
     
 }
 
 //66
-static COMPLEX16 hGO_6_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
-    REAL8 delta = sqrt(1-4*Nu);
+static COMPLEX16 hGO_6_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
+    //REAL8 delta = sqrt(1-4*Nu);
     
 
-    if(rDOT){
+    // if(rDOT){
 
     if(vpnorder == 4){
         return (((1 - 5*Nu + 5*pow(Nu,2))*(172*pow(mass,3) 
@@ -1523,50 +1523,50 @@ static COMPLEX16 hGO_6_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
     else{
         return 0;
     }
-    }
-    else{
-        REAL8 omega = PhiDOT;
+    // }
+    // else{
+    //     REAL8 omega = PhiDOT;
 
-        if(vpnorder == 7){
+    //     if(vpnorder == 7){
 
-            return((108*pow(mass,3)*pow(omega,3)*(110*pow(Nu,3)*(S1z + S2z) - 14*(S1z + delta*S1z + S2z - delta*S2z)
-             - 50*pow(Nu,2)*(2*delta*(S1z - S2z) + 3*(S1z + S2z)) + Nu*(85*delta*(S1z - S2z) + 83*(S1z + S2z))))/(35.*sqrt(143)));
-        }
-        else{
-            return 0;
-        }
-    }
+    //         return((108*pow(mass,3)*pow(omega,3)*(110*pow(Nu,3)*(S1z + S2z) - 14*(S1z + delta*S1z + S2z - delta*S2z)
+    //          - 50*pow(Nu,2)*(2*delta*(S1z - S2z) + 3*(S1z + S2z)) + Nu*(85*delta*(S1z - S2z) + 83*(S1z + S2z))))/(35.*sqrt(143)));
+    //     }
+    //     else{
+    //         return 0;
+    //     }
+    // }
 
 }
 
-static COMPLEX16 hl_6_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_6_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
     
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_6: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,6*M_PI/2) */ * hGO_6_m_6(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z) * cpolar(1,-6*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,6*M_PI/2) */ * hGO_6_m_6(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */) * cpolar(1,-6*Phi);
     }
 
 }
 
-static COMPLEX16 hl_6_m_min6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_6_m_min6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
     
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min6: Input PN order parameter should be between [1, 7].");
     }
 
    else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-6*M_PI/2)*/  * pow(-1,6) * conj(hGO_6_m_6(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z)) * cpolar(1,6*Phi); 
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-6*M_PI/2)*/  * pow(-1,6) * conj(hGO_6_m_6(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */)) * cpolar(1,6*Phi); 
     }
 }
 
 //65
-static COMPLEX16 hGO_6_m_5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
-    REAL8 delta = sqrt(1-4*Nu);
+static COMPLEX16 hGO_6_m_5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
+     REAL8 delta = sqrt(1-4*Nu);
 
-    if(rDOT){
+    // if(rDOT){
 
     if(vpnorder == 5){
         return (Complex(0,0.003968253968253968)*delta*mass*(1 - 4*Nu
@@ -1581,50 +1581,50 @@ static COMPLEX16 hGO_6_m_5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
     else{
         return 0;
     }
-    }
-    else{
-        REAL8 omega = PhiDOT;
+    // }
+    // else{
+    //     REAL8 omega = PhiDOT;
 
-        if(vpnorder == 6){
+    //     if(vpnorder == 6){
 
-            return((Complex(0,-21.70138888888889)*pow(mass,2.6666666666666665)*Nu*pow(omega,2.6666666666666665)*
-           (S1z + delta*(-1 + Nu)*S1z - 3*Nu*S1z - (1 + delta)*S2z + (3 + delta)*Nu*S2z))/sqrt(429));
-        }
-        else{
-            return 0;
-        }
-    }
+    //         return((Complex(0,-21.70138888888889)*pow(mass,2.6666666666666665)*Nu*pow(omega,2.6666666666666665)*
+    //        (S1z + delta*(-1 + Nu)*S1z - 3*Nu*S1z - (1 + delta)*S2z + (3 + delta)*Nu*S2z))/sqrt(429));
+    //     }
+    //     else{
+    //         return 0;
+    //     }
+    // }
 }
 
-static COMPLEX16 hl_6_m_5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_6_m_5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
 
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_m5: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,5*M_PI/2)*/ * hGO_6_m_5(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z) * cpolar(1,-5*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,5*M_PI/2)*/ * hGO_6_m_5(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */) * cpolar(1,-5*Phi);
     }
 
 }
 
-static COMPLEX16 hl_6_m_min5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_6_m_min5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
     
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min5: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-5*M_PI/2)*/  * pow(-1,6) * conj(hGO_6_m_5(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z)) * cpolar(1,5*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-5*M_PI/2)*/  * pow(-1,6) * conj(hGO_6_m_5(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */)) * cpolar(1,5*Phi);
     }
     
 }
 
 //64
-static COMPLEX16 hGO_6_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
-    REAL8 delta = sqrt(1-4*Nu);
+static COMPLEX16 hGO_6_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
+    //REAL8 delta = sqrt(1-4*Nu);
 
-    if(rDOT){
+    // if(rDOT){
 
     if(vpnorder == 4){
         return (((1 - 5*Nu + 5*pow(Nu,2))*(-516*pow(mass,3) 
@@ -1665,50 +1665,50 @@ static COMPLEX16 hGO_6_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
     else{
         return 0;
     }
-    }
-    else{
-        REAL8 omega = PhiDOT;
+    // }
+    // else{
+    //     REAL8 omega = PhiDOT;
 
-        if(vpnorder == 7){
+    //     if(vpnorder == 7){
 
-            return((256*sqrt(0.05128205128205128)*pow(mass,3)*pow(omega,3)*(-150*pow(Nu,3)*(S1z + S2z) + 14*(S1z + delta*S1z + S2z - delta*S2z) + 
-            10*pow(Nu,2)*(6*delta*(S1z - S2z) + 23*(S1z + S2z)) - Nu*(65*delta*(S1z - S2z) + 103*(S1z + S2z))))/3465.);
-        }
-        else{
-            return 0;
-        }
-    }
+    //         return((256*sqrt(0.05128205128205128)*pow(mass,3)*pow(omega,3)*(-150*pow(Nu,3)*(S1z + S2z) + 14*(S1z + delta*S1z + S2z - delta*S2z) + 
+    //         10*pow(Nu,2)*(6*delta*(S1z - S2z) + 23*(S1z + S2z)) - Nu*(65*delta*(S1z - S2z) + 103*(S1z + S2z))))/3465.);
+    //     }
+    //     else{
+    //         return 0;
+    //     }
+    // }
 
 }
 
-static COMPLEX16 hl_6_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_6_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
     
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_4: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,4*M_PI/2)*/ * hGO_6_m_4(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z) * cpolar(1,-4*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,4*M_PI/2)*/ * hGO_6_m_4(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */) * cpolar(1,-4*Phi);
     }
 
 }
 
-static COMPLEX16 hl_6_m_min4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_6_m_min4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
     
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min4: Input PN order parameter should be between [1, 7].");
     }
 
    else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-4*M_PI/2)*/  * pow(-1,6) * conj(hGO_6_m_4(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z)) * cpolar(1,4*Phi); 
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-4*M_PI/2)*/  * pow(-1,6) * conj(hGO_6_m_4(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */)) * cpolar(1,4*Phi); 
     }
 }
 
 //63
-static COMPLEX16 hGO_6_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hGO_6_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
     REAL8 delta = sqrt(1-4*Nu);
 
-    if(rDOT){
+    // if(rDOT){
 
     if(vpnorder == 5){
         return (Complex(0,-0.00036075036075036075)*delta*mass*(1 - 4*Nu 
@@ -1721,50 +1721,50 @@ static COMPLEX16 hGO_6_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
     else{
         return 0;
     }
-    }
-    else{
-        REAL8 omega = PhiDOT;
+    // }
+    // else{
+    //     REAL8 omega = PhiDOT;
 
-        if(vpnorder == 6){
+    //     if(vpnorder == 6){
 
-            return((Complex(0,0.4602272727272727)*pow(mass,2.6666666666666665)*Nu*pow(omega,2.6666666666666665)*
-            (S1z + delta*(-1 + Nu)*S1z - 3*Nu*S1z - (1 + delta)*S2z + (3 + delta)*Nu*S2z))/sqrt(65));
-        }
-        else{
-            return 0;
-        }
-    }
+    //         return((Complex(0,0.4602272727272727)*pow(mass,2.6666666666666665)*Nu*pow(omega,2.6666666666666665)*
+    //         (S1z + delta*(-1 + Nu)*S1z - 3*Nu*S1z - (1 + delta)*S2z + (3 + delta)*Nu*S2z))/sqrt(65));
+    //     }
+    //     else{
+    //         return 0;
+    //     }
+    // }
 }
 
-static COMPLEX16 hl_6_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_6_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
 
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_3: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,3*M_PI/2)*/ * hGO_6_m_3(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z) * cpolar(1,-3*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,3*M_PI/2)*/ * hGO_6_m_3(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */) * cpolar(1,-3*Phi);
     }
 
 }
 
-static COMPLEX16 hl_6_m_min3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_6_m_min3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
      
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min3: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-3*M_PI/2)*/  * pow(-1,6) * conj(hGO_6_m_3(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z)) * cpolar(1,3*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-3*M_PI/2)*/  * pow(-1,6) * conj(hGO_6_m_3(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */)) * cpolar(1,3*Phi);
     }
     
 }
 
 //62
-static COMPLEX16 hGO_6_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
-    REAL8 delta = sqrt(1-4*Nu);
+static COMPLEX16 hGO_6_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
+    //REAL8 delta = sqrt(1-4*Nu);
 
-    if(rDOT){
+    // if(rDOT){
 
     if(vpnorder == 4){
         return ((1 - 5*Nu + 5*pow(Nu,2))*(516*pow(mass,3)
@@ -1802,49 +1802,49 @@ static COMPLEX16 hGO_6_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
     else{
         return 0;
     }
-    }
-    else{
-        REAL8 omega = PhiDOT;
+    // }
+    // else{
+    //     REAL8 omega = PhiDOT;
 
-        if(vpnorder == 7){
-            return((4*pow(mass,3)*pow(omega,3)*(174*pow(Nu,3)*(S1z + S2z) - 14*(S1z + delta*S1z + S2z - delta*S2z)
-             + Nu*(53*delta*(S1z - S2z) + 115*(S1z + S2z)) - 2*pow(Nu,2)*(18*delta*(S1z - S2z) + 139*(S1z + S2z))))/(2079.*sqrt(65)));
-        }
-        else{
-            return 0;
-        }
-    }
+    //     if(vpnorder == 7){
+    //         return((4*pow(mass,3)*pow(omega,3)*(174*pow(Nu,3)*(S1z + S2z) - 14*(S1z + delta*S1z + S2z - delta*S2z)
+    //          + Nu*(53*delta*(S1z - S2z) + 115*(S1z + S2z)) - 2*pow(Nu,2)*(18*delta*(S1z - S2z) + 139*(S1z + S2z))))/(2079.*sqrt(65)));
+    //     }
+    //     else{
+    //         return 0;
+    //     }
+    // }
 
 }
 
-static COMPLEX16 hl_6_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_6_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
     
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_1: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,2*M_PI/2)*/ * hGO_6_m_2(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z) * cpolar(1,-2*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,2*M_PI/2)*/ * hGO_6_m_2(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */) * cpolar(1,-2*Phi);
     }
 
 }
 
-static COMPLEX16 hl_6_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_6_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
     
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min2: Input PN order parameter should be between [1, 7].");
     }
 
    else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-2*M_PI/2)*/  * pow(-1,6) * conj(hGO_6_m_2(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z)) * cpolar(1,2*Phi); 
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-2*M_PI/2)*/  * pow(-1,6) * conj(hGO_6_m_2(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */)) * cpolar(1,2*Phi); 
     }
 }
 
 //61
-static COMPLEX16 hGO_6_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hGO_6_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
     REAL8 delta = sqrt(1-4*Nu);
 
-    if(rDOT){
+    // if(rDOT){
 
     if(vpnorder == 5){
         return (Complex(0,0.0002405002405002405)*delta*mass*(1 - 4*Nu + 3*pow(Nu,2))*PhiDOT*(410*pow(mass,2) 
@@ -1857,39 +1857,39 @@ static COMPLEX16 hGO_6_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
     else{
         return 0;
     }
-    }
-    else{
-         REAL8 omega = PhiDOT;
+    // }
+    // else{
+    //      REAL8 omega = PhiDOT;
 
-        if(vpnorder == 6){
-            return((Complex(0,-0.00042087542087542086)*pow(mass,2.6666666666666665)*Nu*pow(omega,2.6666666666666665)*
-            (S1z + delta*(-1 + Nu)*S1z - 3*Nu*S1z - (1 + delta)*S2z + (3 + delta)*Nu*S2z))/sqrt(26));
-        }
-        else{
-            return 0;
-        }
-    }
+    //     if(vpnorder == 6){
+    //         return((Complex(0,-0.00042087542087542086)*pow(mass,2.6666666666666665)*Nu*pow(omega,2.6666666666666665)*
+    //         (S1z + delta*(-1 + Nu)*S1z - 3*Nu*S1z - (1 + delta)*S2z + (3 + delta)*Nu*S2z))/sqrt(26));
+    //     }
+    //     else{
+    //         return 0;
+    //     }
+    // }
 }
 
-static COMPLEX16 hl_6_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_6_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
 
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_1: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,1*M_PI/2)*/ * hGO_6_m_1(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z) * cpolar(1,-1*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,1*M_PI/2)*/ * hGO_6_m_1(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */) * cpolar(1,-1*Phi);
     }
 }
 
-static COMPLEX16 hl_6_m_min1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_6_m_min1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
     
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min1: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-1*M_PI/2)*/  * pow(-1,6) * conj(hGO_6_m_1(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z)) * cpolar(1,1*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-1*M_PI/2)*/  * pow(-1,6) * conj(hGO_6_m_1(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */)) * cpolar(1,1*Phi);
     }
 }
 
@@ -2064,10 +2064,10 @@ static COMPLEX16 hl_7_m_min1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
 }
 
 //72
-static COMPLEX16 hGO_7_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
-    REAL8 delta = sqrt(1-4*Nu);
+static COMPLEX16 hGO_7_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
+    //REAL8 delta = sqrt(1-4*Nu);
 
-    if(rDOT){
+    // if(rDOT){
 
     if(vpnorder == 6){
         return (-(mass*(-1 + 7*Nu - 14*pow(Nu,2) + 7*pow(Nu,3))*PhiDOT*(8*pow(mass,2)*(494*PhiDOT*r 
@@ -2080,50 +2080,50 @@ static COMPLEX16 hGO_7_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
     else{
         return 0;
     }
-    }
-    else{
-        REAL8 omega = PhiDOT;
+    // }
+    // else{
+    //     REAL8 omega = PhiDOT;
 
-        if(vpnorder == 7){
+    //     if(vpnorder == 7){
 
-            return((4*pow(mass,3)*Nu*pow(omega,3)*(S1z - delta*S1z + 2*(-2 + delta)*Nu*S1z + S2z + delta*S2z 
-            - 2*(2 + delta)*Nu*S2z + 2*pow(Nu,2)*(S1z + S2z)))/(3003.*sqrt(3)));
-        }
-        else{
-            return 0;
-        }
-    }
+    //         return((4*pow(mass,3)*Nu*pow(omega,3)*(S1z - delta*S1z + 2*(-2 + delta)*Nu*S1z + S2z + delta*S2z 
+    //         - 2*(2 + delta)*Nu*S2z + 2*pow(Nu,2)*(S1z + S2z)))/(3003.*sqrt(3)));
+    //     }
+    //     else{
+    //         return 0;
+    //     }
+    // }
 }
 
-static COMPLEX16 hl_7_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_7_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
     
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_2: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,2*M_PI/2)*/ * hGO_7_m_2(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z) * cpolar(1,-2*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,2*M_PI/2)*/ * hGO_7_m_2(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */) * cpolar(1,-2*Phi);
     }
 
 }
 
-static COMPLEX16 hl_7_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_7_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
     
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min2: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-2*M_PI/2)*/  * pow(-1,7) * conj(hGO_7_m_2(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z)) * cpolar(1,2*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-2*M_PI/2)*/  * pow(-1,7) * conj(hGO_7_m_2(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */)) * cpolar(1,2*Phi);
     }
 
 }
 
 //74
-static COMPLEX16 hGO_7_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
-    REAL8 delta = sqrt(1-4*Nu);
+static COMPLEX16 hGO_7_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
+   // REAL8 delta = sqrt(1-4*Nu);
 
-    if(rDOT){
+    // if(rDOT){
 
     if(vpnorder == 6){
         return ((mass*(-1 + 7*Nu - 14*pow(Nu,2) + 7*pow(Nu,3))*PhiDOT*(8*pow(mass,2)*(988*PhiDOT*r 
@@ -2136,50 +2136,50 @@ static COMPLEX16 hGO_7_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
     else{
         return 0;
     }
-    }
-    else{
-        REAL8 omega = PhiDOT;
+    // }
+    // else{
+    //     REAL8 omega = PhiDOT;
 
-        if(vpnorder == 7){
+    //     if(vpnorder == 7){
 
-            return((-512*sqrt(0.06060606060606061)*pow(mass,3)*Nu*pow(omega,3)*(S1z - delta*S1z 
-            + 2*(-2 + delta)*Nu*S1z + S2z + delta*S2z - 2*(2 + delta)*Nu*S2z +  2*pow(Nu,2)*(S1z + S2z)))/1365.);
-        }
-        else{
-            return 0;
-        }
-    }
+    //         return((-512*sqrt(0.06060606060606061)*pow(mass,3)*Nu*pow(omega,3)*(S1z - delta*S1z 
+    //         + 2*(-2 + delta)*Nu*S1z + S2z + delta*S2z - 2*(2 + delta)*Nu*S2z +  2*pow(Nu,2)*(S1z + S2z)))/1365.);
+    //     }
+    //     else{
+    //         return 0;
+    //     }
+    // }
 }
 
-static COMPLEX16 hl_7_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_7_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
 
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_4: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,4*M_PI/2)*/ * hGO_7_m_4(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z) * cpolar(1,-4*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,4*M_PI/2)*/ * hGO_7_m_4(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */) * cpolar(1,-4*Phi);
     }
 
 }
 
-static COMPLEX16 hl_7_m_min4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_7_m_min4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
     
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min4: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-4*M_PI/2)*/ * pow(-1,7) * conj(hGO_7_m_4(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z)) * cpolar(1,4*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-4*M_PI/2)*/ * pow(-1,7) * conj(hGO_7_m_4(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */)) * cpolar(1,4*Phi);
     }
     
 }
 
 //76
-static COMPLEX16 hGO_7_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
-    REAL8 delta = sqrt(1-4*Nu);
+static COMPLEX16 hGO_7_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
+    /* REAL8 delta = sqrt(1-4*Nu); */
 
-    if(rDOT){
+    // if(rDOT){
 
     if(vpnorder == 6){
         return (-(mass*(-1 + 7*Nu - 14*pow(Nu,2) + 7*pow(Nu,3))*PhiDOT*(8*pow(mass,2)*(494*PhiDOT*r 
@@ -2193,41 +2193,41 @@ static COMPLEX16 hGO_7_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
     else{
         return 0;
     }
-    }
-    else{
-        REAL8 omega = PhiDOT;
+    // }
+    // else{
+    //     REAL8 omega = PhiDOT;
 
-        if(vpnorder == 7){
+    //     if(vpnorder == 7){
 
-            return((324*sqrt(0.02097902097902098)*pow(mass,3)*Nu*pow(omega,3)*(S1z - delta*S1z
-             + 2*(-2 + delta)*Nu*S1z + S2z + delta*S2z - 2*(2 + delta)*Nu*S2z + 2*pow(Nu,2)*(S1z + S2z)))/35.);
-        }
-        else{
-            return 0;
-        }
-    }
+    //         return((324*sqrt(0.02097902097902098)*pow(mass,3)*Nu*pow(omega,3)*(S1z - delta*S1z
+    //          + 2*(-2 + delta)*Nu*S1z + S2z + delta*S2z - 2*(2 + delta)*Nu*S2z + 2*pow(Nu,2)*(S1z + S2z)))/35.);
+    //     }
+    //     else{
+    //         return 0;
+    //     }
+    // }
 }
 
-static COMPLEX16 hl_7_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_7_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
 
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_6: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,6*M_PI/2)*/ * hGO_7_m_6(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z) * cpolar(1,-6*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,6*M_PI/2)*/ * hGO_7_m_6(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */) * cpolar(1,-6*Phi);
     }
 
 }
 
-static COMPLEX16 hl_7_m_min6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z){
+static COMPLEX16 hl_7_m_min6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder/* ,REAL8 S1z, REAL8 S2z */){
     
     if ((vpnorder < 1) || (vpnorder > 7)) {
     XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min6: Input PN order parameter should be between [1, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-6*M_PI/2)*/ * pow(-1,7) * conj(hGO_7_m_6(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z)) * cpolar(1,6*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) /* cpolar(1,-6*M_PI/2)*/ * pow(-1,7) * conj(hGO_7_m_6(mass,Nu,r,rDOT,PhiDOT,vpnorder/* ,S1z,S2z */)) * cpolar(1,6*Phi);
     }
 }
 
@@ -2426,10 +2426,10 @@ static COMPLEX16 h05PNGOresult(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,
                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 2, -1)*hl_2_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,2,S1z,S2z)+
                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 3, 2)*hl_3_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,2,S1z,S2z)+
                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 3, -2)*hl_3_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,2,S1z,S2z)+
-                             XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4, 2)*hl_4_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,2,S1z,S2z)+
-                             XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4, -2)*hl_4_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,2,S1z,S2z)+
-                             XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4, 4)*hl_4_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,2,S1z,S2z)+
-                             XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4, -4)*hl_4_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,2,S1z,S2z);
+                             XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4, 2)*hl_4_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,2/* ,S1z,S2z */)+
+                             XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4, -2)*hl_4_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,2/* ,S1z,S2z */)+
+                             XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4, 4)*hl_4_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,2/* ,S1z,S2z */)+
+                             XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4, -4)*hl_4_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,2/* ,S1z,S2z */);
         return hcombined;
     }
 
@@ -2466,44 +2466,44 @@ static COMPLEX16 h05PNGOresult(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,
                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 3, -1)*hl_3_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4, 3)*hl_4_m_3(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z)+
                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4, -3)*hl_4_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4,2)*hl_4_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4,-2)*hl_4_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4,2)*hl_4_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,4/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4,-2)*hl_4_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,4/* ,S1z,S2z */)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4, 1)*hl_4_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z)+
                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4, -1)*hl_4_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 5,2)*hl_5_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 5,-2)*hl_5_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 6,2)*hl_6_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 6,-2)*hl_6_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4,4)*hl_4_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4,-4)*hl_4_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 5,4)*hl_5_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 5,-4)*hl_5_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 6,4)*hl_6_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 6,-4)*hl_6_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 6, 6)*hl_6_m_6(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 6,-6)*hl_6_m_min6(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z);
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 5,2)*hl_5_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,4/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 5,-2)*hl_5_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,4/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 6,2)*hl_6_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,4/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 6,-2)*hl_6_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,4/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4,4)*hl_4_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,4/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4,-4)*hl_4_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,4/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 5,4)*hl_5_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,4/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 5,-4)*hl_5_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,4/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 6,4)*hl_6_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,4/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 6,-4)*hl_6_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,4/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 6, 6)*hl_6_m_6(mass,Nu,r,rDOT,Phi,PhiDOT,R,4/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 6,-6)*hl_6_m_min6(mass,Nu,r,rDOT,Phi,PhiDOT,R,4/* ,S1z,S2z */);
 
        return hcombined;
     }
 
     //2.5PN
     else if(vpnorder==5){
-         COMPLEX16 hcombined = XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,5)*hl_6_m_5(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-5)*hl_6_m_min5(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,3)*hl_6_m_3(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-3)*hl_6_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,1)*hl_6_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-1)*hl_6_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,5)*hl_5_m_5(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-5)*hl_5_m_min5(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,4)*hl_5_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-4)*hl_5_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,1)*hl_5_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-1)*hl_5_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,3)*hl_5_m_3(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-3)*hl_5_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,2)*hl_5_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-2)*hl_5_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
+         COMPLEX16 hcombined = XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,5)*hl_6_m_5(mass,Nu,r,rDOT,Phi,PhiDOT,R,5/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-5)*hl_6_m_min5(mass,Nu,r,rDOT,Phi,PhiDOT,R,5/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,3)*hl_6_m_3(mass,Nu,r,rDOT,Phi,PhiDOT,R,5/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-3)*hl_6_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,5/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,1)*hl_6_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,5/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-1)*hl_6_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,5/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,5)*hl_5_m_5(mass,Nu,r,rDOT,Phi,PhiDOT,R,5/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-5)*hl_5_m_min5(mass,Nu,r,rDOT,Phi,PhiDOT,R,5/* ,S1z,S2z */)+
+                            //   XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,4)*hl_5_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
+                            //   XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-4)*hl_5_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,1)*hl_5_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,5/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-1)*hl_5_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,5/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,3)*hl_5_m_3(mass,Nu,r,rDOT,Phi,PhiDOT,R,5/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-3)*hl_5_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,5/* ,S1z,S2z */)+
+                            //   XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,2)*hl_5_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
+                            //   XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-2)*hl_5_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,7)*hl_7_m_7(mass,Nu,r,rDOT,Phi,PhiDOT,R,5)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,-7)*hl_7_m_min7(mass,Nu,r,rDOT,Phi,PhiDOT,R,5)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,5)*hl_7_m_5(mass,Nu,r,rDOT,Phi,PhiDOT,R,5)+
@@ -2514,12 +2514,12 @@ static COMPLEX16 h05PNGOresult(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,-1)*hl_7_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,5)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,1)*hl_4_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-1)*hl_4_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,2)*hl_4_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-2)*hl_4_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,2)*hl_4_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,5/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-2)*hl_4_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,5/* ,S1z,S2z */)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,3)*hl_4_m_3(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-3)*hl_4_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,4)*hl_4_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-4)*hl_4_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,4)*hl_4_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,5/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-4)*hl_4_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,5/* ,S1z,S2z */)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,3)*hl_3_m_3(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,-3)*hl_3_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,2)*hl_3_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z)+
@@ -2533,43 +2533,43 @@ static COMPLEX16 h05PNGOresult(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,
         return hcombined;
     }
     //3PN
-    else if(vpnorder == 6){
-         COMPLEX16 hcombined = XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,2)*hl_6_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-2)*hl_6_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,3)*hl_6_m_3(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-3)*hl_6_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,1)*hl_6_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-1)*hl_6_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,5)*hl_6_m_5(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-5)*hl_6_m_min5(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,4)*hl_6_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-4)*hl_6_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,6)*hl_6_m_6(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-6)*hl_6_m_min6(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,5)*hl_5_m_5(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-5)*hl_5_m_min5(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,1)*hl_5_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-1)*hl_5_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,3)*hl_5_m_3(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-3)*hl_5_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,2)*hl_5_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-2)*hl_5_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,4)*hl_5_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-4)*hl_5_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,6)*hl_7_m_6(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,-6)*hl_7_m_min6(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,4)*hl_7_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,-4)*hl_7_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,2)*hl_7_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,-2)*hl_7_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
+    else {
+         COMPLEX16 hcombined = XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,2)*hl_6_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,6/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-2)*hl_6_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,6/* ,S1z,S2z */)+
+                            //   XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,3)*hl_6_m_3(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
+                            //   XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-3)*hl_6_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
+                            //   XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,1)*hl_6_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
+                            //   XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-1)*hl_6_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
+                            //   XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,5)*hl_6_m_5(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
+                            //   XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-5)*hl_6_m_min5(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,4)*hl_6_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,6/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-4)*hl_6_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,6/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,6)*hl_6_m_6(mass,Nu,r,rDOT,Phi,PhiDOT,R,6/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-6)*hl_6_m_min6(mass,Nu,r,rDOT,Phi,PhiDOT,R,6/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,5)*hl_5_m_5(mass,Nu,r,rDOT,Phi,PhiDOT,R,6/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-5)*hl_5_m_min5(mass,Nu,r,rDOT,Phi,PhiDOT,R,6/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,1)*hl_5_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,6/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-1)*hl_5_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,6/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,3)*hl_5_m_3(mass,Nu,r,rDOT,Phi,PhiDOT,R,6/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-3)*hl_5_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,6/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,2)*hl_5_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,6/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-2)*hl_5_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,6/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,4)*hl_5_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,6/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-4)*hl_5_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,6/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,6)*hl_7_m_6(mass,Nu,r,rDOT,Phi,PhiDOT,R,6/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,-6)*hl_7_m_min6(mass,Nu,r,rDOT,Phi,PhiDOT,R,6/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,4)*hl_7_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,6/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,-4)*hl_7_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,6/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,2)*hl_7_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,6/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,-2)*hl_7_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,6/* ,S1z,S2z */)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,1)*hl_4_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-1)*hl_4_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,2)*hl_4_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-2)*hl_4_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,2)*hl_4_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,6/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-2)*hl_4_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,6/* ,S1z,S2z */)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,3)*hl_4_m_3(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-3)*hl_4_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,4)*hl_4_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-4)*hl_4_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,4)*hl_4_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,6/* ,S1z,S2z */)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-4)*hl_4_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,6/* ,S1z,S2z */)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,3)*hl_3_m_3(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,-3)*hl_3_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,2)*hl_3_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z)+
@@ -2592,50 +2592,50 @@ static COMPLEX16 h05PNGOresult(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,
         return hcombined;
     }
     //3.5PN(only quasi-circular spinning terms)
-    else{
-         COMPLEX16 hcombined = XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,2)*hl_6_m_2(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-2)*hl_6_m_min2(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,4)*hl_6_m_4(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-4)*hl_6_m_min4(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,6)*hl_6_m_6(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-6)*hl_6_m_min6(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,5)*hl_5_m_5(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-5)*hl_5_m_min5(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,1)*hl_5_m_1(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-1)*hl_5_m_min1(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,3)*hl_5_m_3(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-3)*hl_5_m_min3(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,2)*hl_5_m_2(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-2)*hl_5_m_min2(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,4)*hl_5_m_4(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-4)*hl_5_m_min4(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,6)*hl_7_m_6(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,-6)*hl_7_m_min6(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,4)*hl_7_m_4(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,-4)*hl_7_m_min4(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,2)*hl_7_m_2(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,-2)*hl_7_m_min2(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,1)*hl_4_m_1(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-1)*hl_4_m_min1(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,2)*hl_4_m_2(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-2)*hl_4_m_min2(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,3)*hl_4_m_3(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-3)*hl_4_m_min3(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,4)*hl_4_m_4(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-4)*hl_4_m_min4(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,3)*hl_3_m_3(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,-3)*hl_3_m_min3(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,2)*hl_3_m_2(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,-2)*hl_3_m_min2(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,1)*hl_3_m_1(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,-1)*hl_3_m_min1(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,2,1)*hl_2_m_1(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,2,-1)*hl_2_m_min1(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,2,2)*hl_2_m_2(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,2,-2)*hl_2_m_min2(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z);
+    // else{
+    //      COMPLEX16 hcombined = XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,2)*hl_6_m_2(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-2)*hl_6_m_min2(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,4)*hl_6_m_4(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-4)*hl_6_m_min4(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,6)*hl_6_m_6(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-6)*hl_6_m_min6(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,5)*hl_5_m_5(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-5)*hl_5_m_min5(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,1)*hl_5_m_1(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-1)*hl_5_m_min1(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,3)*hl_5_m_3(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-3)*hl_5_m_min3(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,2)*hl_5_m_2(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-2)*hl_5_m_min2(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,4)*hl_5_m_4(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-4)*hl_5_m_min4(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,6)*hl_7_m_6(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,-6)*hl_7_m_min6(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,4)*hl_7_m_4(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,-4)*hl_7_m_min4(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,2)*hl_7_m_2(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,7,-2)*hl_7_m_min2(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,1)*hl_4_m_1(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-1)*hl_4_m_min1(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,2)*hl_4_m_2(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-2)*hl_4_m_min2(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,3)*hl_4_m_3(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-3)*hl_4_m_min3(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,4)*hl_4_m_4(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-4)*hl_4_m_min4(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,3)*hl_3_m_3(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,-3)*hl_3_m_min3(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,2)*hl_3_m_2(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,-2)*hl_3_m_min2(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,1)*hl_3_m_1(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,-1)*hl_3_m_min1(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,2,1)*hl_2_m_1(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,2,-1)*hl_2_m_min1(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,2,2)*hl_2_m_2(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z)+
+    //                           XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,2,-2)*hl_2_m_min2(mass,Nu,r,0,Phi,PhiDOT,R,7,S1z,S2z);
                              
-        return hcombined;
-    }
+    //     return hcombined;
+    // }
 
 }
 
