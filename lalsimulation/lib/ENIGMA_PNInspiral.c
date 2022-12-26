@@ -2439,7 +2439,7 @@ static REAL8 zed_n(REAL8 e) {
   return (pre_f_1 * zed_e(e) - pre_f_2 * phi_e(e));
 }
 
-static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, UINT4 vpn, REAL8 S1z, REAL8 S2z) {
+static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, UINT4 vpn/* , REAL8 S1z, REAL8 S2z */) {
   const REAL8 log2 = 0.693147180559945309417232121458;   // ln(2)
   const REAL8 log3_2 = 0.405465108108164381978013115464; // ln(3/2)
   /* some math:
@@ -2491,7 +2491,7 @@ static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, UI
                    cos2a -
                (4 * (1 - (3 * m1 * m2) / pow2(m1 + m2)) * (1 + pow2(cos(i))) *
                 cos4a * pow2(sin(i))) /
-                   3.) + (cosa*(m1*S1z - m2*S2z)*sin(i))/(m1 + m2)/*+ sin(i) * ((m1 * m1 * S1z / pow2(m1) - m2 * m2 * S2z / pow2(m2)) 
+                   3.) /* + (cosa*(m1*S1z - m2*S2z)*sin(i))/(m1 + m2) */ /* (<--This is newest polarization.) */   /*+ sin(i) * ((m1 * m1 * S1z / pow2(m1) - m2 * m2 * S2z / pow2(m2)) 
                    + (m1 - m2) * (m1 * m1 * S1z / pow2(m1)
                     + m2 * m2 * S2z / pow2(m2)) / (m1 + m2)) / 2. * cosa*/)
                     + pow3_2(x) *
@@ -2515,8 +2515,8 @@ static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, UI
                    (m1 + m2) +
                (625 * (m1 - m2) * (1 - (2 * m1 * m2) / pow2(m1 + m2)) *
                 (1 + pow2(cos(i))) * cos5a * pow3(sin(i))) /
-                   (384. * (m1 + m2))) + (cos2a*(3*m1*(2*m1 + m2)*S1z + 3*m2*(m1 + 2*m2)*S2z + 
-                  (2*pow(m1,2)*S1z + 2*pow(m2,2)*S2z - 3*m1*m2*(S1z + S2z))*cos(2*i)))/(3.*pow(m1 + m2,2)) /*+ 2 * ((1 + pow2(cos(i))) * ((m1 * m1 * S1z / pow2(m1) 
+                   (384. * (m1 + m2))) /* + (cos2a*(3*m1*(2*m1 + m2)*S1z + 3*m2*(m1 + 2*m2)*S2z + 
+                  (2*pow(m1,2)*S1z + 2*pow(m2,2)*S2z - 3*m1*m2*(S1z + S2z))*cos(2*i)))/(3.*pow(m1 + m2,2)) *//* (<--This is newest pol.) */ /*+ 2 * ((1 + pow2(cos(i))) * ((m1 * m1 * S1z / pow2(m1) 
                    + m2 * m2 * S2z / pow2(m2)) + (m1 - m2) * (m1 * m1 * S1z / pow2(m1) 
                    - m2 * m2 * S2z / pow2(m2))) + m1 * m2 * (1 - 5 * pow2(cos(i))) * (m1 * m1 * S1z / pow2(m1) 
                    + m2 * m2 * S2z / pow2(m2)) / pow2(m1 + m2)) / 3. * cos2a*/) 
@@ -2557,14 +2557,14 @@ static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, UI
                    (m1 + m2) +
                ((m1 - m2) * (1 + pow2(cos(i))) * (-4.725 + (27 * log3_2) / 4.) *
                 sin(i) * sin3a) /
-                   (m1 + m2) - 0.010416666666666666*((144*cos2a*(m1 + m2)*pow(m1*S1z + m2*S2z,2) + 
+                   (m1 + m2) /* - 0.010416666666666666*((144*cos2a*(m1 + m2)*pow(m1*S1z + m2*S2z,2) + 
                  48*cos2a*(m1 + m2)*pow(m1*S1z + m2*S2z,2)*cos(2*i) + 
                 (m1*(27*cos3a*(10*pow(m1,2) - 10*m1*m2 - 9*pow(m2,2)) + 
                 cosa*(-30*pow(m1,2) + 478*m1*m2 + 363*pow(m2,2)))*S1z + 
                 m2*(3*(81*cos3a - 121*cosa)*pow(m1,2) + 2*(135*cos3a - 239*cosa)*m1*m2 + 
                 30*(-9*cos3a + cosa)*pow(m2,2))*S2z)*sin(i) + 
                 3*(9*cos3a - cosa)*(2*pow(m1,3)*S1z - 2*pow(m2,3)*S2z + m1*pow(m2,2)*(3*S1z + 2*S2z) - 
-                 pow(m1,2)*m2*(2*S1z + 3*S2z))*sin(3*i)))/pow(m1 + m2,3) /*+ (-((m1 + m2) * m1 * S1z + (m1 + m2) * m2 * S2z) * ((m1 + m2) * m1 * S1z + (m1 + m2) * m2 * S2z) 
+                 pow(m1,2)*m2*(2*S1z + 3*S2z))*sin(3*i)))/pow(m1 + m2,3) *//* (<--This is newest pol.) */ /*+ (-((m1 + m2) * m1 * S1z + (m1 + m2) * m2 * S2z) * ((m1 + m2) * m1 * S1z + (m1 + m2) * m2 * S2z) 
                    - ((m1 + m2) * m1 * S1z + (m1 + m2) * m2 * S2z) * ((m1 + m2) * m1 * S1z + (m1 + m2) * m2 * S2z) * pow2(cos(i))) / ((m1 + m2) * (m1 + m2) * (m1 + m2) * (m1 + m2)) * cos2a  */
                    /*-(cos2a*((3*m1*m1*S1z*S1z)/(2.*((m1 + m2)*(m1+m2))) + (3*m1*m2*S1z*S2z)/(((m1 + m2)*(m1+m2))) + 
                   (3*m2*m2*S2z*S2z)/(2.*((m1 + m2)*(m1+m2))) + 
@@ -2653,12 +2653,12 @@ static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, UI
                    (11.2 - (32 * log2) / 3. +
                     (m1 * m2 * (-39.766666666666666 + 32 * log2)) /
                         pow2(m1 + m2)) *
-                   pow2(sin(i)) * sin4a + (-7.873519778281684e-6*(-504*pow(m1 + m2,2)*(408*pow(m1,4)*S1z + 408*pow(m2,4)*S2z 
+                   pow2(sin(i)) * sin4a /* + (-7.873519778281684e-6*(-504*pow(m1 + m2,2)*(408*pow(m1,4)*S1z + 408*pow(m2,4)*S2z 
                    + 329*pow(m1,2)*pow(m2,2)*(S1z + S2z) + 
            pow(m1,3)*m2*(938*S1z + 8*S2z) + 2*m1*pow(m2,3)*(4*S1z + 469*S2z)) + 
         (149864*pow(m1,6)*S1z + 149864*pow(m2,6)*S2z + 6439937*pow(m1,3)*pow(m2,3)*(S1z + S2z) + 4*pow(m1,5)*m2*(612137*S1z + 61153*S2z) + 
            10*pow(m1,4)*pow(m2,2)*(654322*S1z + 238921*S2z) + 4*m1*pow(m2,5)*(61153*S1z + 612137*S2z) + 10*pow(m1,2)*pow(m2,4)*(238921*S1z + 654322*S2z))*x)*
-      cos2a*(3 + cos(2*i)))/pow(m1 + m2,6) /*+ cos2a*
+      cos2a*(3 + cos(2*i)))/pow(m1 + m2,6) *//* (<--This is the newest pol.) */ /*+ cos2a*
     ((2*34*S1z)/21. - (209*m1*m1*m2*m2*S1z)/(63.*((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2))) + (19*m1*m1*m2*S1z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) - 
       (19*m1*m2*m2*S1z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) - (49*m1*m2*S1z)/(9.*((m1+m2)*(m1+m2))) + (68*m1*S1z)/(21.*(m1 + m2)) - (2*34*m2*S1z)/(21.*(m1 + m2)) + 
       (2*34*S2z)/21. - (209*m1*m1*m2*m2*S2z)/(63.*((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2))) - (19*m1*m1*m2*S2z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) + 
@@ -2709,8 +2709,8 @@ static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, UI
                    (m1 + m2) +
                (625 * (m1 - m2) * (1 - (2 * m1 * m2) / pow2(m1 + m2)) *
                 (1 + pow2(cos(i))) * cos5a * pow3(sin(i))) /
-                   (384. * (m1 + m2))) + (cos2a*(3*m1*(2*m1 + m2)*S1z + 3*m2*(m1 + 2*m2)*S2z + 
-                  (2*pow(m1,2)*S1z + 2*pow(m2,2)*S2z - 3*m1*m2*(S1z + S2z))*cos(2*i)))/(3.*pow(m1 + m2,2)) /*+ 2 * ((1 + pow2(cos(i))) * ((m1 * m1 * S1z / pow2(m1) 
+                   (384. * (m1 + m2))) /* + (cos2a*(3*m1*(2*m1 + m2)*S1z + 3*m2*(m1 + 2*m2)*S2z + 
+                  (2*pow(m1,2)*S1z + 2*pow(m2,2)*S2z - 3*m1*m2*(S1z + S2z))*cos(2*i)))/(3.*pow(m1 + m2,2)) *//* (<--This is the newest pol.) */ /*+ 2 * ((1 + pow2(cos(i))) * ((m1 * m1 * S1z / pow2(m1) 
                    + m2 * m2 * S2z / pow2(m2)) + (m1 - m2) * (m1 * m1 * S1z / pow2(m1) 
                    - m2 * m2 * S2z / pow2(m2))) + m1 * m2 * (1 - 5 * pow2(cos(i))) * (m1 * m1 * S1z / pow2(m1) 
                    + m2 * m2 * S2z / pow2(m2)) / pow2(m1 + m2)) / 3. * cos2a*/) +
@@ -2751,14 +2751,14 @@ static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, UI
                    (m1 + m2) +
                ((m1 - m2) * (1 + pow2(cos(i))) * (-4.725 + (27 * log3_2) / 4.) *
                 sin(i) * sin3a) /
-                   (m1 + m2) - 0.010416666666666666*((144*cos2a*(m1 + m2)*pow(m1*S1z + m2*S2z,2) + 
+                   (m1 + m2) /* - 0.010416666666666666*((144*cos2a*(m1 + m2)*pow(m1*S1z + m2*S2z,2) + 
                  48*cos2a*(m1 + m2)*pow(m1*S1z + m2*S2z,2)*cos(2*i) + 
                 (m1*(27*cos3a*(10*pow(m1,2) - 10*m1*m2 - 9*pow(m2,2)) + 
                 cosa*(-30*pow(m1,2) + 478*m1*m2 + 363*pow(m2,2)))*S1z + 
                 m2*(3*(81*cos3a - 121*cosa)*pow(m1,2) + 2*(135*cos3a - 239*cosa)*m1*m2 + 
                 30*(-9*cos3a + cosa)*pow(m2,2))*S2z)*sin(i) + 
                 3*(9*cos3a - cosa)*(2*pow(m1,3)*S1z - 2*pow(m2,3)*S2z + m1*pow(m2,2)*(3*S1z + 2*S2z) - 
-                 pow(m1,2)*m2*(2*S1z + 3*S2z))*sin(3*i)))/pow(m1 + m2,3) /* -(cos2a*((3*m1*m1*S1z*S1z)/(2.*((m1 + m2)*(m1+m2))) + (3*m1*m2*S1z*S2z)/(((m1 + m2)*(m1+m2))) + 
+                 pow(m1,2)*m2*(2*S1z + 3*S2z))*sin(3*i)))/pow(m1 + m2,3) *//* (<--This is the newest pol.) */ /* -(cos2a*((3*m1*m1*S1z*S1z)/(2.*((m1 + m2)*(m1+m2))) + (3*m1*m2*S1z*S2z)/(((m1 + m2)*(m1+m2))) + 
                   (3*m2*m2*S2z*S2z)/(2.*((m1 + m2)*(m1+m2))) + 
                   (m1*m1*S1z*S1z*cos(2*i))/(2.*((m1 + m2)*(m1+m2))) + 
                   (m1*m2*S1z*S2z*cos(2*i))/(((m1 + m2)*(m1+m2))) + (m2*m2*S2z*S2z*cos(2*i))/(2.*((m1 + m2)*(m1+m2)))
@@ -2845,12 +2845,12 @@ static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, UI
                    (11.2 - (32 * log2) / 3. +
                     (m1 * m2 * (-39.766666666666666 + 32 * log2)) /
                         pow2(m1 + m2)) *
-                   pow2(sin(i)) * sin4a + (-7.873519778281684e-6*(-504*pow(m1 + m2,2)*(408*pow(m1,4)*S1z + 408*pow(m2,4)*S2z 
+                   pow2(sin(i)) * sin4a /* + (-7.873519778281684e-6*(-504*pow(m1 + m2,2)*(408*pow(m1,4)*S1z + 408*pow(m2,4)*S2z 
                    + 329*pow(m1,2)*pow(m2,2)*(S1z + S2z) + 
            pow(m1,3)*m2*(938*S1z + 8*S2z) + 2*m1*pow(m2,3)*(4*S1z + 469*S2z)) + 
         (149864*pow(m1,6)*S1z + 149864*pow(m2,6)*S2z + 6439937*pow(m1,3)*pow(m2,3)*(S1z + S2z) + 4*pow(m1,5)*m2*(612137*S1z + 61153*S2z) + 
            10*pow(m1,4)*pow(m2,2)*(654322*S1z + 238921*S2z) + 4*m1*pow(m2,5)*(61153*S1z + 612137*S2z) + 10*pow(m1,2)*pow(m2,4)*(238921*S1z + 654322*S2z))*x)*
-      cos2a*(3 + cos(2*i)))/pow(m1 + m2,6) /*+ cos2a*
+      cos2a*(3 + cos(2*i)))/pow(m1 + m2,6) *//* (<--This is the newest pol.) */ /*+ cos2a*
     ((2*34*S1z)/21. - (209*m1*m1*m2*m2*S1z)/(63.*((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2))) + (19*m1*m1*m2*S1z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) - 
       (19*m1*m2*m2*S1z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) - (49*m1*m2*S1z)/(9.*((m1+m2)*(m1+m2))) + (68*m1*S1z)/(21.*(m1 + m2)) - (2*34*m2*S1z)/(21.*(m1 + m2)) + 
       (2*34*S2z)/21. - (209*m1*m1*m2*m2*S2z)/(63.*((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2))) - (19*m1*m1*m2*S2z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) + 
@@ -2919,14 +2919,14 @@ static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, UI
                    (m1 + m2) +
                ((m1 - m2) * (1 + pow2(cos(i))) * (-4.725 + (27 * log3_2) / 4.) *
                 sin(i) * sin3a) /
-                   (m1 + m2) - 0.010416666666666666*((144*cos2a*(m1 + m2)*pow(m1*S1z + m2*S2z,2) + 
+                   (m1 + m2) /* - 0.010416666666666666*((144*cos2a*(m1 + m2)*pow(m1*S1z + m2*S2z,2) + 
                  48*cos2a*(m1 + m2)*pow(m1*S1z + m2*S2z,2)*cos(2*i) + 
                 (m1*(27*cos3a*(10*pow(m1,2) - 10*m1*m2 - 9*pow(m2,2)) + 
                 cosa*(-30*pow(m1,2) + 478*m1*m2 + 363*pow(m2,2)))*S1z + 
                 m2*(3*(81*cos3a - 121*cosa)*pow(m1,2) + 2*(135*cos3a - 239*cosa)*m1*m2 + 
                 30*(-9*cos3a + cosa)*pow(m2,2))*S2z)*sin(i) + 
                 3*(9*cos3a - cosa)*(2*pow(m1,3)*S1z - 2*pow(m2,3)*S2z + m1*pow(m2,2)*(3*S1z + 2*S2z) - 
-                 pow(m1,2)*m2*(2*S1z + 3*S2z))*sin(3*i)))/pow(m1 + m2,3) /*-(cos2a*((3*m1*m1*S1z*S1z)/(2.*((m1 + m2)*(m1+m2))) + (3*m1*m2*S1z*S2z)/(((m1 + m2)*(m1+m2))) + 
+                 pow(m1,2)*m2*(2*S1z + 3*S2z))*sin(3*i)))/pow(m1 + m2,3) *//* (<--This is the newest pol.) */ /*-(cos2a*((3*m1*m1*S1z*S1z)/(2.*((m1 + m2)*(m1+m2))) + (3*m1*m2*S1z*S2z)/(((m1 + m2)*(m1+m2))) + 
                   (3*m2*m2*S2z*S2z)/(2.*((m1 + m2)*(m1+m2))) + 
                   (m1*m1*S1z*S1z*cos(2*i))/(2.*((m1 + m2)*(m1+m2))) + 
                   (m1*m2*S1z*S2z*cos(2*i))/(((m1 + m2)*(m1+m2))) + (m2*m2*S2z*S2z*cos(2*i))/(2.*((m1 + m2)*(m1+m2)))
@@ -3013,12 +3013,12 @@ static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, UI
                    (11.2 - (32 * log2) / 3. +
                     (m1 * m2 * (-39.766666666666666 + 32 * log2)) /
                         pow2(m1 + m2)) *
-                   pow2(sin(i)) * sin4a + (-7.873519778281684e-6*(-504*pow(m1 + m2,2)*(408*pow(m1,4)*S1z + 408*pow(m2,4)*S2z 
+                   pow2(sin(i)) * sin4a /* + (-7.873519778281684e-6*(-504*pow(m1 + m2,2)*(408*pow(m1,4)*S1z + 408*pow(m2,4)*S2z 
                    + 329*pow(m1,2)*pow(m2,2)*(S1z + S2z) + 
            pow(m1,3)*m2*(938*S1z + 8*S2z) + 2*m1*pow(m2,3)*(4*S1z + 469*S2z)) + 
         (149864*pow(m1,6)*S1z + 149864*pow(m2,6)*S2z + 6439937*pow(m1,3)*pow(m2,3)*(S1z + S2z) + 4*pow(m1,5)*m2*(612137*S1z + 61153*S2z) + 
            10*pow(m1,4)*pow(m2,2)*(654322*S1z + 238921*S2z) + 4*m1*pow(m2,5)*(61153*S1z + 612137*S2z) + 10*pow(m1,2)*pow(m2,4)*(238921*S1z + 654322*S2z))*x)*
-      cos2a*(3 + cos(2*i)))/pow(m1 + m2,6)/*+ cos2a*
+      cos2a*(3 + cos(2*i)))/pow(m1 + m2,6) *//* (<--This is the newest pol.) *//*+ cos2a*
     ((2*34*S1z)/21. - (209*m1*m1*m2*m2*S1z)/(63.*((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2))) + (19*m1*m1*m2*S1z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) - 
       (19*m1*m2*m2*S1z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) - (49*m1*m2*S1z)/(9.*((m1+m2)*(m1+m2))) + (68*m1*S1z)/(21.*(m1 + m2)) - (2*34*m2*S1z)/(21.*(m1 + m2)) + 
       (2*34*S2z)/21. - (209*m1*m1*m2*m2*S2z)/(63.*((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2))) - (19*m1*m1*m2*S2z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) + 
@@ -3134,12 +3134,12 @@ static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, UI
                    (11.2 - (32 * log2) / 3. +
                     (m1 * m2 * (-39.766666666666666 + 32 * log2)) /
                         pow2(m1 + m2)) *
-                   pow2(sin(i)) * sin4a + (-7.873519778281684e-6*(-504*pow(m1 + m2,2)*(408*pow(m1,4)*S1z + 408*pow(m2,4)*S2z 
+                   pow2(sin(i)) * sin4a /* + (-7.873519778281684e-6*(-504*pow(m1 + m2,2)*(408*pow(m1,4)*S1z + 408*pow(m2,4)*S2z 
                    + 329*pow(m1,2)*pow(m2,2)*(S1z + S2z) + 
            pow(m1,3)*m2*(938*S1z + 8*S2z) + 2*m1*pow(m2,3)*(4*S1z + 469*S2z)) + 
         (149864*pow(m1,6)*S1z + 149864*pow(m2,6)*S2z + 6439937*pow(m1,3)*pow(m2,3)*(S1z + S2z) + 4*pow(m1,5)*m2*(612137*S1z + 61153*S2z) + 
            10*pow(m1,4)*pow(m2,2)*(654322*S1z + 238921*S2z) + 4*m1*pow(m2,5)*(61153*S1z + 612137*S2z) + 10*pow(m1,2)*pow(m2,4)*(238921*S1z + 654322*S2z))*x)*
-      cos2a*(3 + cos(2*i)))/pow(m1 + m2,6)/*+ cos2a*
+      cos2a*(3 + cos(2*i)))/pow(m1 + m2,6) *//* (<--This is the newest pol.) *//*+ cos2a*
     ((2*34*S1z)/21. - (209*m1*m1*m2*m2*S1z)/(63.*((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2))) + (19*m1*m1*m2*S1z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) - 
       (19*m1*m2*m2*S1z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) - (49*m1*m2*S1z)/(9.*((m1+m2)*(m1+m2))) + (68*m1*S1z)/(21.*(m1 + m2)) - (2*34*m2*S1z)/(21.*(m1 + m2)) + 
       (2*34*S2z)/21. - (209*m1*m1*m2*m2*S2z)/(63.*((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2))) - (19*m1*m1*m2*S2z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) + 
@@ -3208,12 +3208,12 @@ static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, UI
                     (m1 * m2 * (-39.766666666666666 + 32 * log2 + 18*2*sqrt(1.4) )) /
                         pow2(m1 + m2)) *
                    pow2(sin(i)) * sin4a
-                   + (-7.873519778281684e-6*(-504*pow(m1 + m2,2)*(408*pow(m1,4)*S1z + 408*pow(m2,4)*S2z 
+                   /* + (-7.873519778281684e-6*(-504*pow(m1 + m2,2)*(408*pow(m1,4)*S1z + 408*pow(m2,4)*S2z 
                    + 329*pow(m1,2)*pow(m2,2)*(S1z + S2z) + 
            pow(m1,3)*m2*(938*S1z + 8*S2z) + 2*m1*pow(m2,3)*(4*S1z + 469*S2z)) + 
         (149864*pow(m1,6)*S1z + 149864*pow(m2,6)*S2z + 6439937*pow(m1,3)*pow(m2,3)*(S1z + S2z) + 4*pow(m1,5)*m2*(612137*S1z + 61153*S2z) + 
            10*pow(m1,4)*pow(m2,2)*(654322*S1z + 238921*S2z) + 4*m1*pow(m2,5)*(61153*S1z + 612137*S2z) + 10*pow(m1,2)*pow(m2,4)*(238921*S1z + 654322*S2z))*x)*
-      cos2a*(3 + cos(2*i)))/pow(m1 + m2,6)) + pow3(x) * 
+      cos2a*(3 + cos(2*i)))/pow(m1 + m2,6) *//* (<--This is the newest pol.) */) + pow3(x) * 
                    (cos5a * ((3125*delta*M_PI*(-1 + 2*Nu)*(3 + cos(2*i))*pow3(sin(i)))/768.) +
                    sin5a * ((delta*(3 + cos(2*i))*(565625 - 1129522*Nu + 437500*(-1 + 2*Nu)*log(2.5))*pow3(sin(i)))/
                     53760.) +
@@ -3238,7 +3238,7 @@ static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, UI
 
 }
 
-static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, UINT4 vpn, REAL8 S1z, REAL8 S2z) {
+static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, UINT4 vpn/* , REAL8 S1z, REAL8 S2z */) {
   const REAL8 log2 = 0.693147180559945309417232121458;   // ln(2)
   const REAL8 log3_2 = 0.405465108108164381978013115464; // ln(3/2)
   /* some math:
@@ -3288,7 +3288,7 @@ static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, U
                    sin2a -
                (8 * (1 - (3 * m1 * m2) / pow2(m1 + m2)) * cos(i) *
                 pow2(sin(i)) * sin4a) /
-                   3.) + ((m1*S1z - m2*S2z)*sina*cos(i)*sin(i))/(m1 + m2) /*+ cos(i) * sin(i) * ((m1 * m1 * S1z / pow2(m1) - m2 * m2 * S2z / pow2(m2)) 
+                   3.) /* + ((m1*S1z - m2*S2z)*sina*cos(i)*sin(i))/(m1 + m2) *//* (<--This is the newest pol.) */ /*+ cos(i) * sin(i) * ((m1 * m1 * S1z / pow2(m1) - m2 * m2 * S2z / pow2(m2)) 
                    + (m1 - m2) * (m1 * m1 * S1z / pow2(m1) + m2 * m2 * S2z / pow2(m2)) / (m1 + m2)) / 2. * sina*/) +
           pow3_2(x) *
               ((((m1 - m2) * cos(i) *
@@ -3306,8 +3306,8 @@ static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, U
                    (m1 + m2) +
                (625 * (m1 - m2) * (1 - (2 * m1 * m2) / pow2(m1 + m2)) * cos(i) *
                 pow3(sin(i)) * sin5a) /
-                   (192. * (m1 + m2))) + (sin2a*cos(i)*(8*pow(m1,2)*S1z + 8*pow(m2,2)*S2z + 3*m1*m2*(S1z + S2z) - 
-                   3*m1*m2*(S1z + S2z)*cos(2*i)))/(3.*pow(m1 + m2,2)) /*+ 4 * cos(i) * ((m1 * m1 * S1z / pow2(m1) + m2 * m2 * S2z / pow2(m2)) 
+                   (192. * (m1 + m2))) /* + (sin2a*cos(i)*(8*pow(m1,2)*S1z + 8*pow(m2,2)*S2z + 3*m1*m2*(S1z + S2z) - 
+                   3*m1*m2*(S1z + S2z)*cos(2*i)))/(3.*pow(m1 + m2,2)) *//* (<--This is the newest pol.) */ /*+ 4 * cos(i) * ((m1 * m1 * S1z / pow2(m1) + m2 * m2 * S2z / pow2(m2)) 
                    + (m1 - m2) * (m1 * m1 * S1z / pow2(m1) - m2 * m2 * S2z / pow2(m2)) / (m1 + m2) 
                    - m1 * m2 * (1 + 3 * pow2(cos(i))) * (m1 * m1 * S1z / pow2(m1) + m2 * m2 * S2z / pow2(m2)) / (2. * pow2(m1 + m2))) / 3. * sin2a*/) +
           pow2(x) * (((m1 - m2) * cos(i) * cos3a * (9.45 - (27 * log3_2) / 2.) *
@@ -3344,11 +3344,11 @@ static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, U
                       (1 + (5 * pow2(m1) * pow2(m2)) / pow4(m1 + m2) -
                        (5 * m1 * m2) / pow2(m1 + m2)) *
                       cos(i) * pow4(sin(i)) * sin6a) /
-                         20. -0.010416666666666666*(cos(i)*(192*(m1 + m2)*pow(m1*S1z + m2*S2z,2)*sin2a + 
+                         20. /* -0.010416666666666666*(cos(i)*(192*(m1 + m2)*pow(m1*S1z + m2*S2z,2)*sin2a + 
                    (48*pow(m1,3)*S1z*(9*sin3a - sina) + 48*pow(m2,3)*S2z*(-9*sin3a + sina) + 
                      m1*pow(m2,2)*(-243*S1z*sin3a + 432*S2z*sin3a + 345*S1z*sina - 496*S2z*sina) + 
                      pow(m1,2)*m2*(-432*S1z*sin3a + 243*S2z*sin3a + 496*S1z*sina - 345*S2z*sina))*sin(i) + 
-                         3*m1*m2*(m2*S1z - m1*S2z)*(27*sin3a - sina)*sin(3*i)))/pow(m1 + m2,3) /*- 2 * cos(i) * ((m1 + m2) * m1 * S1z + (m1 + m2) * m2 * S2z) * ((m1 + m2) * m1 * S1z + (m1 + m2) * m2 * S2z) / ((m1 + m2) * (m1 + m2) * (m1 + m2) * (m1 + m2)) * sin2a */
+                         3*m1*m2*(m2*S1z - m1*S2z)*(27*sin3a - sina)*sin(3*i)))/pow(m1 + m2,3) *//* (<--This is the newest pol.) */ /*- 2 * cos(i) * ((m1 + m2) * m1 * S1z + (m1 + m2) * m2 * S2z) * ((m1 + m2) * m1 * S1z + (m1 + m2) * m2 * S2z) / ((m1 + m2) * (m1 + m2) * (m1 + m2) * (m1 + m2)) * sin2a */
                          /*-(((2*m1*m1*S1z*S1z)/((m1 + m2)*(m1+m2)) + (4*m1*m2*S1z*S2z)/((m1 + m2)*(m1 + m2)) + 
                          (2*m2*m2*S2z*S2z)/((m1 + m2)*(m1+m2)))*cos(i)*sin2a + 
                          cos3a*cos(i)*((99*m1*m1*m1*S1z)/(16.*((m1 + m2)*(m1+m2)*(m1+m2))) - 
@@ -3429,11 +3429,11 @@ static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, U
                 (1 + (3 * pow2(m1) * pow2(m2)) / pow4(m1 + m2) -
                  (4 * m1 * m2) / pow2(m1 + m2)) *
                 cos(i) * pow5(sin(i)) * sin7a) /
-                   (23040. * (m1 + m2)) + ((504*pow(m1 + m2,2)*(408*pow(m1,4)*S1z + 408*pow(m2,4)*S2z + 329*pow(m1,2)*pow(m2,2)*(S1z + S2z)
+                   (23040. * (m1 + m2)) /* + ((504*pow(m1 + m2,2)*(408*pow(m1,4)*S1z + 408*pow(m2,4)*S2z + 329*pow(m1,2)*pow(m2,2)*(S1z + S2z)
                     + pow(m1,3)*m2*(938*S1z + 8*S2z) + 
           2*m1*pow(m2,3)*(4*S1z + 469*S2z)) - (149864*pow(m1,6)*S1z + 149864*pow(m2,6)*S2z + 6439937*pow(m1,3)*pow(m2,3)*(S1z + S2z) + 
           4*pow(m1,5)*m2*(612137*S1z + 61153*S2z) + 10*pow(m1,4)*pow(m2,2)*(654322*S1z + 238921*S2z) + 4*m1*pow(m2,5)*(61153*S1z + 612137*S2z) + 
-          10*pow(m1,2)*pow(m2,4)*(238921*S1z + 654322*S2z))*x)*cos(i)*sin2a)/(31752.*pow(m1 + m2,6)) /*+ 2*((68*S1z)/21. - (209*m1*m1*m2*m2*S1z)/(63.*((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2))) + (19*m1*m1*m2*S1z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) - 
+          10*pow(m1,2)*pow(m2,4)*(238921*S1z + 654322*S2z))*x)*cos(i)*sin2a)/(31752.*pow(m1 + m2,6)) *//* (<--This is the newest pol.) */ /*+ 2*((68*S1z)/21. - (209*m1*m1*m2*m2*S1z)/(63.*((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2))) + (19*m1*m1*m2*S1z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) - 
       (19*m1*m2*m2*S1z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) - (49*m1*m2*S1z)/(9.*((m1+m2)*(m1+m2))) + (68*m1*S1z)/(21.*(m1 + m2)) - (68*m2*S1z)/(21.*(m1 + m2)) + (68*S2z)/21. - 
       (209*m1*m1*m2*m2*S2z)/(63.*((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2))) - (19*m1*m1*m2*S2z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) + (19*m1*m2*m2*S2z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) - 
       (49*m1*m2*S2z)/(9.*((m1+m2)*(m1+m2))) - (68*m1*S2z)/(21.*(m1 + m2)) + (68*m2*S2z)/(21.*(m1 + m2)))*cos(i)*sin2a*/) /*+ x*x*x*sqrt(x)*2*
@@ -3465,8 +3465,8 @@ static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, U
                    (m1 + m2) +
                (625 * (m1 - m2) * (1 - (2 * m1 * m2) / pow2(m1 + m2)) * cos(i) *
                 pow3(sin(i)) * sin5a) /
-                   (192. * (m1 + m2))) + (sin2a*cos(i)*(8*pow(m1,2)*S1z + 8*pow(m2,2)*S2z + 3*m1*m2*(S1z + S2z) - 
-                   3*m1*m2*(S1z + S2z)*cos(2*i)))/(3.*pow(m1 + m2,2))/*+ 4 * cos(i) * ((m1 * m1 * S1z / pow2(m1) + m2 * m2 * S2z / pow2(m2)) 
+                   (192. * (m1 + m2))) /* + (sin2a*cos(i)*(8*pow(m1,2)*S1z + 8*pow(m2,2)*S2z + 3*m1*m2*(S1z + S2z) - 
+                   3*m1*m2*(S1z + S2z)*cos(2*i)))/(3.*pow(m1 + m2,2)) *//* (<--This is the newest pol.) *//*+ 4 * cos(i) * ((m1 * m1 * S1z / pow2(m1) + m2 * m2 * S2z / pow2(m2)) 
                    + (m1 - m2) * (m1 * m1 * S1z / pow2(m1) - m2 * m2 * S2z / pow2(m2)) / (m1 + m2) 
                    - m1 * m2 * (1 + 3 * pow2(cos(i))) * (m1 * m1 * S1z / pow2(m1) 
                    + m2 * m2 * S2z / pow2(m2)) / (2. * pow2(m1 + m2))) / 3. * sin2a*/) +
@@ -3504,11 +3504,11 @@ static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, U
                       (1 + (5 * pow2(m1) * pow2(m2)) / pow4(m1 + m2) -
                        (5 * m1 * m2) / pow2(m1 + m2)) *
                       cos(i) * pow4(sin(i)) * sin6a) /
-                         20. -0.010416666666666666*(cos(i)*(192*(m1 + m2)*pow(m1*S1z + m2*S2z,2)*sin2a + 
+                         20. /* -0.010416666666666666*(cos(i)*(192*(m1 + m2)*pow(m1*S1z + m2*S2z,2)*sin2a + 
                    (48*pow(m1,3)*S1z*(9*sin3a - sina) + 48*pow(m2,3)*S2z*(-9*sin3a + sina) + 
                      m1*pow(m2,2)*(-243*S1z*sin3a + 432*S2z*sin3a + 345*S1z*sina - 496*S2z*sina) + 
                      pow(m1,2)*m2*(-432*S1z*sin3a + 243*S2z*sin3a + 496*S1z*sina - 345*S2z*sina))*sin(i) + 
-                         3*m1*m2*(m2*S1z - m1*S2z)*(27*sin3a - sina)*sin(3*i)))/pow(m1 + m2,3)/* -(((2*m1*m1*S1z*S1z)/((m1 + m2)*(m1+m2)) + (4*m1*m2*S1z*S2z)/((m1 + m2)*(m1 + m2)) + 
+                         3*m1*m2*(m2*S1z - m1*S2z)*(27*sin3a - sina)*sin(3*i)))/pow(m1 + m2,3) *//* (<--This is the newest pol.) *//* -(((2*m1*m1*S1z*S1z)/((m1 + m2)*(m1+m2)) + (4*m1*m2*S1z*S2z)/((m1 + m2)*(m1 + m2)) + 
                          (2*m2*m2*S2z*S2z)/((m1 + m2)*(m1+m2)))*cos(i)*sin2a + 
                          cos3a*cos(i)*((99*m1*m1*m1*S1z)/(16.*((m1 + m2)*(m1+m2)*(m1+m2))) - 
                          (9*m1*m1*m2*S1z)/(8.*((m1 + m2)*(m1+m2)*(m1+m2))) - (27*m1*S1z)/(16.*(m1 + m2)) + 
@@ -3588,11 +3588,11 @@ static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, U
                 (1 + (3 * pow2(m1) * pow2(m2)) / pow4(m1 + m2) -
                  (4 * m1 * m2) / pow2(m1 + m2)) *
                 cos(i) * pow5(sin(i)) * sin7a) /
-                   (23040. * (m1 + m2)) + ((504*pow(m1 + m2,2)*(408*pow(m1,4)*S1z + 408*pow(m2,4)*S2z + 329*pow(m1,2)*pow(m2,2)*(S1z + S2z)
+                   (23040. * (m1 + m2)) /* + ((504*pow(m1 + m2,2)*(408*pow(m1,4)*S1z + 408*pow(m2,4)*S2z + 329*pow(m1,2)*pow(m2,2)*(S1z + S2z)
                     + pow(m1,3)*m2*(938*S1z + 8*S2z) + 
           2*m1*pow(m2,3)*(4*S1z + 469*S2z)) - (149864*pow(m1,6)*S1z + 149864*pow(m2,6)*S2z + 6439937*pow(m1,3)*pow(m2,3)*(S1z + S2z) + 
           4*pow(m1,5)*m2*(612137*S1z + 61153*S2z) + 10*pow(m1,4)*pow(m2,2)*(654322*S1z + 238921*S2z) + 4*m1*pow(m2,5)*(61153*S1z + 612137*S2z) + 
-          10*pow(m1,2)*pow(m2,4)*(238921*S1z + 654322*S2z))*x)*cos(i)*sin2a)/(31752.*pow(m1 + m2,6)) /*+ 2*((68*S1z)/21. - (209*m1*m1*m2*m2*S1z)/(63.*((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2))) + (19*m1*m1*m2*S1z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) - 
+          10*pow(m1,2)*pow(m2,4)*(238921*S1z + 654322*S2z))*x)*cos(i)*sin2a)/(31752.*pow(m1 + m2,6)) *//* (<--This is the newest pol.) */ /*+ 2*((68*S1z)/21. - (209*m1*m1*m2*m2*S1z)/(63.*((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2))) + (19*m1*m1*m2*S1z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) - 
       (19*m1*m2*m2*S1z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) - (49*m1*m2*S1z)/(9.*((m1+m2)*(m1+m2))) + (68*m1*S1z)/(21.*(m1 + m2)) - (68*m2*S1z)/(21.*(m1 + m2)) + (68*S2z)/21. - 
       (209*m1*m1*m2*m2*S2z)/(63.*((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2))) - (19*m1*m1*m2*S2z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) + (19*m1*m2*m2*S2z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) - 
       (49*m1*m2*S2z)/(9.*((m1+m2)*(m1+m2))) - (68*m1*S2z)/(21.*(m1 + m2)) + (68*m2*S2z)/(21.*(m1 + m2)))*cos(i)*sin2a*/) /*+ x*x*x*sqrt(x)*2*
@@ -3643,11 +3643,11 @@ static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, U
                       (1 + (5 * pow2(m1) * pow2(m2)) / pow4(m1 + m2) -
                        (5 * m1 * m2) / pow2(m1 + m2)) *
                       cos(i) * pow4(sin(i)) * sin6a) /
-                         20. -0.010416666666666666*(cos(i)*(192*(m1 + m2)*pow(m1*S1z + m2*S2z,2)*sin2a + 
+                         20. /* -0.010416666666666666*(cos(i)*(192*(m1 + m2)*pow(m1*S1z + m2*S2z,2)*sin2a + 
                    (48*pow(m1,3)*S1z*(9*sin3a - sina) + 48*pow(m2,3)*S2z*(-9*sin3a + sina) + 
                      m1*pow(m2,2)*(-243*S1z*sin3a + 432*S2z*sin3a + 345*S1z*sina - 496*S2z*sina) + 
                      pow(m1,2)*m2*(-432*S1z*sin3a + 243*S2z*sin3a + 496*S1z*sina - 345*S2z*sina))*sin(i) + 
-                         3*m1*m2*(m2*S1z - m1*S2z)*(27*sin3a - sina)*sin(3*i)))/pow(m1 + m2,3)/*-(((2*m1*m1*S1z*S1z)/((m1 + m2)*(m1+m2)) + (4*m1*m2*S1z*S2z)/((m1 + m2)*(m1 + m2)) + 
+                         3*m1*m2*(m2*S1z - m1*S2z)*(27*sin3a - sina)*sin(3*i)))/pow(m1 + m2,3) *//* (<--This is the newest pol.) *//*-(((2*m1*m1*S1z*S1z)/((m1 + m2)*(m1+m2)) + (4*m1*m2*S1z*S2z)/((m1 + m2)*(m1 + m2)) + 
                          (2*m2*m2*S2z*S2z)/((m1 + m2)*(m1+m2)))*cos(i)*sin2a + 
                          cos3a*cos(i)*((99*m1*m1*m1*S1z)/(16.*((m1 + m2)*(m1+m2)*(m1+m2))) - 
                          (9*m1*m1*m2*S1z)/(8.*((m1 + m2)*(m1+m2)*(m1+m2))) - (27*m1*S1z)/(16.*(m1 + m2)) + 
@@ -3727,11 +3727,11 @@ static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, U
                 (1 + (3 * pow2(m1) * pow2(m2)) / pow4(m1 + m2) -
                  (4 * m1 * m2) / pow2(m1 + m2)) *
                 cos(i) * pow5(sin(i)) * sin7a) /
-                   (23040. * (m1 + m2)) + ((504*pow(m1 + m2,2)*(408*pow(m1,4)*S1z + 408*pow(m2,4)*S2z + 329*pow(m1,2)*pow(m2,2)*(S1z + S2z)
+                   (23040. * (m1 + m2)) /* + ((504*pow(m1 + m2,2)*(408*pow(m1,4)*S1z + 408*pow(m2,4)*S2z + 329*pow(m1,2)*pow(m2,2)*(S1z + S2z)
                     + pow(m1,3)*m2*(938*S1z + 8*S2z) + 
           2*m1*pow(m2,3)*(4*S1z + 469*S2z)) - (149864*pow(m1,6)*S1z + 149864*pow(m2,6)*S2z + 6439937*pow(m1,3)*pow(m2,3)*(S1z + S2z) + 
           4*pow(m1,5)*m2*(612137*S1z + 61153*S2z) + 10*pow(m1,4)*pow(m2,2)*(654322*S1z + 238921*S2z) + 4*m1*pow(m2,5)*(61153*S1z + 612137*S2z) + 
-          10*pow(m1,2)*pow(m2,4)*(238921*S1z + 654322*S2z))*x)*cos(i)*sin2a)/(31752.*pow(m1 + m2,6)) /*+ 2*((68*S1z)/21. - (209*m1*m1*m2*m2*S1z)/(63.*((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2))) + (19*m1*m1*m2*S1z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) - 
+          10*pow(m1,2)*pow(m2,4)*(238921*S1z + 654322*S2z))*x)*cos(i)*sin2a)/(31752.*pow(m1 + m2,6)) *//* (<--This is the newest pol.) */ /*+ 2*((68*S1z)/21. - (209*m1*m1*m2*m2*S1z)/(63.*((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2))) + (19*m1*m1*m2*S1z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) - 
       (19*m1*m2*m2*S1z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) - (49*m1*m2*S1z)/(9.*((m1+m2)*(m1+m2))) + (68*m1*S1z)/(21.*(m1 + m2)) - (68*m2*S1z)/(21.*(m1 + m2)) + (68*S2z)/21. - 
       (209*m1*m1*m2*m2*S2z)/(63.*((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2))) - (19*m1*m1*m2*S2z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) + (19*m1*m2*m2*S2z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) - 
       (49*m1*m2*S2z)/(9.*((m1+m2)*(m1+m2))) - (68*m1*S2z)/(21.*(m1 + m2)) + (68*m2*S2z)/(21.*(m1 + m2)))*cos(i)*sin2a*/) /*+ x*x*x*sqrt(x)*2*
@@ -3823,11 +3823,11 @@ static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, U
                 (1 + (3 * pow2(m1) * pow2(m2)) / pow4(m1 + m2) -
                  (4 * m1 * m2) / pow2(m1 + m2)) *
                 cos(i) * pow5(sin(i)) * sin7a) /
-                   (23040. * (m1 + m2)) + ((504*pow(m1 + m2,2)*(408*pow(m1,4)*S1z + 408*pow(m2,4)*S2z + 329*pow(m1,2)*pow(m2,2)*(S1z + S2z)
+                   (23040. * (m1 + m2)) /* + ((504*pow(m1 + m2,2)*(408*pow(m1,4)*S1z + 408*pow(m2,4)*S2z + 329*pow(m1,2)*pow(m2,2)*(S1z + S2z)
                     + pow(m1,3)*m2*(938*S1z + 8*S2z) + 
           2*m1*pow(m2,3)*(4*S1z + 469*S2z)) - (149864*pow(m1,6)*S1z + 149864*pow(m2,6)*S2z + 6439937*pow(m1,3)*pow(m2,3)*(S1z + S2z) + 
           4*pow(m1,5)*m2*(612137*S1z + 61153*S2z) + 10*pow(m1,4)*pow(m2,2)*(654322*S1z + 238921*S2z) + 4*m1*pow(m2,5)*(61153*S1z + 612137*S2z) + 
-          10*pow(m1,2)*pow(m2,4)*(238921*S1z + 654322*S2z))*x)*cos(i)*sin2a)/(31752.*pow(m1 + m2,6))/*+ 2*((68*S1z)/21. - (209*m1*m1*m2*m2*S1z)/(63.*((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2))) + (19*m1*m1*m2*S1z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) - 
+          10*pow(m1,2)*pow(m2,4)*(238921*S1z + 654322*S2z))*x)*cos(i)*sin2a)/(31752.*pow(m1 + m2,6)) *//* (<--This is the newest pol.) *//*+ 2*((68*S1z)/21. - (209*m1*m1*m2*m2*S1z)/(63.*((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2))) + (19*m1*m1*m2*S1z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) - 
       (19*m1*m2*m2*S1z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) - (49*m1*m2*S1z)/(9.*((m1+m2)*(m1+m2))) + (68*m1*S1z)/(21.*(m1 + m2)) - (68*m2*S1z)/(21.*(m1 + m2)) + (68*S2z)/21. - 
       (209*m1*m1*m2*m2*S2z)/(63.*((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2))) - (19*m1*m1*m2*S2z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) + (19*m1*m2*m2*S2z)/(21.*((m1+m2)*(m1+m2)*(m1+m2))) - 
       (49*m1*m2*S2z)/(9.*((m1+m2)*(m1+m2))) - (68*m1*S2z)/(21.*(m1 + m2)) + (68*m2*S2z)/(21.*(m1 + m2)))*cos(i)*sin2a*/) /*+ x*x*x*sqrt(x)*2*
@@ -3877,11 +3877,11 @@ static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, U
                    sin2a  -
                (32 * (1 - (3 * m1 * m2) / pow2(m1 + m2)) * M_PI * cos(i) *
                 pow2(sin(i)) * sin4a) /
-                   3.  + ((504*pow(m1 + m2,2)*(408*pow(m1,4)*S1z + 408*pow(m2,4)*S2z + 329*pow(m1,2)*pow(m2,2)*(S1z + S2z)
+                   3.  /* + ((504*pow(m1 + m2,2)*(408*pow(m1,4)*S1z + 408*pow(m2,4)*S2z + 329*pow(m1,2)*pow(m2,2)*(S1z + S2z)
                     + pow(m1,3)*m2*(938*S1z + 8*S2z) + 
           2*m1*pow(m2,3)*(4*S1z + 469*S2z)) - (149864*pow(m1,6)*S1z + 149864*pow(m2,6)*S2z + 6439937*pow(m1,3)*pow(m2,3)*(S1z + S2z) + 
           4*pow(m1,5)*m2*(612137*S1z + 61153*S2z) + 10*pow(m1,4)*pow(m2,2)*(654322*S1z + 238921*S2z) + 4*m1*pow(m2,5)*(61153*S1z + 612137*S2z) + 
-          10*pow(m1,2)*pow(m2,4)*(238921*S1z + 654322*S2z))*x)*cos(i)*sin2a)/(31752.*pow(m1 + m2,6))) 
+          10*pow(m1,2)*pow(m2,4)*(238921*S1z + 654322*S2z))*x)*cos(i)*sin2a)/(31752.*pow(m1 + m2,6)) *//* (<--This is the newest pol.) */) 
           + pow3(x) * ( cos5a* ((delta*cos(i)*(565625 - 1129522*Nu + 
        437500*(-1 + 2*Nu)*log(2.5))*
      pow3(sin(i)))/13440.) +
