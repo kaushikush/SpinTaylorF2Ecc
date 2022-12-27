@@ -515,7 +515,7 @@ static void compute_strain_from_dynamics(
                     r_dot_vec[i] * r_dot_vec[i]) *
                        sin(euler_iota) * sin(euler_iota))
 
-                 + hPlus(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i], pn_order_amp/* , S1z, S2z */)) 
+                 + 0 * hPlus(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i], pn_order_amp/* , S1z, S2z */ )) 
                  + hplusGOtotal);
 
     h_cross[i] =
@@ -530,7 +530,7 @@ static void compute_strain_from_dynamics(
                        (cos(2.0 * phi_vec[i]) * cos(2.0 * euler_beta) +
                         sin(2.0 * phi_vec[i]) * sin(2.0 * euler_beta))))
 
-                 + hCross(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i], pn_order_amp/* , S1z, S2z */))
+                 + 0 * hCross(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i], pn_order_amp /* , S1z, S2z  */))
                  + hplusGOtotal);
    
   
