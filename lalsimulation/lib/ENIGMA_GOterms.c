@@ -14,7 +14,7 @@ static COMPLEX16 hGO_2_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT, 
     REAL8 lambda1 = 1.0;
     REAL8 lambda2 = 1.0;
     REAL8 delta = sqrt(1-4*Nu);
-    double EulerGamma = 0.5772156649015329;
+    // double EulerGamma = 0.5772156649015329;
     
     // if (rDOT){
 
@@ -25,8 +25,8 @@ static COMPLEX16 hGO_2_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT, 
         + Complex(0,10)*(5 
         + 27*Nu)*PhiDOT*r*rDOT - 3*(15 + 32*Nu)*pow(rDOT,2)))/(42.*pow(r,2)) 
         /* (Below is the qcNS term) */
-        - ((-5.095238095238095 + (55*Nu)/21.)*pow(x,2)) + ((-5.095238095238095 
-        + (55*Nu)/21.)*pow(x,2)));
+       /*  - ((-5.095238095238095 + (55*Nu)/21.)*pow(x,2)) + ((-5.095238095238095 
+        + (55*Nu)/21.)*pow(x,2)) */);
     }
 
     else if(vpnorder == 3){
@@ -34,9 +34,9 @@ static COMPLEX16 hGO_2_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT, 
         ((3 + 3*delta - 8*Nu)*S1z + (3 - 3*delta - 8*Nu)*S2z) + 
        PhiDOT*r*((-3 - 3*delta + 5*Nu)*S1z + (-3 + 3*delta + 5*Nu)*S2z)))/(3.*pow(r,2)) /* (<--This is the general orbit term) */
       /* (This is the quasi-circular limit of the general orbit term-->) */ - ((-4*((1 + delta - Nu)*S1z + S2z - (delta + Nu)*S2z)*pow(x,2.5))/3.) 
-       + ((-4*(S1z + delta*S1z + S2z - delta*S2z - Nu*(S1z + S2z))*pow(x,2.5))/3.) 
+       + ((-4*(S1z + delta*S1z + S2z - delta*S2z - Nu*(S1z + S2z))*pow(x,2.5))/3.) /* (<--This is Quintins quasi-circular term) */
        /* (Below is the qcNS term) */
-       - (4*M_PI*pow(x,2.5)) + (4*M_PI*pow(x,2.5))) /* (<--This is Quintins quasi-circular term) */;
+      /*  - (4*M_PI*pow(x,2.5)) + (4*M_PI*pow(x,2.5)) */);
       /*  Hence, h22_{general orbit spin term at 1.5PN} - h22_{quasi-cricular limit of the general orbit term at 1.5PN} + h22_{Quintins quasi-circular term at} */
     }
 
@@ -58,8 +58,8 @@ static COMPLEX16 hGO_2_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT, 
        - kappa2*(-1 + delta + 2*Nu)*S2z))*pow(x,3)) + ((kappa1*(1 + delta - 2*Nu)*pow(S1z,2) 
        + S2z*(4*Nu*S1z - kappa2*(-1 + delta + 2*Nu)*S2z))*pow(x,3))
        /* (Below is the qcNS term) */ 
-       - ((-2.874338624338624 - (1069*Nu)/108. + (2047*pow(Nu,2))/756.)*pow(x,3)) 
-       + ((-2.874338624338624 - (1069*Nu)/108. + (2047*pow(Nu,2))/756.)*pow(x,3)));
+       /* - ((-2.874338624338624 - (1069*Nu)/108. + (2047*pow(Nu,2))/756.)*pow(x,3)) 
+       + ((-2.874338624338624 - (1069*Nu)/108. + (2047*pow(Nu,2))/756.)*pow(x,3)) */);
     }
 
     else if(vpnorder == 5){
@@ -67,11 +67,11 @@ static COMPLEX16 hGO_2_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT, 
         + 3*r*(Complex(0,-316)*pow(PhiDOT,3)*pow(r,3) 
         - 847*pow(PhiDOT,2)*pow(r,2)*rDOT 
         + Complex(0,184)*PhiDOT*r*pow(rDOT,2) 
-        - 122*pow(rDOT,3))))/(105.*pow(r,3))+ ((2*(56*delta*Nu*(-S1z + S2z) 
+        - 122*pow(rDOT,3))))/(105.*pow(r,3)) + ((2*(56*delta*Nu*(-S1z + S2z) 
         + 101*Nu*(S1z + S2z) + 132*pow(Nu,2)*(S1z + S2z) - 80*(S1z + delta*S1z + S2z - delta*S2z))*pow(x,3.5))/63.) 
         /* (Below is the qcNS term) */
-        - ((Complex(0,-48)*Nu - (214*M_PI)/21. + (68*Nu*M_PI)/21.)*pow(x,3.5)) 
-        + ((Complex(0,-48)*Nu - (214*M_PI)/21. + (68*Nu*M_PI)/21.)*pow(x,3.5)));
+       /*  - ((Complex(0,-48)*Nu - (214*M_PI)/21. + (68*Nu*M_PI)/21.)*pow(x,3.5)) 
+        + ((Complex(0,-48)*Nu - (214*M_PI)/21. + (68*Nu*M_PI)/21.)*pow(x,3.5)) */);
     }
 
     else if(vpnorder == 6){
@@ -109,12 +109,12 @@ static COMPLEX16 hGO_2_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT, 
        S2z*(12*(7 - 17*kappa2)*pow(Nu,2)*S2z + 4*(-1 + delta)*(Complex(0,21) + 42*M_PI + 7*S2z - 9*kappa2*S2z) + 
           Nu*(168*(Complex(0,1) + M_PI) + 7*delta*(17 + 9*kappa2)*S2z - 9*(7 + 15*kappa2)*S2z)))*pow(x,4))/63. 
           /* (Below is the qcNS term) */
-          - (pow(x,4)*(83.57269325912183 - (1712*EulerGamma)/105. - (278185*Nu)/16632. - (20261*pow(Nu,2))/1386. + 
+          /* - (pow(x,4)*(83.57269325912183 - (1712*EulerGamma)/105. - (278185*Nu)/16632. - (20261*pow(Nu,2))/1386. + 
        (114635*pow(Nu,3))/49896. + Complex(0,8.152380952380952)*M_PI + (4*pow(M_PI,2))/3. + 
        (41*Nu*pow(M_PI,2))/48. - (856*log(16*x))/105.)) + (pow(x,4)*(83.57269325912183 
        - (1712*EulerGamma)/105. - (278185*Nu)/16632. - (20261*pow(Nu,2))/1386. + 
        (114635*pow(Nu,3))/49896. + Complex(0,8.152380952380952)*M_PI + (4*pow(M_PI,2))/3. + 
-       (41*Nu*pow(M_PI,2))/48. - (856*log(16*x))/105.)));
+       (41*Nu*pow(M_PI,2))/48. - (856*log(16*x))/105.)) */);
     }
     else if(vpnorder==7){
 
@@ -206,7 +206,10 @@ static COMPLEX16 hl_2_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
 //     // if (rDOT){
 
 //     if(vpnorder == 1){
-//         return Complex(0,0.6666666666666666)*delta*mass*PhiDOT;
+//         return (Complex(0,0.6666666666666666)*delta*mass*PhiDOT 
+//         /* Below is the qc NS term */
+//         /* - (Complex(0,0.6666666666666666)*delta*pow(x,1.5)) 
+//         + (Complex(0,0.6666666666666666)*delta*pow(x,1.5)) */ );
 //     }
 
 //     else if(vpnorder == 2){
@@ -216,9 +219,12 @@ static COMPLEX16 hl_2_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
 //     }
 
 //     else if(vpnorder == 3){
-//         return (Complex(0,0.023809523809523808)*delta*mass*PhiDOT*(4*mass*(-9 + 11*Nu) 
+//         return ((Complex(0,0.023809523809523808)*delta*mass*PhiDOT*(4*mass*(-9 + 11*Nu) 
 //         + r*((19 - 24*Nu)*pow(PhiDOT,2)*pow(r,2) 
-//         + Complex(0,2)*(83 + 2*Nu)*PhiDOT*r*rDOT + 2*(-33 + 10*Nu)*pow(rDOT,2))))/r;
+//         + Complex(0,2)*(83 + 2*Nu)*PhiDOT*r*rDOT + 2*(-33 + 10*Nu)*pow(rDOT,2))))/r 
+//         /* Below is the qc NS term */
+//         /* - ((Complex(0,-0.40476190476190477)*delta + Complex(0,0.47619047619047616)*delta*Nu)*pow(x,2.5)) 
+//         + ((Complex(0,-0.40476190476190477)*delta + Complex(0,0.47619047619047616)*delta*Nu)*pow(x,2.5)) */);
 //     }
 
 //     else if(vpnorder == 4){
@@ -232,7 +238,11 @@ static COMPLEX16 hl_2_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
 //              (21 - 21*delta - 45*Nu + 4*delta*Nu)*S2z) + 
 //              pow(rDOT,2)*((-105*(1 + delta) + 4*(13 + 15*delta)*Nu)*
 //               S1z + (105 - 52*Nu + 15*delta*(-7 + 4*Nu))*S2z))))/
-//              (84.*pow(r,3)) - (Complex(0,0.023809523809523808)*((-7 + 205*Nu + delta*(-7 + 33*Nu))*S1z + 
+//              (84.*pow(r,3)) 
+//               /* Below is the qc NS term */
+//              /* - (pow(x,3)*(delta/3. + Complex(0,0.6666666666666666)*delta*M_PI + (4*delta*log(2))/3.))
+//               + (pow(x,3)*(delta/3. + Complex(0,0.6666666666666666)*delta*M_PI + (4*delta*log(2))/3.)) */ 
+//               - (Complex(0,0.023809523809523808)*((-7 + 205*Nu + delta*(-7 + 33*Nu))*S1z + 
 //              (7 - 205*Nu + delta*(-7 + 33*Nu))*S2z)*pow(x,3)) + (Complex(0,0.023809523809523808)*pow(x,3)*(28*delta*M_PI 
 //              + (-7 + 205*Nu + delta*(-7 + 33*Nu))*S1z + (7 - 205*Nu + delta*(-7 + 33*Nu))*S2z - 
 //            Complex(0,14)*delta*(1 + log(16)))));
@@ -247,7 +257,13 @@ static COMPLEX16 hl_2_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
 //         + Complex(0,2)*(308 - 1607*Nu + 111*pow(Nu,2))*pow(PhiDOT,3)*pow(r,3)*rDOT 
 //         - 3*(75 - 560*Nu + 68*pow(Nu,2))*pow(PhiDOT,2)*pow(r,2)*pow(rDOT,2) 
 //         - Complex(0,2)*(-265 + 526*Nu + 18*pow(Nu,2))*PhiDOT*r*pow(rDOT,3) 
-//         + (-241 + 550*Nu - 264*pow(Nu,2))*pow(rDOT,4))))/pow(r,2)+ (Complex(0,-0.08333333333333333)*pow(x,3.5)*(2*(-((1 + delta)*(5 + kappa1)) 
+//         + (-241 + 550*Nu - 264*pow(Nu,2))*pow(rDOT,4))))/pow(r,2)
+//          /* Below is the qc NS term */
+//          /* - ((Complex(0,-0.2275132275132275)*delta - Complex(0,2.693121693121693)*delta*Nu + 
+//         Complex(0,0.3134920634920635)*delta*pow(Nu,2))*pow(x,3.5)) 
+//         + ((Complex(0,-0.2275132275132275)*delta - Complex(0,2.693121693121693)*delta*Nu + 
+//         Complex(0,0.3134920634920635)*delta*pow(Nu,2))*pow(x,3.5))  */
+//         + (Complex(0,-0.08333333333333333)*pow(x,3.5)*(2*(-((1 + delta)*(5 + kappa1)) 
 //         + 2*(6 + delta + (4 + 3*delta)*kappa1)*Nu)*pow(S1z,2) + S1z*(Complex(0,-3) - Complex(0,3)*delta + 6*(1 + delta)*M_PI 
 //         - 16*delta*Nu*S2z - Complex(0,3)*(1 + delta)*log(16)) + S2z*(6*(-1 + delta)*M_PI - 2*(-1 + delta)*(5 + kappa2)*S2z 
 //         + 4*(-6 + delta - 4*kappa2 + 3*delta*kappa2)*Nu*S2z - Complex(0,3)*(-1 + delta)*(1 + log(16))))));
@@ -257,7 +273,11 @@ static COMPLEX16 hl_2_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
 //         return ((delta*pow(mass,2)*Nu*PhiDOT*(mass*(195*PhiDOT*r 
 //         - Complex(0,946)*rDOT) + 9*r*(270*pow(PhiDOT,3)*pow(r,3) 
 //         - Complex(0,483)*pow(PhiDOT,2)*pow(r,2)*rDOT 
-//         - 580*PhiDOT*r*pow(rDOT,2) + Complex(0,42)*pow(rDOT,3))))/(315.*pow(r,2))+(Complex(0,-0.0006613756613756613)*(-4*pow(Nu,2)*(-1365*(S1z - S2z)
+//         - 580*PhiDOT*r*pow(rDOT,2) + Complex(0,42)*pow(rDOT,3))))/(315.*pow(r,2)) 
+//         /* Below is the qc NS term */
+//         /* - ((delta*pow(x,4)*(Complex(0,6)*(-17 + 6*Nu)*M_PI + 2*Nu*(995 + 36*log(2)) - 51*(1 + log(16))))/252.) 
+//         + ((delta*pow(x,4)*(Complex(0,6)*(-17 + 6*Nu)*M_PI + 2*Nu*(995 + 36*log(2)) - 51*(1 + log(16))))/252.)  */
+//         +(Complex(0,-0.0006613756613756613)*(-4*pow(Nu,2)*(-1365*(S1z - S2z)
 //          + 179*delta*(S1z + S2z)) + 6*(208*(1 + delta)*S1z + 63*(1 + delta)*kappa1*pow(S1z,3) + (-1 + delta)*S2z*(208 + 63*kappa2*pow(S2z,2))) - 
 //       Nu*(378*(3 + delta)*kappa1*pow(S1z,3) + 378*(1 + delta)*(-2 + kappa1)*pow(S1z,2)*S2z + S1z*(8351 + 7027*delta + 378*(-1 + delta)*(-2 + kappa2)*pow(S2z,2)) + 
 //         S2z*(-8351 + 7027*delta + 378*(-3 + delta)*kappa2*pow(S2z,2))))*pow(x,4)));
@@ -353,18 +373,24 @@ static COMPLEX16 hl_2_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
 //     // if (rDOT){
 
 //     if(vpnorder == 1){
-//         return (sqrt(0.11904761904761904)*delta*(2*r*pow(Complex(0,1)*PhiDOT*r - rDOT,3) 
-//         + mass*(Complex(0,-7)*PhiDOT*r + 4*rDOT)))/(2.*r);
+//         return ((sqrt(0.11904761904761904)*delta*(2*r*pow(Complex(0,1)*PhiDOT*r - rDOT,3) 
+//         + mass*(Complex(0,-7)*PhiDOT*r + 4*rDOT)))/(2.*r) 
+//         /* Below is the qc NS term */
+//         /* -(Complex(0,-1.5)*sqrt(1.0714285714285714)*delta*pow(x,1.5))
+//         +(Complex(0,-1.5)*sqrt(1.0714285714285714)*delta*pow(x,1.5)) */);
 //     } 
 
 //     else if(vpnorder == 3){
-//         return (sqrt(0.11904761904761904)*delta*(6*(-5 
+//         return ((sqrt(0.11904761904761904)*delta*(6*(-5 
 //         + 19*Nu)*pow(r,2)*pow(PhiDOT*r + Complex(0,1)*rDOT,4)*(Complex(0,1)*PhiDOT*r 
 //         + rDOT) + 2*pow(mass,2)*(Complex(0,-3)*(-101 + 43*Nu)*PhiDOT*r 
 //         + (-109 + 86*Nu)*rDOT) + 3*mass*r*(Complex(0,-12)*(1 + 4*Nu)*pow(PhiDOT,3)*pow(r,3) 
 //         + 6*(14 + 31*Nu)*pow(PhiDOT,2)*pow(r,2)*rDOT + Complex(0,3)*(33 
 //         + 62*Nu)*PhiDOT*r*pow(rDOT,2) 
-//         - 4*(8 + 17*Nu)*pow(rDOT,3))))/(36.*pow(r,2));
+//         - 4*(8 + 17*Nu)*pow(rDOT,3))))/(36.*pow(r,2))
+//         /* Below is the qc NS term */
+//        /*  -(Complex(0,-3)*sqrt(1.0714285714285714)*delta*(-2 + Nu)*pow(x,2.5))
+//         +(Complex(0,-3)*sqrt(1.0714285714285714)*delta*(-2 + Nu)*pow(x,2.5)) */);
 //     }    
 
 //     else if(vpnorder == 4){
@@ -383,7 +409,10 @@ static COMPLEX16 hl_2_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
 //             (-4*S1z + 19*Nu*(S1z - S2z) + 4*S2z - 4*delta*(S1z + S2z) + 5*delta*Nu*(S1z + S2z))*pow(x,3))
 //              + (Complex(0,-0.375)*sqrt(0.04285714285714286)*pow(x,3)*(60*delta*M_PI 
 //              + 5*(-4 + 19*Nu + delta*(-4 + 5*Nu))*S1z + 5*(4 - 19*Nu + delta*(-4 + 5*Nu))*S2z + 
-//             Complex(0,12)*delta*(-7 + log(57.6650390625)))));
+//             Complex(0,12)*delta*(-7 + log(57.6650390625))))
+//             /* Below is the qc NS term */
+//            /*  -((9*sqrt(0.04285714285714286)*delta*pow(x,3)*(-7 - Complex(0,5)*M_PI + 10*log(1.5)))/2.)
+//             +((9*sqrt(0.04285714285714286)*delta*pow(x,3)*(-7 - Complex(0,5)*M_PI + 10*log(1.5)))/2.) */);
 //     } 
 
 //     else if(vpnorder == 5){
@@ -404,6 +433,9 @@ static COMPLEX16 hl_2_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
 //         - 32*(-1288 + 3667*Nu + 4056*pow(Nu,2))*pow(PhiDOT,2)*pow(r,2)*pow(rDOT,3) 
 //         - Complex(0,5)*(-9851 + 17954*Nu + 40968*pow(Nu,2))*PhiDOT*r*pow(rDOT,4) 
 //         + 20*(-771 + 1126*Nu + 3616*pow(Nu,2))*pow(rDOT,5))))/(1584.*sqrt(210)*pow(r,3))
+//         /* Below is the qc NS term */
+//         /* -(Complex(0,-0.022727272727272728)*sqrt(0.04285714285714286)*delta*(369 + Nu*(-3676 + 887*Nu))*pow(x,3.5))
+//         +(Complex(0,-0.022727272727272728)*sqrt(0.04285714285714286)*delta*(369 + Nu*(-3676 + 887*Nu))*pow(x,3.5)) */
 //         +(Complex(0,1.125)*sqrt(1.0714285714285714)*(kappa1*(-1 - delta + 2*(2 + delta)*Nu)*pow(S1z,2) 
 //         + S2z*(-4*delta*Nu*S1z + kappa2*(1 - delta + 2*(-2 + delta)*Nu)*S2z))*pow(x,3.5)));
 //     }
@@ -416,7 +448,11 @@ static COMPLEX16 hl_2_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
 //         - 384*pow(PhiDOT,2)*pow(r,2)*pow(rDOT,2) 
 //         - Complex(0,408)*PhiDOT*r*pow(rDOT,3) + 200*pow(rDOT,4))))/(36.*sqrt(210)*pow(r,4))
 //         +(Complex(0,-0.125)*sqrt(0.04285714285714286)*(-(Nu*((279 + delta)*S1z + (-279 + delta)*S2z)) 
-//         + 10*(S1z - S2z + delta*(S1z + S2z)) + pow(Nu,2)*(407*(S1z - S2z) + 241*delta*(S1z + S2z)))*pow(x,4)));
+//         + 10*(S1z - S2z + delta*(S1z + S2z)) + pow(Nu,2)*(407*(S1z - S2z) + 241*delta*(S1z + S2z)))*pow(x,4))
+//           /* Below is the qc NS term */
+//        /*  -((delta*pow(x,4)*(40824 - 96206*Nu - Complex(0,3645)*(-8 + 3*Nu)*M_PI + 7290*(-8 + 3*Nu)*log(1.5)))/
+//         (108.*sqrt(210)))+((delta*pow(x,4)*(40824 - 96206*Nu - Complex(0,3645)*(-8 + 3*Nu)*M_PI + 7290*(-8 + 3*Nu)*log(1.5)))/
+//         (108.*sqrt(210))) */);
 //     }
 
 //     else if(vpnorder == 7){
@@ -782,14 +818,17 @@ static COMPLEX16 hl_2_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
 
 //     // if(rDOT){
 //     if(vpnorder == 2){
-//         return (sqrt(0.7142857142857143)*(-1 + 3*Nu)*(7*pow(mass,2) 
+//         return ((sqrt(0.7142857142857143)*(-1 + 3*Nu)*(7*pow(mass,2) 
 //         + 6*pow(r,2)*pow(PhiDOT*r + Complex(0,1)*rDOT,4) 
 //         + 3*mass*r*(17*pow(PhiDOT,2)*pow(r,2) 
-//         + Complex(0,18)*PhiDOT*r*rDOT - 6*pow(rDOT,2))))/(36.*pow(r,2));
+//         + Complex(0,18)*PhiDOT*r*rDOT - 6*pow(rDOT,2))))/(36.*pow(r,2))
+//         /* Below is the qc NS term */
+//         /* -((16*sqrt(0.7142857142857143)*(-1 + 3*Nu)*pow(x,2))/9.)
+//         +((16*sqrt(0.7142857142857143)*(-1 + 3*Nu)*pow(x,2))/9.) */);
 //     }
     
 //     else if(vpnorder == 4){
-//         return (40*pow(mass,3)*(314 - 987*Nu + 195*pow(Nu,2)) 
+//         return ((40*pow(mass,3)*(314 - 987*Nu + 195*pow(Nu,2)) 
 //         - 60*(23 - 159*Nu + 291*pow(Nu,2))*pow(r,3)*(PhiDOT*r 
 //         - Complex(0,1)*rDOT)*pow(PhiDOT*r + Complex(0,1)*rDOT,5) 
 //         + pow(mass,2)*r*((53143 - 199660*Nu + 127500*pow(Nu,2))*pow(PhiDOT,2)*pow(r,2) 
@@ -799,7 +838,10 @@ static COMPLEX16 hl_2_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
 //         - Complex(0,8)*(-976 + 1745*Nu + 3150*pow(Nu,2))*pow(PhiDOT,3)*pow(r,3)*rDOT 
 //         + 2*(-6141 + 8980*Nu + 31500*pow(Nu,2))*pow(PhiDOT,2)*pow(r,2)*pow(rDOT,2) 
 //         + Complex(0,4)*(-1853 + 1730*Nu + 13230*pow(Nu,2))*PhiDOT*r*pow(rDOT,3) 
-//         - 20*(-83 + 30*Nu + 762*pow(Nu,2))*pow(rDOT,4)))/(1584.*sqrt(35)*pow(r,3));
+//         - 20*(-83 + 30*Nu + 762*pow(Nu,2))*pow(rDOT,4)))/(1584.*sqrt(35)*pow(r,3))
+//          /* Below is the qc NS term */
+//         /* -((8*(1779 + 5*Nu*(-1273 + 525*Nu))*pow(x,3))/(297.*sqrt(35)))
+//         +((8*(1779 + 5*Nu*(-1273 + 525*Nu))*pow(x,3))/(297.*sqrt(35))) */);
 //     }
 
 //     else if(vpnorder == 5){
@@ -807,7 +849,10 @@ static COMPLEX16 hl_2_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
 //         + r*(Complex(0,-734)*pow(PhiDOT,3)*pow(r,3) + 129*pow(PhiDOT,2)*pow(r,2)*rDOT 
 //         + Complex(0,156)*PhiDOT*r*pow(rDOT,2) - 26*pow(rDOT,3))))/(24.*sqrt(35)*pow(r,3))
 //         +((-32*(39*delta*Nu*(S1z - S2z) + 41*Nu*(S1z + S2z) - 42*pow(Nu,2)*(S1z + S2z) 
-//         - 10*(S1z + delta*S1z + S2z - delta*S2z))*pow(x,3.5))/(27.*sqrt(35))));
+//         - 10*(S1z + delta*S1z + S2z - delta*S2z))*pow(x,3.5))/(27.*sqrt(35)))
+//         /* Below is the qc NS term */
+//         /* -((2*pow(x,3.5)*(160*(-1 + 3*Nu)*M_PI + Complex(0,1)*(336 - 1193*Nu + 320*(-1 + 3*Nu)*log(2))))/(9.*sqrt(35)))
+//         +((2*pow(x,3.5)*(160*(-1 + 3*Nu)*M_PI + Complex(0,1)*(336 - 1193*Nu + 320*(-1 + 3*Nu)*log(2))))/(9.*sqrt(35))) */);
 //     }
 
 //     else if(vpnorder == 6){
@@ -841,7 +886,10 @@ static COMPLEX16 hl_2_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
 //         + 10*(10233 - 44864*Nu - 13050*pow(Nu,2) 
 //         + 203280*pow(Nu,3))*pow(rDOT,6)))/(1.44144e6*sqrt(35)*pow(r,4))
 //         +((16*sqrt(0.7142857142857143)*(-1 + 3*Nu)*(kappa1*(1 + delta - 2*Nu)*pow(S1z,2) 
-//         + S2z*(4*Nu*S1z - kappa2*(-1 + delta + 2*Nu)*S2z))*pow(x,4))/9.));
+//         + S2z*(4*Nu*S1z - kappa2*(-1 + delta + 2*Nu)*S2z))*pow(x,4))/9.) 
+//         /* Below is the qc NS term */
+//         /* -((2*(-9618039 + 7*Nu*(9793071 + 5*Nu*(-3231338 + 678291*Nu)))*pow(x,4))/(405405.*sqrt(35)))
+//         +((2*(-9618039 + 7*Nu*(9793071 + 5*Nu*(-3231338 + 678291*Nu)))*pow(x,4))/(405405.*sqrt(35))) */);
 //     }
 
 //     else if(vpnorder == 7){
@@ -1254,14 +1302,17 @@ static COMPLEX16 hl_2_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
 //     // if(rDOT){
 
 //     if(vpnorder == 3){
-//         return (delta*(-1 + 2*Nu)*(24*pow(r,2)*pow(Complex(0,-1)*PhiDOT*r + rDOT,5) 
+//         return ((delta*(-1 + 2*Nu)*(24*pow(r,2)*pow(Complex(0,-1)*PhiDOT*r + rDOT,5) 
 //         + 2*pow(mass,2)*(Complex(0,-86)*PhiDOT*r + 41*rDOT) 
 //         + 3*mass*r*(Complex(0,-143)*pow(PhiDOT,3)*pow(r,3) + 208*pow(PhiDOT,2)*pow(r,2)*rDOT 
-//         + Complex(0,132)*PhiDOT*r*pow(rDOT,2) - 32*pow(rDOT,3))))/(48.*sqrt(66)*pow(r,2));
+//         + Complex(0,132)*PhiDOT*r*pow(rDOT,2) - 32*pow(rDOT,3))))/(48.*sqrt(66)*pow(r,2))
+//          /* Below is the qc NS term */
+//         /* -((Complex(0,-13.020833333333334)*delta*(-1 + 2*Nu)*pow(x,2.5))/sqrt(66))
+//         +((Complex(0,-13.020833333333334)*delta*(-1 + 2*Nu)*pow(x,2.5))/sqrt(66)) */);
 //     }    
 
 //     else if(vpnorder == 5){
-//         return (delta*(360*(33 - 197*Nu + 294*pow(Nu,2))*pow(r,3)*pow(PhiDOT*r 
+//         return ((delta*(360*(33 - 197*Nu + 294*pow(Nu,2))*pow(r,3)*pow(PhiDOT*r 
 //         + Complex(0,1)*rDOT,6)*(Complex(0,1)*PhiDOT*r + rDOT) + 2*pow(mass,3)*(Complex(0,-5)*(53311 - 121906*Nu 
 //         + 42816*pow(Nu,2))*PhiDOT*r + 78*(1141 - 2760*Nu + 1420*pow(Nu,2))*rDOT) 
 //         + 2*pow(mass,2)*r*(Complex(0,-10)*(40826 - 125981*Nu + 87534*pow(Nu,2))*pow(PhiDOT,3)*pow(r,3) 
@@ -1272,7 +1323,10 @@ static COMPLEX16 hl_2_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
 //         + 37132*pow(Nu,2))*pow(PhiDOT,3)*pow(r,3)*pow(rDOT,2) - 8*(-4666 + 139*Nu 
 //         + 22194*pow(Nu,2))*pow(PhiDOT,2)*pow(r,2)*pow(rDOT,3) 
 //         - Complex(0,4)*(-3971 - 3226*Nu + 27360*pow(Nu,2))*PhiDOT*r*pow(rDOT,4) 
-//         + 48*(-57 - 97*Nu + 518*pow(Nu,2))*pow(rDOT,5))))/(18720.*sqrt(66)*pow(r,3));
+//         + 48*(-57 - 97*Nu + 518*pow(Nu,2))*pow(rDOT,5))))/(18720.*sqrt(66)*pow(r,3))
+//         /* Below is the qc NS term */
+//         /* -((Complex(0,-0.33386752136752135)*delta*(263 + 16*Nu*(-43 + 16*Nu))*pow(x,3.5))/sqrt(66))
+//         +((Complex(0,-0.33386752136752135)*delta*(263 + 16*Nu*(-43 + 16*Nu))*pow(x,3.5))/sqrt(66)) */);
 //     }
 
 //     else if(vpnorder == 6){
@@ -1281,7 +1335,11 @@ static COMPLEX16 hl_2_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
 //         + Complex(0,17192)*pow(PhiDOT,3)*pow(r,3)*rDOT - 27840*pow(PhiDOT,2)*pow(r,2)*pow(rDOT,2) 
 //         - Complex(0,9968)*PhiDOT*r*pow(rDOT,3) + 1424*pow(rDOT,4))))/(1680.*sqrt(66)*pow(r,4))
 //         +((Complex(0,-21.70138888888889)*((1 + delta + 3*delta*(-1 + Nu)*Nu + Nu*(-7 + 11*Nu))*S1z 
-//         + (-1 + delta + (7 - 11*Nu)*Nu + 3*delta*(-1 + Nu)*Nu)*S2z)*pow(x,4))/sqrt(66)));
+//         + (-1 + delta + (7 - 11*Nu)*Nu + 3*delta*(-1 + Nu)*Nu)*S2z)*pow(x,4))/sqrt(66))
+//         /* Below is the qc NS term */
+//        /*  -((delta*pow(x,4)*(565625 - 1481676*Nu - Complex(0,218750)*(-1 + 2*Nu)*M_PI + 437500*(-1 + 2*Nu)*log(2.5)))/
+//        (3360.*sqrt(66)))+((delta*pow(x,4)*(565625 - 1481676*Nu - Complex(0,218750)*(-1 + 2*Nu)*M_PI + 437500*(-1 + 2*Nu)*log(2.5)))/
+//        (3360.*sqrt(66))) */);
 //     }
 
 //     else if(vpnorder == 7){
@@ -2691,26 +2749,26 @@ static COMPLEX16 h05PNGOresult(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,
 
     //0.5PN
     
-    /* if(vpnorder==1){
-        COMPLEX16 hcombined = XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 2, 1)*hl_2_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,1,S1z,S2z,x)+
-                             XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 2, -1)*hl_2_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,1,S1z,S2z,x)+
-                             XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 3, 1)*hl_3_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,1,S1z,S2z,x)+
-                             XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 3, -1)*hl_3_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,1,S1z,S2z,x)+
-                             XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 3, 3)*hl_3_m_3(mass,Nu,r,rDOT,Phi,PhiDOT,R,1,S1z,S2z,x)+
-                             XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 3, -3)*hl_3_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,1,S1z,S2z,x);
-        return hcombined;
-    } */
+    // if(vpnorder==1){
+    //     COMPLEX16 hcombined = XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 2, 1)*hl_2_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,1,S1z,S2z,x)+
+    //                          XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 2, -1)*hl_2_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,1,S1z,S2z,x)/* +
+    //                          XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 3, 1)*hl_3_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,1,S1z,S2z,x)+
+    //                          XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 3, -1)*hl_3_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,1,S1z,S2z,x) */+
+    //                          XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 3, 3)*hl_3_m_3(mass,Nu,r,rDOT,Phi,PhiDOT,R,1,S1z,S2z,x)+
+    //                          XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 3, -3)*hl_3_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,1,S1z,S2z,x);
+    //     return hcombined;
+    // }
 	
     //1PN
     /* else */ if(vpnorder==2){
         COMPLEX16 hcombined = XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 2, 2)*hl_2_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,2,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 2, -2)*hl_2_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,2,S1z,S2z,x) /* +
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 2, 1)*hl_2_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,2,S1z,S2z,x)+
-                             XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 2, -1)*hl_2_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,2,S1z,S2z,x)+
+                             XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 2, -1)*hl_2_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,2,S1z,S2z,x) *//* +
                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 3, 2)*hl_3_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,2,S1z,S2z,x)+
                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 3, -2)*hl_3_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,2,S1z,S2z,x)+
                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4, 2)*hl_4_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,2,S1z,S2z,x)+
-                             XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4, -2)*hl_4_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,2,S1z,S2z,x)+
+                             XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4, -2)*hl_4_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,2,S1z,S2z,x) *//* +
                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4, 4)*hl_4_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,2,S1z,S2z,x)+
                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4, -4)*hl_4_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,2,S1z,S2z,x) */;
         return hcombined;
@@ -2724,6 +2782,8 @@ static COMPLEX16 h05PNGOresult(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,
                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 2, -1)*hl_2_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,3,S1z,S2z,x)+
                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 3, 3)*hl_3_m_3(mass,Nu,r,rDOT,Phi,PhiDOT,R,3,S1z,S2z,x)+
                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 3, -3)*hl_3_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,3,S1z,S2z,x)+
+                             XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 5, 5)*hl_5_m_5(mass,Nu,r,rDOT,Phi,PhiDOT,R,3,S1z,S2z,x)+
+                             XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 5, -5)*hl_5_m_min5(mass,Nu,r,rDOT,Phi,PhiDOT,R,3,S1z,S2z,x) *//* +
                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 3, 2)*hl_3_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,3,S1z,S2z,x)+
                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 3, -2)*hl_3_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,3,S1z,S2z,x)+
                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 3, 1)*hl_3_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,3,S1z,S2z,x)+
@@ -2742,7 +2802,7 @@ static COMPLEX16 h05PNGOresult(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,
                                 XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 2, 1)*hl_2_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z,x)+
                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 2, -1)*hl_2_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 3, 3)*hl_3_m_3(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z,x)+
-                             XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 3, -3)*hl_3_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z,x)+
+                             XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 3, -3)*hl_3_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z,x) *//* +
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 3,2)*hl_3_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 3,-2)*hl_3_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z,x)+
                                XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 3, 1)*hl_3_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z,x)+
@@ -2756,9 +2816,9 @@ static COMPLEX16 h05PNGOresult(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 5,2)*hl_5_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 5,-2)*hl_5_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 6,2)*hl_6_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z,x)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 6,-2)*hl_6_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z,x)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 6,-2)*hl_6_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z,x) *//* +
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4,4)*hl_4_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z,x)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4,-4)*hl_4_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z,x)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 4,-4)*hl_4_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z,x) *//* +
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 5,4)*hl_5_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 5,-4)*hl_5_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 6,4)*hl_6_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,4,S1z,S2z,x)+
@@ -2776,9 +2836,9 @@ static COMPLEX16 h05PNGOresult(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,3)*hl_6_m_3(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-3)*hl_6_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,1)*hl_6_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-1)*hl_6_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,5)*hl_5_m_5(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-5)*hl_5_m_min5(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-1)*hl_6_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x)+ */
+                              /* XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,5)*hl_5_m_5(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-5)*hl_5_m_min5(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x) *//* +
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,4)*hl_5_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-4)*hl_5_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,1)*hl_5_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x)+
@@ -2800,15 +2860,15 @@ static COMPLEX16 h05PNGOresult(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,2)*hl_4_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-2)*hl_4_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,3)*hl_4_m_3(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-3)*hl_4_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-3)*hl_4_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x) *//* +
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,4)*hl_4_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-4)*hl_4_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,3)*hl_3_m_3(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,-3)*hl_3_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,-3)*hl_3_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x) *//* +
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,2)*hl_3_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,-2)*hl_3_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,1)*hl_3_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,-1)*hl_3_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,-1)*hl_3_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x) *//* +
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,2,1)*hl_2_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,2,-1)*hl_2_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x)+ */
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,2,2)*hl_2_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,5,S1z,S2z,x)+
@@ -2828,9 +2888,9 @@ static COMPLEX16 h05PNGOresult(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,4)*hl_6_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-4)*hl_6_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,6)*hl_6_m_6(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-6)*hl_6_m_min6(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,5)*hl_5_m_5(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-5)*hl_5_m_min5(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-6)*hl_6_m_min6(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x)+ */
+                              /* XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,5)*hl_5_m_5(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-5)*hl_5_m_min5(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x) *//* +
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,1)*hl_5_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-1)*hl_5_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,3)*hl_5_m_3(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x)+
@@ -2850,15 +2910,15 @@ static COMPLEX16 h05PNGOresult(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,2)*hl_4_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-2)*hl_4_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,3)*hl_4_m_3(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-3)*hl_4_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-3)*hl_4_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x) *//* +
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,4)*hl_4_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-4)*hl_4_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,3)*hl_3_m_3(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,-3)*hl_3_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,-3)*hl_3_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x) *//* +
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,2)*hl_3_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,-2)*hl_3_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,1)*hl_3_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,-1)*hl_3_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,-1)*hl_3_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x) *//* +
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,2,1)*hl_2_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,2,-1)*hl_2_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x)+ */
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,2,2)*hl_2_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,6,S1z,S2z,x)+
@@ -2881,9 +2941,9 @@ static COMPLEX16 h05PNGOresult(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,4)*hl_6_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-4)*hl_6_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,6)*hl_6_m_6(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-6)*hl_6_m_min6(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,5)*hl_5_m_5(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-5)*hl_5_m_min5(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-6)*hl_6_m_min6(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+ */
+                              /* XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,5)*hl_5_m_5(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-5)*hl_5_m_min5(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x) *//* +
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,1)*hl_5_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,-1)*hl_5_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,5,3)*hl_5_m_3(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
@@ -2903,15 +2963,15 @@ static COMPLEX16 h05PNGOresult(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,2)*hl_4_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-2)*hl_4_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,3)*hl_4_m_3(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-3)*hl_4_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-3)*hl_4_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x) *//* +
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,4)*hl_4_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,4,-4)*hl_4_m_min4(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,3)*hl_3_m_3(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,-3)*hl_3_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,-3)*hl_3_m_min3(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x) *//* +
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,2)*hl_3_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,-2)*hl_3_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,1)*hl_3_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
-                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,-1)*hl_3_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
+                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,3,-1)*hl_3_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x) *//* +
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,2,1)*hl_2_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,2,-1)*hl_2_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+ */
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,2,2)*hl_2_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+

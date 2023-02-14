@@ -515,7 +515,7 @@ static void compute_strain_from_dynamics(
                     r_dot_vec[i] * r_dot_vec[i]) *
                        sin(euler_iota) * sin(euler_iota))
 
-                 + 0 * hPlus(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i], pn_order_amp/* , S1z, S2z */ )) 
+                 + hPlus(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i], pn_order_amp/* , S1z, S2z */ )) 
                  + hplusGOtotal);
 
     h_cross[i] =
@@ -530,7 +530,7 @@ static void compute_strain_from_dynamics(
                        (cos(2.0 * phi_vec[i]) * cos(2.0 * euler_beta) +
                         sin(2.0 * phi_vec[i]) * sin(2.0 * euler_beta))))
 
-                 + 0 * hCross(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i], pn_order_amp /* , S1z, S2z  */))
+                 + hCross(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i], pn_order_amp /* , S1z, S2z  */))
                  + hplusGOtotal);
    
   
@@ -989,8 +989,11 @@ int XLALSimInspiralENIGMADynamics(
   /* Set con and pn orders to cover (q,M) space*/
 
   REAL8 omega_attach;
+  
 
   errorcode = PN_Omega(mass_ratio, total_mass, &rad_pn_order, &omega_attach);
+  printf("\nShow me omega_attach in line 992:%f\n",omega_attach);
+  fflush(NULL);
   if (errorcode != XLAL_SUCCESS)
     XLAL_ERROR_FAIL(XLAL_EFUNC);
   // omega_attach*= 0.5;
@@ -1068,6 +1071,9 @@ int XLALSimInspiralENIGMADynamics(
   /* gw frequency (geometrized) at isco */
   f_gw_isco = 1.0 / (TRANS * sqrt(TRANS) * LAL_PI * total_mass);
 
+  printf("value of f_gw_isco at line 1069 :%f",f_gw_isco);
+  fflush(NULL);
+
   /* final value of x is at x(f_isco) = 1/6 */
   x_final = pow(LAL_PI * total_mass * f_gw_isco, 2. / 3.);
 
@@ -1130,8 +1136,8 @@ int XLALSimInspiralENIGMADynamics(
   /*fout = fopen("fork_data.txt", "a");*/
   /*printf("It has reached\n");
   fflush(NULL);*/
-  /*printf("\nShow me omega_attach:%f\n",omega_attach);
-  fflush(NULL);*/
+  printf("\nShow me omega_attach:%f\n",omega_attach);
+  fflush(NULL);
   for (i = 1; /* no end */; ++i) { /*{{{*/
     /*printf("\nEntered the for loop i=%ld\n\n",i);
     fflush(NULL);

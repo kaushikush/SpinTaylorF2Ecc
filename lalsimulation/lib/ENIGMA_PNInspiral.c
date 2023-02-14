@@ -1568,7 +1568,7 @@ static REAL8 dphi_dt(REAL8 u, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2
   REAL8 x_pow_3_2 = sqrt(x) * x;
   REAL8 phidot = 0;
 
-  // 3PN accurate
+  // 4PN accurate
 
   phidot =
       ((phi_dot_0pn(e, eta, u) + x * phi_dot_1pn(e, eta, u) + x_pow_3_2 * phi_dot_1_5_pnSO_ecc(e, m1, m2, S1z, S2z, u) 
