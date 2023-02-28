@@ -1686,8 +1686,8 @@ int XLALSimInspiralENIGMADynamics(
     REAL8TimeSeries **time_evol,         /**< OUTPUT Time steps (M) */
     REAL8TimeSeries **x_evol,            /**< OUTPUT Orbital x parameter */
     REAL8TimeSeries **eccentricity_evol, /**< OUTPUT Orbital eccentricity */
-    REAL8TimeSeries **mean_ano_evol,     /**< OUTPUT Orbital mean anomaly (rad) */
-    REAL8TimeSeries **phi_evol,          /**< OUTPUT Orbital phase (rad) */
+    REAL8TimeSeries **mean_ano_evol, /**< OUTPUT Orbital mean anomaly (rad) */
+    REAL8TimeSeries **phi_evol,      /**< OUTPUT Orbital phase (rad) */
     REAL8TimeSeries *
         *phi_dot_evol,        /**< OUTPUT Time derivative of orbital phase */
     REAL8TimeSeries **r_evol, /**< OUTPUT Orbital radius (M) */
@@ -1709,7 +1709,9 @@ int XLALSimInspiralENIGMADynamics(
     REAL8 f_gw_init,              /**< initial GW frequency (Hz)   */
     REAL8 mean_anom_init,         /**< initial mean-anomaly (rad)  */
     REAL8 ode_eps,                /**< tolerance (relative)   */
-    REAL8 sampling_rate           /**< sample rate (Hz)      */
+    REAL8 sampling_rate,          /**< sample rate (Hz)      */
+    bool will_attach_mr           /**< Enables integration to attachment
+                                       frequency */
 );
 
 int XLALSimInspiralENIGMA(

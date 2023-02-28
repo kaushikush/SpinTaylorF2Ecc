@@ -539,11 +539,11 @@ static int x_model_eccbbh_inspiral_waveform(
       &phi_dot_evol, &r_evol, &r_dot_evol, &imr_matching_time, &imr_matching_x,
       &imr_matching_eccentricity, &imr_matching_mean_ano, &imr_matching_phi,
       &imr_matching_phi_dot, &imr_matching_r, &imr_matching_r_dot, mass1, mass2,
-      e_init, f_gw_init, mean_anom_init, ode_eps, sampling_rate);
+      e_init, f_gw_init, mean_anom_init, ode_eps, sampling_rate, false);
   if (errorcode != XLAL_SUCCESS)
     XLAL_ERROR_FAIL(errorcode);
 
-  Length = (int)ceil(imr_matching_time / dt) + 1;
+  Length = time_evol->data->length;
 
   // get inspiral waveform
   errorcode = XLALSimInspiralENIGMAStrainFromDynamics(
@@ -636,7 +636,7 @@ x_model_eccbbh_imr_waveform(REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
       &phi_dot_evol, &r_evol, &r_dot_evol, &imr_matching_time, &imr_matching_x,
       &imr_matching_eccentricity, &imr_matching_mean_ano, &imr_matching_phi,
       &imr_matching_phi_dot, &imr_matching_r, &imr_matching_r_dot, mass1, mass2,
-      e_init, f_gw_init, mean_anom_init, ode_eps, sampling_rate);
+      e_init, f_gw_init, mean_anom_init, ode_eps, sampling_rate, true);
   if (errorcode != XLAL_SUCCESS)
     XLAL_ERROR_FAIL(errorcode);
 
@@ -753,7 +753,8 @@ int XLALSimInspiralENIGMADynamics(
     REAL8 f_gw_init,             /* initial GW frequency   */
     REAL8 mean_anom_init,        /* initial mean-anomaly   */
     REAL8 ode_eps,               /* tolerance (relative)   */
-    REAL8 sampling_rate          /* sample rate in Hz      */
+    REAL8 sampling_rate,         /* sample rate in Hz      */
+    bool will_attach_mr /* Enables integration to attachment frequency */
 ) {
   int errorcode = XLAL_SUCCESS; /* the current error state value */
 
@@ -875,11 +876,15 @@ int XLALSimInspiralENIGMADynamics(
 
   REAL8 omega_attach;
 
-  errorcode = PN_Omega(mass_ratio, total_mass, &rad_pn_order, &omega_attach);
-  if (errorcode != XLAL_SUCCESS)
-    XLAL_ERROR_FAIL(XLAL_EFUNC);
-  // omega_attach*= 0.5;
-
+  if (will_attach_mr) {
+    errorcode = PN_Omega(mass_ratio, total_mass, &rad_pn_order, &omega_attach);
+    if (errorcode != XLAL_SUCCESS)
+      XLAL_ERROR_FAIL(XLAL_EFUNC);
+    // omega_attach*= 0.5;
+  } else {
+    rad_pn_order = 12;
+    omega_attach = 1.0; // deliberately use unphysical value.
+  }
   /* store the mass and pn params in the param structure */
   ecc_params.eta = sym_mass_ratio;
   ecc_params.radiation_pn_order = rad_pn_order;
@@ -976,7 +981,7 @@ int XLALSimInspiralENIGMADynamics(
               100; /* start with ~100 steps for one orbit */
 
   // sanity check on omega_attach
-  if (phi_dot_vec[0] > omega_attach) {
+  if (will_attach_mr && (phi_dot_vec[0] > omega_attach)) {
     errorcode = XLAL_EINVAL;
     XLAL_ERROR_FAIL(errorcode,
                     "initial phi_dot > omega_attach: %g > %g, lower f_min to "
@@ -1062,7 +1067,7 @@ int XLALSimInspiralENIGMADynamics(
       break;
     }
 
-    if (phi_dot_vec[i] >= omega_attach) {
+    if (will_attach_mr && (phi_dot_vec[i] >= omega_attach)) {
       if (time_omega_attach_reached < 0.) {
         if (i - 1 < 0) { /* reached omega_attach (way) too early */
           errorcode = XLAL_EMAXITER;
@@ -1080,193 +1085,207 @@ int XLALSimInspiralENIGMADynamics(
 
   } /*}}}*/ /* end integration for loop */
 
-  if (time_omega_attach_reached <
-      0.) { /* never reached omega_attach before encountering ISCO */
+  if (will_attach_mr &&
+      (time_omega_attach_reached <
+       0.)) { /* never reached omega_attach before encountering ISCO */
     errorcode = XLAL_EMAXITER;
     XLAL_ERROR_FAIL(errorcode);
   }
 
-  final_i_reached = i + 1;
+  final_i_reached = i;
+  if (badnumber == 0) {
+    final_i_reached = i + 1;
+  }
 
   // determine when attachment point was reached
   /*==========================================================================================================*/
-  REAL8 matching_time = -1;
   int Length = -1;
+  REAL8 matching_time = -1;
+  if (will_attach_mr) {
+    phi_dot_interp = gsl_interp_alloc(gsl_interp_steffen, final_i_reached);
+    phi_dot_accel = gsl_interp_accel_alloc();
+    if (phi_dot_interp == NULL || phi_dot_accel == NULL) {
+      errorcode = XLAL_ENOMEM;
+      XLAL_ERROR_FAIL(errorcode);
+    }
+    gsl_interp_init(phi_dot_interp, t_vec, phi_dot_vec, final_i_reached);
 
-  phi_dot_interp = gsl_interp_alloc(gsl_interp_steffen, final_i_reached);
-  phi_dot_accel = gsl_interp_accel_alloc();
-  if (phi_dot_interp == NULL || phi_dot_accel == NULL) {
-    errorcode = XLAL_ENOMEM;
-    XLAL_ERROR_FAIL(errorcode);
-  }
-  gsl_interp_init(phi_dot_interp, t_vec, phi_dot_vec, final_i_reached);
+    assert(i_omega_attach_reached + 1 < final_i_reached);
+    REAL8 t_lo = t_vec[i_omega_attach_reached];
+    REAL8 t_hi = t_vec[i_omega_attach_reached + 1];
 
-  assert(i_omega_attach_reached + 1 < final_i_reached);
-  REAL8 t_lo = t_vec[i_omega_attach_reached];
-  REAL8 t_hi = t_vec[i_omega_attach_reached + 1];
-
-  // sanity check on initial bracket for bisection
-  {
-    REAL8 phi_dot_val = -1;
-    // Sets phi_dot_val by interpolating the data
-    status = gsl_interp_eval_e(phi_dot_interp, t_vec, phi_dot_vec, t_lo,
-                               phi_dot_accel, &phi_dot_val);
-    if (status != GSL_SUCCESS) {
-      errorcode = XLAL_EFAILED;
-      XLAL_ERROR_FAIL(errorcode);
-    }
-    if (phi_dot_val > omega_attach) {
-      errorcode = XLAL_ETOL;
-      XLAL_ERROR_FAIL(
-          errorcode,
-          "Unexpected ordering of phi_dot[] array. Expected phi_dot(t_lo) <= "
-          "omega_attach, but found phi_dot(%g) = %g = %g > omega_attach = %g",
-          t_lo, phi_dot_val, phi_dot_vec[i_omega_attach_reached], omega_attach);
-    }
-    status = gsl_interp_eval_e(phi_dot_interp, t_vec, phi_dot_vec, t_hi,
-                               phi_dot_accel, &phi_dot_val);
-    if (status != GSL_SUCCESS) {
-      errorcode = XLAL_EFAILED;
-      XLAL_ERROR_FAIL(
-          errorcode,
-          "Unexpected ordering of phi_dot[] array. Expected phi_dot(t_ho) >= "
-          "omega_attach, but found phi_dot(%g) = %g < omega_attach = %g",
-          t_hi, phi_dot_val, omega_attach);
-    }
-    if (phi_dot_val < omega_attach) {
-      errorcode = XLAL_ETOL;
-      XLAL_ERROR_FAIL(errorcode);
-    }
-  }
-  // locate the matching time to within ~1e-3 of the sampling rate
-  const double epsabs = 1e-3 * dt;
-  const double epsrel = 0;
-  const int max_iter = 100;
-  for (int niter = 0; (status = gsl_root_test_interval(t_lo, t_hi, epsabs,
-                                                       epsrel)) != GSL_SUCCESS;
-       niter++) {
-    if (status != GSL_CONTINUE) {
-      errorcode = XLAL_EFAILED;
-      XLAL_ERROR_FAIL(errorcode);
-    }
-    if (niter > max_iter) {
-      errorcode = XLAL_EMAXITER;
-      XLAL_ERROR_FAIL(errorcode);
-    }
-
-    matching_time = 0.5 * (t_lo + t_hi);
-    REAL8 phi_dot_val = -1;
-    // Sets phi_dot_val by interpolating the data
-    status = gsl_interp_eval_e(phi_dot_interp, t_vec, phi_dot_vec,
-                               matching_time, phi_dot_accel, &phi_dot_val);
-    if (status != GSL_SUCCESS) {
-      errorcode = XLAL_EFAILED;
-      XLAL_ERROR_FAIL(errorcode);
-    }
-    if (phi_dot_val < omega_attach) {
-      t_lo = matching_time;
-    } else if (phi_dot_val > omega_attach) {
-      t_hi = matching_time;
-    } else {
-      break;
-    }
-  }
-  // sanity check on final bracket after bisection
-  {
-    assert(dt > epsabs);
-    if (t_hi - t_lo >
-        1.05 * epsabs) // give some sleeve for roundoff and the like
+    // sanity check on initial bracket for bisection
     {
-      errorcode = XLAL_ETOL;
-      XLAL_ERROR_FAIL(errorcode,
-                      "bisection did not reduce bracket width [%.15e,%.18e] "
-                      "below threshold of %.18e for sampling rate %.18e",
-                      t_lo, t_hi, epsabs, dt);
+      REAL8 phi_dot_val = -1;
+      // Sets phi_dot_val by interpolating the data
+      status = gsl_interp_eval_e(phi_dot_interp, t_vec, phi_dot_vec, t_lo,
+                                 phi_dot_accel, &phi_dot_val);
+      if (status != GSL_SUCCESS) {
+        errorcode = XLAL_EFAILED;
+        XLAL_ERROR_FAIL(errorcode);
+      }
+      if (phi_dot_val > omega_attach) {
+        errorcode = XLAL_ETOL;
+        XLAL_ERROR_FAIL(
+            errorcode,
+            "Unexpected ordering of phi_dot[] array. Expected phi_dot(t_lo) <= "
+            "omega_attach, but found phi_dot(%g) = %g = %g > omega_attach = %g",
+            t_lo, phi_dot_val, phi_dot_vec[i_omega_attach_reached],
+            omega_attach);
+      }
+      status = gsl_interp_eval_e(phi_dot_interp, t_vec, phi_dot_vec, t_hi,
+                                 phi_dot_accel, &phi_dot_val);
+      if (status != GSL_SUCCESS) {
+        errorcode = XLAL_EFAILED;
+        XLAL_ERROR_FAIL(
+            errorcode,
+            "Unexpected ordering of phi_dot[] array. Expected phi_dot(t_hi) >= "
+            "omega_attach, but found phi_dot(%g) = %g < omega_attach = %g",
+            t_hi, phi_dot_val, omega_attach);
+      }
+      if (phi_dot_val < omega_attach) {
+        errorcode = XLAL_ETOL;
+        XLAL_ERROR_FAIL(errorcode);
+      }
     }
-    REAL8 phi_dot_val = -1;
-    // Sets phi_dot_val by interpolating the data
-    status = gsl_interp_eval_e(phi_dot_interp, t_vec, phi_dot_vec, t_lo,
-                               phi_dot_accel, &phi_dot_val);
-    if (status != GSL_SUCCESS) {
-      errorcode = XLAL_EFAILED;
-      XLAL_ERROR_FAIL(errorcode);
-    }
-    if (phi_dot_val > omega_attach) {
-      errorcode = XLAL_ETOL;
-      XLAL_ERROR_FAIL(errorcode);
-    }
-    status = gsl_interp_eval_e(phi_dot_interp, t_vec, phi_dot_vec, t_hi,
-                               phi_dot_accel, &phi_dot_val);
-    if (status != GSL_SUCCESS) {
-      errorcode = XLAL_EFAILED;
-      XLAL_ERROR_FAIL(errorcode);
-    }
-    if (phi_dot_val < omega_attach) {
-      errorcode = XLAL_ETOL;
-      XLAL_ERROR_FAIL(errorcode);
-    }
-  }
-  Length = (int)ceil(t_lo / dt) + 1;
-  if (Length < 2) {
-    errorcode = XLAL_EBADLEN;
-    XLAL_ERROR_FAIL(errorcode);
-  }
-  // if the bracket [t_lo,t_hi] straddles a grid point then we need to move the
-  // bracket fully to one side of the grid point using one more bisection step
-  if (t_lo < (Length - 1) * dt && (Length - 1) * dt < t_hi) {
-    REAL8 phi_dot_val = -1;
-    matching_time = (Length - 1) * dt;
-    status = gsl_interp_eval_e(phi_dot_interp, t_vec, phi_dot_vec,
-                               matching_time, phi_dot_accel, &phi_dot_val);
-    if (status != GSL_SUCCESS) {
-      errorcode = XLAL_EFAILED;
-      XLAL_ERROR_FAIL(errorcode);
-    }
-    if (phi_dot_val < omega_attach) {
-      t_lo = matching_time;
-      Length += 1;
-    } else if (phi_dot_val > omega_attach) {
-      t_hi = matching_time;
-    }
-  }
-  matching_time = 0.5 * (t_lo + t_hi);
+    // locate the matching time to within ~1e-3 of the sampling rate
+    const double epsabs = 1e-3 * dt;
+    const double epsrel = 0;
+    const int max_iter = 100;
+    for (int niter = 0;
+         (status = gsl_root_test_interval(t_lo, t_hi, epsabs, epsrel)) !=
+         GSL_SUCCESS;
+         niter++) {
+      if (status != GSL_CONTINUE) {
+        errorcode = XLAL_EFAILED;
+        XLAL_ERROR_FAIL(errorcode);
+      }
+      if (niter > max_iter) {
+        errorcode = XLAL_EMAXITER;
+        XLAL_ERROR_FAIL(errorcode);
+      }
 
-  // sanity check on length
-  {
-    REAL8 phi_dot_val = -1;
-    // Sets phi_dot_val by interpolating the data
-    status = gsl_interp_eval_e(phi_dot_interp, t_vec, phi_dot_vec,
-                               (Length - 2) * dt, phi_dot_accel, &phi_dot_val);
-    if (status != GSL_SUCCESS) {
-      errorcode = XLAL_EFAILED;
+      matching_time = 0.5 * (t_lo + t_hi);
+      REAL8 phi_dot_val = -1;
+      // Sets phi_dot_val by interpolating the data
+      status = gsl_interp_eval_e(phi_dot_interp, t_vec, phi_dot_vec,
+                                 matching_time, phi_dot_accel, &phi_dot_val);
+      if (status != GSL_SUCCESS) {
+        errorcode = XLAL_EFAILED;
+        XLAL_ERROR_FAIL(errorcode);
+      }
+      if (phi_dot_val < omega_attach) {
+        t_lo = matching_time;
+      } else if (phi_dot_val > omega_attach) {
+        t_hi = matching_time;
+      } else {
+        break;
+      }
+    }
+    // sanity check on final bracket after bisection
+    {
+      assert(dt > epsabs);
+      if (t_hi - t_lo >
+          1.05 * epsabs) // give some sleeve for roundoff and the like
+      {
+        errorcode = XLAL_ETOL;
+        XLAL_ERROR_FAIL(errorcode,
+                        "bisection did not reduce bracket width [%.15e,%.18e] "
+                        "below threshold of %.18e for sampling rate %.18e",
+                        t_lo, t_hi, epsabs, dt);
+      }
+      REAL8 phi_dot_val = -1;
+      // Sets phi_dot_val by interpolating the data
+      status = gsl_interp_eval_e(phi_dot_interp, t_vec, phi_dot_vec, t_lo,
+                                 phi_dot_accel, &phi_dot_val);
+      if (status != GSL_SUCCESS) {
+        errorcode = XLAL_EFAILED;
+        XLAL_ERROR_FAIL(errorcode);
+      }
+      if (phi_dot_val > omega_attach) {
+        errorcode = XLAL_ETOL;
+        XLAL_ERROR_FAIL(errorcode);
+      }
+      status = gsl_interp_eval_e(phi_dot_interp, t_vec, phi_dot_vec, t_hi,
+                                 phi_dot_accel, &phi_dot_val);
+      if (status != GSL_SUCCESS) {
+        errorcode = XLAL_EFAILED;
+        XLAL_ERROR_FAIL(errorcode);
+      }
+      if (phi_dot_val < omega_attach) {
+        errorcode = XLAL_ETOL;
+        XLAL_ERROR_FAIL(errorcode);
+      }
+    }
+    Length = (int)ceil(t_lo / dt) + 1;
+    if (Length < 2) {
+      errorcode = XLAL_EBADLEN;
       XLAL_ERROR_FAIL(errorcode);
     }
-    if (phi_dot_val > omega_attach || (Length - 2) * dt > matching_time) {
-      errorcode = XLAL_ETOL;
-      XLAL_ERROR_FAIL(errorcode,
-                      "phi_dot_val: %.18e, omega_attach: %.18e, (Length - 2) * "
-                      "dt: %.18e, t_lo: %.18e, matching_time: %.18e, t_hi: "
-                      "%.18e, (Length - 1) * dt: %.18e",
-                      phi_dot_val, omega_attach, (Length - 2) * dt, t_lo,
-                      matching_time, t_hi, (Length - 1) * dt);
+    // if the bracket [t_lo,t_hi] straddles a grid point then we need to move
+    // the bracket fully to one side of the grid point using one more bisection
+    // step
+    if (t_lo < (Length - 1) * dt && (Length - 1) * dt < t_hi) {
+      REAL8 phi_dot_val = -1;
+      matching_time = (Length - 1) * dt;
+      status = gsl_interp_eval_e(phi_dot_interp, t_vec, phi_dot_vec,
+                                 matching_time, phi_dot_accel, &phi_dot_val);
+      if (status != GSL_SUCCESS) {
+        errorcode = XLAL_EFAILED;
+        XLAL_ERROR_FAIL(errorcode);
+      }
+      if (phi_dot_val < omega_attach) {
+        t_lo = matching_time;
+        Length += 1;
+      } else if (phi_dot_val > omega_attach) {
+        t_hi = matching_time;
+      }
     }
-    status = gsl_interp_eval_e(phi_dot_interp, t_vec, phi_dot_vec,
-                               (Length - 1) * dt, phi_dot_accel, &phi_dot_val);
-    if (status != GSL_SUCCESS) {
-      errorcode = XLAL_EFAILED;
-      XLAL_ERROR_FAIL(errorcode);
-    }
-    if (phi_dot_val < omega_attach || (Length - 1) * dt < matching_time) {
-      errorcode = XLAL_ETOL;
-      XLAL_ERROR_FAIL(errorcode,
-                      "phi_dot_val: %.18e, omega_attach: %.18e, (Length - 2) * "
-                      "dt: %.18e, t_lo: %.18e, matching_time: %.18e, t_hi: "
-                      "%.18e, (Length - 1) * dt: %.18e",
-                      phi_dot_val, omega_attach, (Length - 2) * dt, t_lo,
-                      matching_time, t_hi, (Length - 1) * dt);
-    }
-  }
+    matching_time = 0.5 * (t_lo + t_hi);
 
+    // sanity check on length
+    {
+      REAL8 phi_dot_val = -1;
+      // Sets phi_dot_val by interpolating the data
+      status =
+          gsl_interp_eval_e(phi_dot_interp, t_vec, phi_dot_vec,
+                            (Length - 2) * dt, phi_dot_accel, &phi_dot_val);
+      if (status != GSL_SUCCESS) {
+        errorcode = XLAL_EFAILED;
+        XLAL_ERROR_FAIL(errorcode);
+      }
+      if (phi_dot_val > omega_attach || (Length - 2) * dt > matching_time) {
+        errorcode = XLAL_ETOL;
+        XLAL_ERROR_FAIL(
+            errorcode,
+            "phi_dot_val: %.18e, omega_attach: %.18e, (Length - 2) * "
+            "dt: %.18e, t_lo: %.18e, matching_time: %.18e, t_hi: "
+            "%.18e, (Length - 1) * dt: %.18e",
+            phi_dot_val, omega_attach, (Length - 2) * dt, t_lo, matching_time,
+            t_hi, (Length - 1) * dt);
+      }
+      status =
+          gsl_interp_eval_e(phi_dot_interp, t_vec, phi_dot_vec,
+                            (Length - 1) * dt, phi_dot_accel, &phi_dot_val);
+      if (status != GSL_SUCCESS) {
+        errorcode = XLAL_EFAILED;
+        XLAL_ERROR_FAIL(errorcode);
+      }
+      if (phi_dot_val < omega_attach || (Length - 1) * dt < matching_time) {
+        errorcode = XLAL_ETOL;
+        XLAL_ERROR_FAIL(
+            errorcode,
+            "phi_dot_val: %.18e, omega_attach: %.18e, (Length - 2) * "
+            "dt: %.18e, t_lo: %.18e, matching_time: %.18e, t_hi: "
+            "%.18e, (Length - 1) * dt: %.18e",
+            phi_dot_val, omega_attach, (Length - 2) * dt, t_lo, matching_time,
+            t_hi, (Length - 1) * dt);
+      }
+    }
+  } else {
+    Length = (int)ceil(t_vec[final_i_reached - 2] / dt);
+    matching_time = t_vec[final_i_reached - 2];
+  }
   // get uniform data for inspiral
   uniform_t_vec = (REAL8 *)LALMalloc(Length * sizeof(REAL8));
   if (uniform_t_vec == NULL) {
