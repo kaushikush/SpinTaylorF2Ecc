@@ -472,6 +472,8 @@ static REAL8 x_dot_3_5pn_cubicSpin(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8
  REAL8 x_3_5pn_cubicSpin;
  REAL8 kappa1 = 1.0; /*for black holes kappa_{1,2} is 1*/
  REAL8 kappa2 = 1.0;
+ REAL8 lambda1 = 1.0; /*for black holes lambda_{1,2} is 1*/
+ REAL8 lambda2 = 1.0;
  REAL8 pre_factor = 64. * eta / 5;
  /*REAL8 term1 = -0.020833333333333332*(2976*m1*m1*m1*m1*S1z*S1z*S1z + 2976*m2*m2*m2*m2*S2z*S2z*S2z 
              + 7146*m1*m1*m2*m2*S1z*S2z*(S1z + S2z) + m1*m2*m2*m2*S2z*S2z*(7987*S1z + 2115*S2z)
@@ -483,12 +485,22 @@ static REAL8 x_dot_3_5pn_cubicSpin(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8
 
  } else {
 
+   x_3_5pn_cubicSpin = pre_factor * (-0.020833333333333332*(2*(15 + 1016*kappa1 + 528*lambda1)*pow(m1,4)*
+       pow(S1z,3) + 2*(15 + 1016*kappa2 + 528*lambda2)*pow(m2,4)*
+       pow(S2z,3) + pow(m1,3)*m2*pow(S1z,2)*
+       ((21 + 536*kappa1 + 1056*lambda1)*S1z + (4033 + 3712*kappa1)*S2z)
+        + 12*pow(m1,2)*pow(m2,2)*S1z*S2z*
+       ((89 + 434*kappa1)*S1z + (89 + 434*kappa2)*S2z) + 
+      m1*pow(m2,3)*pow(S2z,2)*
+       ((4033 + 3712*kappa2)*S1z + (21 + 536*kappa2 + 1056*lambda2)*S2z)
+      )/pow(m1 + m2,4));
+
   /*x_3_5pn_cubicSpin = pre_factor * term1;*/
 
-    x_3_5pn_cubicSpin = pre_factor * (-0.020833333333333332*(4*(5 + 739*kappa1)*pow(m1,4)*pow(S1z,3) + 4*(5 + 739*kappa2)*pow(m2,4)*pow(S2z,3) + 
+    /* x_3_5pn_cubicSpin = pre_factor * (-0.020833333333333332*(4*(5 + 739*kappa1)*pow(m1,4)*pow(S1z,3) + 4*(5 + 739*kappa2)*pow(m2,4)*pow(S2z,3) + 
       pow(m1,3)*m2*pow(S1z,2)*(15*(1 + 140*kappa1)*S1z + 7*(841 + 300*kappa1)*S2z) + 
       2*pow(m1,2)*pow(m2,2)*S1z*S2z*((2095 + 1478*kappa1)*S1z + (2095 + 1478*kappa2)*S2z) + 
-      m1*pow(m2,3)*pow(S2z,2)*(7*(841 + 300*kappa2)*S1z + 15*(S2z + 140*kappa2*S2z)))/pow(m1 + m2,4));
+      m1*pow(m2,3)*pow(S2z,2)*(7*(841 + 300*kappa2)*S1z + 15*(S2z + 140*kappa2*S2z)))/pow(m1 + m2,4)); */
  }
 
  return (x_3_5pn_cubicSpin);      
@@ -978,7 +990,7 @@ static REAL8 phi_dot_2_5_pn(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, R
      (((8349*(m1*m1*m1)*m2)/224. + (295367*(m1*m1)*(m2*m2))/2016. + (375391*m1*(m2*m2*m2))/2016. + (146597*(m2*m2*m2*m2))/2016.)*S2z)/(((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2))))*dx_dt(0, eta, m1, m2, S1z, S2z, x, 0));*/
 
      return(((146597*pow(m1,4)*S1z + 146597*pow(m2,4)*S2z + 295367*pow(m1,2)*pow(m2,2)*(S1z + S2z) + pow(m1,3)*m2*(375391*S1z + 75141*S2z) + 
-       m1*pow(m2,3)*(75141*S1z + 375391*S2z))*dx_dt(0, eta, m1, m2, S1z, S2z, x, 0))/(2016.*pow(m1 + m2,4)));
+       m1*pow(m2,3)*(75141*S1z + 375391*S2z))*dx_dt(2, eta, m1, m2, S1z, S2z, x, 0))/(2016.*pow(m1 + m2,4)));
   }
 }
 
@@ -1187,14 +1199,40 @@ static REAL8 phi_dot_3pn_SS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, R
 
 static REAL8 phi_dot_3_5pn_SO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x)
 {
+  REAL8 kappa1 = 1.0; /*for black holes kappa_{1,2} is 1*/
+  REAL8 kappa2 = 1.0;
+  REAL8 lambda1 = 1.0; /*for black holes lambda_{1,2} is 1*/
+  REAL8 lambda2 = 1.0;
+
   if(e){
 
     return 0;
   } else{
 
-    return (((5030016755*pow(m1,6)*S1z + 5030016755*pow(m2,6)*S2z + 25105037402*pow(m1,3)*pow(m2,3)*(S1z + S2z) + 
+    return (((m1*S1z*(5030016755*pow(m1,5) + 19572452813*pow(m1,4)*m2 + 
+          30809236926*pow(m1,3)*pow(m2,2) + 
+          25105037402*pow(m1,2)*pow(m2,3) + 
+          11037816959*m1*pow(m2,4) + 2154323241*pow(m2,5) - 
+          127008*pow(m1,2)*pow(m1 + m2,2)*
+           ((53 + 4976*kappa1 - 2112*lambda1)*m1 + 
+             11*(3 + 448*kappa1 - 192*lambda1)*m2)*pow(S1z,2)) + 
+       m2*(2154323241*pow(m1,5) + 11037816959*pow(m1,4)*m2 + 
+          25105037402*pow(m1,3)*pow(m2,2) + 
+          30809236926*pow(m1,2)*pow(m2,3) + 
+          19572452813*m1*pow(m2,4) + 5030016755*pow(m2,5) + 
+          127008*pow(m1,2)*pow(m1 + m2,2)*
+           ((-9863 + 1424*kappa1)*m1 + (-9827 + 1376*kappa1)*m2)*
+           pow(S1z,2))*S2z + 
+       127008*m1*pow(m2,2)*pow(m1 + m2,2)*
+        ((-9827 + 1376*kappa2)*m1 + (-9863 + 1424*kappa2)*m2)*S1z*
+        pow(S2z,2) - 127008*pow(m2,3)*pow(m1 + m2,2)*
+        (11*(3 + 448*kappa2 - 192*lambda2)*m1 + 
+          (53 + 4976*kappa2 - 2112*lambda2)*m2)*pow(S2z,3))*dx_dt(0, eta, m1, m2, S1z, S2z, x, 0))/
+        (1.2192768e7*pow(m1 + m2,6)));
+
+    /* return (((5030016755*pow(m1,6)*S1z + 5030016755*pow(m2,6)*S2z + 25105037402*pow(m1,3)*pow(m2,3)*(S1z + S2z) + 
        13*pow(m1,4)*pow(m2,2)*(2369941302*S1z + 849062843*S2z) + pow(m1,5)*m2*(19572452813*S1z + 2154323241*S2z) + 
-       13*pow(m1,2)*pow(m2,4)*(849062843*S1z + 2369941302*S2z) + m1*pow(m2,5)*(2154323241*S1z + 19572452813*S2z))*dx_dt(0, eta, m1, m2, S1z, S2z, x, 0))/(12192768*pow(m1 + m2,6)));
+       13*pow(m1,2)*pow(m2,4)*(849062843*S1z + 2369941302*S2z) + m1*pow(m2,5)*(2154323241*S1z + 19572452813*S2z))*dx_dt(0, eta, m1, m2, S1z, S2z, x, 0))/(12192768*pow(m1 + m2,6))); */
   }
 }
 
@@ -1596,6 +1634,16 @@ static REAL8 rel_sep_1pn(REAL8 e, REAL8 u, REAL8 eta) {
   return (bit_1 + bit_2);
 }
 
+static REAL8 rel_sep_1_5pn(REAL8 e, REAL8 u, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z) {
+
+  return(-0.3333333333333333*(2*pow(m1,2)*(S1z + 3*pow(e,2)*S1z) + 
+      2*(1 + 3*pow(e,2))*pow(m2,2)*S2z + 
+      3*(1 + pow(e,2))*m1*m2*(S1z + S2z) - 
+      2*e*(4*pow(m1,2)*S1z + 4*pow(m2,2)*S2z + 3*m1*m2*(S1z + S2z))*
+       cos(u))/(pow(1 - pow(e,2),1.5)*pow(m1 + m2,2)));
+
+}
+
 static REAL8 rel_sep_2pn(REAL8 e, REAL8 u, REAL8 eta) {
   REAL8 eta_pow_2 = eta * eta;
   REAL8 e_pow_2 = e * e;
@@ -1611,6 +1659,17 @@ static REAL8 rel_sep_2pn(REAL8 e, REAL8 u, REAL8 eta) {
   REAL8 den_2 = 72. * e_fact;
 
   return (num_1 / den_1 + num_2 / den_2);
+}
+
+static REAL8 rel_sep_2pnSS(REAL8 e, REAL8 u, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z){
+  REAL8 kappa1=1.0;
+  REAL8 kappa2=1.0;
+
+
+  return(((m1*S1z*(2*m2*S2z + m1*S1z*kappa1) + pow(m2,2)*pow(S2z,2)*kappa2)*
+     (1 + pow(e,2) - 2*e*cos(u)))/
+   (2.*pow(-1 + pow(e,2),2)*pow(m1 + m2,2)));
+
 }
 
 static REAL8 rel_sep_3pn(REAL8 e, REAL8 u, REAL8 eta) {
@@ -1673,10 +1732,12 @@ static REAL8 rel_sep_3pn(REAL8 e, REAL8 u, REAL8 eta) {
           77490. * pi_pow_2 * eta - 1814400.);
 }
 
-static REAL8 separation(REAL8 u, REAL8 eta, REAL8 x, REAL8 e) {
+static REAL8 separation(REAL8 u, REAL8 eta, REAL8 x, REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z) {
   // 3PN accurate
 
   return (1.0 / x) * rel_sep_0pn(e, u) + rel_sep_1pn(e, u, eta) +
+          rel_sep_1_5pn(e, u, m1, m2, S1z, S2z) * sqrt(x) +
+          rel_sep_2pnSS(e, u, m1, m2, S1z, S2z) * x +
          rel_sep_2pn(e, u, eta) * x + rel_sep_3pn(e, u, eta) * x * x;
 }
 

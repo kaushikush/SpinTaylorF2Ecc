@@ -180,7 +180,7 @@ static REAL8 cosu_factor(REAL8 e, REAL8 u);
 static REAL8 pn_kepler_equation(REAL8 eta, REAL8 x, REAL8 e, REAL8 l);
 static REAL8 mikkola_finder(REAL8 e, REAL8 l);
 
-static REAL8 separation(REAL8 u, REAL8 eta, REAL8 x, REAL8 e);
+static REAL8 separation(REAL8 u, REAL8 eta, REAL8 x, REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 
 /* PN expansions */
 #define c1 (2.0154525)
@@ -1093,7 +1093,7 @@ int XLALSimInspiralENIGMADynamics(
   u_vec[0] = pn_kepler_equation(sym_mass_ratio, x_vec[0], e_vec[0], l_vec[0]);
 
   /* compute the intital value of r using Eq. (5) */
-  r_vec[0] = separation(u_vec[0], sym_mass_ratio, x_vec[0], e_vec[0]);
+  r_vec[0] = separation(u_vec[0], sym_mass_ratio, x_vec[0], e_vec[0], mass1, mass2, S1z, S2z);
 
   /*printf("value of y_dot_in[0]:%f\n",y_dot_in[0]);
   fflush(NULL);*/
@@ -1216,7 +1216,7 @@ int XLALSimInspiralENIGMADynamics(
     u_vec[i] = pn_kepler_equation(sym_mass_ratio, x_vec[i], e_vec[i], l_vec[i]);
 
     /* compute the values of r using Eq. (5) */
-    r_vec[i] = separation(u_vec[i], sym_mass_ratio, x_vec[i], e_vec[i]);
+    r_vec[i] = separation(u_vec[i], sym_mass_ratio, x_vec[i], e_vec[i], mass1, mass2, S1z, S2z);
 
     /* check if we reached ISCO (we should never get this far) */
     if (x_vec[i] >= x_final) {
