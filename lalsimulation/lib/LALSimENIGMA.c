@@ -882,7 +882,7 @@ int XLALSimInspiralENIGMADynamics(
       XLAL_ERROR_FAIL(XLAL_EFUNC);
     // omega_attach*= 0.5;
   } else {
-    rad_pn_order = 12;
+    rad_pn_order = 8;
     omega_attach = 1.0; // deliberately use unphysical value.
   }
   /* store the mass and pn params in the param structure */
