@@ -209,7 +209,7 @@ static REAL8 x_dot_3pnSO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL
 static REAL8 x_dot_3pnSS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 x_dot_3_5_pn(REAL8 e, REAL8 eta);
 static REAL8 x_dot_3_5pnSO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
-static REAL8 x_dot_3_5pn_SS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+static REAL8 x_dot_3_5pn_SS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 x_dot_3_5pn_cubicSpin(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 /*static REAL8 x_dot_4pn_SO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);*/
 static REAL8 dxdt_4pn(REAL8 x, REAL8 eta);
@@ -238,15 +238,15 @@ static REAL8 l_dot_2pn_SS(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 
 static REAL8 phi_dot_0pn(REAL8 e, REAL8 eta, REAL8 u);
 static REAL8 phi_dot_1pn(REAL8 e, REAL8 eta, REAL8 u);
-static REAL8 phi_dot_1_5_pn(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
+//static REAL8 phi_dot_1_5_pn(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
 static REAL8 phi_dot_2pn(REAL8 e, REAL8 eta, REAL8 u);
-static REAL8 phi_dot_2pn_SS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
-static REAL8 phi_dot_2_5_pn(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
-static REAL8 phi_dot_3pn_SO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
-static REAL8 phi_dot_3pn_SS(REAL8 e, REAL8 eta, REAL8  m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
+//static REAL8 phi_dot_2pn_SS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
+//static REAL8 phi_dot_2_5_pn(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
+//static REAL8 phi_dot_3pn_SO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
+//static REAL8 phi_dot_3pn_SS(REAL8 e, REAL8 eta, REAL8  m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
 static REAL8 phi_dot_3pn(REAL8 e, REAL8 eta, REAL8 u);
-static REAL8 phi_dot_3_5pn_SO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
-static REAL8 phi_dot_4pn_SO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x);
+static REAL8 phi_dot_3_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+static REAL8 phi_dot_4pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 phi_dot_1_5_pnSO_ecc(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 u);
 static REAL8 phi_dot_2_pnSS_ecc(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 u);
 
@@ -495,7 +495,7 @@ static void compute_strain_from_dynamics(
     REAL8 hcrossGOtotal=0;
 
     for(long j=1;j<=pn_order_amp;j++){
-      hplusGOtotal = hplusGOtotal + hplusGO(total_mass,eta,r_vec[i],r_dot_vec[i],phi_vec[i],phi_dot_vec[i],euler_iota,euler_beta,R,j,S1z,S2z,x_vec[i]);
+      hplusGOtotal = hplusGOtotal +  hplusGO(total_mass,eta,r_vec[i],r_dot_vec[i],phi_vec[i],phi_dot_vec[i],euler_iota,euler_beta,R,j,S1z,S2z,x_vec[i]);
       hcrossGOtotal = hcrossGOtotal + hcrossGO(total_mass,eta,r_vec[i],r_dot_vec[i],phi_vec[i],phi_dot_vec[i],euler_iota,euler_beta,R,j,S1z,S2z,x_vec[i]);
     }
 
@@ -531,7 +531,7 @@ static void compute_strain_from_dynamics(
                         sin(2.0 * phi_vec[i]) * sin(2.0 * euler_beta))))
 
                  + hCross(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i], pn_order_amp /* , S1z, S2z  */))
-                 + hplusGOtotal);
+                 + hcrossGOtotal);
    
   
   }

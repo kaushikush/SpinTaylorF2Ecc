@@ -116,10 +116,7 @@ static REAL8 x_dot_2pn_SS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REA
  REAL8 kappa1 = 1.0; /*for black holes kappa_{1,2} is 1*/
  REAL8 kappa2 = 1.0;
  REAL8 x_dot_2pn_SS;
- REAL8 e_pow_2 = e * e;
- REAL8 e_pow_4 = e_pow_2 * e_pow_2;
- REAL8 e_pow_6 = e_pow_4 * e_pow_2;
- REAL8 e_fact = 1.0 - e_pow_2;
+
  
  /*REAL8 term1 = 20. * (m1 * m1 * S1z + m2 * m2 * S2z) * (m1 * m1 * S1z + m2 * m2 * S2z);
  REAL8 term2 = 20. * (m1 - m2) * (m1 * m1 * S1z + m2 * m2 * S2z) * (m2 * S2z  - m1 * S1z);
@@ -131,10 +128,12 @@ static REAL8 x_dot_2pn_SS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REA
 
    if (e) {
     
-   x_dot_2pn_SS = (-0.03333333333333333*(m1*m2*((-1944 - 10996*e_pow_2 - 7679*e_pow_4 + 465*e_pow_6)*m1*m1*S1z*S1z
-          - (3792 + 21080*e_pow_2 + 14530*e_pow_4 + 681*e_pow_6)*m1*m2*S1z*S2z + 
-        (-1944 - 10996*e_pow_2 - 7679*e_pow_4 + 465*e_pow_6)*m2*m2*S2z*S2z))/
-    (e_fact*e_fact*e_fact*e_fact*e_fact*sqrt(e_fact)*(m1 + m2)*(m1 + m2)*(m1 + m2)*(m1 + m2))); 
+   x_dot_2pn_SS = (-0.016666666666666666*(m1*m2*((-48*(1 + 80*kappa1) + 3*pow(e,6)*(-9 + 319*kappa1) - 
+           8*pow(e,2)*(57 + 2692*kappa1) - 2*pow(e,4)*(207 + 7472*kappa1))*pow(m1,2)*pow(S1z,2)\
+         - 2*(3792 + 21080*pow(e,2) + 14530*pow(e,4) + 681*pow(e,6))*m1*m2*S1z*S2z + 
+        (-48*(1 + 80*kappa2) + 3*pow(e,6)*(-9 + 319*kappa2) - 8*pow(e,2)*(57 + 2692*kappa2) - 
+           2*pow(e,4)*(207 + 7472*kappa2))*pow(m2,2)*pow(S2z,2)))/
+    (pow(1 - pow(e,2),5.5)*pow(m1 + m2,4))); 
         
    } else {
    /*x_dot_2pn_SS = pre_factor * term1;*/
@@ -451,7 +450,7 @@ static REAL8 x_dot_3_5pnSO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, RE
  return (x_3_5pnSO);
 }
 
-static REAL8 x_dot_3_5pn_SS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
+static REAL8 x_dot_3_5pn_SS(REAL8 e,REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 {
  REAL8 x_3_5pn_SS;
  REAL8 kappa1 = 1.0; /*for black holes kappa_{1,2} is 1*/
@@ -460,9 +459,14 @@ static REAL8 x_dot_3_5pn_SS(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
  /*REAL8 term1 = (12*M_PI*((m1*S1z + m2*S2z)*(m1*S1z + m2*S2z)))/((m1+m2)*(m1+m2));*/
 
  /*x_3_5pn_SS = pre_factor * term1;*/
+if(e){
 
+  return(0.0);
+}
+else{
   x_3_5pn_SS = pre_factor * ((12*M_PI*(kappa1*pow(m1,2)*pow(S1z,2) + m2*S2z*(2*m1*S1z + kappa2*m2*S2z)))/pow(m1 + m2,2));
 
+}
  return (x_3_5pn_SS);
 
 }
@@ -611,17 +615,21 @@ static REAL8 e_dot_1_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 static REAL8 e_dot_2pn_SS(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 {
   REAL8 e_2pn_SS;
-  REAL8 e_pow_2 = e * e;
-  REAL8 e_pow_4 = e_pow_2 * e_pow_2;
-  REAL8 e_factor = 1.0 - e_pow_2;
-  REAL8 e_prefactor = - e / (e_factor * e_factor * e_factor * e_factor * sqrt(e_factor));
-  REAL8 pre_factor = e_prefactor * ((m1 * m2) / (60 * (m1+m2) * (m1+m2) * (m1+m2) * (m1+m2)));
+  REAL8 kappa1=1.0;
+  REAL8 kappa2=1.0;
+  // REAL8 e_pow_2 = e * e;
+  // REAL8 e_pow_4 = e_pow_2 * e_pow_2;
+  // REAL8 e_factor = 1.0 - e_pow_2;
+  // REAL8 e_prefactor = - e / (e_factor * e_factor * e_factor * e_factor * sqrt(e_factor));
+  // REAL8 pre_factor = e_prefactor * ((m1 * m2) / (60 * (m1+m2) * (m1+m2) * (m1+m2) * (m1+m2)));
 
   if (e) {
 
-    e_2pn_SS = pre_factor * (2*(3842 + 6085*e_pow_2 + 150*e_pow_4)*m1*m1*S1z*S1z + 
-   (14648 + 23260*e_pow_2 + 2175*e_pow_4)*m1*m2*S1z*S2z + 
-   2*(3842 + 6085*e_pow_2 + 150*e_pow_4)*m2*m2*S2z*S2z);
+    e_2pn_SS = -0.008333333333333333*(e*m1*m2*((8*(45 + 1876*kappa1) + 
+           5*pow(e,2)*(108 + 4760*kappa1 + 3*pow(e,2)*(3 + 37*kappa1)))*pow(m1,2)*pow(S1z,2) + 
+        2*(14648 + 23260*pow(e,2) + 2175*pow(e,4))*m1*m2*S1z*S2z + 
+        (8*(45 + 1876*kappa2) + 5*pow(e,2)*(108 + 4760*kappa2 + 3*pow(e,2)*(3 + 37*kappa2)))*
+         pow(m2,2)*pow(S2z,2)))/(pow(1 - pow(e,2),4.5)*pow(m1 + m2,4));
   } else {
     e_2pn_SS = 0.0;
   }
@@ -883,15 +891,15 @@ static REAL8 phi_dot_1pn(REAL8 e, REAL8 eta, REAL8 u) /* Eq. (A12) */
            (sqrt(1.0 - e * e) * u_factor * u_factor * u_factor));
 }
 
-static REAL8 phi_dot_1_5_pn(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x)
-{
- if (e){
-  return (0.);
- } else {
- /*return (2 * dx_dt(0, eta, m1, m2, S1z, S2z, x, 0) * ((235. * (m1 * m1 * S1z + m2 * m2 * S2z)) / 6 + (125. * (m1 - m2) * (m2 * S2z  - m1 * S1z)) / 8) / (5 * (m1 + m2)));*/
- return (((((113*(m1*m1))/12. + (25*m1*m2)/4.)*S1z)/((m1+m2)*(m1+m2)) + (((25*m1*m2)/4. + (113*m2*m2)/12.)*S2z)/((m1+m2)*(m1+m2)))*dx_dt(0, eta, m1, m2, S1z, S2z, x, 0));
- }
-}
+// static REAL8 phi_dot_1_5_pn(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x)
+// {
+//  if (e){
+//   return (0.);
+//  } else {
+//  /*return (2 * dx_dt(0, eta, m1, m2, S1z, S2z, x, 0) * ((235. * (m1 * m1 * S1z + m2 * m2 * S2z)) / 6 + (125. * (m1 - m2) * (m2 * S2z  - m1 * S1z)) / 8) / (5 * (m1 + m2)));*/
+//  return (((((113*(m1*m1))/12. + (25*m1*m2)/4.)*S1z)/((m1+m2)*(m1+m2)) + (((25*m1*m2)/4. + (113*m2*m2)/12.)*S2z)/((m1+m2)*(m1+m2)))*dx_dt(8, eta, m1, m2, S1z, S2z, x, 0));
+//  }
+// }
 
 static REAL8 phi_dot_1_5_pnSO_ecc(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 u)
 {
@@ -902,8 +910,6 @@ static REAL8 phi_dot_1_5_pnSO_ecc(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 
    return (0.);
 }
 }
-
-
 
 static REAL8 phi_dot_2pn(REAL8 e, REAL8 eta, REAL8 u) /* Eq. (A13) */
 {
@@ -964,35 +970,35 @@ static REAL8 phi_dot_2_pnSS_ecc(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2
    }
 }
 
-static REAL8 phi_dot_2pn_SS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x)
-{
- REAL8 kappa1 = 1.0; /*for black holes kappa_{1,2} is 1*/
- REAL8 kappa2 = 1.0;
- /*return (dx_dt(0, eta, m1, m2, S1z, S2z, x, 0) * (-100. * (m1 * m1 * S1z + m2 * m2 * S2z) * (m1 * m1 * S1z + m2 * m2 * S2z) - 100. * (m1 - m2) * (m1 * m1 * S1z + m2 * m2 * S2z) * (m2 * S2z - m1 * S1z) + (m1 + m2) * (m1 + m2) * (m2 * S2z - m1 * S1z) * (m2 * S2z - m1 * S1z) * (- 405. / 16 + 100. * eta)) / (5. * (m1 + m2) * (m1 + m2) * (m1 + m2) * (m1 + m2)));*/
- if (e){
-   return (0.);
- } else {
+// static REAL8 phi_dot_2pn_SS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x)
+// {
+//  REAL8 kappa1 = 1.0; /*for black holes kappa_{1,2} is 1*/
+//  REAL8 kappa2 = 1.0;
+//  /*return (dx_dt(0, eta, m1, m2, S1z, S2z, x, 0) * (-100. * (m1 * m1 * S1z + m2 * m2 * S2z) * (m1 * m1 * S1z + m2 * m2 * S2z) - 100. * (m1 - m2) * (m1 * m1 * S1z + m2 * m2 * S2z) * (m2 * S2z - m1 * S1z) + (m1 + m2) * (m1 + m2) * (m2 * S2z - m1 * S1z) * (m2 * S2z - m1 * S1z) * (- 405. / 16 + 100. * eta)) / (5. * (m1 + m2) * (m1 + m2) * (m1 + m2) * (m1 + m2)));*/
+//  if (e){
+//    return (0.);
+//  } else {
  
- /*return (((-81*(m1*m1)*(S1z*S1z))/(16.*((m1+m2)*(m1+m2))) - (79*m1*m2*S1z*S2z)/(8.*((m1+m2)*(m1+m2))) - (81*(m2*m2)*(S2z*S2z))/(16.*((m1+m2)*(m1+m2))))*dx_dt(0, eta, m1, m2, S1z, S2z, x, 0));*/
+//  /*return (((-81*(m1*m1)*(S1z*S1z))/(16.*((m1+m2)*(m1+m2))) - (79*m1*m2*S1z*S2z)/(8.*((m1+m2)*(m1+m2))) - (81*(m2*m2)*(S2z*S2z))/(16.*((m1+m2)*(m1+m2))))*dx_dt(0, eta, m1, m2, S1z, S2z, x, 0));*/
 
- return(-0.0625*(((1 + 80*kappa1)*pow(m1,2)*pow(S1z,2) + 158*m1*m2*S1z*S2z + (1 + 80*kappa2)*pow(m2,2)*pow(S2z,2))*dx_dt(0, eta, m1, m2, S1z, S2z, x, 0))/pow(m1 + m2,2));
- }
-}
+//  return(-0.0625*(((1 + 80*kappa1)*pow(m1,2)*pow(S1z,2) + 158*m1*m2*S1z*S2z + (1 + 80*kappa2)*pow(m2,2)*pow(S2z,2))*dx_dt(8, eta, m1, m2, S1z, S2z, x, 0))/pow(m1 + m2,2));
+//  }
+// }
 
 
-static REAL8 phi_dot_2_5_pn(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x)
-{
- if (e){
-  return (0.);
+// static REAL8 phi_dot_2_5_pn(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x)
+// {
+//  if (e){
+//   return (0.);
 
- } else {
- /*return (((((146597*(m1*m1*m1*m1))/2016. + (375391*(m1*m1*m1)*m2)/2016. + (295367*(m1*m1)*(m2*m2))/2016. + (8349*m1*(m2*m2*m2))/224.)*S1z)/((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2)) + 
-     (((8349*(m1*m1*m1)*m2)/224. + (295367*(m1*m1)*(m2*m2))/2016. + (375391*m1*(m2*m2*m2))/2016. + (146597*(m2*m2*m2*m2))/2016.)*S2z)/(((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2))))*dx_dt(0, eta, m1, m2, S1z, S2z, x, 0));*/
+//  } else {
+//  /*return (((((146597*(m1*m1*m1*m1))/2016. + (375391*(m1*m1*m1)*m2)/2016. + (295367*(m1*m1)*(m2*m2))/2016. + (8349*m1*(m2*m2*m2))/224.)*S1z)/((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2)) + 
+//      (((8349*(m1*m1*m1)*m2)/224. + (295367*(m1*m1)*(m2*m2))/2016. + (375391*m1*(m2*m2*m2))/2016. + (146597*(m2*m2*m2*m2))/2016.)*S2z)/(((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2))))*dx_dt(0, eta, m1, m2, S1z, S2z, x, 0));*/
 
-     return(((146597*pow(m1,4)*S1z + 146597*pow(m2,4)*S2z + 295367*pow(m1,2)*pow(m2,2)*(S1z + S2z) + pow(m1,3)*m2*(375391*S1z + 75141*S2z) + 
-       m1*pow(m2,3)*(75141*S1z + 375391*S2z))*dx_dt(2, eta, m1, m2, S1z, S2z, x, 0))/(2016.*pow(m1 + m2,4)));
-  }
-}
+//      return(((146597*pow(m1,4)*S1z + 146597*pow(m2,4)*S2z + 295367*pow(m1,2)*pow(m2,2)*(S1z + S2z) + pow(m1,3)*m2*(375391*S1z + 75141*S2z) + 
+//        m1*pow(m2,3)*(75141*S1z + 375391*S2z))*dx_dt(8, eta, m1, m2, S1z, S2z, x, 0))/(2016.*pow(m1 + m2,4)));
+//   }
+// }
 
 
 static REAL8 phi_dot_3pn(REAL8 e, REAL8 eta, REAL8 u) {
@@ -1162,74 +1168,55 @@ static REAL8 phi_dot_3pn(REAL8 e, REAL8 eta, REAL8 u) {
                                         rt_cosu_3 + rt_cosu_4 + rt_cosu_5)));
 }
 
-static REAL8 phi_dot_3pn_SO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x)
-{
-  if (e) {
+// static REAL8 phi_dot_3pn_SO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x)
+// {
+//   if (e) {
     
-    return (0.);
-  } else {
- /*return (((((-227*(m1*m1*m1*m1)*M_PI)/6. - (201*(m1*m1*m1)*m2*M_PI)/2. - (175*(m1*m1)*(m2*m2)*M_PI)/2. - (149*m1*(m2*m2*m2)*M_PI)/6.)*S1z)/((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2)) + 
-     (((-149*(m1*m1*m1)*m2*M_PI)/6. - (175*(m1*m1)*(m2*m2)*M_PI)/2. - (201*m1*(m2*m2*m2)*M_PI)/2. - (227*(m2*m2*m2*m2)*M_PI)/6.)*S2z)/((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2)))*dx_dt(0, eta, m1, m2, S1z, S2z, x, 0));
-     } */
+//     return (0.);
+//   } else {
+//  /*return (((((-227*(m1*m1*m1*m1)*M_PI)/6. - (201*(m1*m1*m1)*m2*M_PI)/2. - (175*(m1*m1)*(m2*m2)*M_PI)/2. - (149*m1*(m2*m2*m2)*M_PI)/6.)*S1z)/((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2)) + 
+//      (((-149*(m1*m1*m1)*m2*M_PI)/6. - (175*(m1*m1)*(m2*m2)*M_PI)/2. - (201*m1*(m2*m2*m2)*M_PI)/2. - (227*(m2*m2*m2*m2)*M_PI)/6.)*S2z)/((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2)))*dx_dt(0, eta, m1, m2, S1z, S2z, x, 0));
+//      } */
 
-     return(-0.16666666666666666*(M_PI*(227*pow(m1,2)*S1z + 227*pow(m2,2)*S2z + 149*m1*m2*(S1z + S2z))*dx_dt(0, eta, m1, m2, S1z, S2z, x, 0))/pow(m1 + m2,2));
-}
-}
+//      return(-0.16666666666666666*(M_PI*(227*pow(m1,2)*S1z + 227*pow(m2,2)*S2z + 149*m1*m2*(S1z + S2z))*dx_dt(8, eta, m1, m2, S1z, S2z, x, 0))/pow(m1 + m2,2));
+// }
+// }
 
-static REAL8 phi_dot_3pn_SS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x)
-{
- REAL8 kappa1 = 1.0; /*for black holes kappa_{1,2} is 1*/
- REAL8 kappa2 = 1.0;
+// static REAL8 phi_dot_3pn_SS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x)
+// {
+//  REAL8 kappa1 = 1.0; /*for black holes kappa_{1,2} is 1*/
+//  REAL8 kappa2 = 1.0;
  
- if (e) {
+//  if (e) {
 
-  return (0.);
+//   return (0.);
 
- } else {
- /*return (((((-15103*(m1*m1*m1*m1))/1152. - (947*(m1*m1*m1)*m2)/64. + (329*(m1*m1)*(m2*m2))/128.)*(S1z*S1z))/((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2)) + 
-     (((-6535*(m1*m1*m1)*m2)/448. - (90035*(m1*m1)*(m2*m2))/2016. - (6535*m1*(m2*m2*m2))/448.)*S1z*S2z)/((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2)) + 
-     (((329*(m1*m1)*(m2*m2))/128. - (947*m1*(m2*m2*m2))/64. - (15103*(m2*m2*m2*m2))/1152.)*(S2z*S2z))/((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2)))*dx_dt(0, eta, m1, m2, S1z, S2z, x, 0));*/
+//  } else {
+//  /*return (((((-15103*(m1*m1*m1*m1))/1152. - (947*(m1*m1*m1)*m2)/64. + (329*(m1*m1)*(m2*m2))/128.)*(S1z*S1z))/((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2)) + 
+//      (((-6535*(m1*m1*m1)*m2)/448. - (90035*(m1*m1)*(m2*m2))/2016. - (6535*m1*(m2*m2*m2))/448.)*S1z*S2z)/((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2)) + 
+//      (((329*(m1*m1)*(m2*m2))/128. - (947*m1*(m2*m2*m2))/64. - (15103*(m2*m2*m2*m2))/1152.)*(S2z*S2z))/((m1+m2)*(m1+m2)*(m1+m2)*(m1+m2)))*dx_dt(0, eta, m1, m2, S1z, S2z, x, 0));*/
 
-     return(-0.0001240079365079365*((11*(-24445 + 34056*kappa1)*pow(m1,4)*pow(S1z,2) + 11*(-24445 + 34056*kappa2)*pow(m2,4)*pow(S2z,2) + 
-        6*pow(m1,3)*m2*S1z*((-88241 + 108128*kappa1)*S1z + 19605*S2z) + 6*m1*pow(m2,3)*S2z*(19605*S1z + (-88241 + 108128*kappa2)*S2z) + 
-        pow(m1,2)*pow(m2,2)*(3*(-82165 + 75256*kappa1)*pow(S1z,2) + 360140*S1z*S2z + 3*(-82165 + 75256*kappa2)*pow(S2z,2)))*dx_dt(0, eta, m1, m2, S1z, S2z, x, 0))/pow(m1 + m2,4));
-}
-}
+//      return(-0.0001240079365079365*((11*(-24445 + 34056*kappa1)*pow(m1,4)*pow(S1z,2) + 11*(-24445 + 34056*kappa2)*pow(m2,4)*pow(S2z,2) + 
+//         6*pow(m1,3)*m2*S1z*((-88241 + 108128*kappa1)*S1z + 19605*S2z) + 6*m1*pow(m2,3)*S2z*(19605*S1z + (-88241 + 108128*kappa2)*S2z) + 
+//         pow(m1,2)*pow(m2,2)*(3*(-82165 + 75256*kappa1)*pow(S1z,2) + 360140*S1z*S2z + 3*(-82165 + 75256*kappa2)*pow(S2z,2)))*dx_dt(8, eta, m1, m2, S1z, S2z, x, 0))/pow(m1 + m2,4));
+// }
+// }
 
 
-static REAL8 phi_dot_3_5pn_SO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x)
+static REAL8 phi_dot_3_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 {
   REAL8 kappa1 = 1.0; /*for black holes kappa_{1,2} is 1*/
   REAL8 kappa2 = 1.0;
-  REAL8 lambda1 = 1.0; /*for black holes lambda_{1,2} is 1*/
-  REAL8 lambda2 = 1.0;
+  // REAL8 lambda1 = 1.0; /*for black holes lambda_{1,2} is 1*/
+  // REAL8 lambda2 = 1.0;
 
   if(e){
 
     return 0;
   } else{
 
-    return (((m1*S1z*(5030016755*pow(m1,5) + 19572452813*pow(m1,4)*m2 + 
-          30809236926*pow(m1,3)*pow(m2,2) + 
-          25105037402*pow(m1,2)*pow(m2,3) + 
-          11037816959*m1*pow(m2,4) + 2154323241*pow(m2,5) - 
-          127008*pow(m1,2)*pow(m1 + m2,2)*
-           ((53 + 4976*kappa1 - 2112*lambda1)*m1 + 
-             11*(3 + 448*kappa1 - 192*lambda1)*m2)*pow(S1z,2)) + 
-       m2*(2154323241*pow(m1,5) + 11037816959*pow(m1,4)*m2 + 
-          25105037402*pow(m1,3)*pow(m2,2) + 
-          30809236926*pow(m1,2)*pow(m2,3) + 
-          19572452813*m1*pow(m2,4) + 5030016755*pow(m2,5) + 
-          127008*pow(m1,2)*pow(m1 + m2,2)*
-           ((-9863 + 1424*kappa1)*m1 + (-9827 + 1376*kappa1)*m2)*
-           pow(S1z,2))*S2z + 
-       127008*m1*pow(m2,2)*pow(m1 + m2,2)*
-        ((-9827 + 1376*kappa2)*m1 + (-9863 + 1424*kappa2)*m2)*S1z*
-        pow(S2z,2) - 127008*pow(m2,3)*pow(m1 + m2,2)*
-        (11*(3 + 448*kappa2 - 192*lambda2)*m1 + 
-          (53 + 4976*kappa2 - 2112*lambda2)*m2)*pow(S2z,3))*dx_dt(0, eta, m1, m2, S1z, S2z, x, 0))/
-        (1.2192768e7*pow(m1 + m2,6)));
-
+   return (-0.5*(M_PI*((1 + 56*kappa1)*pow(m1,2)*pow(S1z,2) + 
+        110*m1*m2*S1z*S2z + (1 + 56*kappa2)*pow(m2,2)*pow(S2z,2)))/pow(m1 + m2,2));
     /* return (((5030016755*pow(m1,6)*S1z + 5030016755*pow(m2,6)*S2z + 25105037402*pow(m1,3)*pow(m2,3)*(S1z + S2z) + 
        13*pow(m1,4)*pow(m2,2)*(2369941302*S1z + 849062843*S2z) + pow(m1,5)*m2*(19572452813*S1z + 2154323241*S2z) + 
        13*pow(m1,2)*pow(m2,4)*(849062843*S1z + 2369941302*S2z) + m1*pow(m2,5)*(2154323241*S1z + 19572452813*S2z))*dx_dt(0, eta, m1, m2, S1z, S2z, x, 0))/(12192768*pow(m1 + m2,6))); */
@@ -1238,15 +1225,57 @@ static REAL8 phi_dot_3_5pn_SO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
 
 
 
-static REAL8 phi_dot_4pn_SO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x)
+static REAL8 phi_dot_4pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 {
+  REAL8 kappa1 = 1.0; /*for black holes kappa_{1,2} is 1*/
+  REAL8 kappa2 = 1.0;
+
   if(e){
 
     return 0;
   } else{
 
-    return (-0.000248015873015873*(M_PI*(1263141*pow(m1,4)*S1z + 1263141*pow(m2,4)*S2z + 2248445*pow(m1,2)*pow(m2,2)*(S1z + S2z) + 
-        pow(m1,3)*m2*(2816815*S1z + 647599*S2z) + m1*pow(m2,3)*(647599*S1z + 2816815*S2z))*dx_dt(0, eta, m1, m2, S1z, S2z, x, 0))/pow(m1 + m2,4));
+    return (-6.151187326782565e-8*((pow(m1,6)*pow(S1z,2)*
+         (5780803589 - 3306500624*kappa1 + 
+           63504*(1 + 32*kappa1)*(1 + 80*kappa1)*pow(S1z,2)) + 
+        2*pow(m1,5)*m2*S1z*
+         ((9016092094 - 6396327616*kappa1)*S1z + 
+           63504*(1 + 32*kappa1)*(1 + 80*kappa1)*pow(S1z,3) + 
+           1040960843*S2z + 127008*(55 + 2504*kappa1)*pow(S1z,2)*S2z)
+          + pow(m2,6)*pow(S2z,2)*
+         (5780803589 - 3306500624*kappa2 + 
+           63504*(1 + 32*kappa2)*(1 + 80*kappa2)*pow(S2z,2)) + 
+        2*m1*pow(m2,5)*S2z*
+         (1040960843*S1z + (9016092094 - 6396327616*kappa2)*S2z + 
+           127008*(55 + 2504*kappa2)*S1z*pow(S2z,2) + 
+           63504*(1 + 32*kappa2)*(1 + 80*kappa2)*pow(S2z,3)) + 
+        pow(m1,2)*pow(m2,4)*
+         (13*(214502105 - 154506128*kappa1)*pow(S1z,2) + 
+           8726513032*S1z*S2z + 
+           6*(3969670853 - 2703287216*kappa2 + 
+              21168*(4899 + 56*kappa2 + 8*kappa1*(7 + 320*kappa2))*
+               pow(S1z,2))*pow(S2z,2) + 
+           508032*(55 + 2504*kappa2)*S1z*pow(S2z,3) + 
+           63504*(1 + 32*kappa2)*(1 + 80*kappa2)*pow(S2z,4)) + 
+        pow(m1,4)*pow(m2,2)*
+         (63504*(1 + 32*kappa1)*(1 + 80*kappa1)*pow(S1z,4) + 
+           8726513032*S1z*S2z + 
+           508032*(55 + 2504*kappa1)*pow(S1z,3)*S2z + 
+           13*(214502105 - 154506128*kappa2)*pow(S2z,2) + 
+           6*pow(S1z,2)*(3969670853 - 2703287216*kappa1 + 
+              21168*(4899 + 56*kappa1 + 8*(7 + 320*kappa1)*kappa2)*
+               pow(S2z,2))) + 
+        4*pow(m1,3)*pow(m2,3)*
+         (3230067873*S1z*S2z + 
+           63504*(55 + 2504*kappa1)*pow(S1z,3)*S2z + 
+           (3455099999 - 2273116160*kappa2)*pow(S2z,2) + 
+           63504*(55 + 2504*kappa2)*S1z*pow(S2z,3) + 
+           pow(S1z,2)*(3455099999 - 2273116160*kappa1 + 
+              63504*(4899 + 56*kappa1 + 8*(7 + 320*kappa1)*kappa2)*
+               pow(S2z,2)))))/pow(m1 + m2,6));
+
+   /*  return (-0.000248015873015873*(M_PI*(1263141*pow(m1,4)*S1z + 1263141*pow(m2,4)*S2z + 2248445*pow(m1,2)*pow(m2,2)*(S1z + S2z) + 
+        pow(m1,3)*m2*(2816815*S1z + 647599*S2z) + m1*pow(m2,3)*(647599*S1z + 2816815*S2z))*dx_dt(8, eta, m1, m2, S1z, S2z, x, 0))/pow(m1 + m2,4)); */
   }
 }
 
@@ -1365,7 +1394,7 @@ static REAL8 dx_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 
     xdot = (x_dot_0pn(e, eta) + x_dot_1pn(e, eta) * x + x_dot_1_5_pn(e, eta, m1, m2, S1z, S2z) * x * sqrt(x) +
             x_dot_2pn(e, eta) * x * x +  x_dot_2pn_SS(e, eta, m1, m2, S1z, S2z) * x * x + x_dot_2_5_pn(e, eta, m1, m2, S1z, S2z) * x * x * sqrt(x)
              + x_dot_3pn(e, eta, x) * x * x * x + x_dot_3pnSO(e, eta, m1, m2, S1z, S2z) * x * x * x  + x_dot_3pnSS(e, eta, m1, m2, S1z, S2z) * x * x * x 
-             + x_dot_3_5pnSO(e, eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x) + x_dot_3_5_pn(e, eta) * x * x * x * sqrt(x) + x_dot_3_5pn_SS(eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x) 
+             + x_dot_3_5pnSO(e, eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x) + x_dot_3_5_pn(e, eta) * x * x * x * sqrt(x) + x_dot_3_5pn_SS(e, eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x) 
              + x_dot_3_5pn_cubicSpin(e, eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x)) *
                x_pow_5 +
            x_dot_hereditary_1_5(e, eta, x) + x_dot_hereditary_2_5(e, eta, x) +
@@ -1379,7 +1408,7 @@ static REAL8 dx_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 
             x_dot_2pn(e, eta) * x * x +  x_dot_2pn_SS(e, eta, m1, m2, S1z, S2z) * x * x + x_dot_2_5_pn(e, eta, m1, m2, S1z, S2z) * x * x * sqrt(x)
              + x_dot_3pn(e, eta, x) * x * x * x + x_dot_3pnSO(e, eta, m1, m2, S1z, S2z) * x * x * x  + x_dot_3pnSS(e, eta, m1, m2, S1z, S2z) * x * x * x 
              + x_dot_3_5pnSO(e, eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x)  +
-            x_dot_3_5_pn(e, eta) * x * x * x * sqrt(x) + x_dot_3_5pn_SS(eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x)
+            x_dot_3_5_pn(e, eta) * x * x * x * sqrt(x) + x_dot_3_5pn_SS(e, eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x)
             + x_dot_3_5pn_cubicSpin(e, eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x) 
             /*+ x_dot_4pn_SO(e, eta, m1, m2, S1z, S2z) * x * x * x * x*/) *
                x_pow_5 +
@@ -1393,7 +1422,7 @@ static REAL8 dx_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 
     xdot = (x_dot_0pn(e, eta) + x_dot_1pn(e, eta) * x + x_dot_1_5_pn(e, eta, m1, m2, S1z, S2z) * x * sqrt(x) + x_dot_2pn(e, eta) * x * x 
     +  x_dot_2pn_SS(e, eta, m1, m2, S1z, S2z) * x * x + x_dot_2_5_pn(e, eta, m1, m2, S1z, S2z) * x * x * sqrt(x) + x_dot_3pn(e, eta, x) * x * x * x 
     + x_dot_3pnSO(e, eta, m1, m2, S1z, S2z) * x * x * x + x_dot_3pnSS(e, eta, m1, m2, S1z, S2z) * x * x * x + x_dot_3_5pnSO(e, eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x) 
-    + x_dot_3_5_pn(e, eta) * x * x * x * sqrt(x) + x_dot_3_5pn_SS(eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x) 
+    + x_dot_3_5_pn(e, eta) * x * x * x * sqrt(x) + x_dot_3_5pn_SS(e, eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x) 
     + x_dot_3_5pn_cubicSpin(e, eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x) /*+ x_dot_4pn_SO(e, eta, m1, m2, S1z, S2z) * x * x * x * x*/) * x_pow_5 
     + x_dot_hereditary_1_5(e, eta, x) + x_dot_hereditary_2_5(e, eta, x) + x_dot_hereditary_3(e, eta, x)
      + dxdt_4_5pn(x, eta);
@@ -1407,7 +1436,7 @@ static REAL8 dx_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 
             x_dot_2pn(e, eta) * x * x +  x_dot_2pn_SS(e, eta, m1, m2, S1z, S2z) * x * x + x_dot_2_5_pn(e, eta, m1, m2, S1z, S2z) * x * x * sqrt(x)
             + x_dot_3pn(e, eta, x) * x * x * x + x_dot_3pnSO(e, eta,  m1, m2, S1z, S2z) * x * x * x   + x_dot_3pnSS(e, eta, m1, m2, S1z, S2z) * x * x * x 
             + x_dot_3_5pnSO(e, eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x) 
-            + x_dot_3_5_pn(e, eta) * x * x * x * sqrt(x) + x_dot_3_5pn_SS(eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x)
+            + x_dot_3_5_pn(e, eta) * x * x * x * sqrt(x) + x_dot_3_5pn_SS(e, eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x)
             + x_dot_3_5pn_cubicSpin(e, eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x) /*+ x_dot_4pn_SO(e, eta, m1, m2, S1z, S2z) * x * x * x * x */) * x_pow_5 +
            x_dot_hereditary_1_5(e, eta, x) + x_dot_hereditary_2_5(e, eta, x) +
            x_dot_hereditary_3(e, eta, x) + dxdt_5pn(x, eta);
@@ -1421,7 +1450,7 @@ static REAL8 dx_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 
             x_dot_2pn(e, eta) * x * x +  x_dot_2pn_SS(e, eta, m1, m2, S1z, S2z) * x * x + x_dot_2_5_pn(e, eta, m1, m2, S1z, S2z) * x * x * sqrt(x) 
             + x_dot_3pn(e, eta, x) * x * x * x + x_dot_3pnSO(e, eta,  m1, m2, S1z, S2z) * x * x * x  + x_dot_3pnSS(e, eta, m1, m2, S1z, S2z) * x * x * x 
             + x_dot_3_5pnSO(e, eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x)
-            + x_dot_3_5_pn(e, eta) * x * x * x * sqrt(x) + x_dot_3_5pn_SS(eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x)
+            + x_dot_3_5_pn(e, eta) * x * x * x * sqrt(x) + x_dot_3_5pn_SS(e, eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x)
             + x_dot_3_5pn_cubicSpin(e, eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x) /*+ x_dot_4pn_SO(e, eta, m1, m2, S1z, S2z) * x * x * x * x*/) * x_pow_5 +
            x_dot_hereditary_1_5(e, eta, x) + x_dot_hereditary_2_5(e, eta, x) +
            x_dot_hereditary_3(e, eta, x) + dxdt_5_5pn(x, eta);
@@ -1435,7 +1464,7 @@ static REAL8 dx_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 
             x_dot_2pn(e, eta) * x * x +  x_dot_2pn_SS(e, eta, m1, m2, S1z, S2z) * x * x  + x_dot_2_5_pn(e, eta, m1, m2, S1z, S2z) * x * x * sqrt(x) 
              + x_dot_3pn(e, eta, x) * x * x * x + x_dot_3pnSO(e, eta, m1, m2, S1z, S2z) * x * x * x + x_dot_3pnSS(e, eta, m1, m2, S1z, S2z) * x * x * x
               + x_dot_3_5pnSO(e, eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x) 
-            + x_dot_3_5_pn(e, eta) * x * x * x * sqrt(x) + x_dot_3_5pn_SS(eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x)
+            + x_dot_3_5_pn(e, eta) * x * x * x * sqrt(x) + x_dot_3_5pn_SS(e, eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x)
             + x_dot_3_5pn_cubicSpin(e, eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x) /*+ x_dot_4pn_SO(e, eta, m1, m2, S1z, S2z) * x * x * x * x*/) * x_pow_5 +
            x_dot_hereditary_1_5(e, eta, x) + x_dot_hereditary_2_5(e, eta, x) +
            x_dot_hereditary_3(e, eta, x) + dxdt_6pn(x, eta);
@@ -1611,13 +1640,8 @@ static REAL8 dphi_dt(REAL8 u, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2
   phidot =
       ((phi_dot_0pn(e, eta, u) + x * phi_dot_1pn(e, eta, u) + x_pow_3_2 * phi_dot_1_5_pnSO_ecc(e, m1, m2, S1z, S2z, u) 
        + x * x * phi_dot_2_pnSS_ecc(e, m1, m2, S1z, S2z, u) + x * x * phi_dot_2pn(e, eta, u) 
-       + x * x * x * phi_dot_3pn(e, eta, u)) * x_pow_3_2  + (5. / (64 * eta * x * x * x * sqrt(x))) 
-       * x_pow_3_2 * phi_dot_1_5_pn(e, eta, m1, m2, S1z, S2z, x)  +  (5. / (64 * eta * x * x * x * sqrt(x))) 
-      * x * x * phi_dot_2pn_SS(e, eta, m1, m2, S1z, S2z, x)  + (5. / (64 * eta * x * x * x * sqrt(x))) * x * x_pow_3_2 * phi_dot_2_5_pn(e, eta, m1, m2, S1z, S2z, x) 
-       + (5. / (64 * eta * x * x * x * sqrt(x))) * x * x * x * phi_dot_3pn_SO(e, eta, m1, m2, S1z, S2z, x) 
-       +  (5. / (64 * eta * x * x * x * sqrt(x))) * x * x * x * phi_dot_3pn_SS(e, eta, m1, m2, S1z, S2z, x)
-       +  (5. / (64 * eta * x * x * x * sqrt(x))) * x * x * x * sqrt(x) * phi_dot_3_5pn_SO(e, eta, m1, m2, S1z, S2z, x)
-       +  (5. / (64 * eta * x * x * x * sqrt(x))) * x * x * x * x * phi_dot_4pn_SO(e, eta, m1, m2, S1z, S2z, x));
+       + x * x * x * phi_dot_3pn(e, eta, u)+ phi_dot_3_5pn_SO(e,m1,m2,S1z,S2z) * x_pow_3_2 * x * x 
+       + phi_dot_4pn_SO(e,m1,m2,S1z,S2z) * x_pow_3_2 * x * x * sqrt(x)) * x_pow_3_2);
   
   // printf("Value of phidot:%f\n",phidot);
   // fflush(NULL);
