@@ -557,7 +557,7 @@ int Attach_GPE_Merger_Ringdown(REAL8 dt, REAL8 **h_plus, REAL8 **h_cross,
                                REAL8 inspiral_matching_Hp,
                                REAL8 inspiral_matching_Hc, int *Length,
                                TrainingSet *Dset, REAL8 m1, REAL8 m2, REAL8 UNUSED S1z, REAL8 UNUSED S2z,
-                               REAL8 inc) {
+                               REAL8 inc, REAL8 *time_of_merger) {
 
   int errorcode = XLAL_SUCCESS;
 
@@ -690,6 +690,18 @@ int Attach_GPE_Merger_Ringdown(REAL8 dt, REAL8 **h_plus, REAL8 **h_cross,
                                            sin(delta_phi) * Hc_MERGER);
     (*h_cross)[end + i] = ratioAmplitude * (cos(delta_phi) * Hc_MERGER -
                                             sin(delta_phi) * Hp_MERGER);
+    if (i > 2) {
+      REAL8 amp_i = ((*h_plus)[end + i] * (*h_plus)[end + i] +
+                     (*h_cross)[end + i] * (*h_cross)[end + i]);
+      REAL8 amp_im1 = ((*h_plus)[end + i - 1] * (*h_plus)[end + i - 1] +
+                       (*h_cross)[end + i - 1] * (*h_cross)[end + i - 1]);
+      REAL8 amp_im2 = ((*h_plus)[end + i - 2] * (*h_plus)[end + i - 2] +
+                       (*h_cross)[end + i - 2] * (*h_cross)[end + i - 2]);
+
+      if (amp_i < amp_im1 && amp_im1 > amp_im2) {
+        *time_of_merger = dt * (REAL8) (end + i - 1);
+      }
+    }
   }
 
 XLAL_FAIL:

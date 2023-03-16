@@ -364,7 +364,8 @@ static int Attach_GPE_Merger_Ringdown(REAL8 dt, REAL8 **h_plus, REAL8 **h_cross,
                                       REAL8 inspiral_matching_time,
                                       REAL8 matching_Hp, REAL8 matching_Hc,
                                       int *Length, TrainingSet *Dset, REAL8 m1,
-                                      REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 inc);
+                                      REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 inc,
+                                      REAL8 *time_of_merger);
 
 /***********************************************************************************/
 /************************** Static function definitions
@@ -750,9 +751,10 @@ x_model_eccbbh_imr_waveform(REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
  /*printf("value of mass1, mass2 at line 717 :%f,%f\n",mass1,mass2);
  fflush(NULL);*/
   // get merger and ringdown and attach at the end of the existing time series
+  REAL8 time_of_merger = 0.0;
   errorcode = Attach_GPE_Merger_Ringdown(
       dt, &(Hp->data), &(Hc->data), imr_matching_time, matching_Hp, matching_Hc,
-      &Length, Dset, mass1, mass2, S1z, S2z, euler_iota);
+      &Length, Dset, mass1, mass2, S1z, S2z, euler_iota, &time_of_merger);
   if (errorcode != XLAL_SUCCESS)
     XLAL_ERROR_FAIL(errorcode);
 
@@ -761,6 +763,11 @@ x_model_eccbbh_imr_waveform(REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
   h_plus->data->data = Hp->data;
   h_cross->data->data = Hc->data;
   Hc = Hp = NULL; // owenership has passed to h_plus and h_cross
+
+  /* Set epoch to the length of the inspiral waveform, as is usual convention */
+  XLALGPSSetREAL8(&(h_plus->epoch), -time_of_merger * total_mass * LAL_MTSUN_SI);
+  XLALGPSSetREAL8(&(h_cross->epoch),
+                  -time_of_merger * total_mass * LAL_MTSUN_SI);
 
 XLAL_FAIL:
   XLALDestroyREAL8Sequence(Hp);
