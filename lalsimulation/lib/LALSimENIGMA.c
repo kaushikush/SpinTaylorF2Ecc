@@ -18,6 +18,7 @@
 #endif
 
 #include <lal/AVFactories.h>
+#include <lal/Date.h>
 #include <lal/FileIO.h>
 #include <lal/LALConstants.h>
 #include <lal/LALSimIMR.h>
@@ -1636,6 +1637,10 @@ int XLALSimInspiralENIGMA(
                    meanPerAno, tol_in, inclination, beta, fsamp));
   if (errorcode != XLAL_SUCCESS)
     XLAL_ERROR_FAIL(XLAL_EFUNC);
+
+  /* Set epoch to the length of the inspiral waveform, as is usual convention */
+  XLALGPSSetREAL8(&(*hplus)->epoch, -deltaT * (REAL8)(*hplus)->data->length);
+  XLALGPSSetREAL8(&(*hcross)->epoch, -deltaT * (REAL8)(*hplus)->data->length);
 
 XLAL_FAIL:
   if (errorcode != XLAL_SUCCESS) {
