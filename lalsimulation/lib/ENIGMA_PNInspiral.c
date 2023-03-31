@@ -2343,11 +2343,6 @@ static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, UI
   if(vpn==1){
   //Note : 0.5PN term is removed here
   return (2 * x *
-         /*((-(((m1 - m2) * sqrt(x) *
-             ((0.625 + pow2(cos(i)) / 8.) * cos(a) -
-              (1.125 + (9 * pow2(cos(i))) / 8.) * cos3a) *
-             sin(i)) /
-            (m1 + m2)) +*/
           (x * (((3.1666666666666665 + (3 * pow2(cos(i))) / 2. -
                 pow4(cos(i)) / 3. +
                 (m1 * m2 *
@@ -2938,9 +2933,6 @@ static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, U
   if(vpn==1){
   //Note : 0.5PN term is removed here  
   return (2 * x *
-         /*(((m1 - m2) * sqrt(x) * cos(i) * sin(i) *
-           ((-3 * sina) / 4. + (9 * sin3a) / 4.)) /
-              (m1 + m2) +*/
           (x *((cos(i) *
                    (5.666666666666667 - (4 * pow2(cos(i))) / 3. +
                     (m1 * m2 * (-4.333333333333333 + 4 * pow2(cos(i)))) /
