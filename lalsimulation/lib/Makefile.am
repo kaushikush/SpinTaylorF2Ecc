@@ -267,7 +267,7 @@ noinst_HEADERS = \
 	LALSimNRSur3dq8Remnant.h \
 	ENIGMA_GPEMergerRingdown.c \
 	ENIGMA_PNInspiral.c \
-	ENIGMA_PNMatch.c
+	ENIGMA_PNMatch.c \
 	$(END_OF_LIST)
 
 lib_LTLIBRARIES = liblalsimulation.la
