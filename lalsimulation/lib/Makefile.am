@@ -273,7 +273,7 @@ noinst_HEADERS = \
 	LALSimInspiralEOBPostAdiabatic.h \
 	ENIGMA_GPEMergerRingdown.c \
 	ENIGMA_PNInspiral.c \
-	ENIGMA_PNMatch.c
+	ENIGMA_PNMatch.c \
 	$(END_OF_LIST)
 
 lib_LTLIBRARIES = liblalsimulation.la
