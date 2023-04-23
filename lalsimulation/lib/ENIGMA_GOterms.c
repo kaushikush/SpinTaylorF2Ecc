@@ -15,9 +15,12 @@ static COMPLEX16 hGO_2_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT, 
     REAL8 lambda2 = 1.0;
     REAL8 delta = sqrt(1-4*Nu);
     
-  
+    if(vpnorder == 0){
+        return(mass/r + pow(PhiDOT,2)*pow(r,2) + Complex(0,2)*PhiDOT*r*rDOT - 
+        pow(rDOT,2));
+    }
 
-    if(vpnorder == 2){
+    else if(vpnorder == 2){
         return ((21*pow(mass,2)*(-10 + Nu) - 27*(-1 
         + 3*Nu)*pow(r,2)*(PhiDOT*r - Complex(0,1)*rDOT)*pow(PhiDOT*r 
         + Complex(0,1)*rDOT,3) + mass*r*((11 + 156*Nu)*pow(PhiDOT,2)*pow(r,2) 
@@ -103,9 +106,9 @@ static COMPLEX16 hGO_2_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT, 
           1008*pow(S1z,2)*(3*kappa1*M_PI - 3*(1 + delta)*S2z + 2*(1 + delta)*kappa1*S2z) + 
           S1z*(17387 + 20761*delta + 1008*S2z*(6*M_PI + (-1 + delta)*(-3 + 2*kappa2)*S2z)) + 
           S2z*(17387 - 20761*delta + 504*S2z*(-6*kappa2*M_PI + (-7 + delta)*kappa2*S2z - 3*(-3 + delta)*lambda2*S2z))) + 
-       2*(2809*(1 + delta)*S1z + 756*(1 + delta)*kappa1*M_PI*pow(S1z,2) + 756*(1 + delta)*(kappa1 - lambda1)*pow(S1z,3) - 
+          2*(2809*(1 + delta)*S1z + 756*(1 + delta)*kappa1*M_PI*pow(S1z,2) + 756*(1 + delta)*(kappa1 - lambda1)*pow(S1z,3) - 
           (-1 + delta)*S2z*(2809 + 756*S2z*(-(lambda2*S2z) + kappa2*(M_PI + S2z)))) - 
-       2*pow(Nu,2)*(708*delta*(-S1z + S2z) + (S1z + S2z)*(4427 + 1008*(kappa1*pow(S1z,2) + S2z*(-2*S1z + kappa2*S2z)))))*pow(x,4.5))/756.);
+          2*pow(Nu,2)*(708*delta*(-S1z + S2z) + (S1z + S2z)*(4427 + 1008*(kappa1*pow(S1z,2) + S2z*(-2*S1z + kappa2*S2z)))))*pow(x,4.5))/756.);
     }
 
     else{
@@ -113,43 +116,41 @@ static COMPLEX16 hGO_2_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT, 
     } 
     
 }
+// hQC_l_m() functions conatins only the hereditary terms at particular PN order.
 
 static COMPLEX16 hQC_2_m_2(REAL8 Nu, UINT4 vpnorder, REAL8 x){
     double EulerGamma = 0.5772156649015329;
+   // keeping only the hereditary terms
+    // if(vpnorder == 0){
+    //   return(2*x);
+    // }
 
-    if(vpnorder == 0){
-      return(2*x);
-    }
-
-    else if(vpnorder == 2){
+    /* else if(vpnorder == 2){
       return((-5.095238095238095 + (55*Nu)/21.)*pow(x,2));
-    }
+    } */
 
-    else if(vpnorder == 3){
+    /* else */ if(vpnorder == 3){
         return(4*M_PI*pow(x,2.5));
     }
 
-    else if(vpnorder == 4){
+    /* else if(vpnorder == 4){
        return((-2.874338624338624 - (1069*Nu)/108. + (2047*pow(Nu,2))/756.)*
        pow(x,3));
-    }
+    } */
 
     else if(vpnorder == 5){
-        return((Complex(0,-48)*Nu - (214*M_PI)/21. + (68*Nu*M_PI)/21.)*pow(x,3.5));
+        //return((Complex(0,-48)*Nu - (214*M_PI)/21. + (68*Nu*M_PI)/21.)*pow(x,3.5));
+        return((2*(-107 + 34*Nu)*M_PI*pow(x,3.5))/21.);
     }
 
     else if(vpnorder == 6){
-        return(pow(x,4)*(83.57269325912183 - (1712*EulerGamma)/105. - 
-     (278185*Nu)/16632. - (20261*pow(Nu,2))/1386. + 
-     (114635*pow(Nu,3))/49896. + Complex(0,8.152380952380952)*M_PI + 
-     (4*pow(M_PI,2))/3. + (41*Nu*pow(M_PI,2))/48. - (856*log(16*x))/105.
-     ));
+        return((pow(x,4)*(-27392*EulerGamma + 
+         M_PI*(Complex(0,13696) + 35*(64 + 41*Nu)*M_PI) - 13696*log(16*x)))/
+         1680.);
     }
 
     else if(vpnorder == 7){
-        return((Complex(0,176.9506172839506)*Nu - 
-     Complex(0,8.605291005291006)*pow(Nu,2) - (2173*M_PI)/378. - 
-     (2495*Nu*M_PI)/189. + (80*pow(Nu,2)*M_PI)/27.)*pow(x,4.5));
+        return(((-2173 - 4990*Nu + 1120*pow(Nu,2))*M_PI*pow(x,4.5))/378.);
     }
 
     else{
@@ -160,8 +161,8 @@ static COMPLEX16 hQC_2_m_2(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
 static COMPLEX16 hl_2_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder, REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_2_m_2: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_2_m_2: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -171,8 +172,8 @@ static COMPLEX16 hl_2_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_2_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder, REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_2_m_min2: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_2_m_min2: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -268,31 +269,29 @@ static COMPLEX16 hl_2_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
 static COMPLEX16 hQC_2_m_1(REAL8 Nu, UINT4 vpnorder, REAL8 x){
     REAL8 delta = sqrt(1-4*Nu);
 
-    if(vpnorder == 1){
+    /* if(vpnorder == 1){
         return(Complex(0,0.6666666666666666)*delta*pow(x,1.5));
-    }
+    } */
 
-    else if(vpnorder == 3){
+    /* else if(vpnorder == 3){
         return((Complex(0,-0.40476190476190477)*delta + 
      Complex(0,0.47619047619047616)*delta*Nu)*pow(x,2.5));
+    } */
+
+    /* else */ if(vpnorder == 4){
+        return((2*delta*pow(x,3)*(Complex(0,1)*M_PI + log(4)))/3.);
     }
 
-    else if(vpnorder == 4){
-        return(pow(x,3)*(delta/3. + Complex(0,0.6666666666666666)*delta*M_PI + 
-     (4*delta*log(2))/3.));
-    }
-
-    else if(vpnorder == 5){
+    /* else if(vpnorder == 5){
         return((Complex(0,-0.2275132275132275)*delta - 
      Complex(0,2.693121693121693)*delta*Nu + 
      Complex(0,0.3134920634920635)*delta*pow(Nu,2))*pow(x,3.5));
-    }
+    } */
 
     else if(vpnorder == 6){
-        return(pow(x,4)*((-17*delta)/84. + (353*delta*Nu)/42. - 
-     Complex(0,0.40476190476190477)*delta*M_PI + 
-     Complex(0,0.14285714285714285)*delta*Nu*M_PI - 
-     (17*delta*log(2))/21. + (2*delta*Nu*log(2))/7.));
+        return(M_PI*(Complex(0,-0.40476190476190477)*delta*pow(x,4) + 
+        Complex(0,0.14285714285714285)*delta*Nu*pow(x,4)) + 
+        ((-17*delta*pow(x,4))/21. + (2*delta*Nu*pow(x,4))/7.)*log(2));
     }
 
     else{
@@ -305,8 +304,8 @@ static COMPLEX16 hQC_2_m_1(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
 static COMPLEX16 hl_2_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder, REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_2_m_1: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_2_m_1: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -317,8 +316,8 @@ static COMPLEX16 hl_2_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_2_m_min1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder, REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_2_m_min1: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_2_m_min1: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -423,43 +422,39 @@ static COMPLEX16 hQC_3_m_3(REAL8 Nu, UINT4 vpnorder, REAL8 x){
     REAL8 delta = sqrt(1-4*Nu);
     double EulerGamma = 0.5772156649015329;
 
-    if(vpnorder == 1){
+    /* if(vpnorder == 1){
         return(Complex(0,-1.5)*sqrt(1.0714285714285714)*delta*pow(x,1.5));
-    }
+    } */
 
-    else if(vpnorder == 3){
+    /* else if(vpnorder == 3){
         return((Complex(0,3)*sqrt(4.285714285714286)*delta - 
      Complex(0,3)*sqrt(1.0714285714285714)*delta*Nu)*pow(x,2.5));
+    } */
+
+    /* else */ if(vpnorder == 4){
+        return((9*sqrt(1.0714285714285714)*delta*pow(x,3)*
+     (Complex(0,-1)*M_PI + log(2.25)))/2.);
     }
 
-    else if(vpnorder == 4){
-        return(pow(x,3)*((-9*sqrt(2.1)*delta)/2. - 
-     Complex(0,4.5)*sqrt(1.0714285714285714)*delta*M_PI + 
-     9*sqrt(1.0714285714285714)*delta*log(1.5)));
-    }
-
-    else if(vpnorder == 5){
+    /* else if(vpnorder == 5){
         return((Complex(0,-8.386363636363637)*sqrt(0.04285714285714286)*delta + 
      Complex(0,83.54545454545455)*sqrt(0.04285714285714286)*delta*Nu - 
      Complex(0,20.15909090909091)*sqrt(0.04285714285714286)*delta*
       pow(Nu,2))*pow(x,3.5));
-    }
+    } */
 
     else if(vpnorder == 6){
-        return(pow(x,4)*(9*sqrt(8.4)*delta - (48103*delta*Nu)/(54.*sqrt(210)) + 
-     Complex(0,9)*sqrt(4.285714285714286)*delta*M_PI - 
-     Complex(0,6.75)*sqrt(1.0714285714285714)*delta*Nu*M_PI - 
-     18*sqrt(4.285714285714286)*delta*log(1.5) + 
-     (27*sqrt(1.0714285714285714)*delta*Nu*log(1.5))/2.));
+        return(M_PI*(Complex(0,9)*sqrt(4.285714285714286)*delta*pow(x,4) - 
+        Complex(0,6.75)*sqrt(1.0714285714285714)*delta*Nu*pow(x,4)) + 
+        (-18*sqrt(4.285714285714286)*delta*pow(x,4) + 
+        (27*sqrt(1.0714285714285714)*delta*Nu*pow(x,4))/2.)*log(1.5));
     }
     else if(vpnorder == 7){
-        return(Complex(0,1.1149564720993292e-6)*sqrt(0.04285714285714286)*delta*
-     pow(x,4.5)*(-465315528 + 74954880*EulerGamma + 13827800*Nu + 
-     124985672*pow(Nu,2) - 19373424*pow(Nu,3) + 
-     Complex(0,47279232)*M_PI - 10090080*pow(M_PI,2) - 
-     4309305*Nu*pow(M_PI,2) - 94558464*log(1.5) - 
-     Complex(0,121080960)*M_PI*log(1.5) + 37477440*log(16*x) + 
-     121080960*log(1.5)*log(1.5)));
+        return(Complex(0,0.0033482142857142855)*sqrt(0.04285714285714286)*delta*
+        pow(x,4.5)*(24960*EulerGamma + Complex(0,15744)*M_PI - 
+        3360*pow(M_PI,2) - 1435*Nu*pow(M_PI,2) - 31488*log(1.5) - 
+        Complex(0,40320)*M_PI*log(1.5) + 12480*log(16*x) + 
+        40320*log(1.5)*log(1.5)));
     }
 
     else{
@@ -470,8 +465,8 @@ static COMPLEX16 hQC_3_m_3(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
 static COMPLEX16 hl_3_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_3_m_3: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_3_m_3: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -482,8 +477,8 @@ static COMPLEX16 hl_3_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_3_m_min3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_3_m_min3: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_3_m_min3: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -576,7 +571,7 @@ static COMPLEX16 hGO_3_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hQC_3_m_2(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
-    if(vpnorder == 2){
+    /* if(vpnorder == 2){
         return(((2*sqrt(0.7142857142857143))/3. - 2*sqrt(0.7142857142857143)*Nu)*
         pow(x,2));
     }
@@ -584,19 +579,17 @@ static COMPLEX16 hQC_3_m_2(REAL8 Nu, UINT4 vpnorder, REAL8 x){
     else if(vpnorder == 4){
         return((-193/(27.*sqrt(35)) + (145*sqrt(0.7142857142857143)*Nu)/27. - 
         (73*sqrt(0.7142857142857143)*pow(Nu,2))/27.)*pow(x,3));
+    } */
+
+    /* else */ if(vpnorder == 5){
+        return((4*sqrt(0.7142857142857143)*(1 - 3*Nu)*M_PI*pow(x,3.5))/3.);
     }
 
-    else if(vpnorder == 5){
-        return((Complex(0,-2)*sqrt(0.7142857142857143) + (Complex(0,44)*Nu)/sqrt(35) + 
-        (4*sqrt(0.7142857142857143)*M_PI)/3. - 
-        4*sqrt(0.7142857142857143)*Nu*M_PI)*pow(x,3.5));
-    }
-
-    else if(vpnorder == 6){
+    /* else if(vpnorder == 6){
         return((-1451/(1188.*sqrt(35)) - (17387*Nu)/(1188.*sqrt(35)) + 
         (5557*pow(Nu,2))/(66.*sqrt(35)) - 
         (763*sqrt(1.4)*pow(Nu,3))/396.)*pow(x,4));
-    }
+    } */
 
     else{
         return 0;
@@ -607,8 +600,8 @@ static COMPLEX16 hQC_3_m_2(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
 static COMPLEX16 hl_3_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_3_m_2: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_3_m_2: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -618,8 +611,8 @@ static COMPLEX16 hl_3_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_3_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_3_m_min2: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_3_m_min2: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -726,41 +719,38 @@ static COMPLEX16 hQC_3_m_1(REAL8 Nu, UINT4 vpnorder, REAL8 x){
      REAL8 delta = sqrt(1-4*Nu);
      double EulerGamma = 0.5772156649015329;
 
-     if(vpnorder == 1){
+     /* if(vpnorder == 1){
          return((Complex(0,0.16666666666666666)*delta*pow(x,1.5))/sqrt(14));
-     }
+     } */
 
-     else if(vpnorder == 3){
+     /* else if(vpnorder == 3){
          return((Complex(0,-0.2222222222222222)*sqrt(0.2857142857142857)*delta - 
          (Complex(0,0.1111111111111111)*delta*Nu)/sqrt(14))*pow(x,2.5));
+     } */
+
+     /* else */ if(vpnorder == 4){
+         return((Complex(0,0.16666666666666666)*delta*M_PI*pow(x,3))/sqrt(14) + 
+         (delta*pow(x,3)*log(2))/(3.*sqrt(14)));
      }
 
-     else if(vpnorder == 4){
-         return(pow(x,3)*((sqrt(3.5)*delta)/30. + 
-         (Complex(0,0.16666666666666666)*delta*M_PI)/sqrt(14) + 
-         (delta*log(2))/(3.*sqrt(14))));
-     }
-
-     else if(vpnorder == 5){
+     /* else if(vpnorder == 5){
          return(((Complex(0,0.5109427609427609)*delta)/sqrt(14) - 
          Complex(0,0.11447811447811448)*sqrt(0.2857142857142857)*delta*Nu - 
          (Complex(0,0.2079124579124579)*delta*pow(Nu,2))/sqrt(14))*
          pow(x,3.5));
-     }
+     } */
 
      else if(vpnorder == 6){
-         return((delta*pow(x,4)*(Nu*(2 - Complex(0,35)*M_PI - 70*log(2)) + 
-          16*(-7 - Complex(0,5)*M_PI - 10*log(2))))/(180.*sqrt(14)));
+         return((Complex(0,-0.027777777777777776)*delta*(16 + 7*Nu)*pow(x,4)*
+         (M_PI - Complex(0,2)*log(2)))/sqrt(14));
      }
 
      else if(vpnorder == 7){
-         return((Complex(0,-2.752978943455134e-9)*delta*pow(x,4.5)*
-         (-430135880 + 74954880*EulerGamma + 681626456*Nu - 
-         641035640*pow(Nu,2) + 68698000*pow(Nu,3) + 
-         Complex(0,47279232)*M_PI - 10090080*pow(M_PI,2) - 
-         38783745*Nu*pow(M_PI,2) + 244468224*log(2) + 
-         Complex(0,121080960)*M_PI*log(2) + 121080960*pow(log(2),2) + 
-         37477440*log(x)))/sqrt(14));
+         return((Complex(0,-0.0000248015873015873)*delta*pow(x,4.5)*
+         (8320*EulerGamma + Complex(0,5248)*M_PI - 1120*pow(M_PI,2) - 
+          4305*Nu*pow(M_PI,2) + 27136*log(2) + 
+         Complex(0,13440)*M_PI*log(2) + 13440*pow(log(2),2) + 4160*log(x)
+          ))/sqrt(14));
      }
      
      else{
@@ -772,8 +762,8 @@ static COMPLEX16 hQC_3_m_1(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
 static COMPLEX16 hl_3_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_1: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_1: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -784,8 +774,8 @@ static COMPLEX16 hl_3_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_3_m_min1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_min1: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_min1: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -880,27 +870,26 @@ static COMPLEX16 hGO_4_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hQC_4_m_4(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
-    if(vpnorder == 2){
+    /* if(vpnorder == 2){
         return(((-16*sqrt(0.7142857142857143))/9. + 
         (16*sqrt(0.7142857142857143)*Nu)/3.)*pow(x,2));
-    }
+    } */
 
-    else if(vpnorder == 4){
+    /* else if(vpnorder == 4){
         return((4744/(99.*sqrt(35)) - (10184*sqrt(0.7142857142857143)*Nu)/297. + 
         (200*sqrt(35)*pow(Nu,2))/99.)*pow(x,3));
+    } */
+
+    /* else */ if(vpnorder == 5){
+        return((64*sqrt(0.7142857142857143)*(-1 + 3*Nu)*pow(x,3.5)*
+        (M_PI + Complex(0,2)*log(2)))/9.);
     }
 
-    else if(vpnorder == 5){
-        return((2*pow(x,3.5)*(-16*(Complex(0,-21) + 10*M_PI + Complex(0,20)*log(2)) + 
-         Nu*(Complex(0,-1193) + 480*M_PI + Complex(0,960)*log(2))))/
-         (9.*sqrt(35)));
-    }
-
-    else if(vpnorder == 6){
+    /* else if(vpnorder == 6){
         return((-2137342/(45045.*sqrt(35)) + (2176238*Nu)/(6435.*sqrt(35)) - 
         (587516*pow(Nu,2))/(1053.*sqrt(35)) + 
         (452194*pow(Nu,3))/(3861.*sqrt(35)))*pow(x,4));
-    }
+    } */
 
     else{
         return 0;
@@ -909,8 +898,8 @@ static COMPLEX16 hQC_4_m_4(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
 static COMPLEX16 hl_4_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_4: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_4: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -920,8 +909,8 @@ static COMPLEX16 hl_4_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_4_m_min4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_min4: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_min4: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -996,21 +985,21 @@ static COMPLEX16 hGO_4_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 static COMPLEX16 hQC_4_m_3(REAL8 Nu, UINT4 vpnorder, REAL8 x){
     REAL8 delta = sqrt(1-4*Nu);
 
-    if(vpnorder == 3){
+    /* if(vpnorder == 3){
         return(((Complex(0,-4.5)*delta)/sqrt(70) + (Complex(0,9)*delta*Nu)/sqrt(70))*
          pow(x,2.5));
-    }
+    } */
 
-    else if(vpnorder == 5){
+   /*  else if(vpnorder == 5){
         return(((Complex(0,15.954545454545455)*delta)/sqrt(70) - 
          Complex(0,6.170454545454546)*sqrt(0.7)*delta*Nu + 
          (Complex(0,17.863636363636363)*delta*pow(Nu,2))/sqrt(70))*
          pow(x,3.5));
-    }
+    } */
 
-    else if(vpnorder == 6){
-        return((delta*pow(x,4)*(Nu*(16301 + Complex(0,4860)*M_PI - 9720*log(1.5)) + 
-         162*(-32 - Complex(0,15)*M_PI + 30*log(1.5))))/(180.*sqrt(70)));
+    /* else */ if(vpnorder == 6){
+        return((Complex(0,13.5)*delta*(-1 + 2*Nu)*pow(x,4)*
+         (M_PI + Complex(0,2)*log(1.5)))/sqrt(70));
     }
 
     else{
@@ -1020,8 +1009,8 @@ static COMPLEX16 hQC_4_m_3(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
 static COMPLEX16 hl_4_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_3: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_3: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -1032,8 +1021,8 @@ static COMPLEX16 hl_4_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_4_m_min3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_min3: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_min3: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -1125,25 +1114,23 @@ static COMPLEX16 hGO_4_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hQC_4_m_2(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
-    if(vpnorder == 2){
+    /* if(vpnorder == 2){
         return(((2*sqrt(5))/63. - (2*sqrt(5)*Nu)/21.)*pow(x,2));
     }
 
     else if(vpnorder == 4){
         return((-437/(693.*sqrt(5)) + (115*sqrt(5)*Nu)/297. - 
         (19*sqrt(5)*pow(Nu,2))/693.)*pow(x,3));
-    }
+    } */
 
-    else if(vpnorder == 5){
-        return((Complex(0,-0.6666666666666666)/sqrt(5) + 
-        (Complex(0,2.6666666666666665)*Nu)/sqrt(5) + (4*sqrt(5)*M_PI)/63. - 
-        (4*sqrt(5)*Nu*M_PI)/21.)*pow(x,3.5));
+    /* else */ if(vpnorder == 5){
+        return(M_PI*((4*sqrt(5)*pow(x,3.5))/63. - (4*sqrt(5)*Nu*pow(x,3.5))/21.));
     }
-    else if(vpnorder == 6){
+    /* else if(vpnorder == 6){
         return((346013/(420420.*sqrt(5)) - (606751*Nu)/(180180.*sqrt(5)) + 
         (400453*pow(Nu,2))/(162162.*sqrt(5)) + 
         (25783*pow(Nu,3))/(108108.*sqrt(5)))*pow(x,4));
-    }
+    } */
     else{
         return 0;
     }
@@ -1154,8 +1141,8 @@ static COMPLEX16 hQC_4_m_2(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
 static COMPLEX16 hl_4_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_2: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_2: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -1165,8 +1152,8 @@ static COMPLEX16 hl_4_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_4_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min2: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min2: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -1237,7 +1224,7 @@ static COMPLEX16 hGO_4_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 static COMPLEX16 hQC_4_m_1(REAL8 Nu, UINT4 vpnorder, REAL8 x){
     REAL8 delta = sqrt(1-4*Nu);
 
-    if(vpnorder == 3){
+    /* if(vpnorder == 3){
         return(((Complex(0,0.023809523809523808)*delta)/sqrt(10) - 
         (Complex(0,0.047619047619047616)*delta*Nu)/sqrt(10))*pow(x,2.5));
     }
@@ -1246,11 +1233,12 @@ static COMPLEX16 hQC_4_m_1(REAL8 Nu, UINT4 vpnorder, REAL8 x){
         (Complex(0,0.18235930735930736)*delta*Nu)/sqrt(10) - 
         (Complex(0,0.05988455988455989)*delta*pow(Nu,2))/sqrt(10))*
         pow(x,3.5));
-    }
-    else if(vpnorder == 6){
-        return((delta*pow(x,4)*(64 + Complex(0,30)*M_PI + 
-         Nu*(-1661 - Complex(0,60)*M_PI - 120*log(2)) + 60*log(2)))/
-        (1260.*sqrt(10)));
+    } */
+    /* else */ if(vpnorder == 6){
+        return(M_PI*((Complex(0,0.023809523809523808)*delta*pow(x,4))/sqrt(10) - 
+        (Complex(0,0.047619047619047616)*delta*Nu*pow(x,4))/sqrt(10))\
+        + ((delta*pow(x,4))/(21.*sqrt(10)) - 
+        (sqrt(0.4)*delta*Nu*pow(x,4))/21.)*log(2));
     }
     else{
         return 0;
@@ -1260,8 +1248,8 @@ static COMPLEX16 hQC_4_m_1(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
 static COMPLEX16 hl_4_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_1: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_1: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -1272,8 +1260,8 @@ static COMPLEX16 hl_4_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_4_m_min1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_min1: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_min1: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -1336,7 +1324,7 @@ static COMPLEX16 hGO_5_m_5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 static COMPLEX16 hQC_5_m_5(REAL8 Nu, UINT4 vpnorder, REAL8 x){
     REAL8 delta = sqrt(1-4*Nu);
 
-    if(vpnorder == 3){
+    /* if(vpnorder == 3){
         return(((Complex(0,13.020833333333334)*delta)/sqrt(66) - 
         (Complex(0,26.041666666666668)*delta*Nu)/sqrt(66))*pow(x,2.5));
     }
@@ -1345,12 +1333,10 @@ static COMPLEX16 hQC_5_m_5(REAL8 Nu, UINT4 vpnorder, REAL8 x){
         (Complex(0,229.7008547008547)*delta*Nu)/sqrt(66) - 
         Complex(0,42.73504273504273)*sqrt(0.06060606060606061)*delta*
         pow(Nu,2))*pow(x,3.5));
-    }
-    else if(vpnorder == 6){
-        return((delta*pow(x,4)*(Complex(0,3125)*
-        (Complex(0,-181) + 70*M_PI + Complex(0,140)*log(2.5)) + 
-         28*Nu*(-52917 - Complex(0,15625)*M_PI + 31250*log(2.5))))/
-        (3360.*sqrt(66)));
+    } */
+    /* else */ if(vpnorder == 6){
+        return((3125*delta*(-1 + 2*Nu)*pow(x,4)*(Complex(0,-1)*M_PI + log(6.25)))/
+        (48.*sqrt(66)));
     }
     else{
         return 0;
@@ -1360,8 +1346,8 @@ static COMPLEX16 hQC_5_m_5(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
 static COMPLEX16 hl_5_m_5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_5: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_5: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -1372,8 +1358,8 @@ static COMPLEX16 hl_5_m_5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_5_m_min5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min5: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min5: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -1425,7 +1411,7 @@ static COMPLEX16 hGO_5_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
     }
 }
 
-static COMPLEX16 hQC_5_m_4(REAL8 Nu, UINT4 vpnorder, REAL8 x){
+/* static COMPLEX16 hQC_5_m_4(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
     if(vpnorder == 4){
         return((-64/(9.*sqrt(165)) + (64*sqrt(0.15151515151515152)*Nu)/9. - 
@@ -1439,27 +1425,27 @@ static COMPLEX16 hQC_5_m_4(REAL8 Nu, UINT4 vpnorder, REAL8 x){
     else{
         return 0;
     }
-}
+} */
 
 static COMPLEX16 hl_5_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_4: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_4: Input PN order parameter should be between [0, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R) * (hGO_5_m_4(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)+hQC_5_m_4(Nu,vpnorder,x)) * cpolar(1,-4*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R) * (hGO_5_m_4(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)/* +hQC_5_m_4(Nu,vpnorder,x) */) * cpolar(1,-4*Phi);
     }
 }
 
 static COMPLEX16 hl_5_m_min4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min4: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min4: Input PN order parameter should be between [0, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R)  * pow(-1,5) * conj(hGO_5_m_4(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)+hQC_5_m_4(Nu,vpnorder,x)) * cpolar(1,4*Phi); 
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R)  * pow(-1,5) * conj(hGO_5_m_4(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)/* +hQC_5_m_4(Nu,vpnorder,x) */) * cpolar(1,4*Phi); 
     }
 }
 
@@ -1516,7 +1502,7 @@ static COMPLEX16 hGO_5_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 static COMPLEX16 hQC_5_m_3(REAL8 Nu, UINT4 vpnorder, REAL8 x){
     REAL8 delta = sqrt(1-4*Nu);
 
-    if(vpnorder == 3){
+    /* if(vpnorder == 3){
         return((Complex(0,-0.5625)*sqrt(0.02727272727272727)*delta + 
         Complex(0,1.125)*sqrt(0.02727272727272727)*delta*Nu)*pow(x,2.5));
     }
@@ -1525,12 +1511,10 @@ static COMPLEX16 hQC_5_m_3(REAL8 Nu, UINT4 vpnorder, REAL8 x){
         Complex(0,6.6923076923076925)*sqrt(0.02727272727272727)*delta*Nu + 
         Complex(0,0.11538461538461539)*sqrt(3.3)*delta*pow(Nu,2))*
         pow(x,3.5));
-    }
-    else if(vpnorder == 6){
-        return((delta*pow(x,4)*(28*Nu*(41851 + Complex(0,10935)*M_PI - 
-        21870*log(1.5)) - Complex(0,2187)*
-        (Complex(0,-181) + 70*M_PI + Complex(0,140)*log(1.5))))/
-        (30240.*sqrt(330)));
+    } */
+    /* else */ if(vpnorder == 6){
+        return(Complex(0,1.6875)*sqrt(0.02727272727272727)*delta*(-1 + 2*Nu)*
+         pow(x,4)*(M_PI + Complex(0,2)*log(1.5)));
     }
     else{
         return 0;
@@ -1540,8 +1524,8 @@ static COMPLEX16 hQC_5_m_3(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
 static COMPLEX16 hl_5_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_3: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_3: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -1552,8 +1536,8 @@ static COMPLEX16 hl_5_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_5_m_min3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min3: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min3: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -1608,7 +1592,7 @@ static COMPLEX16 hGO_5_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
     }
 }
 
-static COMPLEX16 hQC_5_m_2(REAL8 Nu, UINT4 vpnorder, REAL8 x){
+/* static COMPLEX16 hQC_5_m_2(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
     if(vpnorder == 4){
         return((4/(27.*sqrt(55)) - (4*sqrt(0.45454545454545453)*Nu)/27. + 
@@ -1622,27 +1606,27 @@ static COMPLEX16 hQC_5_m_2(REAL8 Nu, UINT4 vpnorder, REAL8 x){
     else{
         return 0;
     }
-}
+} */
 
 static COMPLEX16 hl_5_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_2: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_2: Input PN order parameter should be between [0, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R)  * (hGO_5_m_2(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)+hQC_5_m_2(Nu,vpnorder,x)) * cpolar(1,-2*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R)  * (hGO_5_m_2(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)/* +hQC_5_m_2(Nu,vpnorder,x) */) * cpolar(1,-2*Phi);
     }
 }
 
 static COMPLEX16 hl_5_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min2: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min2: Input PN order parameter should be between [0, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R)   * pow(-1,5) * conj(hGO_5_m_2(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)+hQC_5_m_2(Nu,vpnorder,x)) * cpolar(1,2*Phi); 
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R)   * pow(-1,5) * conj(hGO_5_m_2(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)/* +hQC_5_m_2(Nu,vpnorder,x) */) * cpolar(1,2*Phi); 
     }
 }
 
@@ -1712,7 +1696,7 @@ static COMPLEX16 hGO_5_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 static COMPLEX16 hQC_5_m_1(REAL8 Nu, UINT4 vpnorder, REAL8 x){
     REAL8 delta = sqrt(1-4*Nu);
 
-    if(vpnorder == 3){
+    /* if(vpnorder == 3){
         return(((Complex(0,0.006944444444444444)*delta)/sqrt(385) - 
         (Complex(0,0.013888888888888888)*delta*Nu)/sqrt(385))*pow(x,2.5));
     }
@@ -1721,25 +1705,20 @@ static COMPLEX16 hQC_5_m_1(REAL8 Nu, UINT4 vpnorder, REAL8 x){
          Complex(0,0.005698005698005698)*sqrt(0.3142857142857143)*delta*
          Nu - (Complex(0,0.0007122507122507123)*delta*pow(Nu,2))/
          sqrt(385))*pow(x,3.5));
-    }
-    else if(vpnorder == 6){
-        return(pow(x,4)*((181*delta)/(10080.*sqrt(385)) - 
-        (313*delta*Nu)/(360.*sqrt(385)) + 
-        (Complex(0,0.006944444444444444)*delta*M_PI)/sqrt(385) - 
-        (Complex(0,0.013888888888888888)*delta*Nu*M_PI)/sqrt(385) + 
-        (delta*log(2))/(72.*sqrt(385)) - (delta*Nu*log(2))/(36.*sqrt(385))));
+    } */
+    /* else */ if(vpnorder == 6){
+        return((Complex(0,-0.006944444444444444)*delta*(-1 + 2*Nu)*pow(x,4)*
+        (M_PI - Complex(0,2)*log(2)))/sqrt(385));
     }
     else{
         return 0;
     }
-
-
 }
 
 static COMPLEX16 hl_5_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_1: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_1: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -1750,8 +1729,8 @@ static COMPLEX16 hl_5_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_5_m_min1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min1: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min1: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -1811,7 +1790,7 @@ static COMPLEX16 hGO_6_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
    
 }
 
-static COMPLEX16 hQC_6_m_6(REAL8 Nu, UINT4 vpnorder, REAL8 x){
+/* static COMPLEX16 hQC_6_m_6(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
     if(vpnorder == 4){
         return((108/(5.*sqrt(143)) - (108*Nu)/sqrt(143) + (108*pow(Nu,2))/sqrt(143))*
@@ -1825,28 +1804,28 @@ static COMPLEX16 hQC_6_m_6(REAL8 Nu, UINT4 vpnorder, REAL8 x){
     else{
         return 0;
     }
-}
+} */
 
 static COMPLEX16 hl_6_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_6: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_6: Input PN order parameter should be between [0, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R)  * (hGO_6_m_6(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)+hQC_6_m_6(Nu,vpnorder,x)) * cpolar(1,-6*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R)  * (hGO_6_m_6(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)/* +hQC_6_m_6(Nu,vpnorder,x) */) * cpolar(1,-6*Phi);
     }
 
 }
 
 static COMPLEX16 hl_6_m_min6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min6: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min6: Input PN order parameter should be between [0, 7].");
     }
 
    else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R)   * pow(-1,6) * conj(hGO_6_m_6(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)+hQC_6_m_6(Nu,vpnorder,x)) * cpolar(1,6*Phi); 
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R)   * pow(-1,6) * conj(hGO_6_m_6(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)/* +hQC_6_m_6(Nu,vpnorder,x) */) * cpolar(1,6*Phi); 
     }
 }
 
@@ -1878,7 +1857,7 @@ static COMPLEX16 hGO_6_m_5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
    
 }
 
-static COMPLEX16 hQC_6_m_5(REAL8 Nu, UINT4 vpnorder, REAL8 x){
+/* static COMPLEX16 hQC_6_m_5(REAL8 Nu, UINT4 vpnorder, REAL8 x){
     REAL8 delta = sqrt(1-4*Nu);
 
     if(vpnorder == 5){
@@ -1890,28 +1869,28 @@ static COMPLEX16 hQC_6_m_5(REAL8 Nu, UINT4 vpnorder, REAL8 x){
     else{
         return 0;
     }
-}
+} */
 
 static COMPLEX16 hl_6_m_5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_m5: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_m5: Input PN order parameter should be between [0, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R)  * (hGO_6_m_5(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)+hQC_6_m_5(Nu,vpnorder,x)) * cpolar(1,-5*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R)  * (hGO_6_m_5(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)/* +hQC_6_m_5(Nu,vpnorder,x) */) * cpolar(1,-5*Phi);
     }
 
 }
 
 static COMPLEX16 hl_6_m_min5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min5: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min5: Input PN order parameter should be between [0, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R)   * pow(-1,6) * conj(hGO_6_m_5(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)+hQC_6_m_5(Nu,vpnorder,x)) * cpolar(1,5*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R)   * pow(-1,6) * conj(hGO_6_m_5(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)/* +hQC_6_m_5(Nu,vpnorder,x) */) * cpolar(1,5*Phi);
     }
     
 }
@@ -1970,7 +1949,7 @@ static COMPLEX16 hGO_6_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 }
 
-static COMPLEX16 hQC_6_m_4(REAL8 Nu, UINT4 vpnorder, REAL8 x){
+/* static COMPLEX16 hQC_6_m_4(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
     if(vpnorder == 4){
         return(((-256*sqrt(0.05128205128205128))/495. + 
@@ -1987,28 +1966,28 @@ static COMPLEX16 hQC_6_m_4(REAL8 Nu, UINT4 vpnorder, REAL8 x){
         return 0;
     }
 
-}
+} */
 
 static COMPLEX16 hl_6_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_4: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_4: Input PN order parameter should be between [0, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R)  * (hGO_6_m_4(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)+hQC_6_m_4(Nu,vpnorder,x)) * cpolar(1,-4*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R)  * (hGO_6_m_4(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)/* +hQC_6_m_4(Nu,vpnorder,x) */) * cpolar(1,-4*Phi);
     }
 
 }
 
 static COMPLEX16 hl_6_m_min4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min4: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min4: Input PN order parameter should be between [0, 7].");
     }
 
    else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R)   * pow(-1,6) * conj(hGO_6_m_4(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)+hQC_6_m_4(Nu,vpnorder,x)) * cpolar(1,4*Phi); 
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R)   * pow(-1,6) * conj(hGO_6_m_4(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)/* +hQC_6_m_4(Nu,vpnorder,x) */) * cpolar(1,4*Phi); 
     }
 }
 
@@ -2037,7 +2016,7 @@ static COMPLEX16 hGO_6_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
    
 }
 
-static COMPLEX16 hQC_6_m_3(REAL8 Nu, UINT4 vpnorder, REAL8 x){
+/* static COMPLEX16 hQC_6_m_3(REAL8 Nu, UINT4 vpnorder, REAL8 x){
     REAL8 delta = sqrt(1-4*Nu);
 
     if(vpnorder == 5){
@@ -2047,28 +2026,28 @@ static COMPLEX16 hQC_6_m_3(REAL8 Nu, UINT4 vpnorder, REAL8 x){
     else{
         return 0;
     }
-}
+} */
 
 static COMPLEX16 hl_6_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_3: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_3: Input PN order parameter should be between [0, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R)  * (hGO_6_m_3(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)+hQC_6_m_3(Nu,vpnorder,x)) * cpolar(1,-3*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R)  * (hGO_6_m_3(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)/* +hQC_6_m_3(Nu,vpnorder,x) */) * cpolar(1,-3*Phi);
     }
 
 }
 
 static COMPLEX16 hl_6_m_min3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
      
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min3: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min3: Input PN order parameter should be between [0, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R)   * pow(-1,6) * conj(hGO_6_m_3(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)+hQC_6_m_3(Nu,vpnorder,x)) * cpolar(1,3*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R)   * pow(-1,6) * conj(hGO_6_m_3(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)/* +hQC_6_m_3(Nu,vpnorder,x) */) * cpolar(1,3*Phi);
     }
     
 }
@@ -2125,7 +2104,7 @@ static COMPLEX16 hGO_6_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
     
 }
 
-static COMPLEX16 hQC_6_m_2(REAL8 Nu, UINT4 vpnorder, REAL8 x){
+/* static COMPLEX16 hQC_6_m_2(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
     if(vpnorder == 4){
         return((4/(297.*sqrt(65)) - (4*sqrt(0.38461538461538464)*Nu)/297. + 
@@ -2139,28 +2118,28 @@ static COMPLEX16 hQC_6_m_2(REAL8 Nu, UINT4 vpnorder, REAL8 x){
     else{
         return 0;
     }
-}
+} */
 
 static COMPLEX16 hl_6_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_1: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_1: Input PN order parameter should be between [0, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R)  * (hGO_6_m_2(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)+hQC_6_m_2(Nu,vpnorder,x)) * cpolar(1,-2*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R)  * (hGO_6_m_2(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)/* +hQC_6_m_2(Nu,vpnorder,x) */) * cpolar(1,-2*Phi);
     }
 
 }
 
 static COMPLEX16 hl_6_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min2: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min2: Input PN order parameter should be between [0, 7].");
     }
 
    else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R)   * pow(-1,6) * conj(hGO_6_m_2(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)+hQC_6_m_2(Nu,vpnorder,x)) * cpolar(1,2*Phi); 
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R)   * pow(-1,6) * conj(hGO_6_m_2(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)/* +hQC_6_m_2(Nu,vpnorder,x) */) * cpolar(1,2*Phi); 
     }
 }
 
@@ -2189,7 +2168,7 @@ static COMPLEX16 hGO_6_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
     
 }
 
-static COMPLEX16 hQC_6_m_1(REAL8 Nu, UINT4 vpnorder, REAL8 x){
+/* static COMPLEX16 hQC_6_m_1(REAL8 Nu, UINT4 vpnorder, REAL8 x){
     REAL8 delta = sqrt(1-4*Nu);
 
     if(vpnorder == 5){
@@ -2199,27 +2178,27 @@ static COMPLEX16 hQC_6_m_1(REAL8 Nu, UINT4 vpnorder, REAL8 x){
     else{
         return 0;
     }
-}
+} */
 
 static COMPLEX16 hl_6_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_1: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_1: Input PN order parameter should be between [0, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R)  * (hGO_6_m_1(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)+hQC_6_m_1(Nu,vpnorder,x)) * cpolar(1,-1*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R)  * (hGO_6_m_1(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)/* +hQC_6_m_1(Nu,vpnorder,x) */) * cpolar(1,-1*Phi);
     }
 }
 
 static COMPLEX16 hl_6_m_min1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min1: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min1: Input PN order parameter should be between [0, 7].");
     }
 
     else{
-        return ((4*mass*Nu*sqrt(M_PI/5.))/R)   * pow(-1,6) * conj(hGO_6_m_1(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)+hQC_6_m_1(Nu,vpnorder,x)) * cpolar(1,1*Phi);
+        return ((4*mass*Nu*sqrt(M_PI/5.))/R)   * pow(-1,6) * conj(hGO_6_m_1(mass,Nu,r,rDOT,PhiDOT,vpnorder,S1z,S2z,x)/* +hQC_6_m_1(Nu,vpnorder,x) */) * cpolar(1,1*Phi);
     }
 }
 
@@ -2244,8 +2223,8 @@ static COMPLEX16 hGO_7_m_7(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_7_m_7(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_7: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_7: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -2256,8 +2235,8 @@ static COMPLEX16 hl_7_m_7(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_7_m_min7(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min7: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min7: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -2288,8 +2267,8 @@ static COMPLEX16 hGO_7_m_5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_7_m_5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
 
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_5: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_5: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -2299,8 +2278,8 @@ static COMPLEX16 hl_7_m_5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_7_m_min5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min5: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min5: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -2330,8 +2309,8 @@ static COMPLEX16 hGO_7_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_7_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
 
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_3: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_3: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -2342,8 +2321,8 @@ static COMPLEX16 hl_7_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_7_m_min3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min3: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min3: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -2372,8 +2351,8 @@ static COMPLEX16 hGO_7_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_7_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
 
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_1: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_1: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -2384,8 +2363,8 @@ static COMPLEX16 hl_7_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_7_m_min1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min1: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min1: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -2422,8 +2401,8 @@ static COMPLEX16 hGO_7_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_7_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_2: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_2: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -2434,8 +2413,8 @@ static COMPLEX16 hl_7_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_7_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min2: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min2: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -2473,8 +2452,8 @@ static COMPLEX16 hGO_7_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_7_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_4: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_4: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -2485,8 +2464,8 @@ static COMPLEX16 hl_7_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_7_m_min4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min4: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min4: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -2525,8 +2504,8 @@ static COMPLEX16 hGO_7_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_7_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_6: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_6: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -2537,8 +2516,8 @@ static COMPLEX16 hl_7_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_7_m_min6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min6: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min6: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -2567,8 +2546,8 @@ static COMPLEX16 hGO_8_m_8(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_8_m_8(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
 
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_8: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_8: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -2578,8 +2557,8 @@ static COMPLEX16 hl_8_m_8(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_8_m_min8(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_min8: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_min8: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -2611,8 +2590,8 @@ static COMPLEX16 hGO_8_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_8_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
 
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_6: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_6: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -2623,8 +2602,8 @@ static COMPLEX16 hl_8_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_8_m_min6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_min6: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_min6: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -2654,8 +2633,8 @@ static COMPLEX16 hGO_8_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_8_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
      
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_4: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_4: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -2666,8 +2645,8 @@ static COMPLEX16 hl_8_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_8_m_min4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_min4: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_min4: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -2696,8 +2675,8 @@ static COMPLEX16 hGO_8_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_8_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
 
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_2: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_2: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -2708,8 +2687,8 @@ static COMPLEX16 hl_8_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_8_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
     
-    if ((vpnorder < 1) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_min2: Input PN order parameter should be between [1, 7].");
+    if ((vpnorder < 0) || (vpnorder > 7)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_min2: Input PN order parameter should be between [0, 7].");
     }
 
     else{
@@ -2721,9 +2700,19 @@ static COMPLEX16 hl_8_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
 
 static COMPLEX16 h05PNGOresult(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 inc,REAL8 euler_beta,REAL8 R,UINT4 vpnorder,REAL8 S1z,REAL8 S2z, REAL8 x){
 
+
+    //0 PN
+
+    if(vpnorder==0){
+        COMPLEX16 hcombined = XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 2, 2)*hl_2_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,0,S1z,S2z,x)+
+                             XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 2, -2)*hl_2_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,0,S1z,S2z,x);
+        return hcombined;
+    }
+    
+    
     //0.5PN
     
-    if(vpnorder==1){
+    else if(vpnorder==1){
         COMPLEX16 hcombined = XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 2, 1)*hl_2_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,1,S1z,S2z,x)+
                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 2, -1)*hl_2_m_min1(mass,Nu,r,rDOT,Phi,PhiDOT,R,1,S1z,S2z,x)+
                              XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 3, 1)*hl_3_m_1(mass,Nu,r,rDOT,Phi,PhiDOT,R,1,S1z,S2z,x)+

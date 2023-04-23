@@ -29,6 +29,7 @@
 #include <assert.h>
 #include <math.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include<complex.h>
 
@@ -142,9 +143,9 @@ static REAL8 pow7(const REAL8 x);
 /* fractional powers */
 static REAL8 pow1_3(const REAL8 x);
 
-static REAL8 pow3_2(const REAL8 x);
+//static REAL8 pow3_2(const REAL8 x);
 
-static REAL8 pow5_2(const REAL8 x);
+//static REAL8 pow5_2(const REAL8 x);
 
 static REAL8 pow7_2(const REAL8 x);
 
@@ -255,8 +256,8 @@ static int eccentric_x_model_odes(REAL8 t, const REAL8 y[], REAL8 dydt[],
                                   void *params);
 
 /* PN radiation */
-static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, UINT4 vpn);
-static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, UINT4 vpn);
+//static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, UINT4 vpn);
+//static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, UINT4 vpn);
 static REAL8 phi_e(REAL8 e);
 static REAL8 psi_e(REAL8 e);
 static REAL8 zed_e(REAL8 e);
@@ -386,9 +387,9 @@ static REAL8 pow7(const REAL8 x) { return x * pow6(x); }
 /* fractional powers */
 static REAL8 pow1_3(const REAL8 x) { return cbrt(x); }
 
-static REAL8 pow3_2(const REAL8 x) { return sqrt(pow3(x)); }
+//static REAL8 pow3_2(const REAL8 x) { return sqrt(pow3(x)); }
 
-static REAL8 pow5_2(const REAL8 x) { return sqrt(pow5(x)); }
+//static REAL8 pow5_2(const REAL8 x) { return sqrt(pow5(x)); }
 
 static REAL8 pow7_2(const REAL8 x) { return sqrt(pow7(x)); }
 
@@ -455,15 +456,15 @@ XLAL_FAIL:
 static void compute_strain_from_dynamics(
     REAL8 *t_vec, REAL8 *x_vec, REAL8 *phi_vec, REAL8 *phi_dot_vec,
     REAL8 *r_vec, REAL8 *r_dot_vec, const REAL8 mass1, const REAL8 mass2, REAL8 S1z, REAL8 S2z,
-    const REAL8 x0, const REAL8 euler_iota, const REAL8 euler_beta,
+    /* const REAL8 x0, */ const REAL8 euler_iota, const REAL8 euler_beta,
     const REAL8 R, const long length, REAL8 *h_plus, REAL8 *h_cross) {
   assert(h_plus != NULL && h_cross != NULL);
   const REAL8 total_mass = mass1 + mass2;
-  const REAL8 reduced_mass = mass1 * mass2 / total_mass;
+  //const REAL8 reduced_mass = mass1 * mass2 / total_mass;
   const REAL8 eta = (mass1*mass2)/(total_mass*total_mass); //Symmetric Mass Ratio
 
   /* overall factor in waveform polarizations */
-  REAL8 h_factor = reduced_mass * LAL_MRSUN_SI / R;
+  //REAL8 h_factor = reduced_mass * LAL_MRSUN_SI / R;
 
    /*The desired PN order correction. 
   Note that we are defining this in terms of powers of v = x^2*/
@@ -486,14 +487,14 @@ static void compute_strain_from_dynamics(
     REAL8 hplusGOtotal=0;
     REAL8 hcrossGOtotal=0;
 
-    for(long j=1;j<=pn_order_amp;j++){
+    for(long j=0;j<=pn_order_amp;j++){
       hplusGOtotal = hplusGOtotal +  hplusGO(total_mass,eta,r_vec[i],r_dot_vec[i],phi_vec[i],phi_dot_vec[i],euler_iota,euler_beta,R,j,S1z,S2z,x_vec[i]);
       hcrossGOtotal = hcrossGOtotal + hcrossGO(total_mass,eta,r_vec[i],r_dot_vec[i],phi_vec[i],phi_dot_vec[i],euler_iota,euler_beta,R,j,S1z,S2z,x_vec[i]);
     }
 
 
     h_plus[i] =
-        (REAL8)(h_factor * 
+        (REAL8)(/* h_factor * 
                 (-((cos(euler_iota) * cos(euler_iota) + 1.0) *
                        ((total_mass / r_vec[i] +
                          r_vec[i] * r_vec[i] * phi_dot_vec[i] * phi_dot_vec[i] -
@@ -508,10 +509,10 @@ static void compute_strain_from_dynamics(
                        sin(euler_iota) * sin(euler_iota))
 
                  + hPlus(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i], pn_order_amp ))
-                 + hplusGOtotal);
+                 + */ hplusGOtotal);
 
     h_cross[i] =
-        (REAL8)(h_factor *  
+        (REAL8)(/* h_factor *  
                 ((-(2.0 * cos(euler_iota)) *
                   ((total_mass / r_vec[i] +
                     r_vec[i] * r_vec[i] * phi_dot_vec[i] * phi_dot_vec[i] -
@@ -523,9 +524,23 @@ static void compute_strain_from_dynamics(
                         sin(2.0 * phi_vec[i]) * sin(2.0 * euler_beta))))
 
                  + hCross(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i], pn_order_amp ))
-                 + hcrossGOtotal);
-   
-  
+                 + */ hcrossGOtotal);
+  }
+
+
+  printf("GOING TO OPEN file and write %ld lines to it...\n", length);
+  fflush(NULL);
+  {
+    FILE *fout;
+    fout = fopen("/Users/kaushikpaul/Dropbox/Enigma_spins_2023/fork_data_19Apr23.txt", "w");
+
+    for(int i=0; i < length; ++i){
+      printf("Show me the value of hplus and hcross: (%e, %e)\n",h_plus[i], h_cross[i]);
+      fflush(NULL);
+      fprintf(fout, "%e,%e,%e,%e,%e,%e,%e,%e\n", t_vec[i], x_vec[i], phi_vec[i], phi_dot_vec[i], r_vec[i], r_dot_vec[i], h_plus[i], h_cross[i]);
+      fflush(fout);  
+    }
+    fclose(fout);
   }
 }
 
@@ -714,7 +729,7 @@ x_model_eccbbh_imr_waveform(REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
       imr_matching_time; // is modified by compute_strain_from_dynamics
   compute_strain_from_dynamics(
       &t_val, &imr_matching_x, &imr_matching_phi, &imr_matching_phi_dot,
-      &imr_matching_r, &imr_matching_r_dot, mass1, mass2, S1z, S2z, x_evol->data->data[0],
+      &imr_matching_r, &imr_matching_r_dot, mass1, mass2, S1z, S2z, /* x_evol->data->data[0], */
       euler_iota, euler_beta, distance, 1, &matching_Hp, &matching_Hc);
   
   // get merger and ringdown and attach at the end of the existing time series
@@ -788,7 +803,7 @@ int XLALSimInspiralENIGMAStrainFromDynamics(
 
   compute_strain_from_dynamics(
       t_vector->data, x_vector->data, phi_vector->data, phi_dot_vector->data,
-      r_vector->data, r_dot_vector->data, mass1, mass2, S1z, S2z, x_vector->data[0],
+      r_vector->data, r_dot_vector->data, mass1, mass2, S1z, S2z, /* x_vector->data[0], */
       euler_iota, euler_beta, R, length, (*h_plus)->data, (*h_cross)->data);
  
 XLAL_FAIL:
