@@ -116,7 +116,7 @@ static COMPLEX16 hGO_2_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT, 
     } 
     
 }
-// hQC_l_m() functions conatins only the hereditary terms at particular PN order.
+// hQC_l_m() functions contains only the hereditary terms at particular PN order.
 
 static COMPLEX16 hQC_2_m_2(REAL8 Nu, UINT4 vpnorder, REAL8 x){
     double EulerGamma = 0.5772156649015329;
@@ -150,7 +150,9 @@ static COMPLEX16 hQC_2_m_2(REAL8 Nu, UINT4 vpnorder, REAL8 x){
     }
 
     else if(vpnorder == 7){
-        return(((-2173 - 4990*Nu + 1120*pow(Nu,2))*M_PI*pow(x,4.5))/378.);
+        return((Complex(0,176.9506172839506)*Nu - 
+         Complex(0,8.605291005291006)*pow(Nu,2) - (2173*M_PI)/378. - 
+         (2495*Nu*M_PI)/189. + (80*pow(Nu,2)*M_PI)/27.)*pow(x,4.5));
     }
 
     else{
@@ -450,11 +452,13 @@ static COMPLEX16 hQC_3_m_3(REAL8 Nu, UINT4 vpnorder, REAL8 x){
         (27*sqrt(1.0714285714285714)*delta*Nu*pow(x,4))/2.)*log(1.5));
     }
     else if(vpnorder == 7){
-        return(Complex(0,0.0033482142857142855)*sqrt(0.04285714285714286)*delta*
-        pow(x,4.5)*(24960*EulerGamma + Complex(0,15744)*M_PI - 
-        3360*pow(M_PI,2) - 1435*Nu*pow(M_PI,2) - 31488*log(1.5) - 
-        Complex(0,40320)*M_PI*log(1.5) + 12480*log(16*x) + 
-        40320*log(1.5)*log(1.5)));
+        return(Complex(0,1.1149564720993292e-6)*sqrt(0.04285714285714286)*delta*
+        pow(x,4.5)*(-465315528 + 74954880*EulerGamma + 13827800*Nu + 
+        124985672*pow(Nu,2) - 19373424*pow(Nu,3) + 
+        Complex(0,47279232)*M_PI - 10090080*pow(M_PI,2) - 
+        4309305*Nu*pow(M_PI,2) - 94558464*log(1.5) - 
+        Complex(0,121080960)*M_PI*log(1.5) + 37477440*log(16*x) + 
+        121080960*log(1.5)*log(1.5)));
     }
 
     else{
@@ -746,11 +750,13 @@ static COMPLEX16 hQC_3_m_1(REAL8 Nu, UINT4 vpnorder, REAL8 x){
      }
 
      else if(vpnorder == 7){
-         return((Complex(0,-0.0000248015873015873)*delta*pow(x,4.5)*
-         (8320*EulerGamma + Complex(0,5248)*M_PI - 1120*pow(M_PI,2) - 
-          4305*Nu*pow(M_PI,2) + 27136*log(2) + 
-         Complex(0,13440)*M_PI*log(2) + 13440*pow(log(2),2) + 4160*log(x)
-          ))/sqrt(14));
+         return((Complex(0,-2.752978943455134e-9)*delta*pow(x,4.5)*
+        (-430135880 + 74954880*EulerGamma + 681626456*Nu - 
+        641035640*pow(Nu,2) + 68698000*pow(Nu,3) + 
+        Complex(0,47279232)*M_PI - 10090080*pow(M_PI,2) - 
+        38783745*Nu*pow(M_PI,2) + 244468224*log(2) + 
+        Complex(0,121080960)*M_PI*log(2) + 121080960*pow(log(2),2) + 
+        37477440*log(x)))/sqrt(14));
      }
      
      else{
@@ -923,8 +929,6 @@ static COMPLEX16 hGO_4_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
     REAL8 delta = sqrt(1-4*Nu);
     REAL8 kappa1 = 1.0;
     REAL8 kappa2 = 1.0;
-
-    
 
     if(vpnorder == 3){
         return (Complex(0,0.16666666666666666)*delta*mass*(-1 + 2*Nu)*PhiDOT*(4*mass 

@@ -493,7 +493,7 @@ static void compute_strain_from_dynamics(
     }
 
 
-    h_plus[i] =
+    h_plus[i] = 
         (REAL8)(/* h_factor * 
                 (-((cos(euler_iota) * cos(euler_iota) + 1.0) *
                        ((total_mass / r_vec[i] +
@@ -511,7 +511,7 @@ static void compute_strain_from_dynamics(
                  + hPlus(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i], pn_order_amp ))
                  + */ hplusGOtotal);
 
-    h_cross[i] =
+    h_cross[i] = 
         (REAL8)(/* h_factor *  
                 ((-(2.0 * cos(euler_iota)) *
                   ((total_mass / r_vec[i] +
