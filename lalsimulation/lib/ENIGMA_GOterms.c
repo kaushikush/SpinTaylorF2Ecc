@@ -155,6 +155,16 @@ static COMPLEX16 hQC_2_m_2(REAL8 Nu, UINT4 vpnorder, REAL8 x){
          (2495*Nu*M_PI)/189. + (80*pow(Nu,2)*M_PI)/27.)*pow(x,4.5));
     }
 
+    else if(vpnorder == 8){
+        return((pow(x,5)*(276756480*EulerGamma*(11449 + 19105*Nu) - 
+        12*(846557506853 + 1008017482431*Nu) + 
+        35*(28*pow(Nu,2)*(5385456111 + 
+             5*Nu*(-163158374 + 26251249*Nu)) - 
+          Complex(0,3953664)*(11449 + 109657*Nu)*M_PI - 
+          135135*(54784 + 5*Nu*(1951 + 6560*Nu))*pow(M_PI,2)) + 
+        138378240*(11449 + 19105*Nu)*log(16*x)))/7.62810048e10);
+    }
+
     else{
         return 0;
     }
@@ -2902,7 +2912,7 @@ static COMPLEX16 h05PNGOresult(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,
         return hcombined;
     }
     //3.5PN(only quasi-circular spinning terms)
-    else{
+    else if(vpnorder == 7) {
          COMPLEX16 hcombined = XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,2)*hl_6_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,-2)*hl_6_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,6,4)*hl_6_m_4(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
@@ -2944,6 +2954,12 @@ static COMPLEX16 h05PNGOresult(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,2,2)*hl_2_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x)+
                               XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2,2,-2)*hl_2_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,7,S1z,S2z,x);
                              
+        return hcombined;
+    }
+    //4PN quasi-circular (2,2) mode terms
+    else {
+        COMPLEX16 hcombined = XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 2, 2)*hl_2_m_2(mass,Nu,r,rDOT,Phi,PhiDOT,R,8,S1z,S2z,x)+
+                             XLALSpinWeightedSphericalHarmonic(inc,euler_beta, -2, 2, -2)*hl_2_m_min2(mass,Nu,r,rDOT,Phi,PhiDOT,R,8,S1z,S2z,x);
         return hcombined;
     }
 

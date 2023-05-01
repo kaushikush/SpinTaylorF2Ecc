@@ -468,7 +468,7 @@ static void compute_strain_from_dynamics(
 
    /*The desired PN order correction. 
   Note that we are defining this in terms of powers of v = x^2*/
-  UINT4 pn_order_amp = 7; //3.5PN correction
+  UINT4 pn_order_amp = 8; //4PN correction
 
   for (long i = 0; i < length; ++i) {
     t_vec[i] *= total_mass;
