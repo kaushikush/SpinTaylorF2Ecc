@@ -173,8 +173,8 @@ static COMPLEX16 hQC_2_m_2(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
 static COMPLEX16 hl_2_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder, REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_2_m_2: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_2_m_2: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -184,8 +184,8 @@ static COMPLEX16 hl_2_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_2_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder, REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_2_m_min2: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_2_m_min2: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -316,8 +316,8 @@ static COMPLEX16 hQC_2_m_1(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
 static COMPLEX16 hl_2_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder, REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_2_m_1: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_2_m_1: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -328,8 +328,8 @@ static COMPLEX16 hl_2_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_2_m_min1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder, REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_2_m_min1: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_2_m_min1: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -479,8 +479,8 @@ static COMPLEX16 hQC_3_m_3(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
 static COMPLEX16 hl_3_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_3_m_3: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_3_m_3: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -491,8 +491,8 @@ static COMPLEX16 hl_3_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_3_m_min3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_3_m_min3: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_3_m_min3: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -614,8 +614,8 @@ static COMPLEX16 hQC_3_m_2(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
 static COMPLEX16 hl_3_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_3_m_2: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_3_m_2: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -625,8 +625,8 @@ static COMPLEX16 hl_3_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_3_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_3_m_min2: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_3_m_min2: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -778,8 +778,8 @@ static COMPLEX16 hQC_3_m_1(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
 static COMPLEX16 hl_3_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_1: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_1: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -790,8 +790,8 @@ static COMPLEX16 hl_3_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_3_m_min1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_min1: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_min1: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -914,8 +914,8 @@ static COMPLEX16 hQC_4_m_4(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
 static COMPLEX16 hl_4_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_4: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_4: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -925,8 +925,8 @@ static COMPLEX16 hl_4_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_4_m_min4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_min4: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_min4: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -1023,8 +1023,8 @@ static COMPLEX16 hQC_4_m_3(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
 static COMPLEX16 hl_4_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_3: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_3: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -1035,8 +1035,8 @@ static COMPLEX16 hl_4_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_4_m_min3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_min3: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_min3: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -1155,8 +1155,8 @@ static COMPLEX16 hQC_4_m_2(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
 static COMPLEX16 hl_4_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_2: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_2: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -1166,8 +1166,8 @@ static COMPLEX16 hl_4_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_4_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min2: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min2: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -1262,8 +1262,8 @@ static COMPLEX16 hQC_4_m_1(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
 static COMPLEX16 hl_4_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_1: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_1: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -1274,8 +1274,8 @@ static COMPLEX16 hl_4_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_4_m_min1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_min1: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_4_m_min1: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -1360,8 +1360,8 @@ static COMPLEX16 hQC_5_m_5(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
 static COMPLEX16 hl_5_m_5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_5: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_5: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -1372,8 +1372,8 @@ static COMPLEX16 hl_5_m_5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_5_m_min5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min5: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min5: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -1443,8 +1443,8 @@ static COMPLEX16 hGO_5_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_5_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_4: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_4: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -1454,8 +1454,8 @@ static COMPLEX16 hl_5_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_5_m_min4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min4: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min4: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -1538,8 +1538,8 @@ static COMPLEX16 hQC_5_m_3(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
 static COMPLEX16 hl_5_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_3: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_3: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -1550,8 +1550,8 @@ static COMPLEX16 hl_5_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_5_m_min3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min3: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min3: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -1624,8 +1624,8 @@ static COMPLEX16 hGO_5_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_5_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_2: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_2: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -1635,8 +1635,8 @@ static COMPLEX16 hl_5_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_5_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min2: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min2: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -1731,8 +1731,8 @@ static COMPLEX16 hQC_5_m_1(REAL8 Nu, UINT4 vpnorder, REAL8 x){
 
 static COMPLEX16 hl_5_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_1: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_1: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -1743,8 +1743,8 @@ static COMPLEX16 hl_5_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_5_m_min1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min1: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_5_m_min1: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -1822,8 +1822,8 @@ static COMPLEX16 hGO_6_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_6_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_6: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_6: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -1834,8 +1834,8 @@ static COMPLEX16 hl_6_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_6_m_min6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min6: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min6: Input PN order parameter should be between [0, 8].");
     }
 
    else{
@@ -1887,8 +1887,8 @@ static COMPLEX16 hGO_6_m_5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_6_m_5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_m5: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_m5: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -1899,8 +1899,8 @@ static COMPLEX16 hl_6_m_5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_6_m_min5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min5: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min5: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -1984,8 +1984,8 @@ static COMPLEX16 hGO_6_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_6_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_4: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_4: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -1996,8 +1996,8 @@ static COMPLEX16 hl_6_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_6_m_min4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min4: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min4: Input PN order parameter should be between [0, 8].");
     }
 
    else{
@@ -2044,8 +2044,8 @@ static COMPLEX16 hGO_6_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_6_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_3: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_3: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -2056,8 +2056,8 @@ static COMPLEX16 hl_6_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_6_m_min3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
      
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min3: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min3: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -2136,8 +2136,8 @@ static COMPLEX16 hGO_6_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_6_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_1: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_1: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -2148,8 +2148,8 @@ static COMPLEX16 hl_6_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_6_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min2: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min2: Input PN order parameter should be between [0, 8].");
     }
 
    else{
@@ -2196,8 +2196,8 @@ static COMPLEX16 hGO_6_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_6_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_1: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_1: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -2207,8 +2207,8 @@ static COMPLEX16 hl_6_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_6_m_min1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min1: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_6_m_min1: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -2237,8 +2237,8 @@ static COMPLEX16 hGO_7_m_7(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_7_m_7(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_7: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_7: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -2249,8 +2249,8 @@ static COMPLEX16 hl_7_m_7(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_7_m_min7(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min7: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min7: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -2281,8 +2281,8 @@ static COMPLEX16 hGO_7_m_5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_7_m_5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
 
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_5: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_5: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -2292,8 +2292,8 @@ static COMPLEX16 hl_7_m_5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_7_m_min5(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min5: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min5: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -2323,8 +2323,8 @@ static COMPLEX16 hGO_7_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_7_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
 
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_3: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_3: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -2335,8 +2335,8 @@ static COMPLEX16 hl_7_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_7_m_min3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min3: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min3: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -2365,8 +2365,8 @@ static COMPLEX16 hGO_7_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_7_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
 
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_1: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_1: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -2377,8 +2377,8 @@ static COMPLEX16 hl_7_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_7_m_min1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min1: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min1: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -2415,8 +2415,8 @@ static COMPLEX16 hGO_7_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_7_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_2: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_2: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -2427,8 +2427,8 @@ static COMPLEX16 hl_7_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_7_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min2: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min2: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -2466,8 +2466,8 @@ static COMPLEX16 hGO_7_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_7_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_4: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_4: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -2478,8 +2478,8 @@ static COMPLEX16 hl_7_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_7_m_min4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min4: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min4: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -2518,8 +2518,8 @@ static COMPLEX16 hGO_7_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_7_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
 
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_6: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_6: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -2530,8 +2530,8 @@ static COMPLEX16 hl_7_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_7_m_min6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder,REAL8 S1z, REAL8 S2z, REAL8 x){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min6: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_7_m_min6: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -2560,8 +2560,8 @@ static COMPLEX16 hGO_8_m_8(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_8_m_8(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
 
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_8: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_8: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -2571,8 +2571,8 @@ static COMPLEX16 hl_8_m_8(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_8_m_min8(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_min8: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_min8: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -2604,8 +2604,8 @@ static COMPLEX16 hGO_8_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_8_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
 
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_6: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_6: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -2616,8 +2616,8 @@ static COMPLEX16 hl_8_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_8_m_min6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_min6: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_min6: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -2647,8 +2647,8 @@ static COMPLEX16 hGO_8_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_8_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
      
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_4: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_4: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -2659,8 +2659,8 @@ static COMPLEX16 hl_8_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_8_m_min4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_min4: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_min4: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -2689,8 +2689,8 @@ static COMPLEX16 hGO_8_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
 
 static COMPLEX16 hl_8_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
 
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_2: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_2: Input PN order parameter should be between [0, 8].");
     }
 
     else{
@@ -2701,8 +2701,8 @@ static COMPLEX16 hl_8_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8
 
 static COMPLEX16 hl_8_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,REAL8 PhiDOT,REAL8 R,UINT4 vpnorder){
     
-    if ((vpnorder < 0) || (vpnorder > 7)) {
-    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_min2: Input PN order parameter should be between [0, 7].");
+    if ((vpnorder < 0) || (vpnorder > 8)) {
+    XLAL_ERROR(XLAL_EINVAL,"Error in hl_8_m_min2: Input PN order parameter should be between [0, 8].");
     }
 
     else{
