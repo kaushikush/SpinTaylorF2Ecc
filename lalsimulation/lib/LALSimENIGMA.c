@@ -213,6 +213,8 @@ static REAL8 x_dot_3_5_pn(REAL8 e, REAL8 eta);
 static REAL8 x_dot_3_5pnSO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 x_dot_3_5pn_SS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 x_dot_3_5pn_cubicSpin(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+static REAL8 x_dot_4pn(REAL8 e, REAL8 eta, REAL8 x);
+static REAL8 x_dot_4_5_pn(REAL8 e, REAL8 eta, REAL8 x);
 static REAL8 dxdt_4pn(REAL8 x, REAL8 eta);
 static REAL8 dxdt_4_5pn(REAL8 x, REAL8 eta);
 static REAL8 dxdt_5pn(REAL8 x, REAL8 eta);
@@ -464,7 +466,7 @@ static void compute_strain_from_dynamics(
   const REAL8 eta = (mass1*mass2)/(total_mass*total_mass); //Symmetric Mass Ratio
 
   /* overall factor in waveform polarizations */
-  //REAL8 h_factor = reduced_mass * LAL_MRSUN_SI / R;
+  /* REAL8 h_factor = reduced_mass * LAL_MRSUN_SI / R; */
 
    /*The desired PN order correction. 
   Note that we are defining this in terms of powers of v = x^2*/
@@ -487,9 +489,12 @@ static void compute_strain_from_dynamics(
     REAL8 hplusGOtotal=0;
     REAL8 hcrossGOtotal=0;
 
+    printf("Show me the value of total mass:%e\n", total_mass);
+    fflush(NULL);
+
     for(long j=0;j<=pn_order_amp;j++){
-      hplusGOtotal = hplusGOtotal +  hplusGO(total_mass,eta,r_vec[i],r_dot_vec[i],phi_vec[i],phi_dot_vec[i],euler_iota,euler_beta,R,j,S1z,S2z,x_vec[i]);
-      hcrossGOtotal = hcrossGOtotal + hcrossGO(total_mass,eta,r_vec[i],r_dot_vec[i],phi_vec[i],phi_dot_vec[i],euler_iota,euler_beta,R,j,S1z,S2z,x_vec[i]);
+      hplusGOtotal = hplusGOtotal +   LAL_MRSUN_SI * hplusGO(total_mass,eta,r_vec[i],r_dot_vec[i],phi_vec[i],phi_dot_vec[i],euler_iota,euler_beta,R,j,S1z,S2z,x_vec[i]);
+      hcrossGOtotal = hcrossGOtotal + LAL_MRSUN_SI * hcrossGO(total_mass,eta,r_vec[i],r_dot_vec[i],phi_vec[i],phi_dot_vec[i],euler_iota,euler_beta,R,j,S1z,S2z,x_vec[i]);
     }
 
 
@@ -528,7 +533,7 @@ static void compute_strain_from_dynamics(
   }
 
 
-  printf("GOING TO OPEN file and write %ld lines to it...\n", length);
+  /* printf("GOING TO OPEN file and write %ld lines to it...\n", length);
   fflush(NULL);
   {
     FILE *fout;
@@ -541,7 +546,7 @@ static void compute_strain_from_dynamics(
       fflush(fout);  
     }
     fclose(fout);
-  }
+  } */
 }
 
 static int x_model_eccbbh_inspiral_waveform(
