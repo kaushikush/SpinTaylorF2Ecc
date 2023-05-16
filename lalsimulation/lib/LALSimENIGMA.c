@@ -489,8 +489,8 @@ static void compute_strain_from_dynamics(
     REAL8 hplusGOtotal=0;
     REAL8 hcrossGOtotal=0;
 
-    printf("Show me the value of total mass:%e\n", total_mass);
-    fflush(NULL);
+    /* printf("Show me the value of total mass:%e\n", total_mass);
+    fflush(NULL); */
 
     for(long j=0;j<=pn_order_amp;j++){
       hplusGOtotal = hplusGOtotal +   LAL_MRSUN_SI * hplusGO(total_mass,eta,r_vec[i],r_dot_vec[i],phi_vec[i],phi_dot_vec[i],euler_iota,euler_beta,R,j,S1z,S2z,x_vec[i]);

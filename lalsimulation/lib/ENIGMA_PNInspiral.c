@@ -64,7 +64,7 @@ static REAL8 x_dot_1pn(REAL8 e, REAL8 eta) /* Eq. (A27) */
   return (x_1_pn);
 }
 
-static REAL8 x_dot_1_5_pn(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
+static REAL8 x_dot_1_5_pn(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)/*computed using inputs from klein et al. arXiv:1801.08542. See equation C1a.*/
 {
  REAL8 x_1_5_pn;
  REAL8 pre_factor = 64. * eta / 5;
@@ -106,7 +106,7 @@ static REAL8 x_dot_hereditary_1_5(REAL8 e, REAL8 eta, REAL8 x) /* Eq. (A28) */
   return (x_dot_her_1_5);
 }
 
-static REAL8 x_dot_2pn_SS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
+static REAL8 x_dot_2pn_SS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)/*computed using inputs from klein et al. arXiv:1801.08542. See equation C1a.*/
 {
  REAL8 kappa1 = 1.0; /*for black holes kappa_{1,2} is 1*/
  REAL8 kappa2 = 1.0;
@@ -194,7 +194,8 @@ static REAL8 x_dot_hereditary_3(REAL8 e, REAL8 eta,
   return (x_3_pn_her);
 }
 
-static REAL8 x_dot_2_5_pn(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
+static REAL8 x_dot_2_5_pn(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)/* Computed using inputs from energy and flux expressions. See Blanchet liv. rev.
++ Bohe et al. arXiv: 1501.01529 + Marsat et al. arXiv: 1411.4118*/
 {
  REAL8 x_2_5_pn;
  
@@ -215,7 +216,8 @@ static REAL8 x_dot_2_5_pn(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REA
  return (x_2_5_pn);
 }
 
-static REAL8 x_dot_3pnSO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
+static REAL8 x_dot_3pnSO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)/* Computed using inputs from energy and flux expressions. See Blanchet liv. rev.
++ Bohe et al. arXiv: 1501.01529 + Marsat et al. arXiv: 1411.4118*/
 {
  REAL8 x_3_pn;
  REAL8 pre_factor = 64. * eta / 5;
@@ -235,7 +237,8 @@ static REAL8 x_dot_3pnSO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL
 
 }
 
-static REAL8 x_dot_3pnSS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
+static REAL8 x_dot_3pnSS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)/* Computed using inputs from energy and flux expressions. See Blanchet liv. rev.
++ Bohe et al. arXiv: 1501.01529 + Marsat et al. arXiv: 1411.4118*/
 {
  REAL8 x_3pn_SS;
  REAL8 kappa1 = 1.0; /*for black holes kappa_{1,2} is 1*/
@@ -379,7 +382,8 @@ static REAL8 x_dot_3pn(REAL8 e, REAL8 eta,
   return (x_3_pn);
 }
 
-static REAL8 x_dot_3_5pnSO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
+static REAL8 x_dot_3_5pnSO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)/* Computed using inputs from energy and flux expressions. See Blanchet liv. rev.
++ Bohe et al. arXiv: 1501.01529 + Marsat et al. arXiv: 1411.4118*/
 {
  REAL8 x_3_5pnSO;
  
@@ -402,7 +406,8 @@ static REAL8 x_dot_3_5pnSO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, RE
  return (x_3_5pnSO);
 }
 
-static REAL8 x_dot_3_5pn_SS(REAL8 e,REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
+static REAL8 x_dot_3_5pn_SS(REAL8 e,REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)/* Computed using inputs from energy and flux expressions. See Blanchet liv. rev.
++ Bohe et al. arXiv: 1501.01529 + Marsat et al. arXiv: 1411.4118*/
 {
  REAL8 x_3_5pn_SS;
  REAL8 kappa1 = 1.0; /*for black holes kappa_{1,2} is 1*/
@@ -421,7 +426,8 @@ else{
 
 }
 
-static REAL8 x_dot_3_5pn_cubicSpin(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
+static REAL8 x_dot_3_5pn_cubicSpin(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)/* Computed using inputs from energy and flux expressions. See Blanchet liv. rev.
++ Bohe et al. arXiv: 1501.01529 + Marsat et al. arXiv: 1411.4118*/
 {
  REAL8 x_3_5pn_cubicSpin;
  REAL8 kappa1 = 1.0; /*for black holes kappa_{1,2} is 1*/
@@ -468,6 +474,8 @@ static REAL8 x_dot_3_5_pn(REAL8 e, REAL8 eta) /* See Huerta et al article */
 
   return (x_3_5_pn);
 }
+
+// The 4PN and 4.5PN pieces of x_dot are computed using inputs from Blanchet et al, arXiv:2304.11185.
 
 static REAL8 x_dot_4pn(REAL8 e, REAL8 eta, REAL8 x)
 {
@@ -542,7 +550,7 @@ static REAL8 e_dot_1pn(REAL8 e, REAL8 eta) /* Eq. (A32) */
   return (e_1_pn);
 }
 
-static REAL8 e_dot_1_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
+static REAL8 e_dot_1_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)/*computed using inputs from klein et al. arXiv:1801.08542. See equation C1b.*/
 {
   REAL8 e_1_5pn_SO;
   REAL8 e_pow_2 = e * e;
@@ -564,7 +572,7 @@ static REAL8 e_dot_1_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
 }
 
 
-static REAL8 e_dot_2pn_SS(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
+static REAL8 e_dot_2pn_SS(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)/*computed using inputs from klein et al. arXiv:1801.08542. See equation C1b.*/
 {
   REAL8 e_2pn_SS;
   REAL8 kappa1=1.0;
@@ -773,7 +781,7 @@ static REAL8 l_dot_1pn(REAL8 e, REAL8 eta) /* Eq. (A2) */
   return (3. / (e * e - 1.));
 }
 
-static REAL8 l_dot_1_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
+static REAL8 l_dot_1_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z) /*computed using inputs from klein et al. arXiv:1801.08542. See equation B1e and B2e. */
 {
   REAL8 e_pow_2 = e * e;
   REAL8 e_factor = 1.0 - e_pow_2;
@@ -783,7 +791,7 @@ static REAL8 l_dot_1_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
   return (pre_factor * (4*m1*m1*S1z + 4*m2*m2*S2z + 3*m1*m2*(S1z + S2z)));
 }
 
-static REAL8 l_dot_2pn_SS(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
+static REAL8 l_dot_2pn_SS(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z) /*computed using inputs from klein et al. arXiv:1801.08542. See equation B1e and B2e. */
 {
   REAL8 kappa1=1.0;
   REAL8 kappa2=1.0;
@@ -837,7 +845,7 @@ static REAL8 phi_dot_1pn(REAL8 e, REAL8 eta, REAL8 u) /* Eq. (A12) */
 }
 
 
-static REAL8 phi_dot_1_5_pnSO_ecc(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 u)
+static REAL8 phi_dot_1_5_pnSO_ecc(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 u) /*computed using inputs from klein et al. arXiv:1801.08542. See equation B1 and B2. */
 {
   if (e) {
    return ((2*e*(m1*S1z + m2*S2z)*(e - cos(u)))/((-1 + e*e)*(m1 + m2)*((-1 + e*cos(u))*(-1 + e*cos(u))*(-1 + e*cos(u)))));
@@ -894,7 +902,7 @@ static REAL8 phi_dot_2pn(REAL8 e, REAL8 eta, REAL8 u) /* Eq. (A13) */
            sqrt(e_factor) * (rt_zero + rt_cosu_1 + rt_cosu_2 + rt_cosu_3)));
 }
 
-static REAL8 phi_dot_2_pnSS_ecc(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 u)
+static REAL8 phi_dot_2_pnSS_ecc(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 u) /*computed using inputs from klein et al. arXiv:1801.08542. See equation B1 and B2. */
 {
   REAL8 kappa1=1.0;
   REAL8 kappa2=1.0;
@@ -1079,7 +1087,8 @@ static REAL8 phi_dot_3pn(REAL8 e, REAL8 eta, REAL8 u) {
 }
 
 
-static REAL8 phi_dot_3_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
+static REAL8 phi_dot_3_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z) /* Computed using inputs from energy and flux expressions. See Blanchet liv. rev.
++ Bohe et al. arXiv: 1501.01529 + Marsat et al. arXiv: 1411.4118*/
 {
   REAL8 kappa1 = 1.0; /*for black holes kappa_{1,2} is 1*/
   REAL8 kappa2 = 1.0;
@@ -1095,9 +1104,10 @@ static REAL8 phi_dot_3_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
   }
 }
 
-// The non-spinning piece of phi_dot at 4 and 4.5PN order is 0.
+// The non-spinning quasi-circular piece of phi_dot at 4PN and 4.5PN order is 0.
 
-static REAL8 phi_dot_4pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)
+static REAL8 phi_dot_4pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)  /* Computed using inputs from energy and flux expressions. See Blanchet liv. rev.
++ Bohe et al. arXiv: 1501.01529 + Marsat et al. arXiv: 1411.4118*/
 {
   REAL8 kappa1 = 1.0; /*for black holes kappa_{1,2} is 1*/
   REAL8 kappa2 = 1.0;
@@ -1481,7 +1491,8 @@ static REAL8 rel_sep_1pn(REAL8 e, REAL8 u, REAL8 eta) {
   return (bit_1 + bit_2);
 }
 
-static REAL8 rel_sep_1_5pn(REAL8 e, REAL8 u, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z) {
+static REAL8 rel_sep_1_5pn(REAL8 e, REAL8 u, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z) /*computed using inputs from klein et al. arXiv:1801.08542. See equation B1a and B2a, B2b. */
+{
 
   return(-0.3333333333333333*(2*pow(m1,2)*(S1z + 3*pow(e,2)*S1z) + 
       2*(1 + 3*pow(e,2))*pow(m2,2)*S2z + 
@@ -1508,7 +1519,8 @@ static REAL8 rel_sep_2pn(REAL8 e, REAL8 u, REAL8 eta) {
   return (num_1 / den_1 + num_2 / den_2);
 }
 
-static REAL8 rel_sep_2pnSS(REAL8 e, REAL8 u, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z){
+static REAL8 rel_sep_2pnSS(REAL8 e, REAL8 u, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z)/*computed using inputs from klein et al. arXiv:1801.08542. See equation B1a and B2a, B2b. */
+{
   REAL8 kappa1=1.0;
   REAL8 kappa2=1.0;
 
