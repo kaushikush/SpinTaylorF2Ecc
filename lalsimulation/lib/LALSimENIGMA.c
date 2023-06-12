@@ -213,8 +213,10 @@ static REAL8 x_dot_3_5_pn(REAL8 e, REAL8 eta);
 static REAL8 x_dot_3_5pnSO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 x_dot_3_5pn_SS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 x_dot_3_5pn_cubicSpin(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
-static REAL8 x_dot_4pn(REAL8 e, REAL8 eta, REAL8 x);
-static REAL8 x_dot_4_5_pn(REAL8 e, REAL8 eta, REAL8 x);
+/* static REAL8 x_dot_4pn(REAL8 e, REAL8 eta, REAL8 x);
+static REAL8 x_dot_4pnSO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+static REAL8 x_dot_4pnSS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+static REAL8 x_dot_4_5_pn(REAL8 e, REAL8 eta, REAL8 x); */
 static REAL8 dxdt_4pn(REAL8 x, REAL8 eta);
 static REAL8 dxdt_4_5pn(REAL8 x, REAL8 eta);
 static REAL8 dxdt_5pn(REAL8 x, REAL8 eta);
