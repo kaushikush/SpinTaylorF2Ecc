@@ -65,9 +65,9 @@ static COMPLEX16 hGO_2_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT, 
         + 3*r*(Complex(0,-316)*pow(PhiDOT,3)*pow(r,3) 
         - 847*pow(PhiDOT,2)*pow(r,2)*rDOT 
         + Complex(0,184)*PhiDOT*r*pow(rDOT,2) 
-        - 122*pow(rDOT,3))))/(105.*pow(r,3)) /* Henry et al. QC spin terms */+ ((2*(56*delta*Nu*(-S1z + S2z) 
-        + 101*Nu*(S1z + S2z) + 132*pow(Nu,2)*(S1z + S2z) - 80*(S1z + delta*S1z + S2z - delta*S2z))*pow(x,3.5))/63.)
-        /* + Henry et al. ecc spin terms */ /* ((pow(mass,2)*(mass*((238 + delta*(238 - 141*Nu) + 
+        - 122*pow(rDOT,3))))/(105.*pow(r,3)) /* Henry et al. QC spin terms *//* + ((2*(56*delta*Nu*(-S1z + S2z) 
+        + 101*Nu*(S1z + S2z) + 132*pow(Nu,2)*(S1z + S2z) - 80*(S1z + delta*S1z + S2z - delta*S2z))*pow(x,3.5))/63.) */
+         + /* Henry et al. ecc spin terms */ ((pow(mass,2)*(mass*((238 + delta*(238 - 141*Nu) + 
              Nu*(-181 + 474*Nu))*PhiDOT*r*S1z + 
           Complex(0,8)*(55 + delta*(55 - 19*Nu) + 2*Nu*(-50 + 43*Nu))*
            rDOT*S1z + (238 + delta*(-238 + 141*Nu) + 
@@ -88,7 +88,7 @@ static COMPLEX16 hGO_2_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT, 
           pow(PhiDOT,3)*pow(r,3)*
            ((120*(1 + delta) + (-483 + 83*delta)*Nu + 234*pow(Nu,2))*
               S1z + (120 + 3*Nu*(-161 + 78*Nu) - delta*(120 + 83*Nu))*
-              S2z))))/(84.*pow(r,3))) */);
+              S2z))))/(84.*pow(r,3))));
     }
 
     else if(vpnorder == 6){
@@ -120,12 +120,12 @@ static COMPLEX16 hGO_2_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT, 
         + (-42811 + 53992*Nu + 309136*pow(Nu,2) - 470840*pow(Nu,3))*pow(PhiDOT,2)*pow(r,2)*pow(rDOT,4) 
         + Complex(0,2)*(51699 - 252256*Nu + 131150*pow(Nu,2) 
         + 681160*pow(Nu,3))*PhiDOT*r*pow(rDOT,5) - 3*(16743 - 75104*Nu + 26920*pow(Nu,2) 
-        + 207200*pow(Nu,3))*pow(rDOT,6)))/(3.3264e6*pow(r,4)) /* Henry et al. QC spin terms */ + (((4*(1 + delta)*(-7 + 9*kappa1) 
+        + 207200*pow(Nu,3))*pow(rDOT,6)))/(3.3264e6*pow(r,4)) /* Henry et al. QC spin terms */ /* + (((4*(1 + delta)*(-7 + 9*kappa1) 
         - 7*(9 + 17*delta)*Nu - 9*(15 + 7*delta)*kappa1*Nu + 12*(7 - 17*kappa1)*pow(Nu,2))*pow(S1z,2) + 
        2*S1z*(Complex(0,-42)*(1 + delta - 2*Nu) - 84*(1 + delta - Nu)*M_PI + Nu*(-271 + 288*Nu)*S2z) + 
        S2z*(12*(7 - 17*kappa2)*pow(Nu,2)*S2z + 4*(-1 + delta)*(Complex(0,21) + 42*M_PI + 7*S2z - 9*kappa2*S2z) + 
-          Nu*(168*(Complex(0,1) + M_PI) + 7*delta*(17 + 9*kappa2)*S2z - 9*(7 + 15*kappa2)*S2z)))*pow(x,4))/63. 
-           /* + Henry et al. ecc spin terms (-0.005952380952380952*(pow(mass,3)*
+          Nu*(168*(Complex(0,1) + M_PI) + 7*delta*(17 + 9*kappa2)*S2z - 9*(7 + 15*kappa2)*S2z)))*pow(x,4))/63. */ 
+          + /* Henry et al. ecc spin terms */ (-0.005952380952380952*(pow(mass,3)*
        (2*mass*(S1z*(Complex(0,14)*(1 + delta - 2*Nu) + 
               42*(1 + delta - 2*Nu)*Nu*S1z + 
               kappa1*(438 + delta*(438 + 103*Nu) + Nu*(-773 + 108*Nu))*
@@ -163,19 +163,19 @@ static COMPLEX16 hGO_2_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT, 
                  Complex(0,1)*
                   (-14*Nu*(-31 + 31*delta + 2*Nu) + 
                     kappa2*(117*(-1 + delta) + (23 + 211*delta)*Nu + 
-                       390*pow(Nu,2)))*S2z)))))/pow(r,4)) + */  /* Henry et al. QC spinning hereditary terms  */
-                       /* (((-8*M_PI*((1 + delta - Nu)*S1z + S2z - (delta + Nu)*S2z)*pow(x,4))/3.)) */);
+                       390*pow(Nu,2)))*S2z)))))/pow(r,4)) + /* Henry et al. QC spinning hereditary terms  */
+                       (((-8*M_PI*((1 + delta - Nu)*S1z + S2z - (delta + Nu)*S2z)*pow(x,4))/3.)));
     }
     else if(vpnorder==7){
 
-        return(/* Henry et al QC spin terms */((3318*pow(Nu,3)*(S1z + S2z) + Nu*(-504*((7 + delta)*kappa1 - 3*(3 + delta)*lambda1)*pow(S1z,3) - 
+        return(/* Henry et al QC spin terms *//* ((3318*pow(Nu,3)*(S1z + S2z) + Nu*(-504*((7 + delta)*kappa1 - 3*(3 + delta)*lambda1)*pow(S1z,3) - 
           1008*pow(S1z,2)*(3*kappa1*M_PI - 3*(1 + delta)*S2z + 2*(1 + delta)*kappa1*S2z) + 
           S1z*(17387 + 20761*delta + 1008*S2z*(6*M_PI + (-1 + delta)*(-3 + 2*kappa2)*S2z)) + 
           S2z*(17387 - 20761*delta + 504*S2z*(-6*kappa2*M_PI + (-7 + delta)*kappa2*S2z - 3*(-3 + delta)*lambda2*S2z))) + 
           2*(2809*(1 + delta)*S1z + 756*(1 + delta)*kappa1*M_PI*pow(S1z,2) + 756*(1 + delta)*(kappa1 - lambda1)*pow(S1z,3) - 
           (-1 + delta)*S2z*(2809 + 756*S2z*(-(lambda2*S2z) + kappa2*(M_PI + S2z)))) - 
-          2*pow(Nu,2)*(708*delta*(-S1z + S2z) + (S1z + S2z)*(4427 + 1008*(kappa1*pow(S1z,2) + S2z*(-2*S1z + kappa2*S2z)))))*pow(x,4.5))/756.
-          /*  + Henry et al. ecc+spin terms */ /* ((pow(mass,2)*(-3*mass*r*(Complex(0,-16)*pow(rDOT,3)*
+          2*pow(Nu,2)*(708*delta*(-S1z + S2z) + (S1z + S2z)*(4427 + 1008*(kappa1*pow(S1z,2) + S2z*(-2*S1z + kappa2*S2z)))))*pow(x,4.5))/756. */
+           /* + */ /* Henry et al. ecc+spin terms */ ((pow(mass,2)*(-3*mass*r*(Complex(0,-16)*pow(rDOT,3)*
            (Complex(0,12)*Nu*(-16703 + 4427*Nu) + 
              35*Nu*(4578 + Nu*(-4288 + 765*Nu) + 
                 delta*(3748 + 802*Nu))*S1z + 
@@ -286,8 +286,8 @@ static COMPLEX16 hGO_2_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT, 
                    2457*(-1 + delta)*kappa2*S1z*pow(S2z,2) - 
                    189*(5*(-1 + delta)*kappa2 + 
                       6*(-3 + delta)*lambda2)*pow(S2z,3)))))))/
-                    (317520.*pow(r,4))) + */ /* Henry et al. QC spinning hereditary terms */ 
-                    /* (2*M_PI*(kappa1*(1 + delta - 2*Nu)*pow(S1z,2) + S2z*(4*Nu*S1z - kappa2*(-1 + delta + 2*Nu)*S2z))*pow(x,4.5) ) */);
+                    (317520.*pow(r,4))) + /* Henry et al. QC spinning hereditary terms */ 
+                    (2*M_PI*(kappa1*(1 + delta - 2*Nu)*pow(S1z,2) + S2z*(4*Nu*S1z - kappa2*(-1 + delta + 2*Nu)*S2z))*pow(x,4.5) ));
                     }
 
     else{
