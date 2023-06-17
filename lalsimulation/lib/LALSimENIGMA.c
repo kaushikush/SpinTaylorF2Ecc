@@ -630,7 +630,7 @@ static int x_model_eccbbh_inspiral_waveform(
   h_plus->data->length = h_cross->data->length = Length;
   h_plus->data->data = Hp->data;
   h_cross->data->data = Hc->data;
-  Hc = Hp = NULL; // owenership has passed to h_plus and h_cross
+  Hc->data = Hp->data = NULL; // owenership has passed to h_plus and h_cross
 
 XLAL_FAIL:
   XLALDestroyREAL8Sequence(Hp);
@@ -1540,6 +1540,8 @@ int XLALSimInspiralENIGMA(
   const REAL8 tol_in = eccentricity == 0.0 ? 1.0e-16 : 1e-12;
 
   LIGOTimeGPS epoch = LIGOTIMEGPSZERO;
+  // double* delme = (double*) malloc(sizeof(double) * 1000000);
+  // delme[0] = -1.0;
   *hplus = XLALCreateREAL8TimeSeries("h_plus", &epoch, fMin, 1 / fsamp,
                                      &lalStrainUnit, 0);
   *hcross = XLALCreateREAL8TimeSeries("h_cross", &epoch, fMin, 1 / fsamp,
