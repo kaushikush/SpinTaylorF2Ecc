@@ -117,7 +117,7 @@ static REAL8 x_dot_2pn_SS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REA
    if (e) {
     
    x_dot_2pn_SS = (-0.016666666666666666*(m1*m2*((-48*(1 + 80*kappa1) + 3*pow(e,6)*(-9 + 319*kappa1) - 
-           8*pow(e,2)*(57 + 2692*kappa1) - 2*pow(e,4)*(207 + 7472*kappa1))*pow(m1,2)*pow(S1z,2)\
+           8*pow(e,2)*(57 + 2692*kappa1) - 2*pow(e,4)*(207 + 7472*kappa1))*pow(m1,2)*pow(S1z,2)
          - 2*(3792 + 21080*pow(e,2) + 14530*pow(e,4) + 681*pow(e,6))*m1*m2*S1z*S2z + 
         (-48*(1 + 80*kappa2) + 3*pow(e,6)*(-9 + 319*kappa2) - 8*pow(e,2)*(57 + 2692*kappa2) - 
            2*pow(e,4)*(207 + 7472*kappa2))*pow(m2,2)*pow(S2z,2)))/
@@ -3517,7 +3517,7 @@ static REAL8 zed_n(REAL8 e) {
 //           Nu*(-390518 - 340200*log(2) + 
 //              340200*log(3))) + 
 //        7*cos(i)*(2*Nu*
-//            (-13321 + 72900*log(2) - 72900*log(3))\
+//            (-13321 + 72900*log(2) - 72900*log(3))
 //            + 243*(-2861 + 660*log(2) + 
 //              1900*log(3) + 
 //              256*log(57.6650390625) - 

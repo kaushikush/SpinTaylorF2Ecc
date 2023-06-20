@@ -521,7 +521,7 @@ static COMPLEX16 hl_2_m_min2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 Phi,RE
           Complex(0,1)*pow(PhiDOT,2)*pow(r,3)*rDOT*
            (Complex(0,-24)*(-35 + 202*Nu)*S1z + 
              5*(-14*Nu*(3 + 58*Nu) + 
-                kappa1*(-409 + 1096*Nu + 6*pow(Nu,2)))*pow(S1z,2)\
+                kappa1*(-409 + 1096*Nu + 6*pow(Nu,2)))*pow(S1z,2)
               + S2z*(Complex(0,-840) + 2045*kappa2*S2z + 
                 10*(406 - 3*kappa2)*pow(Nu,2)*S2z + 
                 Nu*(Complex(0,4848) + 210*S2z - 5480*kappa2*S2z))) - 
@@ -885,7 +885,7 @@ static COMPLEX16 hGO_3_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
            8*(349111 + 4*Nu*(-519370 + 33*Nu*(10939 + 42635*Nu)))*pow(PhiDOT,4)*pow(r,4)*pow(rDOT,3) + 
            Complex(0,2)*(1212607 + 3*Nu*(-2012698 - 67827*Nu + 7955628*pow(Nu,2)))*pow(PhiDOT,3)*pow(r,3)*pow(rDOT,4) + 
            4*(201135 + 2*Nu*(-773107 + Nu*(1214819 + 1157652*Nu)))*pow(PhiDOT,2)*pow(r,2)*pow(rDOT,5) + 
-           Complex(0,5)*(333969 + 2*Nu*(-981471 + 4*Nu*(154039 + 750016*Nu)))*PhiDOT*r*pow(rDOT,6) - 40*(13245 + 2*Nu*(-37005 + Nu*(14251 + 130160*Nu)))*pow(rDOT,7))\
+           Complex(0,5)*(333969 + 2*Nu*(-981471 + 4*Nu*(154039 + 750016*Nu)))*PhiDOT*r*pow(rDOT,6) - 40*(13245 + 2*Nu*(-37005 + Nu*(14251 + 130160*Nu)))*pow(rDOT,7))
          + 2*pow(mass,4)*(4*rDOT*(269279500*pow(Nu,3) + 2*(-174108226 + 63063*S1z*(Complex(0,108) + 5*(24 + 5*kappa1)*S1z) + 
                  63063*S2z*(Complex(0,108) + 5*(24 + 5*kappa2)*S2z)) - 
               21*Nu*(103100846 + 1846845*pow(M_PI,2) + Complex(0,1693692)*S2z - 
@@ -1358,7 +1358,7 @@ static COMPLEX16 hGO_3_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
         - 4*Nu + delta*(5 + 6*Nu))*pow(S1z,2) + S2z*(-12*delta*Nu*S1z + kappa2*(-5 + 5*delta + 4*Nu + 6*delta*Nu)*S2z))*
         pow(x,3.5))/sqrt(14)) */+ /* Henry et al. ecc spin terms */ ((pow(mass,3)*(kappa1*(Complex(0,-1)*
            (-13 - 13*delta + 68*Nu + 42*delta*Nu)*PhiDOT*r - 
-          34*(1 + delta)*rDOT + 4*(26 + 9*delta)*Nu*rDOT)*pow(S1z,2)\
+          34*(1 + delta)*rDOT + 4*(26 + 9*delta)*Nu*rDOT)*pow(S1z,2)
         + S2z*(12*delta*Nu*(Complex(0,7)*PhiDOT*r - 6*rDOT)*S1z + 
           kappa2*(Complex(0,-1)*(13 - 13*delta - 68*Nu + 42*delta*Nu)*
               PhiDOT*r + 2*(17 - 17*delta - 52*Nu + 18*delta*Nu)*rDOT)*
@@ -1454,7 +1454,7 @@ static COMPLEX16 hGO_3_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
               Complex(0,8)*(90241 + 2*Nu*(-206022 + Nu*(-62113 + 1003558*Nu)))*pow(PhiDOT,4)*pow(r,4)*pow(rDOT,3) + 
               2*(410547 + Nu*(-2269686 + Nu*(762091 + 8400052*Nu)))*pow(PhiDOT,3)*pow(r,3)*pow(rDOT,4) + 
               Complex(0,4)*(217935 + 2*Nu*(-573699 + 5*Nu*(18671 + 445748*Nu)))*pow(PhiDOT,2)*pow(r,2)*pow(rDOT,5) + 
-              (333969 + 2*Nu*(-981471 + 4*Nu*(154039 + 750016*Nu)))*PhiDOT*r*pow(rDOT,6) + Complex(0,24)*(13245 + 2*Nu*(-37005 + Nu*(14251 + 130160*Nu)))*pow(rDOT,7))\
+              (333969 + 2*Nu*(-981471 + 4*Nu*(154039 + 750016*Nu)))*PhiDOT*r*pow(rDOT,6) + Complex(0,24)*(13245 + 2*Nu*(-37005 + Nu*(14251 + 130160*Nu)))*pow(rDOT,7))
             + 2*pow(mass,4)*(Complex(0,-4178597424)*rDOT + Complex(0,84)*rDOT*
                (38468500*pow(Nu,3) + Complex(0,648648)*(S1z + S2z) - 90090*((-24 + 155*kappa1)*pow(S1z,2) + (-24 + 155*kappa2)*pow(S2z,2)) - 
                  420*pow(Nu,2)*(-122855 + 3003*((2 + 11*kappa1)*pow(S1z,2) - 18*S1z*S2z + (2 + 11*kappa2)*pow(S2z,2))) + 
@@ -1616,10 +1616,10 @@ static COMPLEX16 hGO_4_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
              864*pow(Nu,2))*S2z) - 
        6*pow(PhiDOT,3)*pow(r,4)*
         ((-65 + 263*Nu - 291*pow(Nu,2) + delta*(-65 + 282*Nu))*S1z + 
-          (-65 + delta*(65 - 282*Nu) + 263*Nu - 291*pow(Nu,2))*S2z)\
+          (-65 + delta*(65 - 282*Nu) + 263*Nu - 291*pow(Nu,2))*S2z)
         + 12*PhiDOT*pow(r,2)*pow(rDOT,2)*
         ((-40 + 201*Nu - 252*pow(Nu,2) + delta*(-40 + 129*Nu))*S1z + 
-          (-40 + delta*(40 - 129*Nu) + 201*Nu - 252*pow(Nu,2))*S2z)\
+          (-40 + delta*(40 - 129*Nu) + 201*Nu - 252*pow(Nu,2))*S2z)
         + Complex(0,6)*r*pow(rDOT,3)*
         ((-20 + 107*Nu - 144*pow(Nu,2) + delta*(-20 + 63*Nu))*S1z + 
           (-20 + delta*(20 - 63*Nu) + 107*Nu - 144*pow(Nu,2))*S2z)))/
@@ -1908,9 +1908,9 @@ static COMPLEX16 hGO_4_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
              2*pow(rDOT,4)*
               (-301*S1z + 213*delta*S1z + 301*S2z + 213*delta*S2z) + 
              Complex(0,2)*PhiDOT*r*pow(rDOT,3)*
-              (-1625*S1z + 1009*delta*S1z + 1625*S2z + 1009*delta*S2z)\
+              (-1625*S1z + 1009*delta*S1z + 1625*S2z + 1009*delta*S2z)
               + 3*pow(PhiDOT,2)*pow(r,2)*pow(rDOT,2)*
-              (-2587*S1z + 1267*delta*S1z + 2587*S2z + 1267*delta*S2z)\
+              (-2587*S1z + 1267*delta*S1z + 2587*S2z + 1267*delta*S2z)
               - Complex(0,2)*pow(PhiDOT,3)*pow(r,3)*rDOT*
               (3635*S1z + 7981*delta*S1z - 3635*S2z + 7981*delta*S2z)))
        ))/(sqrt(70)*pow(r,4))));
@@ -2015,7 +2015,7 @@ static COMPLEX16 hGO_4_m_3(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
               (6531280*pow(Nu,3) + 
                 3*(5382288 + Complex(0,605605)*S1z + 
                    150150*kappa1*pow(S1z,2) + 
-                   Complex(0,605605)*S2z + 150150*kappa2*pow(S2z,2))\
+                   Complex(0,605605)*S2z + 150150*kappa2*pow(S2z,2))
                  + 210*pow(Nu,2)*
                  (322144 + 2145*(1 + 4*kappa1)*pow(S1z,2) - 
                    12870*S1z*S2z + 2145*(1 + 4*kappa2)*pow(S2z,2)) - 
@@ -2149,7 +2149,7 @@ static COMPLEX16 hGO_4_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
                 16*pow(Nu,2))*S2z) + 
           4*pow(PhiDOT,3)*pow(r,3)*
            ((5 + 5*delta - 7*Nu + 2*delta*Nu - 41*pow(Nu,2))*S1z - 
-             (-5 + 5*delta + 7*Nu + 2*delta*Nu + 41*pow(Nu,2))*S2z)\
+             (-5 + 5*delta + 7*Nu + 2*delta*Nu + 41*pow(Nu,2))*S2z)
            - Complex(0,1)*pow(PhiDOT,2)*pow(r,2)*rDOT*
            ((-10 - 10*delta - 339*Nu + 89*delta*Nu + 1048*pow(Nu,2))*
               S1z + (-10 + 10*delta - 339*Nu - 89*delta*Nu + 
@@ -2199,7 +2199,7 @@ static COMPLEX16 hGO_4_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
              36*pow(Nu,2)*(2*S1z - kappa2*S2z)) + 
           r*(-((-1 + delta)*kappa2*
                 (5*pow(PhiDOT,2)*pow(r,2) + 
-                  Complex(0,13)*PhiDOT*r*rDOT - 8*pow(rDOT,2))*S2z)\
+                  Complex(0,13)*PhiDOT*r*rDOT - 8*pow(rDOT,2))*S2z)
               - 6*pow(Nu,2)*
               (5*pow(PhiDOT,2)*pow(r,2) + 
                 Complex(0,13)*PhiDOT*r*rDOT - 8*pow(rDOT,2))*
@@ -2447,15 +2447,15 @@ static COMPLEX16 hGO_4_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
              pow(PhiDOT,4)*pow(r,4)*
               (2593*S1z + 551*delta*S1z - 2593*S2z + 551*delta*S2z) + 
              Complex(0,1)*pow(PhiDOT,3)*pow(r,3)*rDOT*
-              (8815*S1z + 2393*delta*S1z - 8815*S2z + 2393*delta*S2z))\
+              (8815*S1z + 2393*delta*S1z - 8815*S2z + 2393*delta*S2z))
            + Nu*(6*pow(rDOT,4)*
               (-301*S1z + 213*delta*S1z + 301*S2z + 213*delta*S2z) + 
              8*pow(PhiDOT,4)*pow(r,4)*
               (-349*S1z + 305*delta*S1z + 349*S2z + 305*delta*S2z) - 
              Complex(0,2)*PhiDOT*r*pow(rDOT,3)*
-              (-1625*S1z + 1009*delta*S1z + 1625*S2z + 1009*delta*S2z)\
+              (-1625*S1z + 1009*delta*S1z + 1625*S2z + 1009*delta*S2z)
               + pow(PhiDOT,2)*pow(r,2)*pow(rDOT,2)*
-              (-4973*S1z + 2773*delta*S1z + 4973*S2z + 2773*delta*S2z)\
+              (-4973*S1z + 2773*delta*S1z + 4973*S2z + 2773*delta*S2z)
               - Complex(0,2)*pow(PhiDOT,3)*pow(r,3)*rDOT*
               (1765*S1z + 14779*delta*S1z - 1765*S2z + 14779*delta*S2z)
              ))))/(sqrt(10)*pow(r,4))));
@@ -2513,7 +2513,7 @@ static COMPLEX16 hGO_4_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
                   Complex(0,46585)*S2z - 62370*kappa2*pow(S2z,2) - 
                   420*pow(Nu,2)*
                    (1422 + 11*(-25 + 54*kappa1)*pow(S1z,2) - 
-                     1738*S1z*S2z + 11*(-25 + 54*kappa2)*pow(S2z,2))\
+                     1738*S1z*S2z + 11*(-25 + 54*kappa2)*pow(S2z,2))
                    + 7*Nu*(18564 + 35640*kappa1*pow(S1z,2) + 
                      Complex(0,21505)*S2z + 
                      35640*kappa2*pow(S2z,2) + 
@@ -2536,7 +2536,7 @@ static COMPLEX16 hGO_4_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
                      Complex(0,110253)*S2z + 51480*kappa2*pow(S2z,2))
                     - 462*pow(Nu,2)*
                    (10483 + 130*(-5 + 6*kappa1)*pow(S1z,2) - 
-                     2860*S1z*S2z + 130*(-5 + 6*kappa2)*pow(S2z,2)))\
+                     2860*S1z*S2z + 130*(-5 + 6*kappa2)*pow(S2z,2)))
                 + Complex(0,2)*pow(PhiDOT,2)*pow(r,2)*rDOT*
                 (6531280*pow(Nu,3) + 
                   3*(5382288 - Complex(0,385385)*S1z + 
@@ -2564,14 +2564,14 @@ static COMPLEX16 hGO_4_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
              Complex(0,2)*pow(PhiDOT,2)*pow(r,2)*rDOT*
               (Complex(0,1)*(-77 + 351*Nu)*S1z + 
                 2*(245*pow(Nu,2) + 
-                   kappa1*(15 - 90*Nu + 68*pow(Nu,2)))*pow(S1z,2)\
+                   kappa1*(15 - 90*Nu + 68*pow(Nu,2)))*pow(S1z,2)
                  - S2z*(Complex(0,-77) + 30*kappa2*S2z + 
                    2*(245 + 68*kappa2)*pow(Nu,2)*S2z - 
                    9*Nu*(Complex(0,-39) + 20*kappa2*S2z))) + 
              pow(PhiDOT,3)*pow(r,3)*
               (Complex(0,-1)*(-77 + 411*Nu)*S1z + 
                 2*(100*pow(Nu,2) + 
-                   kappa1*(15 - 90*Nu + 172*pow(Nu,2)))*pow(S1z,2)\
+                   kappa1*(15 - 90*Nu + 172*pow(Nu,2)))*pow(S1z,2)
                  - S2z*(Complex(0,77) + 30*kappa2*S2z + 
                    8*(25 + 43*kappa2)*pow(Nu,2)*S2z - 
                    3*Nu*(Complex(0,137) + 60*kappa2*S2z)))) + 
@@ -2582,7 +2582,7 @@ static COMPLEX16 hGO_4_m_1(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
                    Complex(0,2)*(15 + 8*kappa2)*pow(Nu,2)*S2z)) + 
              PhiDOT*r*(Complex(0,-1)*(-121 + 633*Nu)*S1z + 
                 6*(220*pow(Nu,2) + 
-                   3*kappa1*(9 - 54*Nu + 76*pow(Nu,2)))*pow(S1z,2)\
+                   3*kappa1*(9 - 54*Nu + 76*pow(Nu,2)))*pow(S1z,2)
                  - S2z*(Complex(0,121) + 162*kappa2*S2z + 
                    24*(55 + 57*kappa2)*pow(Nu,2)*S2z - 
                    3*Nu*(Complex(0,211) + 324*kappa2*S2z)))))))/
@@ -2611,7 +2611,7 @@ static COMPLEX16 hQC_4_m_1(REAL8 Nu, UINT4 vpnorder, REAL8 x){
     } */
     /* else */ if(vpnorder == 6){
         return(M_PI*((Complex(0,0.023809523809523808)*delta*pow(x,4))/sqrt(10) - 
-        (Complex(0,0.047619047619047616)*delta*Nu*pow(x,4))/sqrt(10))\
+        (Complex(0,0.047619047619047616)*delta*Nu*pow(x,4))/sqrt(10))
         + ((delta*pow(x,4))/(21.*sqrt(10)) - 
         (sqrt(0.4)*delta*Nu*pow(x,4))/21.)*log(2));
     }
@@ -3342,11 +3342,11 @@ static COMPLEX16 hGO_5_m_2(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
            21*pow(Nu,2)*(Complex(0,5)*rDOT*
                ((8093 + 1355*delta)*S1z + (8093 - 1355*delta)*S2z) + 
               13*PhiDOT*r*(Complex(0,1108) + 
-                 25*(-157 + 89*delta)*S1z - 25*(157 + 89*delta)*S2z))\
+                 25*(-157 + 89*delta)*S1z - 25*(157 + 89*delta)*S2z))
             - 5*Nu*(Complex(0,42)*rDOT*
                ((2479 + 1083*delta)*S1z + (2479 - 1083*delta)*S2z) + 
               13*PhiDOT*r*(Complex(0,1675) + 
-                 84*(-74 + 295*delta)*S1z - 84*(74 + 295*delta)*S2z)))\
+                 84*(-74 + 295*delta)*S1z - 84*(74 + 295*delta)*S2z)))
          + 3*pow(r,2)*(840*pow(Nu,3)*
             (896*pow(PhiDOT,5)*pow(r,5) + 
               Complex(0,1390)*pow(PhiDOT,4)*pow(r,4)*rDOT + 
@@ -5076,7 +5076,7 @@ static COMPLEX16 hGO_7_m_4(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
       (8*pow(mass,2)*(988*PhiDOT*r + Complex(0,411)*rDOT) + 
         12*mass*r*(844*pow(PhiDOT,3)*pow(r,3) + 
            Complex(0,1518)*pow(PhiDOT,2)*pow(r,2)*rDOT - 
-           906*PhiDOT*r*pow(rDOT,2) - Complex(0,197)*pow(rDOT,3))\
+           906*PhiDOT*r*pow(rDOT,2) - Complex(0,197)*pow(rDOT,3))
          - 15*pow(r,2)*(656*pow(PhiDOT,5)*pow(r,5) + 
            Complex(0,179)*pow(PhiDOT,4)*pow(r,4)*rDOT + 
            192*pow(PhiDOT,3)*pow(r,3)*pow(rDOT,2) + 
@@ -5141,7 +5141,7 @@ static COMPLEX16 hGO_7_m_6(REAL8 mass,REAL8 Nu,REAL8 r,REAL8 rDOT,REAL8 PhiDOT,U
         (494*PhiDOT*r + Complex(0,137)*rDOT) + 
        4*mass*r*(6026*pow(PhiDOT,3)*pow(r,3) + 
           Complex(0,4038)*pow(PhiDOT,2)*pow(r,2)*rDOT - 
-          1359*PhiDOT*r*pow(rDOT,2) - Complex(0,197)*pow(rDOT,3))\
+          1359*PhiDOT*r*pow(rDOT,2) - Complex(0,197)*pow(rDOT,3))
         + 15*pow(r,2)*(1240*pow(PhiDOT,5)*pow(r,5) + 
           Complex(0,911)*pow(PhiDOT,4)*pow(r,4)*rDOT - 
           544*pow(PhiDOT,3)*pow(r,3)*pow(rDOT,2) - 
