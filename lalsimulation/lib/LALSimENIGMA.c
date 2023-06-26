@@ -196,6 +196,8 @@ static REAL8 separation(REAL8 u, REAL8 eta, REAL8 x, REAL8 e, REAL8 m1, REAL8 m2
 #define d3 (-20.5092515)
 #define d4 (5.383192)
 #define cz0 (10.22474)
+#define mode_pn_order (8)
+
 
 static REAL8 x_dot_0pn(REAL8 e, REAL8 eta);
 static REAL8 x_dot_1pn(REAL8 e, REAL8 eta);
@@ -456,100 +458,162 @@ XLAL_FAIL:
   return uniform;
 }
 
-// Note: this modifies t_vec, r_vec and phi_dot_vec by scaling by total_mass
-static void compute_strain_from_dynamics(
-    REAL8 *t_vec, REAL8 *x_vec, REAL8 *phi_vec, REAL8 *phi_dot_vec,
-    REAL8 *r_vec, REAL8 *r_dot_vec, const REAL8 mass1, const REAL8 mass2, REAL8 S1z, REAL8 S2z,
-    /* const REAL8 x0, */ const REAL8 euler_iota, const REAL8 euler_beta,
-    const REAL8 R, const long length, REAL8 *h_plus, REAL8 *h_cross) {
-  assert(h_plus != NULL && h_cross != NULL);
+static void compute_mode_from_dynamics(
+    const UINT4 l, const INT4 m, REAL8 *t_vec, REAL8 *x_vec, REAL8 *phi_vec, REAL8 *phi_dot_vec,
+    REAL8 *r_vec, REAL8 *r_dot_vec, const REAL8 mass1, const REAL8 mass2, const REAL8 S1z, const REAL8 S2z,
+    const REAL8 R, const long length, const UINT4 vpnorder, COMPLEX16 *h_lm) {
+  
+  assert(h_lm != NULL);
+
   const REAL8 total_mass = mass1 + mass2;
-  //const REAL8 reduced_mass = mass1 * mass2 / total_mass;
   const REAL8 eta = (mass1*mass2)/(total_mass*total_mass); //Symmetric Mass Ratio
-
-  /* overall factor in waveform polarizations */
-  /* REAL8 h_factor = reduced_mass * LAL_MRSUN_SI / R; */
-
-   /*The desired PN order correction. 
-  Note that we are defining this in terms of powers of v = x^2*/
-  UINT4 pn_order_amp = 8; //4PN correction
 
   for (long i = 0; i < length; ++i) {
     t_vec[i] *= total_mass;
     r_vec[i] *= total_mass;
     phi_dot_vec[i] /= total_mass;
 
-    /* some math used below:
-     * sin(a-b) = sin(a) * cos(b) - cos(a) * sin(b)
-     * cos(a-b) = cos(a) * cos(b) + sin(a) * sin(b)
-     */
+    h_lm[i] = hlmGOresult(l,m,total_mass,eta,
+                                        r_vec[i],r_dot_vec[i],phi_vec[i],phi_dot_vec[i],
+                                        R,vpnorder,S1z,S2z,x_vec[i]); 
+  }
+}
 
-    /* The leading order (quadrupolar) post-Newtonian GW polarizations *
-     * Reference: Damour, Gopakumar, and Iyer (PRD 70 064028).         */
+static void compute_strain_from_dynamics(REAL8 *t_vec, REAL8 *x_vec, REAL8 *phi_vec, REAL8 *phi_dot_vec,
+    REAL8 *r_vec, REAL8 *r_dot_vec, const REAL8 mass1, const REAL8 mass2, const REAL8 S1z, const REAL8 S2z,
+    /* const REAL8 x0, */ const REAL8 euler_iota, const REAL8 euler_beta,
+    const REAL8 R, const long length, UINT4 vpnorder, REAL8 *h_plus, REAL8 *h_cross){
+    assert(h_plus != NULL && h_cross != NULL);
+    const UINT4 ELL_MIN = 2;
+    const UINT4 ELL_MAX = 8;
 
-    //Defining the hplus and hcross general orbit term corrections
-    REAL8 hplusGOtotal=0;
-    REAL8 hcrossGOtotal=0;
-
-    /* printf("Show me the value of total mass:%e\n", total_mass);
-    fflush(NULL); */
-
-    for(long j=0;j<=pn_order_amp;j++){
-      hplusGOtotal = hplusGOtotal +   LAL_MRSUN_SI * hplusGO(total_mass,eta,r_vec[i],r_dot_vec[i],phi_vec[i],phi_dot_vec[i],euler_iota,euler_beta,R,j,S1z,S2z,x_vec[i]);
-      hcrossGOtotal = hcrossGOtotal + LAL_MRSUN_SI * hcrossGO(total_mass,eta,r_vec[i],r_dot_vec[i],phi_vec[i],phi_dot_vec[i],euler_iota,euler_beta,R,j,S1z,S2z,x_vec[i]);
+    COMPLEX16 *hlm_timeseries = (COMPLEX16 *) LALMalloc(length * sizeof(COMPLEX16));
+    if (hlm_timeseries == NULL) {
+      XLAL_ERROR_FAIL(XLAL_ENOMEM);
     }
 
+    COMPLEX16 hlm_times_ylm = 0;
 
-    h_plus[i] = 
-        (REAL8)(/* h_factor * 
-                (-((cos(euler_iota) * cos(euler_iota) + 1.0) *
-                       ((total_mass / r_vec[i] +
-                         r_vec[i] * r_vec[i] * phi_dot_vec[i] * phi_dot_vec[i] -
-                         r_dot_vec[i] * r_dot_vec[i]) *
-                            (cos(2.0 * phi_vec[i]) * cos(2.0 * euler_beta) +
-                             sin(2.0 * phi_vec[i]) * sin(2.0 * euler_beta)) +
-                        2.0 * r_vec[i] * r_dot_vec[i] * phi_dot_vec[i] *
-                            sin(2.0 * phi_vec[i])) +
-                   (total_mass / r_vec[i] -
-                    r_vec[i] * r_vec[i] * phi_dot_vec[i] * phi_dot_vec[i] -
-                    r_dot_vec[i] * r_dot_vec[i]) *
-                       sin(euler_iota) * sin(euler_iota))
+    for (UINT4 ell = ELL_MIN; ell <= ELL_MAX; ell++) {
+      for (INT4 em = -ell; em <= (INT4) ell; em++) {
+        compute_mode_from_dynamics(ell, em, t_vec, x_vec, phi_vec, phi_dot_vec, r_vec, r_dot_vec, mass1, mass2, S1z,
+          S2z, R, length, vpnorder, hlm_timeseries);
 
-                 + hPlus(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i], pn_order_amp ))
-                 + */ hplusGOtotal);
+        // Initialize to zero the very first time
+        if (ell == ELL_MIN && em == (INT4) -ell) {
+          for (UINT4 i = 0; i < length; i++) {
+            h_plus[i] = h_cross[i] = 0;
+          }
+        }
 
-    h_cross[i] = 
-        (REAL8)(/* h_factor *  
-                ((-(2.0 * cos(euler_iota)) *
-                  ((total_mass / r_vec[i] +
-                    r_vec[i] * r_vec[i] * phi_dot_vec[i] * phi_dot_vec[i] -
-                    r_dot_vec[i] * r_dot_vec[i]) *
-                       (sin(2.0 * phi_vec[i]) * cos(2.0 * euler_beta) -
-                        cos(2.0 * phi_vec[i]) * sin(2.0 * euler_beta)) -
-                   2.0 * r_vec[i] * r_dot_vec[i] * phi_dot_vec[i] *
-                       (cos(2.0 * phi_vec[i]) * cos(2.0 * euler_beta) +
-                        sin(2.0 * phi_vec[i]) * sin(2.0 * euler_beta))))
+        for (UINT4 i = 0; i < length; i++) {
+          hlm_times_ylm = hlm_timeseries[i] * XLALSpinWeightedSphericalHarmonic(euler_iota, euler_beta, -2, ell, em);
+          h_plus[i] += creal(hlm_times_ylm);
+          h_cross[i] += -1 * cimag(hlm_times_ylm);      
+        }
+      }
+    }
 
-                 + hCross(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i], pn_order_amp ))
-                 + */ hcrossGOtotal);
+    // Free temporary memory allocated to store mode timeseries
+  XLAL_FAIL:
+    LALFree(hlm_timeseries);
+
   }
 
+// Note: this modifies t_vec, r_vec and phi_dot_vec by scaling by total_mass
+// static void compute_strain_from_dynamics_old(
+//     REAL8 *t_vec, REAL8 *x_vec, REAL8 *phi_vec, REAL8 *phi_dot_vec,
+//     REAL8 *r_vec, REAL8 *r_dot_vec, const REAL8 mass1, const REAL8 mass2, REAL8 S1z, REAL8 S2z,
+//     /* const REAL8 x0, */ const REAL8 euler_iota, const REAL8 euler_beta,
+//     const REAL8 R, const long length, REAL8 *h_plus, REAL8 *h_cross) {
+//   assert(h_plus != NULL && h_cross != NULL);
+//   const REAL8 total_mass = mass1 + mass2;
+//   //const REAL8 reduced_mass = mass1 * mass2 / total_mass;
+//   const REAL8 eta = (mass1*mass2)/(total_mass*total_mass); //Symmetric Mass Ratio
 
-  /* printf("GOING TO OPEN file and write %ld lines to it...\n", length);
-  fflush(NULL);
-  {
-    FILE *fout;
-    fout = fopen("/Users/kaushikpaul/Dropbox/Enigma_spins_2023/fork_data_19Apr23.txt", "w");
+//   /* overall factor in waveform polarizations */
+//   /* REAL8 h_factor = reduced_mass * LAL_MRSUN_SI / R; */
 
-    for(int i=0; i < length; ++i){
-      printf("Show me the value of hplus and hcross: (%e, %e)\n",h_plus[i], h_cross[i]);
-      fflush(NULL);
-      fprintf(fout, "%e,%e,%e,%e,%e,%e,%e,%e\n", t_vec[i], x_vec[i], phi_vec[i], phi_dot_vec[i], r_vec[i], r_dot_vec[i], h_plus[i], h_cross[i]);
-      fflush(fout);  
-    }
-    fclose(fout);
-  } */
-}
+//    /*The desired PN order correction. 
+//   Note that we are defining this in terms of powers of v = x^2*/
+//   UINT4 pn_order_amp = 8; //4PN correction
+
+//   for (long i = 0; i < length; ++i) {
+//     t_vec[i] *= total_mass;
+//     r_vec[i] *= total_mass;
+//     phi_dot_vec[i] /= total_mass;
+
+//     /* some math used below:
+//      * sin(a-b) = sin(a) * cos(b) - cos(a) * sin(b)
+//      * cos(a-b) = cos(a) * cos(b) + sin(a) * sin(b)
+//      */
+
+//     /* The leading order (quadrupolar) post-Newtonian GW polarizations *
+//      * Reference: Damour, Gopakumar, and Iyer (PRD 70 064028).         */
+
+//     //Defining the hplus and hcross general orbit term corrections
+//     REAL8 hplusGOtotal=0;
+//     REAL8 hcrossGOtotal=0;
+
+//     /* printf("Show me the value of total mass:%e\n", total_mass);
+//     fflush(NULL); */
+
+//     for(long j=0;j<=pn_order_amp;j++){
+//       hplusGOtotal = hplusGOtotal +   LAL_MRSUN_SI * hplusGO(total_mass,eta,r_vec[i],r_dot_vec[i],phi_vec[i],phi_dot_vec[i],euler_iota,euler_beta,R,j,S1z,S2z,x_vec[i]);
+//       hcrossGOtotal = hcrossGOtotal + LAL_MRSUN_SI * hcrossGO(total_mass,eta,r_vec[i],r_dot_vec[i],phi_vec[i],phi_dot_vec[i],euler_iota,euler_beta,R,j,S1z,S2z,x_vec[i]);
+//     }
+
+
+//     h_plus[i] = 
+//         (REAL8)(/* h_factor * 
+//                 (-((cos(euler_iota) * cos(euler_iota) + 1.0) *
+//                        ((total_mass / r_vec[i] +
+//                          r_vec[i] * r_vec[i] * phi_dot_vec[i] * phi_dot_vec[i] -
+//                          r_dot_vec[i] * r_dot_vec[i]) *
+//                             (cos(2.0 * phi_vec[i]) * cos(2.0 * euler_beta) +
+//                              sin(2.0 * phi_vec[i]) * sin(2.0 * euler_beta)) +
+//                         2.0 * r_vec[i] * r_dot_vec[i] * phi_dot_vec[i] *
+//                             sin(2.0 * phi_vec[i])) +
+//                    (total_mass / r_vec[i] -
+//                     r_vec[i] * r_vec[i] * phi_dot_vec[i] * phi_dot_vec[i] -
+//                     r_dot_vec[i] * r_dot_vec[i]) *
+//                        sin(euler_iota) * sin(euler_iota))
+
+//                  + hPlus(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i], pn_order_amp ))
+//                  + */ hplusGOtotal);
+
+//     h_cross[i] = 
+//         (REAL8)(/* h_factor *  
+//                 ((-(2.0 * cos(euler_iota)) *
+//                   ((total_mass / r_vec[i] +
+//                     r_vec[i] * r_vec[i] * phi_dot_vec[i] * phi_dot_vec[i] -
+//                     r_dot_vec[i] * r_dot_vec[i]) *
+//                        (sin(2.0 * phi_vec[i]) * cos(2.0 * euler_beta) -
+//                         cos(2.0 * phi_vec[i]) * sin(2.0 * euler_beta)) -
+//                    2.0 * r_vec[i] * r_dot_vec[i] * phi_dot_vec[i] *
+//                        (cos(2.0 * phi_vec[i]) * cos(2.0 * euler_beta) +
+//                         sin(2.0 * phi_vec[i]) * sin(2.0 * euler_beta))))
+
+//                  + hCross(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i], pn_order_amp ))
+//                  + */ hcrossGOtotal);
+//   }
+
+
+//   /* printf("GOING TO OPEN file and write %ld lines to it...\n", length);
+//   fflush(NULL);
+//   {
+//     FILE *fout;
+//     fout = fopen("/Users/kaushikpaul/Dropbox/Enigma_spins_2023/fork_data_19Apr23.txt", "w");
+
+//     for(int i=0; i < length; ++i){
+//       printf("Show me the value of hplus and hcross: (%e, %e)\n",h_plus[i], h_cross[i]);
+//       fflush(NULL);
+//       fprintf(fout, "%e,%e,%e,%e,%e,%e,%e,%e\n", t_vec[i], x_vec[i], phi_vec[i], phi_dot_vec[i], r_vec[i], r_dot_vec[i], h_plus[i], h_cross[i]);
+//       fflush(fout);  
+//     }
+//     fclose(fout);
+//   } */
+// }
 
 static int x_model_eccbbh_inspiral_waveform(
     REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
@@ -737,7 +801,7 @@ x_model_eccbbh_imr_waveform(REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
   compute_strain_from_dynamics(
       &t_val, &imr_matching_x, &imr_matching_phi, &imr_matching_phi_dot,
       &imr_matching_r, &imr_matching_r_dot, mass1, mass2, S1z, S2z, /* x_evol->data->data[0], */
-      euler_iota, euler_beta, distance, 1, &matching_Hp, &matching_Hc);
+      euler_iota, euler_beta, distance, 1, (UINT4) mode_pn_order,  &matching_Hp, &matching_Hc);
   
   // get merger and ringdown and attach at the end of the existing time series
   REAL8 time_of_merger = 0.0;
@@ -811,7 +875,7 @@ int XLALSimInspiralENIGMAStrainFromDynamics(
   compute_strain_from_dynamics(
       t_vector->data, x_vector->data, phi_vector->data, phi_dot_vector->data,
       r_vector->data, r_dot_vector->data, mass1, mass2, S1z, S2z, /* x_vector->data[0], */
-      euler_iota, euler_beta, R, length, (*h_plus)->data, (*h_cross)->data);
+      euler_iota, euler_beta, R, length, (UINT4) mode_pn_order, (*h_plus)->data, (*h_cross)->data);
  
 XLAL_FAIL:
   // We do not free h_plus or h_cross as this is the callers duty
