@@ -847,11 +847,44 @@ XLAL_FAIL:
 /***********************************************************************************/
 
 // Note: this modifies t_vec, r_vec and phi_dot_vec by scaling by total_mass
+int XLALSimInspiralENIGMAModeFromDynamics(
+    COMPLEX16Vector **h_lm, const UINT4 l, const INT4 m, REAL8Vector *t_vector,
+    REAL8Vector *x_vector, REAL8Vector *phi_vector, REAL8Vector *phi_dot_vector,
+    REAL8Vector *r_vector, REAL8Vector *r_dot_vector, const REAL8 mass1,
+    const REAL8 mass2, const REAL8 S1z, const REAL8 S2z, const REAL8 R) {
+  int errorcode = XLAL_SUCCESS;
+
+  UINT4 length = t_vector->length;
+
+  // check input parameters
+  if (!h_lm) {
+    errorcode = XLAL_EINVAL;
+    XLAL_ERROR(errorcode);
+  }
+
+  *h_lm = XLALCreateCOMPLEX16Sequence(length);
+
+  if (!h_lm) {
+    errorcode = XLAL_ENOMEM;
+    XLAL_ERROR_FAIL(XLAL_EFUNC);
+  }
+
+  compute_mode_from_dynamics(l, m,
+      t_vector->data, x_vector->data, phi_vector->data, phi_dot_vector->data,
+      r_vector->data, r_dot_vector->data, mass1, mass2, S1z, S2z, /* x_vector->data[0], */
+      R, length, (UINT4) mode_pn_order, (*h_lm)->data);
+
+XLAL_FAIL:
+  // We do not free h_lm
+  return errorcode;
+}
+
+// Note: this modifies t_vec, r_vec and phi_dot_vec by scaling by total_mass
 int XLALSimInspiralENIGMAStrainFromDynamics(
     REAL8Vector **h_plus, REAL8Vector **h_cross, REAL8Vector *t_vector,
     REAL8Vector *x_vector, REAL8Vector *phi_vector, REAL8Vector *phi_dot_vector,
     REAL8Vector *r_vector, REAL8Vector *r_dot_vector, const REAL8 mass1,
-    const REAL8 mass2, REAL8 S1z, REAL8 S2z, const REAL8 euler_iota, const REAL8 euler_beta,
+    const REAL8 mass2, const REAL8 S1z, const REAL8 S2z, const REAL8 euler_iota, const REAL8 euler_beta,
     const REAL8 R) {
      
   int errorcode = XLAL_SUCCESS;

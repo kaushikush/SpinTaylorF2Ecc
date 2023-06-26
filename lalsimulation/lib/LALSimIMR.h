@@ -1689,6 +1689,23 @@ int XLALSimIMRPhenomPv3HMModes(SphHarmFrequencySeries **hlms,
                                const REAL8 f_ref, LALDict *extraParams);
 
 /* in module LALSimENIGMA.c */
+int XLALSimInspiralENIGMAModeFromDynamics(
+    COMPLEX16Vector **h_lm,      /**< OUTPUT h_lm vector */
+    const UINT4 l,               /**< Mode l number */
+    const INT4 m,                /**< Mode m number */
+    REAL8Vector *t_vector,       /**< Vector of time steps */
+    REAL8Vector *x_vector,       /**< Vector of values of x at timesteps */
+    REAL8Vector *phi_vector,     /**< Vector of values of x at timesteps */
+    REAL8Vector *phi_dot_vector, /**< Vector of values of x at timesteps */
+    REAL8Vector *r_vector,       /**< Vector of values of x at timesteps */
+    REAL8Vector *r_dot_vector,   /**< Vector of values of x at timesteps */
+    const REAL8 mass1,           /**< Mass of companion 1 (solar masses) */
+    const REAL8 mass2,           /**< Mass of companion 2 (solar masses) */
+    const REAL8 S1z,             /**< Spin component along L of companion 1 */
+    const REAL8 S2z,             /**< Spin component along L of companion 2 */
+    const REAL8 R                /**< Distance of source (m) */
+);
+
 int XLALSimInspiralENIGMAStrainFromDynamics(
     REAL8Vector **h_plus,        /**< OUTPUT h_+ vector */
     REAL8Vector **h_cross,       /**< OUTPUT h_x vector */
@@ -1700,8 +1717,8 @@ int XLALSimInspiralENIGMAStrainFromDynamics(
     REAL8Vector *r_dot_vector,   /**< Vector of values of x at timesteps */
     const REAL8 mass1,           /**< Mass of companion 1 (solar masses) */
     const REAL8 mass2,           /**< Mass of companion 2 (solar masses) */
-    REAL8 S1z,
-    REAL8 S2z,
+    const REAL8 S1z,             /**< Spin component along L of companion 1 */
+    const REAL8 S2z,             /**< Spin component along L of companion 2 */
     const REAL8 euler_iota,      /**< Inclination angle of source (rad) */
     const REAL8 euler_beta,      /**< Polarization angle of source (rad) */
     const REAL8 R                /**< Distance of source (m) */
