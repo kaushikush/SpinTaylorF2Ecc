@@ -873,7 +873,9 @@ delta)*kappa2*pow(S2z,2))))*pow(x,4)) */
                             (279236 - 483940 * Nu - 2817805 * pow(Nu, 2) +
                              459180 * pow(Nu, 3)) *
                             pow(PhiDOT, 3) * pow(r, 3) * rDOT -
-                        6 * (38627 + 89295 * Nu - 492740 * pow(Nu, 2) + 75975 * pow(Nu, 3)) *
+                        6 *
+                            (38627 + 89295 * Nu - 492740 * pow(Nu, 2) +
+                             75975 * pow(Nu, 3)) *
                             pow(PhiDOT, 2) * pow(r, 2) * pow(rDOT, 2) -
                         Complex(0, 1) *
                             (-731008 + 2287930 * Nu + 981060 * pow(Nu, 2) +
@@ -891,7 +893,9 @@ delta)*kappa2*pow(S2z,2))))*pow(x,4)) */
                             (-5730 + 58833 * Nu - 137842 * pow(Nu, 2) +
                              17123 * pow(Nu, 3)) *
                             pow(PhiDOT, 5) * pow(r, 5) * rDOT +
-                        2 * (-114 - 41622 * Nu + 147569 * pow(Nu, 2) + 4196 * pow(Nu, 3)) *
+                        2 *
+                            (-114 - 41622 * Nu + 147569 * pow(Nu, 2) +
+                             4196 * pow(Nu, 3)) *
                             pow(PhiDOT, 4) * pow(r, 4) * pow(rDOT, 2) +
                         Complex(0, 4) *
                             (-9554 + 70788 * Nu - 156227 * pow(Nu, 2) +
@@ -904,7 +908,9 @@ delta)*kappa2*pow(S2z,2))))*pow(x,4)) */
                             (8793 - 52230 * Nu + 69340 * pow(Nu, 2) +
                              2536 * pow(Nu, 3)) *
                             PhiDOT * r * pow(rDOT, 5) +
-                        2 * (3957 - 24534 * Nu + 42584 * pow(Nu, 2) - 20800 * pow(Nu, 3)) *
+                        2 *
+                            (3957 - 24534 * Nu + 42584 * pow(Nu, 2) -
+                             20800 * pow(Nu, 3)) *
                             pow(rDOT, 6)) -
                    2 * pow(mass, 3) *
                        (Complex(0, -23760) * rDOT *
@@ -1366,11 +1372,11 @@ static COMPLEX16 hGO_3_m_3(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
                              pow(S1z, 2) +
                          S2z * (Complex(0, -1593) + 330 * kappa2 * S2z +
                                 5 * Nu *
-                                    (Complex(0, 777) - 4 *
-                                                           (90 + 39 * kappa2 -
-                                                            192 * Nu +
-                                                            134 * kappa2 * Nu) *
-                                                           S2z))))) +
+                                    (Complex(0, 777) -
+                                     4 *
+                                         (90 + 39 * kappa2 - 192 * Nu +
+                                          134 * kappa2 * Nu) *
+                                         S2z))))) +
           delta *
               (-17640 * (-4083 + Nu * (58311 + Nu * (-269240 + 405617 * Nu))) *
                    pow(r, 4) * pow(PhiDOT * r + Complex(0, 1) * rDOT, 6) *
@@ -1381,7 +1387,9 @@ static COMPLEX16 hGO_3_m_3(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
                          7 * Nu *
                              (-1318438 + Nu * (-10231834 + 9667755 * Nu))) *
                         pow(PhiDOT, 5) * pow(r, 5) +
-                    7 * (1235591 + Nu * (884445 + (23935218 - 26913443 * Nu) * Nu)) *
+                    7 *
+                        (1235591 +
+                         Nu * (884445 + (23935218 - 26913443 * Nu) * Nu)) *
                         pow(PhiDOT, 4) * pow(r, 4) * rDOT -
                     Complex(0, 1) *
                         (8961149 +
@@ -2197,7 +2205,9 @@ static COMPLEX16 hGO_3_m_1(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
                        3072 * pow(PhiDOT, 2) * pow(r, 2) * pow(rDOT, 2) -
                        Complex(0, 680) * PhiDOT * r * pow(rDOT, 3) +
                        1000 * pow(rDOT, 4)))) /
-            (180. * sqrt(14) * pow(r, 4)) /*Henry et al QC spin terms */ /* +((Complex(0,0.004629629629629629)*(70*(S1z
+            (180. * sqrt(14) *
+             pow(r,
+                 4)) /*Henry et al QC spin terms */ /* +((Complex(0,0.004629629629629629)*(70*(S1z
 - S2z
 + delta*(S1z + S2z)) - pow(Nu,2)*(931*(S1z - S2z) + 45*delta*(S1z + S2z)) -
 Nu*(59*(-S1z + S2z) + 99*delta*(S1z + S2z)))*pow(x,4))/sqrt(14)) */
@@ -2358,7 +2368,10 @@ Nu*(59*(-S1z + S2z) + 99*delta*(S1z + S2z)))*pow(x,4))/sqrt(14)) */
                                       pow(S2z, 2)) +
                              PhiDOT * r * pow(rDOT, 2) *
                                  (Complex(0, 4) * (-114 + 781 * Nu) * S1z +
-                                  5 * (-213 * kappa1 - 72 * Nu + 278 * kappa1 * Nu + 8 * (7 + 44 * kappa1) * pow(Nu, 2)) *
+                                  5 *
+                                      (-213 * kappa1 - 72 * Nu +
+                                       278 * kappa1 * Nu +
+                                       8 * (7 + 44 * kappa1) * pow(Nu, 2)) *
                                       pow(S1z, 2) +
                                   S2z *
                                       (Complex(0, 456) + 1065 * kappa2 * S2z +
@@ -3290,8 +3303,7 @@ S2z)))*pow(x,4))/sqrt(70)) */
                           610960 * pow(Nu, 3)) *
                          pow(PhiDOT, 3) * pow(r, 3) * rDOT +
                      (-30341028 + 23936528 * Nu + 89326545 * pow(Nu, 2) +
-                      19329660 *
-                          pow(Nu, 3)) *
+                      19329660 * pow(Nu, 3)) *
                          pow(PhiDOT, 2) * pow(r, 2) * pow(rDOT, 2) +
                      Complex(0, 21) *
                          (-668008 + 803028 * Nu + 1908955 * pow(Nu, 2) +
@@ -3309,19 +3321,25 @@ S2z)))*pow(x,4))/sqrt(70)) */
                          (-32208 + 248485 * Nu - 524074 * pow(Nu, 2) +
                           24546 * pow(Nu, 3)) *
                          pow(PhiDOT, 5) * pow(r, 5) * rDOT +
-                     2 * (48924 - 239802 * Nu + 137447 * pow(Nu, 2) + 358156 * pow(Nu, 3)) *
+                     2 *
+                         (48924 - 239802 * Nu + 137447 * pow(Nu, 2) +
+                          358156 * pow(Nu, 3)) *
                          pow(PhiDOT, 4) * pow(r, 4) * pow(rDOT, 2) +
                      Complex(0, 4) *
                          (174 + 24488 * Nu - 102039 * pow(Nu, 2) +
                           44882 * pow(Nu, 3)) *
                          pow(PhiDOT, 3) * pow(r, 3) * pow(rDOT, 3) +
-                     3 * (10455 - 56490 * Nu + 84504 * pow(Nu, 2) + 54016 * pow(Nu, 3)) *
+                     3 *
+                         (10455 - 56490 * Nu + 84504 * pow(Nu, 2) +
+                          54016 * pow(Nu, 3)) *
                          pow(PhiDOT, 2) * pow(r, 2) * pow(rDOT, 4) +
                      Complex(0, 2) *
                          (11175 - 52698 * Nu + 57436 * pow(Nu, 2) +
                           60808 * pow(Nu, 3)) *
                          PhiDOT * r * pow(rDOT, 5) -
-                     6 * (829 - 3726 * Nu + 3480 * pow(Nu, 2) + 4640 * pow(Nu, 3)) *
+                     6 *
+                         (829 - 3726 * Nu + 3480 * pow(Nu, 2) +
+                          4640 * pow(Nu, 3)) *
                          pow(rDOT, 6)) +
                 pow(mass, 2) * r *
                     (20020 * pow(rDOT, 3) * (S1z + S2z) *
@@ -3631,7 +3649,8 @@ static COMPLEX16 hGO_4_m_2(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
                    203280 * pow(Nu, 3)) *
                   pow(rDOT, 6))) /
             (5.04504e6 * sqrt(5) *
-             pow(r, 4)) /* Henry et al. QC spin terms */ /* +((2*sqrt(5)*(kappa1*(1
+             pow(r,
+                 4)) /* Henry et al. QC spin terms */ /* +((2*sqrt(5)*(kappa1*(1
 + delta - 2*Nu
 + 6*pow(Nu,2))*pow(S1z,2) + S2z*(4*(1 - 3*Nu)*Nu*S1z - kappa2*(-1 + delta + 2*Nu
 - 6*pow(Nu,2))*S2z))*pow(x,4))/63.) */
@@ -4071,7 +4090,9 @@ static COMPLEX16 hGO_4_m_1(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
                        (-7536 + 50167 * Nu - 84782 * pow(Nu, 2) +
                         22 * pow(Nu, 3)) *
                        pow(PhiDOT, 5) * pow(r, 5) * rDOT +
-                   2 * (46908 - 203266 * Nu + 59723 * pow(Nu, 2) + 272204 * pow(Nu, 3)) *
+                   2 *
+                       (46908 - 203266 * Nu + 59723 * pow(Nu, 2) +
+                        272204 * pow(Nu, 3)) *
                        pow(PhiDOT, 4) * pow(r, 4) * pow(rDOT, 2) -
                    Complex(0, 4) *
                        (38798 - 217656 * Nu + 324761 * pow(Nu, 2) +
@@ -8282,13 +8303,13 @@ static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
   case 2:
     switch (m) {
     case 2:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_2_m_2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
       return (hlm);
 
     case 1:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_2_m_1(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
       return (hlm);
@@ -8296,12 +8317,12 @@ static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
       return (0);
 
     case -1:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_2_m_min1(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
       return (hlm);
     case -2:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_2_m_min2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
       return (hlm);
@@ -8315,17 +8336,17 @@ static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
   case 3:
     switch (m) {
     case 3:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_3_m_3(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
       return (hlm);
     case 2:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_3_m_2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
       return (hlm);
     case 1:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_3_m_1(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
       return (hlm);
@@ -8333,17 +8354,17 @@ static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
       return (0);
 
     case -1:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_3_m_min1(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
       return (hlm);
     case -2:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_3_m_min2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
       return (hlm);
     case -3:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_3_m_min3(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
       return (hlm);
@@ -8357,22 +8378,22 @@ static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
   case 4:
     switch (m) {
     case 4:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_4_m_4(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
       return (hlm);
     case 3:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_4_m_3(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
       return (hlm);
     case 2:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_4_m_2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
       return (hlm);
     case 1:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_4_m_1(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
       return (hlm);
@@ -8380,22 +8401,22 @@ static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
       return (0);
 
     case -1:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_4_m_min1(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
       return (hlm);
     case -2:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_4_m_min2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
       return (hlm);
     case -3:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_4_m_min3(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
       return (hlm);
     case -4:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_4_m_min4(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
       return (hlm);
@@ -8409,54 +8430,54 @@ static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
   case 5:
     switch (m) {
     case 5:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_5_m_5(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
       return (hlm);
     case 4:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_5_m_4(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
       return (hlm);
     case 3:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_5_m_3(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
       return (hlm);
     case 2:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_5_m_2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
       return (hlm);
     case 1:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_5_m_1(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
       return (hlm);
     case 0:
       return (0);
     case -1:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_5_m_min1(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
       return (hlm);
     case -2:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_5_m_min2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
       return (hlm);
     case -3:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_5_m_min3(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
       return (hlm);
     case -4:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_5_m_min4(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
       return (hlm);
     case -5:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_5_m_min5(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
       return (hlm);
@@ -8470,64 +8491,64 @@ static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
   case 6:
     switch (m) {
     case 6:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_6_m_6(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
       return (hlm);
     case 5:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_6_m_5(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
       return (hlm);
     case 4:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_6_m_4(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
       return (hlm);
     case 3:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_6_m_3(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
       return (hlm);
     case 2:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_6_m_2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
       return (hlm);
     case 1:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_6_m_1(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
       return (hlm);
     case 0:
       return (0);
     case -1:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_6_m_min1(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
       return (hlm);
     case -2:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_6_m_min2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
       return (hlm);
     case -3:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_6_m_min3(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
       return (hlm);
     case -4:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_6_m_min4(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
       return (hlm);
     case -5:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_6_m_min5(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
       return (hlm);
     case -6:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_6_m_min6(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
       return (hlm);
@@ -8541,74 +8562,74 @@ static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
   case 7:
     switch (m) {
     case 7:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_7(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
       return (hlm);
     case 6:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_6(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
       return (hlm);
     case 5:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_5(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
       return (hlm);
     case 4:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_4(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
       return (hlm);
     case 3:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_3(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
       return (hlm);
     case 2:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
       return (hlm);
     case 1:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_1(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
       return (hlm);
     case 0:
       return (0);
     case -1:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_min1(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
       return (hlm);
     case -2:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_min2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
       return (hlm);
     case -3:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_min3(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
       return (hlm);
     case -4:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_min4(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
       return (hlm);
     case -5:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_min5(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
       return (hlm);
     case -6:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_min6(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
       return (hlm);
     case -7:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_min7(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
       return (hlm);
@@ -8622,28 +8643,28 @@ static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
   case 8:
     switch (m) {
     case 8:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_8_m_8(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
       return (hlm);
     case 7:
       return (0);
     case 6:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_8_m_6(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
       return (hlm);
     case 5:
       return (0);
     case 4:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_8_m_4(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
       return (hlm);
     case 3:
       return (0);
     case 2:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_8_m_2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
       return (hlm);
@@ -8654,28 +8675,28 @@ static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
     case -1:
       return (0);
     case -2:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_8_m_min2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
       return (hlm);
     case -3:
       return (0);
     case -4:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_8_m_min4(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
       return (hlm);
     case -5:
       return (0);
     case -6:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_8_m_min6(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
       return (hlm);
     case -7:
       return (0);
     case -8:
-      for (UINT4 pno = vpnorder; pno >= 0; pno--) {
+      for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_8_m_min8(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
       return (hlm);
