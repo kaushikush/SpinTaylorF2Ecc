@@ -27,11 +27,11 @@
 #include <lal/XLALGSL.h>
 
 #include <assert.h>
+#include <complex.h>
 #include <math.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#include<complex.h>
 
 #include <gsl/gsl_blas.h>
 #include <gsl/gsl_eigen.h>
@@ -143,9 +143,9 @@ static REAL8 pow7(const REAL8 x);
 /* fractional powers */
 static REAL8 pow1_3(const REAL8 x);
 
-//static REAL8 pow3_2(const REAL8 x);
+// static REAL8 pow3_2(const REAL8 x);
 
-//static REAL8 pow5_2(const REAL8 x);
+// static REAL8 pow5_2(const REAL8 x);
 
 static REAL8 pow7_2(const REAL8 x);
 
@@ -182,7 +182,8 @@ static REAL8 cosu_factor(REAL8 e, REAL8 u);
 static REAL8 pn_kepler_equation(REAL8 eta, REAL8 x, REAL8 e, REAL8 l);
 static REAL8 mikkola_finder(REAL8 e, REAL8 l);
 
-static REAL8 separation(REAL8 u, REAL8 eta, REAL8 x, REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+static REAL8 separation(REAL8 u, REAL8 eta, REAL8 x, REAL8 e, REAL8 m1,
+                        REAL8 m2, REAL8 S1z, REAL8 S2z);
 
 /* PN expansions */
 #define c1 (2.0154525)
@@ -198,26 +199,35 @@ static REAL8 separation(REAL8 u, REAL8 eta, REAL8 x, REAL8 e, REAL8 m1, REAL8 m2
 #define cz0 (10.22474)
 #define mode_pn_order (8)
 
-
 static REAL8 x_dot_0pn(REAL8 e, REAL8 eta);
 static REAL8 x_dot_1pn(REAL8 e, REAL8 eta);
-static REAL8 x_dot_1_5_pn(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+static REAL8 x_dot_1_5_pn(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
+                          REAL8 S2z);
 static REAL8 x_dot_hereditary_1_5(REAL8 e, REAL8 eta, REAL8 x);
 static REAL8 x_dot_2pn(REAL8 e, REAL8 eta);
-static REAL8 x_dot_2pn_SS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
-static REAL8 x_dot_2_5_pn(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+static REAL8 x_dot_2pn_SS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
+                          REAL8 S2z);
+static REAL8 x_dot_2_5_pn(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
+                          REAL8 S2z);
 static REAL8 x_dot_hereditary_2_5(REAL8 e, REAL8 eta, REAL8 x);
 static REAL8 x_dot_hereditary_3(REAL8 e, REAL8 eta, REAL8 x);
 static REAL8 x_dot_3pn(REAL8 e, REAL8 eta, REAL8 x);
-static REAL8 x_dot_3pnSO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
-static REAL8 x_dot_3pnSS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+static REAL8 x_dot_3pnSO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
+                         REAL8 S2z);
+static REAL8 x_dot_3pnSS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
+                         REAL8 S2z);
 static REAL8 x_dot_3_5_pn(REAL8 e, REAL8 eta);
-static REAL8 x_dot_3_5pnSO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
-static REAL8 x_dot_3_5pn_SS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
-static REAL8 x_dot_3_5pn_cubicSpin(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+static REAL8 x_dot_3_5pnSO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
+                           REAL8 S2z);
+static REAL8 x_dot_3_5pn_SS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
+                            REAL8 S2z);
+static REAL8 x_dot_3_5pn_cubicSpin(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2,
+                                   REAL8 S1z, REAL8 S2z);
 static REAL8 x_dot_4pn(REAL8 e, REAL8 eta, REAL8 x);
-static REAL8 x_dot_4pnSO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
-static REAL8 x_dot_4pnSS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+static REAL8 x_dot_4pnSO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
+                         REAL8 S2z);
+static REAL8 x_dot_4pnSS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
+                         REAL8 S2z);
 static REAL8 x_dot_4_5_pn(REAL8 e, REAL8 eta, REAL8 x);
 static REAL8 dxdt_4pn(REAL8 x, REAL8 eta);
 static REAL8 dxdt_4_5pn(REAL8 x, REAL8 eta);
@@ -242,28 +252,35 @@ static REAL8 l_dot_3pn(REAL8 e, REAL8 eta);
 static REAL8 l_dot_1_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 l_dot_2pn_SS(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 
-
 static REAL8 phi_dot_0pn(REAL8 e, REAL8 eta, REAL8 u);
 static REAL8 phi_dot_1pn(REAL8 e, REAL8 eta, REAL8 u);
 static REAL8 phi_dot_2pn(REAL8 e, REAL8 eta, REAL8 u);
 static REAL8 phi_dot_3pn(REAL8 e, REAL8 eta, REAL8 u);
-//static REAL8 phi_dot_3_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+// static REAL8 phi_dot_3_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8
+// S2z);
 static REAL8 phi_dot_4pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
-static REAL8 phi_dot_1_5_pnSO_ecc(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 u);
-static REAL8 phi_dot_2_pnSS_ecc(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 u);
+static REAL8 phi_dot_1_5_pnSO_ecc(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
+                                  REAL8 S2z, REAL8 u);
+static REAL8 phi_dot_2_pnSS_ecc(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
+                                REAL8 S2z, REAL8 u);
 
 /* PN evolution equations */
-static REAL8 dx_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x, REAL8 e);
-static REAL8 de_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x, REAL8 e);
-static REAL8 dl_dt(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x, REAL8 e);
-static REAL8 dphi_dt(REAL8 u, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x, REAL8 e);
+static REAL8 dx_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2,
+                   REAL8 S1z, REAL8 S2z, REAL8 x, REAL8 e);
+static REAL8 de_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2,
+                   REAL8 S1z, REAL8 S2z, REAL8 x, REAL8 e);
+static REAL8 dl_dt(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x,
+                   REAL8 e);
+static REAL8 dphi_dt(REAL8 u, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
+                     REAL8 S2z, REAL8 x, REAL8 e);
 
 static int eccentric_x_model_odes(REAL8 t, const REAL8 y[], REAL8 dydt[],
                                   void *params);
 
 /* PN radiation */
-//static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, UINT4 vpn);
-//static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi, UINT4 vpn);
+// static REAL8 hPlus(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8 i, REAL8 phi,
+// UINT4 vpn); static REAL8 hCross(REAL8 x, REAL8 x0, REAL8 m1, REAL8 m2, REAL8
+// i, REAL8 phi, UINT4 vpn);
 static REAL8 phi_e(REAL8 e);
 static REAL8 psi_e(REAL8 e);
 static REAL8 zed_e(REAL8 e);
@@ -331,13 +348,13 @@ static int LoadSurrogateWaveformFile(REAL8 **hp, REAL8 **hc, LALH5File *file,
 /* inspiral and ringdown functions */
 static int
 x_model_eccbbh_imr_waveform(REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
-                            REAL8 mass1,          /* mass1 in solar masses  */
-                            REAL8 mass2,	        /* mass2 in solar masses  */
-                            REAL8 S1z,            /* z-ccomponent of spin of mass1*/ 
-			                      REAL8 S2z,            /* z-ccomponent of spin of mass2*/
-                            REAL8 e_init,         /* initial eccentricity   */
-                            REAL8 f_gw_init,      /* initial GW frequency   */
-                            REAL8 distance,       /* distance of source (m) */
+                            REAL8 mass1,     /* mass1 in solar masses  */
+                            REAL8 mass2,     /* mass2 in solar masses  */
+                            REAL8 S1z,       /* z-ccomponent of spin of mass1*/
+                            REAL8 S2z,       /* z-ccomponent of spin of mass2*/
+                            REAL8 e_init,    /* initial eccentricity   */
+                            REAL8 f_gw_init, /* initial GW frequency   */
+                            REAL8 distance,  /* distance of source (m) */
                             REAL8 mean_anom_init, /* initial mean-anomaly   */
                             REAL8 ode_eps,        /* tolerance (relative)   */
                             REAL8 euler_iota,     /* source polar angle     */
@@ -393,23 +410,23 @@ static REAL8 pow7(const REAL8 x) { return x * pow6(x); }
 /* fractional powers */
 static REAL8 pow1_3(const REAL8 x) { return cbrt(x); }
 
-//static REAL8 pow3_2(const REAL8 x) { return sqrt(pow3(x)); }
+// static REAL8 pow3_2(const REAL8 x) { return sqrt(pow3(x)); }
 
-//static REAL8 pow5_2(const REAL8 x) { return sqrt(pow5(x)); }
+// static REAL8 pow5_2(const REAL8 x) { return sqrt(pow5(x)); }
 
 static REAL8 pow7_2(const REAL8 x) { return sqrt(pow7(x)); }
 
+#include "ENIGMA_GOterms.c"
 #include "ENIGMA_GPEMergerRingdown.c"
 #include "ENIGMA_PNInspiral.c"
 #include "ENIGMA_PNMatch.c"
-#include "ENIGMA_GOterms.c"
 
 static REAL8 *interp_to_uniform_and_point(
     const REAL8 *t_vec, const REAL8 *val_vec, const long vec_length,
     const REAL8 t0, const REAL8 dt, const long length, eval_e_func eval_e,
     const REAL8 matching_time, REAL8 *matching_val) {
   int errorcode = XLAL_SUCCESS;
-  
+
   gsl_interp *dynamics_interp = NULL;
   gsl_interp_accel *dynamics_accel = NULL;
 
@@ -459,82 +476,86 @@ XLAL_FAIL:
 }
 
 static void compute_mode_from_dynamics(
-    const UINT4 l, const INT4 m, REAL8 *t_vec, REAL8 *x_vec, REAL8 *phi_vec, REAL8 *phi_dot_vec,
-    REAL8 *r_vec, REAL8 *r_dot_vec, const REAL8 mass1, const REAL8 mass2, const REAL8 S1z, const REAL8 S2z,
+    const UINT4 l, const INT4 m, UNUSED REAL8 *t_vec, REAL8 *x_vec,
+    REAL8 *phi_vec, REAL8 *phi_dot_vec, REAL8 *r_vec, REAL8 *r_dot_vec,
+    const REAL8 mass1, const REAL8 mass2, const REAL8 S1z, const REAL8 S2z,
     const REAL8 R, const long length, const UINT4 vpnorder, COMPLEX16 *h_lm) {
-  
+
   assert(h_lm != NULL);
 
   const REAL8 total_mass = mass1 + mass2;
-  const REAL8 eta = (mass1*mass2)/(total_mass*total_mass); //Symmetric Mass Ratio
+  const REAL8 eta =
+      (mass1 * mass2) / (total_mass * total_mass); // Symmetric Mass Ratio
 
   for (long i = 0; i < length; ++i) {
-    t_vec[i] *= total_mass;
-    r_vec[i] *= total_mass;
-    phi_dot_vec[i] /= total_mass;
-
-    h_lm[i] = hlmGOresult(l,m,total_mass,eta,
-                                        r_vec[i],r_dot_vec[i],phi_vec[i],phi_dot_vec[i],
-                                        R,vpnorder,S1z,S2z,x_vec[i]); 
+    h_lm[i] = hlmGOresult(l, m, total_mass, eta, r_vec[i] * total_mass,
+                          r_dot_vec[i], phi_vec[i], phi_dot_vec[i] / total_mass,
+                          R, vpnorder, S1z, S2z, x_vec[i]);
   }
 }
 
-static void compute_strain_from_dynamics(REAL8 *t_vec, REAL8 *x_vec, REAL8 *phi_vec, REAL8 *phi_dot_vec,
-    REAL8 *r_vec, REAL8 *r_dot_vec, const REAL8 mass1, const REAL8 mass2, const REAL8 S1z, const REAL8 S2z,
+static void compute_strain_from_dynamics(
+    REAL8 *t_vec, REAL8 *x_vec, REAL8 *phi_vec, REAL8 *phi_dot_vec,
+    REAL8 *r_vec, REAL8 *r_dot_vec, const REAL8 mass1, const REAL8 mass2,
+    const REAL8 S1z, const REAL8 S2z,
     /* const REAL8 x0, */ const REAL8 euler_iota, const REAL8 euler_beta,
-    const REAL8 R, const long length, UINT4 vpnorder, REAL8 *h_plus, REAL8 *h_cross){
-    assert(h_plus != NULL && h_cross != NULL);
-    const UINT4 ELL_MIN = 2;
-    const UINT4 ELL_MAX = 8;
+    const REAL8 R, const long length, UINT4 vpnorder, REAL8 *h_plus,
+    REAL8 *h_cross) {
+  assert(h_plus != NULL && h_cross != NULL);
+  const UINT4 ELL_MIN = 2;
+  const UINT4 ELL_MAX = 8;
 
-    COMPLEX16 *hlm_timeseries = (COMPLEX16 *) LALMalloc(length * sizeof(COMPLEX16));
-    if (hlm_timeseries == NULL) {
-      XLAL_ERROR_FAIL(XLAL_ENOMEM);
-    }
+  COMPLEX16 *hlm_timeseries =
+      (COMPLEX16 *)LALMalloc(length * sizeof(COMPLEX16));
+  if (hlm_timeseries == NULL) {
+    XLAL_ERROR_FAIL(XLAL_ENOMEM);
+  }
 
-    COMPLEX16 hlm_times_ylm = 0;
+  COMPLEX16 hlm_times_ylm = 0;
 
-    for (UINT4 ell = ELL_MIN; ell <= ELL_MAX; ell++) {
-      for (INT4 em = -ell; em <= (INT4) ell; em++) {
-        compute_mode_from_dynamics(ell, em, t_vec, x_vec, phi_vec, phi_dot_vec, r_vec, r_dot_vec, mass1, mass2, S1z,
-          S2z, R, length, vpnorder, hlm_timeseries);
+  // Initialize to zero the very first time
+  for (UINT4 i = 0; i < length; i++) {
+    h_plus[i] = h_cross[i] = 0;
+  }
 
-        // Initialize to zero the very first time
-        if (ell == ELL_MIN && em == (INT4) -ell) {
-          for (UINT4 i = 0; i < length; i++) {
-            h_plus[i] = h_cross[i] = 0;
-          }
-        }
+  for (UINT4 ell = ELL_MIN; ell <= ELL_MAX; ell++) {
+    for (INT4 em = -ell; em <= (INT4)ell; em++) {
+      compute_mode_from_dynamics(ell, em, t_vec, x_vec, phi_vec, phi_dot_vec,
+                                 r_vec, r_dot_vec, mass1, mass2, S1z, S2z, R,
+                                 length, vpnorder, hlm_timeseries);
 
-        for (UINT4 i = 0; i < length; i++) {
-          hlm_times_ylm = hlm_timeseries[i] * XLALSpinWeightedSphericalHarmonic(euler_iota, euler_beta, -2, ell, em);
-          h_plus[i] += creal(hlm_times_ylm);
-          h_cross[i] += -1 * cimag(hlm_times_ylm);      
-        }
+      for (UINT4 i = 0; i < length; i++) {
+        hlm_times_ylm =
+            hlm_timeseries[i] * XLALSpinWeightedSphericalHarmonic(
+                                    euler_iota, euler_beta, -2, ell, em);
+        h_plus[i] += creal(hlm_times_ylm);
+        h_cross[i] += -1 * cimag(hlm_times_ylm);
       }
     }
-
-    // Free temporary memory allocated to store mode timeseries
-  XLAL_FAIL:
-    LALFree(hlm_timeseries);
-
   }
+
+  // Free temporary memory allocated to store mode timeseries
+XLAL_FAIL:
+  LALFree(hlm_timeseries);
+}
 
 // Note: this modifies t_vec, r_vec and phi_dot_vec by scaling by total_mass
 // static void compute_strain_from_dynamics_old(
 //     REAL8 *t_vec, REAL8 *x_vec, REAL8 *phi_vec, REAL8 *phi_dot_vec,
-//     REAL8 *r_vec, REAL8 *r_dot_vec, const REAL8 mass1, const REAL8 mass2, REAL8 S1z, REAL8 S2z,
+//     REAL8 *r_vec, REAL8 *r_dot_vec, const REAL8 mass1, const REAL8 mass2,
+//     REAL8 S1z, REAL8 S2z,
 //     /* const REAL8 x0, */ const REAL8 euler_iota, const REAL8 euler_beta,
 //     const REAL8 R, const long length, REAL8 *h_plus, REAL8 *h_cross) {
 //   assert(h_plus != NULL && h_cross != NULL);
 //   const REAL8 total_mass = mass1 + mass2;
 //   //const REAL8 reduced_mass = mass1 * mass2 / total_mass;
-//   const REAL8 eta = (mass1*mass2)/(total_mass*total_mass); //Symmetric Mass Ratio
+//   const REAL8 eta = (mass1*mass2)/(total_mass*total_mass); //Symmetric Mass
+//   Ratio
 
 //   /* overall factor in waveform polarizations */
 //   /* REAL8 h_factor = reduced_mass * LAL_MRSUN_SI / R; */
 
-//    /*The desired PN order correction. 
+//    /*The desired PN order correction.
 //   Note that we are defining this in terms of powers of v = x^2*/
 //   UINT4 pn_order_amp = 8; //4PN correction
 
@@ -559,17 +580,18 @@ static void compute_strain_from_dynamics(REAL8 *t_vec, REAL8 *x_vec, REAL8 *phi_
 //     fflush(NULL); */
 
 //     for(long j=0;j<=pn_order_amp;j++){
-//       hplusGOtotal = hplusGOtotal +   LAL_MRSUN_SI * hplusGO(total_mass,eta,r_vec[i],r_dot_vec[i],phi_vec[i],phi_dot_vec[i],euler_iota,euler_beta,R,j,S1z,S2z,x_vec[i]);
-//       hcrossGOtotal = hcrossGOtotal + LAL_MRSUN_SI * hcrossGO(total_mass,eta,r_vec[i],r_dot_vec[i],phi_vec[i],phi_dot_vec[i],euler_iota,euler_beta,R,j,S1z,S2z,x_vec[i]);
+//       hplusGOtotal = hplusGOtotal +   LAL_MRSUN_SI *
+//       hplusGO(total_mass,eta,r_vec[i],r_dot_vec[i],phi_vec[i],phi_dot_vec[i],euler_iota,euler_beta,R,j,S1z,S2z,x_vec[i]);
+//       hcrossGOtotal = hcrossGOtotal + LAL_MRSUN_SI *
+//       hcrossGO(total_mass,eta,r_vec[i],r_dot_vec[i],phi_vec[i],phi_dot_vec[i],euler_iota,euler_beta,R,j,S1z,S2z,x_vec[i]);
 //     }
 
-
-//     h_plus[i] = 
-//         (REAL8)(/* h_factor * 
+//     h_plus[i] =
+//         (REAL8)(/* h_factor *
 //                 (-((cos(euler_iota) * cos(euler_iota) + 1.0) *
 //                        ((total_mass / r_vec[i] +
-//                          r_vec[i] * r_vec[i] * phi_dot_vec[i] * phi_dot_vec[i] -
-//                          r_dot_vec[i] * r_dot_vec[i]) *
+//                          r_vec[i] * r_vec[i] * phi_dot_vec[i] *
+//                          phi_dot_vec[i] - r_dot_vec[i] * r_dot_vec[i]) *
 //                             (cos(2.0 * phi_vec[i]) * cos(2.0 * euler_beta) +
 //                              sin(2.0 * phi_vec[i]) * sin(2.0 * euler_beta)) +
 //                         2.0 * r_vec[i] * r_dot_vec[i] * phi_dot_vec[i] *
@@ -579,11 +601,12 @@ static void compute_strain_from_dynamics(REAL8 *t_vec, REAL8 *x_vec, REAL8 *phi_
 //                     r_dot_vec[i] * r_dot_vec[i]) *
 //                        sin(euler_iota) * sin(euler_iota))
 
-//                  + hPlus(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i], pn_order_amp ))
+//                  + hPlus(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i],
+//                  pn_order_amp ))
 //                  + */ hplusGOtotal);
 
-//     h_cross[i] = 
-//         (REAL8)(/* h_factor *  
+//     h_cross[i] =
+//         (REAL8)(/* h_factor *
 //                 ((-(2.0 * cos(euler_iota)) *
 //                   ((total_mass / r_vec[i] +
 //                     r_vec[i] * r_vec[i] * phi_dot_vec[i] * phi_dot_vec[i] -
@@ -594,22 +617,24 @@ static void compute_strain_from_dynamics(REAL8 *t_vec, REAL8 *x_vec, REAL8 *phi_
 //                        (cos(2.0 * phi_vec[i]) * cos(2.0 * euler_beta) +
 //                         sin(2.0 * phi_vec[i]) * sin(2.0 * euler_beta))))
 
-//                  + hCross(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i], pn_order_amp ))
+//                  + hCross(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i],
+//                  pn_order_amp ))
 //                  + */ hcrossGOtotal);
 //   }
-
 
 //   /* printf("GOING TO OPEN file and write %ld lines to it...\n", length);
 //   fflush(NULL);
 //   {
 //     FILE *fout;
-//     fout = fopen("/Users/kaushikpaul/Dropbox/Enigma_spins_2023/fork_data_19Apr23.txt", "w");
+//     fout =
+//     fopen("/Users/kaushikpaul/Dropbox/Enigma_spins_2023/fork_data_19Apr23.txt",
+//     "w");
 
 //     for(int i=0; i < length; ++i){
-//       printf("Show me the value of hplus and hcross: (%e, %e)\n",h_plus[i], h_cross[i]);
-//       fflush(NULL);
-//       fprintf(fout, "%e,%e,%e,%e,%e,%e,%e,%e\n", t_vec[i], x_vec[i], phi_vec[i], phi_dot_vec[i], r_vec[i], r_dot_vec[i], h_plus[i], h_cross[i]);
-//       fflush(fout);  
+//       printf("Show me the value of hplus and hcross: (%e, %e)\n",h_plus[i],
+//       h_cross[i]); fflush(NULL); fprintf(fout, "%e,%e,%e,%e,%e,%e,%e,%e\n",
+//       t_vec[i], x_vec[i], phi_vec[i], phi_dot_vec[i], r_vec[i], r_dot_vec[i],
+//       h_plus[i], h_cross[i]); fflush(fout);
 //     }
 //     fclose(fout);
 //   } */
@@ -675,8 +700,9 @@ static int x_model_eccbbh_inspiral_waveform(
       &time_evol, &x_evol, &eccentricity_evol, &mean_ano_evol, &phi_evol,
       &phi_dot_evol, &r_evol, &r_dot_evol, &imr_matching_time, &imr_matching_x,
       &imr_matching_eccentricity, &imr_matching_mean_ano, &imr_matching_phi,
-      &imr_matching_phi_dot, &imr_matching_r, &imr_matching_r_dot, mass1, mass2, S1z, S2z,
-      e_init, f_gw_init, mean_anom_init, ode_eps, sampling_rate, false);
+      &imr_matching_phi_dot, &imr_matching_r, &imr_matching_r_dot, mass1, mass2,
+      S1z, S2z, e_init, f_gw_init, mean_anom_init, ode_eps, sampling_rate,
+      false);
   if (errorcode != XLAL_SUCCESS)
     XLAL_ERROR_FAIL(errorcode);
 
@@ -685,11 +711,11 @@ static int x_model_eccbbh_inspiral_waveform(
   // get inspiral waveform
   errorcode = XLALSimInspiralENIGMAStrainFromDynamics(
       &Hp, &Hc, time_evol->data, x_evol->data, phi_evol->data,
-      phi_dot_evol->data, r_evol->data, r_dot_evol->data, mass1, mass2, S1z, S2z,
-      euler_iota, euler_beta, distance);
+      phi_dot_evol->data, r_evol->data, r_dot_evol->data, mass1, mass2, S1z,
+      S2z, euler_iota, euler_beta, distance);
   if (errorcode != XLAL_SUCCESS)
     XLAL_ERROR_FAIL(errorcode);
-  
+
   /* store the sample interval in the output vectors */
   h_plus->data->length = h_cross->data->length = Length;
   h_plus->data->data = Hp->data;
@@ -715,23 +741,22 @@ XLAL_FAIL:
   return errorcode;
 }
 
-static int
-x_model_eccbbh_imr_waveform(REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
-                            REAL8 mass1,          /* mass1 in solar mass    */
-                            REAL8 mass2,          /* mass2 in solar mass    */
-                            REAL8 S1z,         /* z-component of the spin of companion 1 */
-			                      REAL8 S2z,         /* z-component of the spin of companion 2 */       
-			                      REAL8 e_init,         /* initial eccentricity   */
-                            REAL8 f_gw_init,      /* initial GW frequency   */
-                            REAL8 distance,       /* distance of source (m) */
-                            REAL8 mean_anom_init, /* initial mean-anomaly   */
-                            REAL8 ode_eps,        /* tolerance (relative)   */
-                            REAL8 euler_iota,     /* source polar angle     */
-                            REAL8 euler_beta,     /* source azimuthal angle */
-                            REAL8 sampling_rate,  /* sample rate in Hz      */
-                            TrainingSet *Dset) {
+static int x_model_eccbbh_imr_waveform(
+    REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
+    REAL8 mass1,          /* mass1 in solar mass    */
+    REAL8 mass2,          /* mass2 in solar mass    */
+    REAL8 S1z,            /* z-component of the spin of companion 1 */
+    REAL8 S2z,            /* z-component of the spin of companion 2 */
+    REAL8 e_init,         /* initial eccentricity   */
+    REAL8 f_gw_init,      /* initial GW frequency   */
+    REAL8 distance,       /* distance of source (m) */
+    REAL8 mean_anom_init, /* initial mean-anomaly   */
+    REAL8 ode_eps,        /* tolerance (relative)   */
+    REAL8 euler_iota,     /* source polar angle     */
+    REAL8 euler_beta,     /* source azimuthal angle */
+    REAL8 sampling_rate,  /* sample rate in Hz      */
+    TrainingSet *Dset) {
   int errorcode = XLAL_SUCCESS; /* the current error state value */
-
 
   /* Declare memory variables for storing dynamics */
   REAL8TimeSeries *time_evol = NULL;         /* Time steps */
@@ -754,8 +779,6 @@ x_model_eccbbh_imr_waveform(REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
   REAL8 total_mass = mass1 + mass2;
   int Length = -1;
 
-
-
   /* sampling interval [sec] */
   REAL8 dt = 1.0 / sampling_rate;
 
@@ -777,22 +800,21 @@ x_model_eccbbh_imr_waveform(REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
       &time_evol, &x_evol, &eccentricity_evol, &mean_ano_evol, &phi_evol,
       &phi_dot_evol, &r_evol, &r_dot_evol, &imr_matching_time, &imr_matching_x,
       &imr_matching_eccentricity, &imr_matching_mean_ano, &imr_matching_phi,
-      &imr_matching_phi_dot, &imr_matching_r, &imr_matching_r_dot, mass1, mass2, S1z, S2z,
-      e_init, f_gw_init, mean_anom_init, ode_eps, sampling_rate, true);
+      &imr_matching_phi_dot, &imr_matching_r, &imr_matching_r_dot, mass1, mass2,
+      S1z, S2z, e_init, f_gw_init, mean_anom_init, ode_eps, sampling_rate,
+      true);
   if (errorcode != XLAL_SUCCESS)
     XLAL_ERROR_FAIL(errorcode);
 
   Length = (int)ceil(imr_matching_time / dt) + 1;
 
-
   // get inspiral waveform
   errorcode = XLALSimInspiralENIGMAStrainFromDynamics(
       &Hp, &Hc, time_evol->data, x_evol->data, phi_evol->data,
-      phi_dot_evol->data, r_evol->data, r_dot_evol->data, mass1, mass2, S1z, S2z,
-      euler_iota, euler_beta, distance);
+      phi_dot_evol->data, r_evol->data, r_dot_evol->data, mass1, mass2, S1z,
+      S2z, euler_iota, euler_beta, distance);
   if (errorcode != XLAL_SUCCESS)
     XLAL_ERROR_FAIL(errorcode);
-
 
   // get strain at matching time
   REAL8 matching_Hp, matching_Hc;
@@ -800,9 +822,11 @@ x_model_eccbbh_imr_waveform(REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
       imr_matching_time; // is modified by compute_strain_from_dynamics
   compute_strain_from_dynamics(
       &t_val, &imr_matching_x, &imr_matching_phi, &imr_matching_phi_dot,
-      &imr_matching_r, &imr_matching_r_dot, mass1, mass2, S1z, S2z, /* x_evol->data->data[0], */
-      euler_iota, euler_beta, distance, 1, (UINT4) mode_pn_order,  &matching_Hp, &matching_Hc);
-  
+      &imr_matching_r, &imr_matching_r_dot, mass1, mass2, S1z,
+      S2z, /* x_evol->data->data[0], */
+      euler_iota, euler_beta, distance, 1, (UINT4)mode_pn_order, &matching_Hp,
+      &matching_Hc);
+
   // get merger and ringdown and attach at the end of the existing time series
   REAL8 time_of_merger = 0.0;
   errorcode = Attach_GPE_Merger_Ringdown(
@@ -818,7 +842,8 @@ x_model_eccbbh_imr_waveform(REAL8TimeSeries *h_plus, REAL8TimeSeries *h_cross,
   Hc = Hp = NULL; // owenership has passed to h_plus and h_cross
 
   /* Set epoch to the length of the inspiral waveform, as is usual convention */
-  XLALGPSSetREAL8(&(h_plus->epoch), -time_of_merger * total_mass * LAL_MTSUN_SI);
+  XLALGPSSetREAL8(&(h_plus->epoch),
+                  -time_of_merger * total_mass * LAL_MTSUN_SI);
   XLALGPSSetREAL8(&(h_cross->epoch),
                   -time_of_merger * total_mass * LAL_MTSUN_SI);
 
@@ -869,10 +894,10 @@ int XLALSimInspiralENIGMAModeFromDynamics(
     XLAL_ERROR_FAIL(XLAL_EFUNC);
   }
 
-  compute_mode_from_dynamics(l, m,
-      t_vector->data, x_vector->data, phi_vector->data, phi_dot_vector->data,
-      r_vector->data, r_dot_vector->data, mass1, mass2, S1z, S2z, /* x_vector->data[0], */
-      R, length, (UINT4) mode_pn_order, (*h_lm)->data);
+  compute_mode_from_dynamics(
+      l, m, t_vector->data, x_vector->data, phi_vector->data,
+      phi_dot_vector->data, r_vector->data, r_dot_vector->data, mass1, mass2,
+      S1z, S2z, R, length, (UINT4)mode_pn_order, (*h_lm)->data);
 
 XLAL_FAIL:
   // We do not free h_lm
@@ -884,9 +909,9 @@ int XLALSimInspiralENIGMAStrainFromDynamics(
     REAL8Vector **h_plus, REAL8Vector **h_cross, REAL8Vector *t_vector,
     REAL8Vector *x_vector, REAL8Vector *phi_vector, REAL8Vector *phi_dot_vector,
     REAL8Vector *r_vector, REAL8Vector *r_dot_vector, const REAL8 mass1,
-    const REAL8 mass2, const REAL8 S1z, const REAL8 S2z, const REAL8 euler_iota, const REAL8 euler_beta,
-    const REAL8 R) {
-     
+    const REAL8 mass2, const REAL8 S1z, const REAL8 S2z, const REAL8 euler_iota,
+    const REAL8 euler_beta, const REAL8 R) {
+
   int errorcode = XLAL_SUCCESS;
 
   UINT4 length = t_vector->length;
@@ -897,8 +922,8 @@ int XLALSimInspiralENIGMAStrainFromDynamics(
     XLAL_ERROR(errorcode);
   }
 
-  *h_plus = XLALCreateREAL8Sequence(length);
-  *h_cross = XLALCreateREAL8Sequence(length);
+  *h_plus = XLALCreateREAL8Vector(length);
+  *h_cross = XLALCreateREAL8Vector(length);
 
   if (!h_plus || !h_cross) {
     errorcode = XLAL_ENOMEM;
@@ -907,15 +932,15 @@ int XLALSimInspiralENIGMAStrainFromDynamics(
 
   compute_strain_from_dynamics(
       t_vector->data, x_vector->data, phi_vector->data, phi_dot_vector->data,
-      r_vector->data, r_dot_vector->data, mass1, mass2, S1z, S2z, /* x_vector->data[0], */
-      euler_iota, euler_beta, R, length, (UINT4) mode_pn_order, (*h_plus)->data, (*h_cross)->data);
- 
+      r_vector->data, r_dot_vector->data, mass1, mass2, S1z,
+      S2z, /* x_vector->data[0], */
+      euler_iota, euler_beta, R, length, (UINT4)mode_pn_order, (*h_plus)->data,
+      (*h_cross)->data);
+
 XLAL_FAIL:
   // We do not free h_plus or h_cross as this is the callers duty
   return errorcode;
 }
-
-  
 
 int XLALSimInspiralENIGMADynamics(
     REAL8TimeSeries **time_evol,         /* Time steps */
@@ -935,7 +960,7 @@ int XLALSimInspiralENIGMADynamics(
     REAL8 *imr_matching_r,       /* I + MR attachment radius */
     REAL8 *imr_matching_r_dot,   /* I + MR attachment radial time derivative */
     REAL8 mass1,                 /* mass1 in solar mass    */
-    REAL8 mass2,                 /* mass2 in solar mass    */
+    REAL8 mass2,                 /* mass2 in solar mass   dynamics */
     REAL8 S1z,                   /* z-component of the spin of companion 1 */
     REAL8 S2z,                   /* z-component of the spin of companion 2*/
     REAL8 e_init,                /* initial eccentricity   */
@@ -959,7 +984,7 @@ int XLALSimInspiralENIGMADynamics(
     errorcode = XLAL_EINVAL;
     XLAL_ERROR(errorcode);
   }
-  
+
   /* parameters for the ODE system */
   struct ode_parameters ecc_params;
 
@@ -984,7 +1009,8 @@ int XLALSimInspiralENIGMADynamics(
   REAL8 *uniform_phi_vec = NULL; /* uniformly sampled orbital phase */
   REAL8 *uniform_phi_dot_vec = NULL; /* uniformly sampled orbital frequency */
   REAL8 *uniform_r_vec = NULL;       /* uniformly sampled orbital separation */
-  REAL8 *uniform_r_dot_vec = NULL; /* uniformly sampled orbital separation change rate */
+  REAL8 *uniform_r_dot_vec =
+      NULL; /* uniformly sampled orbital separation change rate */
   REAL8 *uniform_e_vec = NULL; /* uniformly sampled eccentricity */
   REAL8 *uniform_l_vec = NULL; /* uniformly sampled mean anomaly */
   REAL8 *t_vec = NULL;         /* time                  */
@@ -1019,7 +1045,7 @@ int XLALSimInspiralENIGMADynamics(
   gsl_odeiv_step *solver_step = NULL;
   gsl_odeiv_control *solver_control = NULL;
   gsl_odeiv_evolve *solver_evolve = NULL;
-  
+
   /* Allocate memory for dynamics */
   LIGOTimeGPS epoch = LIGOTIMEGPSZERO;
   *time_evol = XLALCreateREAL8TimeSeries("time_evol", &epoch, f_gw_init,
@@ -1044,14 +1070,14 @@ int XLALSimInspiralENIGMADynamics(
     errorcode = XLAL_ENOMEM;
     XLAL_ERROR_FAIL(XLAL_EFUNC);
   }
-  
+
   /* check the command line arguments */
   if (e_init < 0.0 || e_init >= 1.0) {
     errorcode = XLAL_EINVAL;
     XLAL_ERROR_FAIL(errorcode,
                     "ERROR: Invalid eccentricity, must be in range [0,1)");
   }
-  
+
   total_mass = mass1 + mass2;
   reduced_mass = mass1 * mass2 / total_mass;
   sym_mass_ratio = reduced_mass / total_mass;
@@ -1082,7 +1108,6 @@ int XLALSimInspiralENIGMADynamics(
   ecc_params.S1z = S1z;
   ecc_params.S2z = S2z;
 
-  
   /* GSL ode solver error tolerances */
   REAL8 absolute_step_error = 0.0;
   REAL8 relative_step_error = ode_eps;
@@ -1134,7 +1159,7 @@ int XLALSimInspiralENIGMADynamics(
     statevec_allocated = (n);                                                  \
   } while (0)
   allocate_statevec(1);
-  
+
   /* scale the start, end and step times by t_sun */
   dt /= total_mass * LAL_MTSUN_SI;
 
@@ -1144,10 +1169,8 @@ int XLALSimInspiralENIGMADynamics(
   /* gw frequency (geometrized) at isco */
   f_gw_isco = 1.0 / (TRANS * sqrt(TRANS) * LAL_PI * total_mass);
 
-
   /* final value of x is at x(f_isco) = 1/6 */
   x_final = pow(LAL_PI * total_mass * f_gw_isco, 2. / 3.);
-
 
   /* initial conditions on dynamical variables */
   t_vec[0] = t = 0.;
@@ -1162,11 +1185,11 @@ int XLALSimInspiralENIGMADynamics(
   u_vec[0] = pn_kepler_equation(sym_mass_ratio, x_vec[0], e_vec[0], l_vec[0]);
 
   /* compute the intital value of r using Eq. (5) */
-  r_vec[0] = separation(u_vec[0], sym_mass_ratio, x_vec[0], e_vec[0], mass1, mass2, S1z, S2z);
+  r_vec[0] = separation(u_vec[0], sym_mass_ratio, x_vec[0], e_vec[0], mass1,
+                        mass2, S1z, S2z);
 
   /* compute derivatives at the current value of t */
   eccentric_x_model_odes(t, y, y_dot_in, (void *)&ecc_params);
-  
 
   /* initial orbital frequency */
   phi_dot_vec[0] = y_dot_in[3];
@@ -1185,12 +1208,12 @@ int XLALSimInspiralENIGMADynamics(
                     "produce this waveform",
                     phi_dot_vec[0], omega_attach);
   }
-  
+
   REAL8 time_omega_attach_reached = -1.;
   int i_omega_attach_reached = -1;
-  
+
   for (i = 1; /* no end */; ++i) { /*{{{*/
-    
+
     if (i >= statevec_allocated)
       allocate_statevec(2 * statevec_allocated);
 
@@ -1202,7 +1225,7 @@ int XLALSimInspiralENIGMADynamics(
       do {
         status = gsl_odeiv_step_apply(solver_step, t, step_size, y, yerr,
                                       y_dot_in, y_dot_out, &solver_system);
-        
+
         if (status != GSL_SUCCESS) {
           if (tempretries > 0) {
             tempretries--;
@@ -1214,9 +1237,8 @@ int XLALSimInspiralENIGMADynamics(
           }
         }
       } while (status != GSL_SUCCESS);
-      
-      t_next = t + step_size;
 
+      t_next = t + step_size;
 
       status = gsl_odeiv_control_hadjust(solver_control, solver_step, y, yerr,
                                          y_dot_out, &step_size);
@@ -1240,7 +1262,7 @@ int XLALSimInspiralENIGMADynamics(
     if (badnumber) {
       break;
     }
-    
+
     /* compute derivatives at the current value of t */
     eccentric_x_model_odes(t, y, y_dot, (void *)&ecc_params);
 
@@ -1260,13 +1282,14 @@ int XLALSimInspiralENIGMADynamics(
     u_vec[i] = pn_kepler_equation(sym_mass_ratio, x_vec[i], e_vec[i], l_vec[i]);
 
     /* compute the values of r using Eq. (5) */
-    r_vec[i] = separation(u_vec[i], sym_mass_ratio, x_vec[i], e_vec[i], mass1, mass2, S1z, S2z);
+    r_vec[i] = separation(u_vec[i], sym_mass_ratio, x_vec[i], e_vec[i], mass1,
+                          mass2, S1z, S2z);
 
     /* check if we reached ISCO (we should never get this far) */
     if (x_vec[i] >= x_final) {
       break;
     }
-    
+
     if (will_attach_mr && (phi_dot_vec[i] >= omega_attach)) {
       if (time_omega_attach_reached < 0.) {
         if (i - 1 < 0) { /* reached omega_attach (way) too early */
@@ -1285,14 +1308,13 @@ int XLALSimInspiralENIGMADynamics(
 
   } /*}}}*/ /* end integration for loop */
 
-
   if (will_attach_mr &&
       (time_omega_attach_reached <
        0.)) { /* never reached omega_attach before encountering ISCO */
     errorcode = XLAL_EMAXITER;
     XLAL_ERROR_FAIL(errorcode);
   }
-  
+
   final_i_reached = i;
   if (badnumber == 0) {
     final_i_reached = i + 1;
@@ -1314,7 +1336,7 @@ int XLALSimInspiralENIGMADynamics(
     assert(i_omega_attach_reached + 1 < final_i_reached);
     REAL8 t_lo = t_vec[i_omega_attach_reached];
     REAL8 t_hi = t_vec[i_omega_attach_reached + 1];
-  
+
     // sanity check on initial bracket for bisection
     {
       REAL8 phi_dot_val = -1;
@@ -1349,7 +1371,7 @@ int XLALSimInspiralENIGMADynamics(
         XLAL_ERROR_FAIL(errorcode);
       }
     }
-  
+
     // locate the matching time to within ~1e-3 of the sampling rate
     const double epsabs = 1e-3 * dt;
     const double epsrel = 0;
@@ -1384,8 +1406,8 @@ int XLALSimInspiralENIGMADynamics(
         break;
       }
     }
-   
-  // sanity check on final bracket after bisection
+
+    // sanity check on final bracket after bisection
     {
       assert(dt > epsabs);
       if (t_hi - t_lo >
@@ -1445,7 +1467,7 @@ int XLALSimInspiralENIGMADynamics(
       }
     }
     matching_time = 0.5 * (t_lo + t_hi);
-  
+
     // sanity check on length
     {
       REAL8 phi_dot_val = -1;
@@ -1488,7 +1510,7 @@ int XLALSimInspiralENIGMADynamics(
   } else {
     Length = (int)ceil(t_vec[final_i_reached - 2] / dt);
     matching_time = t_vec[final_i_reached - 2];
-  }  
+  }
   // get uniform data for inspiral
   uniform_t_vec = (REAL8 *)LALMalloc(Length * sizeof(REAL8));
   if (uniform_t_vec == NULL) {
@@ -1522,7 +1544,7 @@ int XLALSimInspiralENIGMADynamics(
     }
     *uniform_args[i].interp_vals = uniform_vals;
   }
-  
+
   /* store the sample interval in the output vectors */
   *imr_matching_time = matching_time;
   *imr_matching_x = matching_x;
@@ -1612,8 +1634,6 @@ int XLALSimInspiralENIGMA(
 
   int errorcode = XLAL_SUCCESS;
 
-
-
   m1 /= LAL_MSUN_SI;
   m2 /= LAL_MSUN_SI;
 
@@ -1622,17 +1642,17 @@ int XLALSimInspiralENIGMA(
     errorcode = XLAL_EINVAL;
     XLAL_ERROR(errorcode);
   }
-  
+
   if (!hplus || !hcross) {
     errorcode = XLAL_EINVAL;
     XLAL_ERROR_FAIL(errorcode);
   }
-  
+
   if (*hplus || *hcross) {
     errorcode = XLAL_EINVAL;
     XLAL_ERROR_FAIL(errorcode);
   }
-  
+
   // the actually input tolerance (reset to 1.0e-16 for eccentricity=0.0)
   const REAL8 tol_in = eccentricity == 0.0 ? 1.0e-16 : 1e-12;
 
@@ -1646,11 +1666,9 @@ int XLALSimInspiralENIGMA(
     XLAL_ERROR_FAIL(XLAL_EFUNC);
   }
 
-
-
   XLAL_CALLGSL(errorcode = x_model_eccbbh_inspiral_waveform(
-                   *hplus, *hcross, m1, m2, S1z, S2z,  eccentricity, fMin, distance,
-                   meanPerAno, tol_in, inclination, beta, fsamp));
+                   *hplus, *hcross, m1, m2, S1z, S2z, eccentricity, fMin,
+                   distance, meanPerAno, tol_in, inclination, beta, fsamp));
   if (errorcode != XLAL_SUCCESS)
     XLAL_ERROR_FAIL(XLAL_EFUNC);
 
@@ -1665,10 +1683,6 @@ XLAL_FAIL:
     *hplus = *hcross = NULL;
   }
 
-
- 
-
-
   return errorcode;
 }
 
@@ -1681,11 +1695,11 @@ int XLALSimIMRENIGMA(REAL8TimeSeries **hplus,  /**< OUTPUT h_+ vector */
                      REAL8 deltaT,       /**< sampling interval (s) */
                      REAL8 m1,           /**< mass of companion 1 (kg) */
                      REAL8 m2,           /**< mass of companion 2 (kg) */
-                     REAL8 S1z,       /**< z-component of the spin of companion 1 */
-		                 REAL8 S2z,       /**< z-component of the spin of companion 2 */
-		                 REAL8 distance,     /**< distance of source (m) */
-                     REAL8 fMin,         /**< start GW frequency (Hz) */
-                     REAL8 fRef          /**< reference GW frequency (Hz) */
+                     REAL8 S1z, /**< z-component of the spin of companion 1 */
+                     REAL8 S2z, /**< z-component of the spin of companion 2 */
+                     REAL8 distance, /**< distance of source (m) */
+                     REAL8 fMin,     /**< start GW frequency (Hz) */
+                     REAL8 fRef      /**< reference GW frequency (Hz) */
 ) {
   (void)phiRef;
   (void)fRef;
@@ -1694,11 +1708,8 @@ int XLALSimIMRENIGMA(REAL8TimeSeries **hplus,  /**< OUTPUT h_+ vector */
 
   int errorcode = XLAL_SUCCESS;
 
-
   m1 /= LAL_MSUN_SI;
   m2 /= LAL_MSUN_SI;
-
-
 
   // check input parameters
   if (m1 <= 0.0 || m2 <= 0.0 || eccentricity < 0.0 || eccentricity >= 1.0) {
@@ -1736,10 +1747,11 @@ int XLALSimIMRENIGMA(REAL8TimeSeries **hplus,  /**< OUTPUT h_+ vector */
     errorcode = XLAL_ENOMEM;
     XLAL_ERROR_FAIL(XLAL_EFUNC);
   }
-  
+
   XLAL_CALLGSL(errorcode = x_model_eccbbh_imr_waveform(
-                   *hplus, *hcross, m1, m2, S1z, S2z, eccentricity, fMin, distance,
-                   meanPerAno, tol_in, inclination, beta, fsamp, Dset));
+                   *hplus, *hcross, m1, m2, S1z, S2z, eccentricity, fMin,
+                   distance, meanPerAno, tol_in, inclination, beta, fsamp,
+                   Dset));
   if (errorcode != XLAL_SUCCESS)
     XLAL_ERROR_FAIL(XLAL_EFUNC);
 
