@@ -721,7 +721,7 @@ static int x_model_eccbbh_inspiral_waveform(
   h_plus->data->length = h_cross->data->length = Length;
   h_plus->data->data = Hp->data;
   h_cross->data->data = Hc->data;
-  Hc = Hp = NULL; // owenership has passed to h_plus and h_cross
+  Hc->data = Hp->data = NULL; // ownership has passed to h_plus and h_cross
 
 XLAL_FAIL:
   XLALDestroyREAL8Sequence(Hp);
@@ -840,7 +840,7 @@ static int x_model_eccbbh_imr_waveform(
   h_plus->data->length = h_cross->data->length = Length;
   h_plus->data->data = Hp->data;
   h_cross->data->data = Hc->data;
-  Hc = Hp = NULL; // owenership has passed to h_plus and h_cross
+  Hc->data = Hp->data = NULL; // ownership has passed to h_plus and h_cross
 
   /* Set epoch to the length of the inspiral waveform, as is usual convention */
   XLALGPSSetREAL8(&(h_plus->epoch),
