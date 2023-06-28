@@ -55,6 +55,16 @@
  * ***********************************/
 /***********************************************************************************/
 
+#define L_MIN 2
+#define L_MAX 4
+#define ONLY_LeqM_MODES false
+
+#ifndef ENIGMADEBUG
+#define DEBUG 0
+#else
+#define DEBUG 1
+#endif
+
 // Structure to hold plus/cross components of waveform
 typedef struct {
   REAL8 *hp;
@@ -500,35 +510,32 @@ static void compute_strain_from_dynamics(
     REAL8 *r_vec, REAL8 *r_dot_vec, const REAL8 mass1, const REAL8 mass2,
     const REAL8 S1z, const REAL8 S2z,
     /* const REAL8 x0, */ const REAL8 euler_iota, const REAL8 euler_beta,
-    const REAL8 R, const long length, UINT4 vpnorder, REAL8 *h_plus,
+    const REAL8 R, const long length, const UINT4 vpnorder, REAL8 *h_plus,
     REAL8 *h_cross) {
-  assert(h_plus != NULL && h_cross != NULL);
-  const UINT4 ELL_MIN = 2;
-  const UINT4 ELL_MAX = 8;
+  if (h_plus == NULL || h_cross == NULL)
+    XLAL_ERROR_FAIL(XLAL_EINVAL);
 
+  // Initialize and set to zero
   COMPLEX16 *hlm_timeseries =
-      (COMPLEX16 *)LALMalloc(length * sizeof(COMPLEX16));
+      (COMPLEX16 *)XLALCalloc(length, sizeof(COMPLEX16));
   if (hlm_timeseries == NULL) {
     XLAL_ERROR_FAIL(XLAL_ENOMEM);
   }
 
   COMPLEX16 hlm_times_ylm = 0;
+  COMPLEX16 ylm = 0;
 
-  // Initialize to zero the very first time
-  for (UINT4 i = 0; i < length; i++) {
-    h_plus[i] = h_cross[i] = 0;
-  }
-
-  for (UINT4 ell = ELL_MIN; ell <= ELL_MAX; ell++) {
+  for (UINT4 ell = L_MIN; ell <= L_MAX; ell++) {
     for (INT4 em = -ell; em <= (INT4)ell; em++) {
+      if (ONLY_LeqM_MODES && ell != abs(em))
+        continue;
       compute_mode_from_dynamics(ell, em, t_vec, x_vec, phi_vec, phi_dot_vec,
                                  r_vec, r_dot_vec, mass1, mass2, S1z, S2z, R,
                                  length, vpnorder, hlm_timeseries);
-
+      ylm = XLALSpinWeightedSphericalHarmonic(euler_iota, euler_beta, -2, ell,
+                                              em);
       for (UINT4 i = 0; i < length; i++) {
-        hlm_times_ylm =
-            hlm_timeseries[i] * XLALSpinWeightedSphericalHarmonic(
-                                    euler_iota, euler_beta, -2, ell, em);
+        hlm_times_ylm = hlm_timeseries[i] * ylm;
         h_plus[i] += creal(hlm_times_ylm);
         h_cross[i] += -1 * cimag(hlm_times_ylm);
       }
@@ -1218,14 +1225,12 @@ int XLALSimInspiralENIGMADynamics(
     if (i >= statevec_allocated) {
       // Limit the maximum size a waveform can have to 2048 seconds at 16kHz.
       if (statevec_allocated >= 2048 * 16384) {
-        if (getenv("DUMP_ENIGMA_MEM_FAILURES_TO_DISK")) {
-          FILE *fp = fopen("large_mem_waves.txt", "a");
-          fprintf(fp, "%lf, %lf, %e, %e\n", mass1, mass2, e_init,
-                  mean_anom_init);
-          fflush(fp);
-          fclose(fp);
-        }
-
+#if DEBUG
+        FILE *fp = fopen("large_mem_waves.txt", "a");
+        fprintf(fp, "%lf, %lf, %e, %e\n", mass1, mass2, e_init, mean_anom_init);
+        fflush(fp);
+        fclose(fp);
+#endif
         break;
       }
       allocate_statevec(2 * statevec_allocated);
