@@ -1215,9 +1215,21 @@ int XLALSimInspiralENIGMADynamics(
 
   for (i = 1; /* no end */; ++i) { /*{{{*/
 
-    if (i >= statevec_allocated)
-      allocate_statevec(2 * statevec_allocated);
+    if (i >= statevec_allocated) {
+      // Limit the maximum size a waveform can have to 2048 seconds at 16kHz.
+      if (statevec_allocated >= 2048 * 16384) {
+        if (getenv("DUMP_ENIGMA_MEM_FAILURES_TO_DISK")) {
+          FILE *fp = fopen("large_mem_waves.txt", "a");
+          fprintf(fp, "%lf, %lf, %e, %e\n", mass1, mass2, e_init,
+                  mean_anom_init);
+          fflush(fp);
+          fclose(fp);
+        }
 
+        break;
+      }
+      allocate_statevec(2 * statevec_allocated);
+    }
     /* integrate to the next time step */
     do {
       memcpy(y_dot_temp, y_dot_in, 4 * sizeof(REAL8));
