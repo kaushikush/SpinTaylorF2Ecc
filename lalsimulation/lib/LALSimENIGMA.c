@@ -490,7 +490,8 @@ static void compute_mode_from_dynamics(
   for (long i = 0; i < length; ++i) {
     h_lm[i] = hlmGOresult(l, m, total_mass, eta, r_vec[i] * total_mass,
                           r_dot_vec[i], phi_vec[i], phi_dot_vec[i] / total_mass,
-                          R, vpnorder, S1z, S2z, x_vec[i]);
+                          R, vpnorder, S1z, S2z, x_vec[i]) *
+              LAL_MRSUN_SI;
   }
 }
 
