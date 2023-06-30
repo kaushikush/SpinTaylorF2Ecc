@@ -55,6 +55,16 @@
  * ***********************************/
 /***********************************************************************************/
 
+#define L_MIN 2
+#define L_MAX 4
+#define ONLY_LeqM_MODES false
+
+#ifndef ENIGMADEBUG
+#define DEBUG 0
+#else
+#define DEBUG 1
+#endif
+
 // Structure to hold plus/cross components of waveform
 typedef struct {
   REAL8 *hp;
@@ -490,7 +500,8 @@ static void compute_mode_from_dynamics(
   for (long i = 0; i < length; ++i) {
     h_lm[i] = hlmGOresult(l, m, total_mass, eta, r_vec[i] * total_mass,
                           r_dot_vec[i], phi_vec[i], phi_dot_vec[i] / total_mass,
-                          R, vpnorder, S1z, S2z, x_vec[i]);
+                          R, vpnorder, S1z, S2z, x_vec[i]) *
+              LAL_MRSUN_SI;
   }
 }
 
@@ -499,37 +510,39 @@ static void compute_strain_from_dynamics(
     REAL8 *r_vec, REAL8 *r_dot_vec, const REAL8 mass1, const REAL8 mass2,
     const REAL8 S1z, const REAL8 S2z,
     /* const REAL8 x0, */ const REAL8 euler_iota, const REAL8 euler_beta,
-    const REAL8 R, const long length, UINT4 vpnorder, REAL8 *h_plus,
+    const REAL8 R, const long length, const UINT4 vpnorder, REAL8 *h_plus,
     REAL8 *h_cross) {
-  assert(h_plus != NULL && h_cross != NULL);
-  const UINT4 ELL_MIN = 2;
-  const UINT4 ELL_MAX = 8;
+  if (h_plus == NULL || h_cross == NULL)
+    XLAL_ERROR_FAIL(XLAL_EINVAL);
+  memset(h_plus, 0, length * sizeof(REAL8));
+  memset(h_cross, 0, length * sizeof(REAL8));
 
+  // Initialize and set to zero
   COMPLEX16 *hlm_timeseries =
-      (COMPLEX16 *)LALMalloc(length * sizeof(COMPLEX16));
+      (COMPLEX16 *)XLALCalloc(length, sizeof(COMPLEX16));
   if (hlm_timeseries == NULL) {
     XLAL_ERROR_FAIL(XLAL_ENOMEM);
   }
 
   COMPLEX16 hlm_times_ylm = 0;
+  COMPLEX16 ylm = 0;
 
-  // Initialize to zero the very first time
-  for (UINT4 i = 0; i < length; i++) {
-    h_plus[i] = h_cross[i] = 0;
-  }
-
-  for (UINT4 ell = ELL_MIN; ell <= ELL_MAX; ell++) {
+  for (INT4 ell = L_MIN; ell <= L_MAX; ell++) {
     for (INT4 em = -ell; em <= (INT4)ell; em++) {
+      // If set to use only those modes with l == |m|
+      if (ONLY_LeqM_MODES && ell != abs(em))
+        continue;
+
       compute_mode_from_dynamics(ell, em, t_vec, x_vec, phi_vec, phi_dot_vec,
                                  r_vec, r_dot_vec, mass1, mass2, S1z, S2z, R,
                                  length, vpnorder, hlm_timeseries);
+      ylm = XLALSpinWeightedSphericalHarmonic(euler_iota, euler_beta, -2, ell,
+                                              em);
 
-      for (UINT4 i = 0; i < length; i++) {
-        hlm_times_ylm =
-            hlm_timeseries[i] * XLALSpinWeightedSphericalHarmonic(
-                                    euler_iota, euler_beta, -2, ell, em);
+      for (INT4 i = 0; i < length; i++) {
+        hlm_times_ylm = hlm_timeseries[i] * ylm;
         h_plus[i] += creal(hlm_times_ylm);
-        h_cross[i] += -1 * cimag(hlm_times_ylm);
+        h_cross[i] -= cimag(hlm_times_ylm);
       }
     }
   }
@@ -592,8 +605,10 @@ XLAL_FAIL:
 //                        ((total_mass / r_vec[i] +
 //                          r_vec[i] * r_vec[i] * phi_dot_vec[i] *
 //                          phi_dot_vec[i] - r_dot_vec[i] * r_dot_vec[i]) *
-//                             (cos(2.0 * phi_vec[i]) * cos(2.0 * euler_beta) +
-//                              sin(2.0 * phi_vec[i]) * sin(2.0 * euler_beta)) +
+//                             (cos(2.0 * phi_vec[i]) * cos(2.0 * euler_beta)
+//                             +
+//                              sin(2.0 * phi_vec[i]) * sin(2.0 * euler_beta))
+//                              +
 //                         2.0 * r_vec[i] * r_dot_vec[i] * phi_dot_vec[i] *
 //                             sin(2.0 * phi_vec[i])) +
 //                    (total_mass / r_vec[i] -
@@ -601,8 +616,8 @@ XLAL_FAIL:
 //                     r_dot_vec[i] * r_dot_vec[i]) *
 //                        sin(euler_iota) * sin(euler_iota))
 
-//                  + hPlus(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i],
-//                  pn_order_amp ))
+//                  + hPlus(x_vec[i], x0, mass1, mass2, euler_iota,
+//                  phi_vec[i], pn_order_amp ))
 //                  + */ hplusGOtotal);
 
 //     h_cross[i] =
@@ -617,8 +632,8 @@ XLAL_FAIL:
 //                        (cos(2.0 * phi_vec[i]) * cos(2.0 * euler_beta) +
 //                         sin(2.0 * phi_vec[i]) * sin(2.0 * euler_beta))))
 
-//                  + hCross(x_vec[i], x0, mass1, mass2, euler_iota, phi_vec[i],
-//                  pn_order_amp ))
+//                  + hCross(x_vec[i], x0, mass1, mass2, euler_iota,
+//                  phi_vec[i], pn_order_amp ))
 //                  + */ hcrossGOtotal);
 //   }
 
@@ -633,8 +648,8 @@ XLAL_FAIL:
 //     for(int i=0; i < length; ++i){
 //       printf("Show me the value of hplus and hcross: (%e, %e)\n",h_plus[i],
 //       h_cross[i]); fflush(NULL); fprintf(fout, "%e,%e,%e,%e,%e,%e,%e,%e\n",
-//       t_vec[i], x_vec[i], phi_vec[i], phi_dot_vec[i], r_vec[i], r_dot_vec[i],
-//       h_plus[i], h_cross[i]); fflush(fout);
+//       t_vec[i], x_vec[i], phi_vec[i], phi_dot_vec[i], r_vec[i],
+//       r_dot_vec[i], h_plus[i], h_cross[i]); fflush(fout);
 //     }
 //     fclose(fout);
 //   } */
@@ -685,7 +700,8 @@ static int x_model_eccbbh_inspiral_waveform(
   /* scale the step times by t_sun */
   dt /= total_mass * LAL_MTSUN_SI;
 
-  /* Declare memory variables for storing info on inspiral-merger attachment */
+  /* Declare memory variables for storing info on inspiral-merger attachment
+   */
   REAL8 imr_matching_time;         /* attachment time */
   REAL8 imr_matching_x;            /* attachment x */
   REAL8 imr_matching_eccentricity; /* attachment e */
@@ -720,7 +736,7 @@ static int x_model_eccbbh_inspiral_waveform(
   h_plus->data->length = h_cross->data->length = Length;
   h_plus->data->data = Hp->data;
   h_cross->data->data = Hc->data;
-  Hc = Hp = NULL; // owenership has passed to h_plus and h_cross
+  Hc->data = Hp->data = NULL; // ownership has passed to h_plus and h_cross
 
 XLAL_FAIL:
   XLALDestroyREAL8Sequence(Hp);
@@ -785,7 +801,8 @@ static int x_model_eccbbh_imr_waveform(
   /* scale the step times by t_sun */
   dt /= total_mass * LAL_MTSUN_SI;
 
-  /* Declare memory variables for storing info on inspiral-merger attachment */
+  /* Declare memory variables for storing info on inspiral-merger attachment
+   */
   REAL8 imr_matching_time;         /* attachment time */
   REAL8 imr_matching_x;            /* attachment x */
   REAL8 imr_matching_eccentricity; /* attachment e */
@@ -839,9 +856,10 @@ static int x_model_eccbbh_imr_waveform(
   h_plus->data->length = h_cross->data->length = Length;
   h_plus->data->data = Hp->data;
   h_cross->data->data = Hc->data;
-  Hc = Hp = NULL; // owenership has passed to h_plus and h_cross
+  Hc->data = Hp->data = NULL; // ownership has passed to h_plus and h_cross
 
-  /* Set epoch to the length of the inspiral waveform, as is usual convention */
+  /* Set epoch to the length of the inspiral waveform, as is usual convention
+   */
   XLALGPSSetREAL8(&(h_plus->epoch),
                   -time_of_merger * total_mass * LAL_MTSUN_SI);
   XLALGPSSetREAL8(&(h_cross->epoch),
@@ -1214,9 +1232,19 @@ int XLALSimInspiralENIGMADynamics(
 
   for (i = 1; /* no end */; ++i) { /*{{{*/
 
-    if (i >= statevec_allocated)
+    if (i >= statevec_allocated) {
+      // Limit the maximum size a waveform can have to 2048 seconds at 16kHz.
+      if (statevec_allocated >= 2048 * 16384) {
+#if DEBUG
+        FILE *fp = fopen("large_mem_waves.txt", "a");
+        fprintf(fp, "%lf, %lf, %e, %e\n", mass1, mass2, e_init, mean_anom_init);
+        fflush(fp);
+        fclose(fp);
+#endif
+        break;
+      }
       allocate_statevec(2 * statevec_allocated);
-
+    }
     /* integrate to the next time step */
     do {
       memcpy(y_dot_temp, y_dot_in, 4 * sizeof(REAL8));
