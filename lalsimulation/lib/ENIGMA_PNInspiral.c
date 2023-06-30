@@ -1365,7 +1365,7 @@ static REAL8 dx_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 
             + x_dot_3_5_pn(e, eta) * x * x * x * sqrt(x) + x_dot_3_5pn_SS(e, eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x)
             + x_dot_3_5pn_cubicSpin(e, eta, m1, m2, S1z, S2z) * x * x * x * sqrt(x) + (x_dot_4pn(e, eta, x) + x_dot_4pnSO(e, eta, m1, m2, S1z, S2z) 
             + x_dot_4pnSS(e, eta, m1, m2, S1z, S2z)) * x * x * x * x 
-            + x_dot_4_5_pn(e, eta, x) * x * x * x * x * sqrt(x) ) * x_pow_5 +
+            + x_dot_4_5_pn(e, eta, x) * x * x * x * x * sqrt(x)) * x_pow_5 +
            x_dot_hereditary_1_5(e, eta, x) + x_dot_hereditary_2_5(e, eta, x) +
            x_dot_hereditary_3(e, eta, x) + dxdt_5_5pn(x, eta);
        
@@ -1523,7 +1523,7 @@ static REAL8 dphi_dt(REAL8 u, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2
   phidot =
       ((phi_dot_0pn(e, eta, u) + x * phi_dot_1pn(e, eta, u) + x_pow_3_2 * phi_dot_1_5_pnSO_ecc(e, m1, m2, S1z, S2z, u) 
        + x * x * phi_dot_2_pnSS_ecc(e, m1, m2, S1z, S2z, u) + x * x * phi_dot_2pn(e, eta, u) 
-       + x * x * x * phi_dot_3pn(e, eta, u)/* + phi_dot_3_5pn_SO(e,m1,m2,S1z,S2z) * x_pow_3_2 * x * x */ 
+       + x * x * x * phi_dot_3pn(e, eta, u)/* + phi_dot_3_5pn_SO(e,m1,m2,S1z,S2z) * x_pow_3_2 * x * x  */
        + phi_dot_4pn_SO(e,m1,m2,S1z,S2z) * x_pow_3_2 * x * x * sqrt(x)) * x_pow_3_2);
   
   
