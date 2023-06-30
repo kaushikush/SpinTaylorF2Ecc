@@ -291,7 +291,7 @@ delta*S2z))*pow(x,3.5))/63.) */
                                                 (23 + 211 * delta) * Nu +
                                                 390 * pow(Nu, 2))) *
                                      S2z))))) /
-              pow(r, 4)) + /* Henry et al. QC spinning hereditary terms  */
+              pow(r, 4)) + /* Henry et al. QC spinning hereditary terms */
         (((-8 * M_PI * ((1 + delta - Nu) * S1z + S2z - (delta + Nu) * S2z) *
            pow(x, 4)) /
           3.)));
@@ -8312,7 +8312,7 @@ static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_2_m_1(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
-      return (hlm);
+      return (hlm*0);
     case 0:
       return (0);
 
@@ -8320,7 +8320,7 @@ static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_2_m_min1(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
-      return (hlm);
+      return (hlm*0);
     case -2:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_2_m_min2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
@@ -8339,17 +8339,17 @@ static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_3_m_3(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
-      return (hlm);
+      return (hlm*0);
     case 2:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_3_m_2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
-      return (hlm);
+      return (hlm*0);
     case 1:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_3_m_1(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
-      return (hlm);
+      return (hlm*0);
     case 0:
       return (0);
 
@@ -8357,17 +8357,17 @@ static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_3_m_min1(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
-      return (hlm);
+      return (hlm*0);
     case -2:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_3_m_min2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
-      return (hlm);
+      return (hlm*0);
     case -3:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_3_m_min3(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
-      return (hlm);
+      return (hlm*0);
     default:
       XLAL_ERROR(XLAL_EINVAL, "Error in m for l=3 of hlmGOresult: Input m "
                               "value should be between -3 to +3.");
@@ -8381,22 +8381,22 @@ static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_4_m_4(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
-      return (hlm);
+      return (hlm*0);
     case 3:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_4_m_3(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
-      return (hlm);
+      return (hlm*0);
     case 2:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_4_m_2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
-      return (hlm);
+      return (hlm*0);
     case 1:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_4_m_1(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
-      return (hlm);
+      return (hlm*0);
     case 0:
       return (0);
 
@@ -8404,22 +8404,22 @@ static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_4_m_min1(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
-      return (hlm);
+      return (hlm*0);
     case -2:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_4_m_min2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
-      return (hlm);
+      return (hlm*0);
     case -3:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_4_m_min3(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
-      return (hlm);
+      return (hlm*0);
     case -4:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_4_m_min4(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
-      return (hlm);
+      return (hlm*0);
     default:
       XLAL_ERROR(XLAL_EINVAL, "Error in m for l=4 of hlmGOresult: Input m "
                               "value should be between -4 to +4.");
@@ -8433,54 +8433,54 @@ static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_5_m_5(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
-      return (hlm);
+      return (hlm*0);
     case 4:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_5_m_4(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
-      return (hlm);
+      return (hlm*0);
     case 3:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_5_m_3(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
-      return (hlm);
+      return (hlm*0);
     case 2:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_5_m_2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
-      return (hlm);
+      return (hlm*0);
     case 1:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_5_m_1(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
-      return (hlm);
+      return (hlm*0);
     case 0:
       return (0);
     case -1:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_5_m_min1(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
-      return (hlm);
+      return (hlm*0);
     case -2:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_5_m_min2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
-      return (hlm);
+      return (hlm*0);
     case -3:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_5_m_min3(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
-      return (hlm);
+      return (hlm*0);
     case -4:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_5_m_min4(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
-      return (hlm);
+      return (hlm*0);
     case -5:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_5_m_min5(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x);
       }
-      return (hlm);
+      return (hlm*0);
     default:
       XLAL_ERROR(XLAL_EINVAL, "Error in m for l=5 of hlmGOresult: Input m "
                               "value should be between -5 to +5.");
@@ -8494,64 +8494,64 @@ static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_6_m_6(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
-      return (hlm);
+      return (hlm*0);
     case 5:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_6_m_5(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
-      return (hlm);
+      return (hlm*0);
     case 4:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_6_m_4(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
-      return (hlm);
+      return (hlm*0);
     case 3:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_6_m_3(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
-      return (hlm);
+      return (hlm*0);
     case 2:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_6_m_2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
-      return (hlm);
+      return (hlm*0);
     case 1:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_6_m_1(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
-      return (hlm);
+      return (hlm*0);
     case 0:
       return (0);
     case -1:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_6_m_min1(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
-      return (hlm);
+      return (hlm*0);
     case -2:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_6_m_min2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
-      return (hlm);
+      return (hlm*0);
     case -3:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_6_m_min3(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
-      return (hlm);
+      return (hlm*0);
     case -4:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_6_m_min4(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
-      return (hlm);
+      return (hlm*0);
     case -5:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_6_m_min5(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
-      return (hlm);
+      return (hlm*0);
     case -6:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_6_m_min6(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
-      return (hlm);
+      return (hlm*0);
     default:
       XLAL_ERROR(XLAL_EINVAL, "Error in m for l=6 of hlmGOresult: Input m "
                               "value should be between -6 to +6.");
@@ -8565,74 +8565,74 @@ static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_7(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
-      return (hlm);
+      return (hlm*0);
     case 6:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_6(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
-      return (hlm);
+      return (hlm*0);
     case 5:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_5(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
-      return (hlm);
+      return (hlm*0);
     case 4:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_4(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
-      return (hlm);
+      return (hlm*0);
     case 3:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_3(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
-      return (hlm);
+      return (hlm*0);
     case 2:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
-      return (hlm);
+      return (hlm*0);
     case 1:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_1(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
-      return (hlm);
+      return (hlm*0);
     case 0:
       return (0);
     case -1:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_min1(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
-      return (hlm);
+      return (hlm*0);
     case -2:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_min2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
-      return (hlm);
+      return (hlm*0);
     case -3:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_min3(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
-      return (hlm);
+      return (hlm*0);
     case -4:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_min4(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
-      return (hlm);
+      return (hlm*0);
     case -5:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_min5(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
-      return (hlm);
+      return (hlm*0);
     case -6:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_min6(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z);
       }
-      return (hlm);
+      return (hlm*0);
     case -7:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_7_m_min7(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
-      return (hlm);
+      return (hlm*0);
     default:
       XLAL_ERROR(XLAL_EINVAL, "Error in m for l=7 of hlmGOresult: Input m "
                               "value should be between -7 to +7.");
@@ -8646,28 +8646,28 @@ static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_8_m_8(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
-      return (hlm);
+      return (hlm*0);
     case 7:
       return (0);
     case 6:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_8_m_6(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
-      return (hlm);
+      return (hlm*0);
     case 5:
       return (0);
     case 4:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_8_m_4(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
-      return (hlm);
+      return (hlm*0);
     case 3:
       return (0);
     case 2:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_8_m_2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
-      return (hlm);
+      return (hlm*0);
     case 1:
       return (0);
     case 0:
@@ -8678,28 +8678,28 @@ static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_8_m_min2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
-      return (hlm);
+      return (hlm*0);
     case -3:
       return (0);
     case -4:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_8_m_min4(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
-      return (hlm);
+      return (hlm*0);
     case -5:
       return (0);
     case -6:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_8_m_min6(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
-      return (hlm);
+      return (hlm*0);
     case -7:
       return (0);
     case -8:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
         hlm += hl_8_m_min8(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
       }
-      return (hlm);
+      return (hlm*0);
     default:
       XLAL_ERROR(XLAL_EINVAL, "Error in m for l=8 of hlmGOresult: Input m "
                               "value should be between -8 to +8.");

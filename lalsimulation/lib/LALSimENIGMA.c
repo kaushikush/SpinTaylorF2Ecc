@@ -256,8 +256,7 @@ static REAL8 phi_dot_0pn(REAL8 e, REAL8 eta, REAL8 u);
 static REAL8 phi_dot_1pn(REAL8 e, REAL8 eta, REAL8 u);
 static REAL8 phi_dot_2pn(REAL8 e, REAL8 eta, REAL8 u);
 static REAL8 phi_dot_3pn(REAL8 e, REAL8 eta, REAL8 u);
-// static REAL8 phi_dot_3_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8
-// S2z);
+//static REAL8 phi_dot_3_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 phi_dot_4pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 phi_dot_1_5_pnSO_ecc(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
                                   REAL8 S2z, REAL8 u);
@@ -490,7 +489,7 @@ static void compute_mode_from_dynamics(
   for (long i = 0; i < length; ++i) {
     h_lm[i] = hlmGOresult(l, m, total_mass, eta, r_vec[i] * total_mass,
                           r_dot_vec[i], phi_vec[i], phi_dot_vec[i] / total_mass,
-                          R, vpnorder, S1z, S2z, x_vec[i]);
+                          R, vpnorder, S1z, S2z, x_vec[i]) * LAL_MRSUN_SI;
   }
 }
 
@@ -503,7 +502,7 @@ static void compute_strain_from_dynamics(
     REAL8 *h_cross) {
   assert(h_plus != NULL && h_cross != NULL);
   const UINT4 ELL_MIN = 2;
-  const UINT4 ELL_MAX = 8;
+  const UINT4 ELL_MAX = 2;
 
   COMPLEX16 *hlm_timeseries =
       (COMPLEX16 *)LALMalloc(length * sizeof(COMPLEX16));
