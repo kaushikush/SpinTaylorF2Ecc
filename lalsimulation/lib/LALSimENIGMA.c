@@ -56,7 +56,7 @@
 /***********************************************************************************/
 
 #define L_MIN 2
-#define L_MAX 4
+#define L_MAX 2
 #define ONLY_LeqM_MODES false
 
 #ifndef ENIGMADEBUG
@@ -233,12 +233,12 @@ static REAL8 x_dot_3_5pn_SS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
                             REAL8 S2z);
 static REAL8 x_dot_3_5pn_cubicSpin(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2,
                                    REAL8 S1z, REAL8 S2z);
-static REAL8 x_dot_4pn(REAL8 e, REAL8 eta, REAL8 x);
+/* static REAL8 x_dot_4pn(REAL8 e, REAL8 eta, REAL8 x);
 static REAL8 x_dot_4pnSO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
                          REAL8 S2z);
 static REAL8 x_dot_4pnSS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
                          REAL8 S2z);
-static REAL8 x_dot_4_5_pn(REAL8 e, REAL8 eta, REAL8 x);
+static REAL8 x_dot_4_5_pn(REAL8 e, REAL8 eta, REAL8 x); */
 static REAL8 dxdt_4pn(REAL8 x, REAL8 eta);
 static REAL8 dxdt_4_5pn(REAL8 x, REAL8 eta);
 static REAL8 dxdt_5pn(REAL8 x, REAL8 eta);
@@ -266,7 +266,7 @@ static REAL8 phi_dot_0pn(REAL8 e, REAL8 eta, REAL8 u);
 static REAL8 phi_dot_1pn(REAL8 e, REAL8 eta, REAL8 u);
 static REAL8 phi_dot_2pn(REAL8 e, REAL8 eta, REAL8 u);
 static REAL8 phi_dot_3pn(REAL8 e, REAL8 eta, REAL8 u);
-//static REAL8 phi_dot_3_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+static REAL8 phi_dot_3_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 phi_dot_4pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 phi_dot_1_5_pnSO_ecc(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
                                   REAL8 S2z, REAL8 u);
