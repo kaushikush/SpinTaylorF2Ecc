@@ -56,7 +56,7 @@
 /***********************************************************************************/
 
 #define L_MIN 2
-#define L_MAX 4
+#define L_MAX 8
 #define ONLY_LeqM_MODES false
 
 #ifndef ENIGMADEBUG
@@ -103,6 +103,19 @@ typedef struct {
 
 } TrainingSet;
 
+struct kepler_vars {
+  int pn_order;
+  REAL8 eta;
+  REAL8 x;
+  REAL8 e;
+  REAL8 l;
+
+  // store commonly used powers of orbital elements
+  REAL8 x2, x3, x4, x5, x6, x7, x8, x9;
+  REAL8 e2, e3, e4, e5, e6, e7, e8, e9;
+  REAL8 eta2, eta3, eta4, eta5, eta6;
+};
+
 struct ode_parameters {
   REAL8 eta;
   REAL8 m1;
@@ -110,14 +123,7 @@ struct ode_parameters {
   REAL8 S1z;
   REAL8 S2z;
   int radiation_pn_order;
-};
-
-struct kepler_params {
-  int pn_order;
-  REAL8 eta;
-  REAL8 x;
-  REAL8 e;
-  REAL8 l;
+  struct kepler_vars *orbital_vars;
 };
 
 typedef struct {
@@ -187,6 +193,9 @@ static void AmpPhaseToWave(REAL8 *A, REAL8 *B, int length,
 static int PN_Omega(REAL8 mr, REAL8 tm, int *pn, REAL8 *w1);
 
 /* Keplerian terms */
+static void PopulateKeplerParams(struct kepler_vars *params, const REAL8 e,
+                                 const REAL8 x);
+
 static REAL8 cosu_factor(REAL8 e, REAL8 u);
 
 static REAL8 pn_kepler_equation(REAL8 eta, REAL8 x, REAL8 e, REAL8 l);
@@ -425,6 +434,29 @@ static REAL8 pow1_3(const REAL8 x) { return cbrt(x); }
 // static REAL8 pow5_2(const REAL8 x) { return sqrt(pow5(x)); }
 
 static REAL8 pow7_2(const REAL8 x) { return sqrt(pow7(x)); }
+
+static void PopulateKeplerParams(struct kepler_vars *params, const REAL8 e,
+                                 const REAL8 x) {
+  params->x = x;
+  params->x2 = x * x;
+  params->x3 = x * params->x2;
+  params->x4 = x * params->x3;
+  params->x5 = x * params->x4;
+  params->x6 = x * params->x5;
+  params->x7 = x * params->x6;
+  params->x8 = x * params->x7;
+  params->x9 = x * params->x8;
+
+  params->e = e;
+  params->e2 = e * e;
+  params->e3 = e * params->e2;
+  params->e4 = e * params->e3;
+  params->e5 = e * params->e4;
+  params->e6 = e * params->e5;
+  params->e7 = e * params->e6;
+  params->e8 = e * params->e7;
+  params->e9 = e * params->e8;
+}
 
 #include "ENIGMA_GOterms.c"
 #include "ENIGMA_GPEMergerRingdown.c"
@@ -1004,7 +1036,9 @@ int XLALSimInspiralENIGMADynamics(
   }
 
   /* parameters for the ODE system */
+  struct kepler_vars orbital_vars;
   struct ode_parameters ecc_params;
+  ecc_params.orbital_vars = &orbital_vars;
 
   int rad_pn_order = -1;
 
@@ -1212,6 +1246,15 @@ int XLALSimInspiralENIGMADynamics(
   /* initial orbital frequency */
   phi_dot_vec[0] = y_dot_in[3];
 
+  /* store common powers of elements */
+  orbital_vars.eta = sym_mass_ratio;
+  orbital_vars.eta2 = sym_mass_ratio * orbital_vars.eta;
+  orbital_vars.eta3 = sym_mass_ratio * orbital_vars.eta2;
+  orbital_vars.eta4 = sym_mass_ratio * orbital_vars.eta3;
+  orbital_vars.eta5 = sym_mass_ratio * orbital_vars.eta4;
+  orbital_vars.eta6 = sym_mass_ratio * orbital_vars.eta5;
+  PopulateKeplerParams(&orbital_vars, e_init, x_init);
+
   /* evolve the dynamical variables forward until we reach  */
   /* termination condition: phi_dot > omega_attach or x > x_final */
   t = t_next = 0.;
@@ -1301,6 +1344,9 @@ int XLALSimInspiralENIGMADynamics(
     l_vec[i] = y[2];
     phi_vec[i] = y[3];
     phi_dot_vec[i] = y_dot[3];
+
+    /* store common powers of elements */
+    PopulateKeplerParams(&orbital_vars, e_vec[i], x_vec[i]);
 
     /* semi-latus rectum: correct only for 0pN R.R. 0pN Con. *
      * p = (1-e^2)/(M n)^{2/3}, where M n = x^{3/2}          */
