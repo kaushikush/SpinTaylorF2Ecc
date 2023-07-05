@@ -8290,7 +8290,8 @@ static COMPLEX16 hl_8_m_min2(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
 
 static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
                              REAL8 rDOT, REAL8 Phi, REAL8 PhiDOT, REAL8 R,
-                             UINT4 vpnorder, REAL8 S1z, REAL8 S2z, REAL8 x) {
+                             UINT4 vpnorder, REAL8 S1z, REAL8 S2z, REAL8 x,
+                             struct kepler_vars orbital_vars) {
   if (vpnorder > 8) {
     XLAL_ERROR(
         XLAL_EINVAL,
