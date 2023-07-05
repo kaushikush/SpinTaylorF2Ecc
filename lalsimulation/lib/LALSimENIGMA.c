@@ -224,6 +224,7 @@ static REAL8 separation(REAL8 u, REAL8 eta, REAL8 x, REAL8 e, REAL8 m1,
 #define d4 (5.383192)
 #define cz0 (10.22474)
 #define mode_pn_order (8)
+#define Radiation_PN_Order (8)
 
 static REAL8 x_dot_0pn(REAL8 e, REAL8 eta);
 static REAL8 x_dot_1pn(REAL8 e, REAL8 eta);
@@ -1207,7 +1208,7 @@ int XLALSimInspiralENIGMADynamics(
       XLAL_ERROR_FAIL(XLAL_EFUNC);
     // omega_attach*= 0.5;
   } else {
-    rad_pn_order = 8;
+    rad_pn_order = (UINT4) Radiation_PN_Order;
     omega_attach = 1.0; // deliberately use unphysical value.
   }
   /* store the mass and pn params in the param structure */
