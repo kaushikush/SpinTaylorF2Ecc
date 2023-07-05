@@ -282,8 +282,7 @@ static REAL8 phi_dot_0pn(REAL8 e, REAL8 eta, REAL8 u);
 static REAL8 phi_dot_1pn(REAL8 e, REAL8 eta, REAL8 u);
 static REAL8 phi_dot_2pn(REAL8 e, REAL8 eta, REAL8 u);
 static REAL8 phi_dot_3pn(REAL8 e, REAL8 eta, REAL8 u);
-// static REAL8 phi_dot_3_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8
-// S2z);
+//static REAL8 phi_dot_3_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 phi_dot_4pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 phi_dot_1_5_pnSO_ecc(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
                                   REAL8 S2z, REAL8 u);
