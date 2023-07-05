@@ -1319,7 +1319,7 @@ static int eccentric_x_model_odes(REAL8 t, const REAL8 y[], REAL8 dydt[],
   (void)t;
   /* parse the paramater structure */
   struct ode_parameters *op = (struct ode_parameters *)params;
-  struct kepler_vars *orb_vars = op->orbital_vars;
+  struct kepler_vars UNUSED *orb_vars = op->orbital_vars;
   REAL8 eta = op->eta;
   REAL8 m1 = op->m1;
   REAL8 m2 = op->m2;

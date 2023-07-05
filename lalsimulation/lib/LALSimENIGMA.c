@@ -109,10 +109,16 @@ struct kepler_vars {
   REAL8 x;
   REAL8 e;
   REAL8 l;
+  REAL8 r;
+  REAL8 rDOT;
+  REAL8 phiDOT;
 
   // store commonly used powers of orbital elements
   REAL8 x2, x3, x4, x5, x6, x7, x8, x9;
   REAL8 e2, e3, e4, e5, e6, e7, e8, e9;
+  REAL8 r2, r3, r4, r5, r6, r7, r8, r9;
+  REAL8 rDOT2, rDOT3, rDOT4, rDOT5, rDOT6, rDOT7, rDOT8, rDOT9;
+  REAL8 phiDOT2, phiDOT3, phiDOT4, phiDOT5, phiDOT6, phiDOT7, phiDOT8, phiDOT9;
   REAL8 eta2, eta3, eta4, eta5, eta6;
 };
 
@@ -194,7 +200,8 @@ static int PN_Omega(REAL8 mr, REAL8 tm, int *pn, REAL8 *w1);
 
 /* Keplerian terms */
 static void PopulateKeplerParams(struct kepler_vars *params, const REAL8 e,
-                                 const REAL8 x);
+                                 const REAL8 x, const REAL8 r, const REAL8 rDOT,
+                                 const REAL8 phiDOT);
 
 static REAL8 cosu_factor(REAL8 e, REAL8 u);
 
@@ -436,26 +443,67 @@ static REAL8 pow1_3(const REAL8 x) { return cbrt(x); }
 static REAL8 pow7_2(const REAL8 x) { return sqrt(pow7(x)); }
 
 static void PopulateKeplerParams(struct kepler_vars *params, const REAL8 e,
-                                 const REAL8 x) {
-  params->x = x;
-  params->x2 = x * x;
-  params->x3 = x * params->x2;
-  params->x4 = x * params->x3;
-  params->x5 = x * params->x4;
-  params->x6 = x * params->x5;
-  params->x7 = x * params->x6;
-  params->x8 = x * params->x7;
-  params->x9 = x * params->x8;
+                                 const REAL8 x, const REAL8 r, const REAL8 rDOT,
+                                 const REAL8 phiDOT) {
+  if (x > 0) {
+    params->x = x;
+    params->x2 = x * x;
+    params->x3 = x * params->x2;
+    params->x4 = x * params->x3;
+    params->x5 = x * params->x4;
+    params->x6 = x * params->x5;
+    params->x7 = x * params->x6;
+    params->x8 = x * params->x7;
+    params->x9 = x * params->x8;
+  }
 
-  params->e = e;
-  params->e2 = e * e;
-  params->e3 = e * params->e2;
-  params->e4 = e * params->e3;
-  params->e5 = e * params->e4;
-  params->e6 = e * params->e5;
-  params->e7 = e * params->e6;
-  params->e8 = e * params->e7;
-  params->e9 = e * params->e8;
+  if (e > 0) {
+    params->e = e;
+    params->e2 = e * e;
+    params->e3 = e * params->e2;
+    params->e4 = e * params->e3;
+    params->e5 = e * params->e4;
+    params->e6 = e * params->e5;
+    params->e7 = e * params->e6;
+    params->e8 = e * params->e7;
+    params->e9 = e * params->e8;
+  }
+
+  if (r > 0) {
+    params->r = r;
+    params->r2 = r * r;
+    params->r3 = r * params->r2;
+    params->r4 = r * params->r3;
+    params->r5 = r * params->r4;
+    params->r6 = r * params->r5;
+    params->r7 = r * params->r6;
+    params->r8 = r * params->r7;
+    params->r9 = r * params->r8;
+  }
+
+  if (rDOT != 0) {
+    params->rDOT = rDOT;
+    params->rDOT2 = rDOT * rDOT;
+    params->rDOT3 = rDOT * params->rDOT2;
+    params->rDOT4 = rDOT * params->rDOT3;
+    params->rDOT5 = rDOT * params->rDOT4;
+    params->rDOT6 = rDOT * params->rDOT5;
+    params->rDOT7 = rDOT * params->rDOT6;
+    params->rDOT8 = rDOT * params->rDOT7;
+    params->rDOT9 = rDOT * params->rDOT8;
+  }
+
+  if (phiDOT != 0) {
+    params->phiDOT = phiDOT;
+    params->phiDOT2 = phiDOT * phiDOT;
+    params->phiDOT3 = phiDOT * params->phiDOT2;
+    params->phiDOT4 = phiDOT * params->phiDOT3;
+    params->phiDOT5 = phiDOT * params->phiDOT4;
+    params->phiDOT6 = phiDOT * params->phiDOT5;
+    params->phiDOT7 = phiDOT * params->phiDOT6;
+    params->phiDOT8 = phiDOT * params->phiDOT7;
+    params->phiDOT9 = phiDOT * params->phiDOT8;
+  }
 }
 
 #include "ENIGMA_GOterms.c"
@@ -529,7 +577,18 @@ static void compute_mode_from_dynamics(
   const REAL8 eta =
       (mass1 * mass2) / (total_mass * total_mass); // Symmetric Mass Ratio
 
+  /* store common powers of elements */
+  struct kepler_vars orbital_vars;
+  orbital_vars.eta = eta;
+  orbital_vars.eta2 = eta * orbital_vars.eta;
+  orbital_vars.eta3 = eta * orbital_vars.eta2;
+  orbital_vars.eta4 = eta * orbital_vars.eta3;
+  orbital_vars.eta5 = eta * orbital_vars.eta4;
+  orbital_vars.eta6 = eta * orbital_vars.eta5;
+
   for (long i = 0; i < length; ++i) {
+    PopulateKeplerParams(&orbital_vars, 0., x_vec[i], r_vec[i] * total_mass,
+                         r_dot_vec[i], phi_dot_vec[i] / total_mass);
     h_lm[i] = hlmGOresult(l, m, total_mass, eta, r_vec[i] * total_mass,
                           r_dot_vec[i], phi_vec[i], phi_dot_vec[i] / total_mass,
                           R, vpnorder, S1z, S2z, x_vec[i]) *
@@ -1253,7 +1312,8 @@ int XLALSimInspiralENIGMADynamics(
   orbital_vars.eta4 = sym_mass_ratio * orbital_vars.eta3;
   orbital_vars.eta5 = sym_mass_ratio * orbital_vars.eta4;
   orbital_vars.eta6 = sym_mass_ratio * orbital_vars.eta5;
-  PopulateKeplerParams(&orbital_vars, e_init, x_init);
+  PopulateKeplerParams(&orbital_vars, e_init, x_init, r_vec[0], 0,
+                       phi_dot_vec[0]);
 
   /* evolve the dynamical variables forward until we reach  */
   /* termination condition: phi_dot > omega_attach or x > x_final */
@@ -1345,9 +1405,6 @@ int XLALSimInspiralENIGMADynamics(
     phi_vec[i] = y[3];
     phi_dot_vec[i] = y_dot[3];
 
-    /* store common powers of elements */
-    PopulateKeplerParams(&orbital_vars, e_vec[i], x_vec[i]);
-
     /* semi-latus rectum: correct only for 0pN R.R. 0pN Con. *
      * p = (1-e^2)/(M n)^{2/3}, where M n = x^{3/2}          */
     p_vec[i] = (1.0 - e_vec[i] * e_vec[i]) / (x_vec[i]);
@@ -1358,6 +1415,10 @@ int XLALSimInspiralENIGMADynamics(
     /* compute the values of r using Eq. (5) */
     r_vec[i] = separation(u_vec[i], sym_mass_ratio, x_vec[i], e_vec[i], mass1,
                           mass2, S1z, S2z);
+
+    /* store common powers of elements */
+    PopulateKeplerParams(&orbital_vars, e_vec[i], x_vec[i], r_vec[i], 0,
+                         phi_dot_vec[i]);
 
     /* check if we reached ISCO (we should never get this far) */
     if (x_vec[i] >= x_final) {
