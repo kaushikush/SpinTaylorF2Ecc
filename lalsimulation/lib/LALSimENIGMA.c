@@ -111,14 +111,14 @@ struct kepler_vars {
   REAL8 l;
   REAL8 r;
   REAL8 rDOT;
-  REAL8 phiDOT;
+  REAL8 PhiDOT;
 
   // store commonly used powers of orbital elements
   REAL8 x2, x3, x4, x5, x6, x7, x8, x9;
   REAL8 e2, e3, e4, e5, e6, e7, e8, e9;
   REAL8 r2, r3, r4, r5, r6, r7, r8, r9;
   REAL8 rDOT2, rDOT3, rDOT4, rDOT5, rDOT6, rDOT7, rDOT8, rDOT9;
-  REAL8 phiDOT2, phiDOT3, phiDOT4, phiDOT5, phiDOT6, phiDOT7, phiDOT8, phiDOT9;
+  REAL8 PhiDOT2, PhiDOT3, PhiDOT4, PhiDOT5, PhiDOT6, PhiDOT7, PhiDOT8, PhiDOT9;
   REAL8 eta2, eta3, eta4, eta5, eta6;
 };
 
@@ -201,7 +201,7 @@ static int PN_Omega(REAL8 mr, REAL8 tm, int *pn, REAL8 *w1);
 /* Keplerian terms */
 static void PopulateKeplerParams(struct kepler_vars *params, const REAL8 e,
                                  const REAL8 x, const REAL8 r, const REAL8 rDOT,
-                                 const REAL8 phiDOT);
+                                 const REAL8 PhiDOT);
 
 static REAL8 cosu_factor(REAL8 e, REAL8 u);
 
@@ -443,7 +443,7 @@ static REAL8 pow7_2(const REAL8 x) { return sqrt(pow7(x)); }
 
 static void PopulateKeplerParams(struct kepler_vars *params, const REAL8 e,
                                  const REAL8 x, const REAL8 r, const REAL8 rDOT,
-                                 const REAL8 phiDOT) {
+                                 const REAL8 PhiDOT) {
   if (x > 0) {
     params->x = x;
     params->x2 = x * x;
@@ -492,16 +492,16 @@ static void PopulateKeplerParams(struct kepler_vars *params, const REAL8 e,
     params->rDOT9 = rDOT * params->rDOT8;
   }
 
-  if (phiDOT != 0) {
-    params->phiDOT = phiDOT;
-    params->phiDOT2 = phiDOT * phiDOT;
-    params->phiDOT3 = phiDOT * params->phiDOT2;
-    params->phiDOT4 = phiDOT * params->phiDOT3;
-    params->phiDOT5 = phiDOT * params->phiDOT4;
-    params->phiDOT6 = phiDOT * params->phiDOT5;
-    params->phiDOT7 = phiDOT * params->phiDOT6;
-    params->phiDOT8 = phiDOT * params->phiDOT7;
-    params->phiDOT9 = phiDOT * params->phiDOT8;
+  if (PhiDOT != 0) {
+    params->PhiDOT = PhiDOT;
+    params->PhiDOT2 = PhiDOT * PhiDOT;
+    params->PhiDOT3 = PhiDOT * params->PhiDOT2;
+    params->PhiDOT4 = PhiDOT * params->PhiDOT3;
+    params->PhiDOT5 = PhiDOT * params->PhiDOT4;
+    params->PhiDOT6 = PhiDOT * params->PhiDOT5;
+    params->PhiDOT7 = PhiDOT * params->PhiDOT6;
+    params->PhiDOT8 = PhiDOT * params->PhiDOT7;
+    params->PhiDOT9 = PhiDOT * params->PhiDOT8;
   }
 }
 
