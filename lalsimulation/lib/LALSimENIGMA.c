@@ -106,20 +106,26 @@ typedef struct {
 struct kepler_vars {
   int pn_order;
   REAL8 eta;
+  REAL8 Mtot;
   REAL8 x;
   REAL8 e;
   REAL8 l;
   REAL8 r;
   REAL8 rDOT;
   REAL8 PhiDOT;
+  REAL8 S1z;
+  REAL8 S2z;
 
   // store commonly used powers of orbital elements
-  REAL8 x2, x3, x4, x5, x6, x7, x8, x9;
+  REAL8 x2, x2p5, x3, x3p5, x4, x4p5, x5, x6, x7, x8, x9;
   REAL8 e2, e3, e4, e5, e6, e7, e8, e9;
   REAL8 r2, r3, r4, r5, r6, r7, r8, r9;
   REAL8 rDOT2, rDOT3, rDOT4, rDOT5, rDOT6, rDOT7, rDOT8, rDOT9;
   REAL8 PhiDOT2, PhiDOT3, PhiDOT4, PhiDOT5, PhiDOT6, PhiDOT7, PhiDOT8, PhiDOT9;
+  REAL8 S1z2, S1z3, S1z4, S1z5, S1z6;
+  REAL8 S2z2, S2z3, S2z4, S2z5, S2z6;
   REAL8 eta2, eta3, eta4, eta5, eta6;
+  REAL8 Mtot2, Mtot3, Mtot4, Mtot5, Mtot6;
 };
 
 struct ode_parameters {
@@ -225,7 +231,11 @@ static REAL8 separation(REAL8 u, REAL8 eta, REAL8 x, REAL8 e, REAL8 m1,
 #define cz0 (10.22474)
 #define mode_pn_order (8)
 #define Radiation_PN_Order (8)
-
+#define M_PI2 (9.86960440)
+#define M_PI3 (31.00627668)
+#define M_PI4 (97.40909103)
+#define M_PI5 (306.01968479)
+ 
 static REAL8 x_dot_0pn(REAL8 e, REAL8 eta);
 static REAL8 x_dot_1pn(REAL8 e, REAL8 eta);
 static REAL8 x_dot_1_5_pn(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
@@ -448,8 +458,11 @@ static void PopulateKeplerParams(struct kepler_vars *params, const REAL8 e,
   if (x > 0) {
     params->x = x;
     params->x2 = x * x;
+    params->x2p5 = x * x * sqrt(x);
     params->x3 = x * params->x2;
+    params->x3p5 = x * params->x2p5;
     params->x4 = x * params->x3;
+    params->x4p5 = x * params->x3p5;
     params->x5 = x * params->x4;
     params->x6 = x * params->x5;
     params->x7 = x * params->x6;
@@ -585,6 +598,29 @@ static void compute_mode_from_dynamics(
   orbital_vars.eta4 = eta * orbital_vars.eta3;
   orbital_vars.eta5 = eta * orbital_vars.eta4;
   orbital_vars.eta6 = eta * orbital_vars.eta5;
+
+  orbital_vars.Mtot = total_mass;
+  orbital_vars.Mtot2 = total_mass * orbital_vars.Mtot;
+  orbital_vars.Mtot3 = total_mass * orbital_vars.Mtot2;
+  orbital_vars.Mtot4 = total_mass * orbital_vars.Mtot3;
+  orbital_vars.Mtot5 = total_mass * orbital_vars.Mtot4;
+  orbital_vars.Mtot6 = total_mass * orbital_vars.Mtot5;
+
+  orbital_vars.S1z = S1z;
+  orbital_vars.S1z2 = S1z * orbital_vars.S1z;
+  orbital_vars.S1z3 = S1z * orbital_vars.S1z2;
+  orbital_vars.S1z4 = S1z * orbital_vars.S1z3;
+  orbital_vars.S1z5 = S1z * orbital_vars.S1z4;
+  orbital_vars.S1z6 = S1z * orbital_vars.S1z5;
+
+  orbital_vars.S2z = S2z;
+  orbital_vars.S2z2 = S2z * orbital_vars.S2z;
+  orbital_vars.S2z3 = S2z * orbital_vars.S2z2;
+  orbital_vars.S2z4 = S2z * orbital_vars.S2z3;
+  orbital_vars.S2z5 = S2z * orbital_vars.S2z4;
+  orbital_vars.S2z6 = S2z * orbital_vars.S2z5;
+  
+  
 
   for (long i = 0; i < length; ++i) {
     PopulateKeplerParams(&orbital_vars, 0., x_vec[i], r_vec[i] * total_mass,
@@ -1312,6 +1348,28 @@ int XLALSimInspiralENIGMADynamics(
   orbital_vars.eta4 = sym_mass_ratio * orbital_vars.eta3;
   orbital_vars.eta5 = sym_mass_ratio * orbital_vars.eta4;
   orbital_vars.eta6 = sym_mass_ratio * orbital_vars.eta5;
+
+  orbital_vars.Mtot = total_mass;
+  orbital_vars.Mtot2 = total_mass * orbital_vars.Mtot;
+  orbital_vars.Mtot3 = total_mass * orbital_vars.Mtot2;
+  orbital_vars.Mtot4 = total_mass * orbital_vars.Mtot3;
+  orbital_vars.Mtot5 = total_mass * orbital_vars.Mtot4;
+  orbital_vars.Mtot6 = total_mass * orbital_vars.Mtot5;
+
+  orbital_vars.S1z = S1z;
+  orbital_vars.S1z2 = S1z * orbital_vars.S1z;
+  orbital_vars.S1z3 = S1z * orbital_vars.S1z2;
+  orbital_vars.S1z4 = S1z * orbital_vars.S1z3;
+  orbital_vars.S1z5 = S1z * orbital_vars.S1z4;
+  orbital_vars.S1z6 = S1z * orbital_vars.S1z5;
+
+  orbital_vars.S2z = S2z;
+  orbital_vars.S2z2 = S2z * orbital_vars.S2z;
+  orbital_vars.S2z3 = S2z * orbital_vars.S2z2;
+  orbital_vars.S2z4 = S2z * orbital_vars.S2z3;
+  orbital_vars.S2z5 = S2z * orbital_vars.S2z4;
+  orbital_vars.S2z6 = S2z * orbital_vars.S2z5;
+
   PopulateKeplerParams(&orbital_vars, e_init, x_init, r_vec[0], 0,
                        phi_dot_vec[0]);
 
