@@ -4281,7 +4281,7 @@ static COMPLEX16 hl_4_m_min1(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
   }
 
   else {
-    return ((4 * mass * Nu * sqrt(M_PI / 5.)) / R) * pow(-1, 4) *
+    return ((4 * mass * Nu * sqrt(M_PI / 5.)) / R) *
            conj(hGO_4_m_1(mass, Nu, r, rDOT, PhiDOT, vpnorder, S1z, S2z, x, params) +
                 hQC_4_m_1(Nu, vpnorder, x, params)) *
            cpolar(1, 1 * Phi);
