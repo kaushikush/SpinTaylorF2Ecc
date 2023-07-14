@@ -7466,117 +7466,117 @@ static COMPLEX16 hl_7_m_min5(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
 
 // 73
 static COMPLEX16 hGO_7_m_3(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
-                           REAL8 PhiDOT, UINT4 vpnorder) {
+                           REAL8 PhiDOT, UINT4 vpnorder, struct kepler_vars params) {
   REAL8 delta = sqrt(1 - 4 * Nu);
 
   if (vpnorder == 5) {
-    return (delta * (1 - 4 * Nu + 3 * pow(Nu, 2)) *
-            (5040 * pow(r, 3) * pow(PhiDOT * r - Complex(0, 1) * rDOT, 2) *
+    return (delta * (1 - 4 * Nu + 3 * params.eta2) *
+            (5040 * params.r3 * pow(PhiDOT * r - Complex(0, 1) * rDOT, 2) *
                  pow(Complex(0, -1) * PhiDOT * r + rDOT, 5) +
-             2 * pow(mass, 3) *
+             2 * params.Mtot3 *
                  (Complex(0, -13677) * PhiDOT * r + 13832 * rDOT) +
-             18 * pow(mass, 2) * r *
-                 (Complex(0, 1529) * pow(PhiDOT, 3) * pow(r, 3) +
-                  2401 * pow(PhiDOT, 2) * pow(r, 2) * rDOT +
-                  Complex(0, 6534) * PhiDOT * r * pow(rDOT, 2) -
-                  3094 * pow(rDOT, 3)) +
-             15 * mass * pow(r, 2) *
-                 (Complex(0, 179) * pow(PhiDOT, 5) * pow(r, 5) -
-                  4368 * pow(PhiDOT, 4) * pow(r, 4) * rDOT -
-                  Complex(0, 4878) * pow(PhiDOT, 3) * pow(r, 3) * pow(rDOT, 2) -
-                  2240 * pow(PhiDOT, 2) * pow(r, 2) * pow(rDOT, 3) -
-                  Complex(0, 5400) * PhiDOT * r * pow(rDOT, 4) +
-                  2016 * pow(rDOT, 5)))) /
-           (240240. * sqrt(6) * pow(r, 3));
+             18 * params.Mtot2 * r *
+                 (Complex(0, 1529) * params.PhiDOT3 * params.r3 +
+                  2401 * params.PhiDOT2 * params.r2 * rDOT +
+                  Complex(0, 6534) * PhiDOT * r * params.rDOT2 -
+                  3094 * params.rDOT3) +
+             15 * mass * params.r2 *
+                 (Complex(0, 179) * params.PhiDOT5 * params.r5 -
+                  4368 * params.PhiDOT4 * params.r4 * rDOT -
+                  Complex(0, 4878) * params.PhiDOT3 * params.r3 * params.rDOT2 -
+                  2240 * params.PhiDOT2 * params.r2 * params.rDOT3 -
+                  Complex(0, 5400) * PhiDOT * r * params.rDOT4 +
+                  2016 * params.rDOT5))) /
+           (240240. * sqrt(6) * params.r3);
   }
 
   else if (vpnorder == 7) {
     return (
         (delta *
-         (-5040 * (-59 + 473 * Nu - 1185 * pow(Nu, 2) + 831 * pow(Nu, 3)) *
-              pow(r, 4) * pow(PhiDOT * r + Complex(0, 1) * rDOT, 6) *
+         (-5040 * (-59 + 473 * Nu - 1185 * params.eta2 + 831 * params.eta3) *
+              params.r4 * pow(PhiDOT * r + Complex(0, 1) * rDOT, 6) *
               pow(Complex(0, 1) * PhiDOT * r + rDOT, 3) +
-          4 * pow(mass, 4) *
+          4 * params.Mtot4 *
               (Complex(0, -3) *
-                   (-845315 + 3567934 * Nu - 3505793 * pow(Nu, 2) +
-                    1006326 * pow(Nu, 3)) *
+                   (-845315 + 3567934 * Nu - 3505793 * params.eta2 +
+                    1006326 * params.eta3) *
                    PhiDOT * r +
                4 *
-                   (-482641 + 2069935 * Nu - 2198091 * pow(Nu, 2) +
-                    803481 * pow(Nu, 3)) *
+                   (-482641 + 2069935 * Nu - 2198091 * params.eta2 +
+                    803481 * params.eta3) *
                    rDOT) +
-          2 * pow(mass, 3) * r *
+          2 * params.Mtot3 * r *
               (Complex(0, 3) *
-                   (-1230515 + 5257699 * Nu - 5937001 * pow(Nu, 2) +
-                    2812717 * pow(Nu, 3)) *
-                   pow(PhiDOT, 3) * pow(r, 3) +
+                   (-1230515 + 5257699 * Nu - 5937001 * params.eta2 +
+                    2812717 * params.eta3) *
+                   params.PhiDOT3 * params.r3 +
                2 *
-                   (-1358541 + 7716148 * Nu - 13612763 * pow(Nu, 2) +
-                    7664360 * pow(Nu, 3)) *
-                   pow(PhiDOT, 2) * pow(r, 2) * rDOT +
+                   (-1358541 + 7716148 * Nu - 13612763 * params.eta2 +
+                    7664360 * params.eta3) *
+                   params.PhiDOT2 * params.r2 * rDOT +
                Complex(0, 3) *
-                   (-1175695 + 7490560 * Nu - 17116047 * pow(Nu, 2) +
-                    13239024 * pow(Nu, 3)) *
-                   PhiDOT * r * pow(rDOT, 2) -
+                   (-1175695 + 7490560 * Nu - 17116047 * params.eta2 +
+                    13239024 * params.eta3) *
+                   PhiDOT * r * params.rDOT2 -
                8 *
-                   (-74093 + 755216 * Nu - 2568447 * pow(Nu, 2) +
-                    2398116 * pow(Nu, 3)) *
-                   pow(rDOT, 3)) +
-          6 * pow(mass, 2) * pow(r, 2) *
+                   (-74093 + 755216 * Nu - 2568447 * params.eta2 +
+                    2398116 * params.eta3) *
+                   params.rDOT3) +
+          6 * params.Mtot2 * params.r2 *
               (Complex(0, -2) *
-                   (76741 - 370227 * Nu + 248553 * pow(Nu, 2) +
-                    279655 * pow(Nu, 3)) *
-                   pow(PhiDOT, 5) * pow(r, 5) -
+                   (76741 - 370227 * Nu + 248553 * params.eta2 +
+                    279655 * params.eta3) *
+                   params.PhiDOT5 * params.r5 -
                3 *
-                   (65300 + 667351 * Nu - 4038422 * pow(Nu, 2) +
-                    3825889 * pow(Nu, 3)) *
-                   pow(PhiDOT, 4) * pow(r, 4) * rDOT -
+                   (65300 + 667351 * Nu - 4038422 * params.eta2 +
+                    3825889 * params.eta3) *
+                   params.PhiDOT4 * params.r4 * rDOT -
                Complex(0, 3) *
-                   (249977 + 166121 * Nu - 4919353 * pow(Nu, 2) +
-                    5508423 * pow(Nu, 3)) *
-                   pow(PhiDOT, 3) * pow(r, 3) * pow(rDOT, 2) +
-               (-1216669 + 3561561 * Nu + 1952337 * pow(Nu, 2) -
-                4679113 * pow(Nu, 3)) *
-                   pow(PhiDOT, 2) * pow(r, 2) * pow(rDOT, 3) -
+                   (249977 + 166121 * Nu - 4919353 * params.eta2 +
+                    5508423 * params.eta3) *
+                   params.PhiDOT3 * params.r3 * params.rDOT2 +
+               (-1216669 + 3561561 * Nu + 1952337 * params.eta2 -
+                4679113 * params.eta3) *
+                   params.PhiDOT2 * params.r2 * params.rDOT3 -
                Complex(0, 18) *
-                   (119115 - 252749 * Nu - 689509 * pow(Nu, 2) +
-                    975153 * pow(Nu, 3)) *
-                   PhiDOT * r * pow(rDOT, 4) +
+                   (119115 - 252749 * Nu - 689509 * params.eta2 +
+                    975153 * params.eta3) *
+                   PhiDOT * r * params.rDOT4 +
                6 *
-                   (131615 - 252847 * Nu - 892507 * pow(Nu, 2) +
-                    1206639 * pow(Nu, 3)) *
-                   pow(rDOT, 5)) +
-          15 * mass * pow(r, 3) *
+                   (131615 - 252847 * Nu - 892507 * params.eta2 +
+                    1206639 * params.eta3) *
+                   params.rDOT5) +
+          15 * mass * params.r3 *
               (Complex(0, -17) *
-                   (-3693 + 24516 * Nu - 50930 * pow(Nu, 2) +
-                    30982 * pow(Nu, 3)) *
-                   pow(PhiDOT, 7) * pow(r, 7) +
+                   (-3693 + 24516 * Nu - 50930 * params.eta2 +
+                    30982 * params.eta3) *
+                   params.PhiDOT7 * params.r7 +
                6 *
-                   (14141 + 89013 * Nu - 604958 * pow(Nu, 2) +
-                    566877 * pow(Nu, 3)) *
-                   pow(PhiDOT, 6) * pow(r, 6) * rDOT +
+                   (14141 + 89013 * Nu - 604958 * params.eta2 +
+                    566877 * params.eta3) *
+                   params.PhiDOT6 * params.r6 * rDOT +
                Complex(0, 1) *
-                   (-125697 + 1209408 * Nu - 3554741 * pow(Nu, 2) +
-                    2822200 * pow(Nu, 3)) *
-                   pow(PhiDOT, 5) * pow(r, 5) * pow(rDOT, 2) +
+                   (-125697 + 1209408 * Nu - 3554741 * params.eta2 +
+                    2822200 * params.eta3) *
+                   params.PhiDOT5 * params.r5 * params.rDOT2 +
                4 *
-                   (90786 - 8859 * Nu - 1290784 * pow(Nu, 2) +
-                    1354859 * pow(Nu, 3)) *
-                   pow(PhiDOT, 4) * pow(r, 4) * pow(rDOT, 3) +
+                   (90786 - 8859 * Nu - 1290784 * params.eta2 +
+                    1354859 * params.eta3) *
+                   params.PhiDOT4 * params.r4 * params.rDOT3 +
                Complex(0, 6) *
-                   (27423 + 212284 * Nu - 1343099 * pow(Nu, 2) +
-                    1240856 * pow(Nu, 3)) *
-                   pow(PhiDOT, 3) * pow(r, 3) * pow(rDOT, 4) +
+                   (27423 + 212284 * Nu - 1343099 * params.eta2 +
+                    1240856 * params.eta3) *
+                   params.PhiDOT3 * params.r3 * params.rDOT4 +
                16 *
-                   (10461 - 33135 * Nu - 6298 * pow(Nu, 2) +
-                    31817 * pow(Nu, 3)) *
-                   pow(PhiDOT, 2) * pow(r, 2) * pow(rDOT, 5) +
+                   (10461 - 33135 * Nu - 6298 * params.eta2 +
+                    31817 * params.eta3) *
+                   params.PhiDOT2 * params.r2 * params.rDOT5 +
                Complex(0, 360) *
-                   (499 + 1018 * Nu - 11789 * pow(Nu, 2) + 11502 * pow(Nu, 3)) *
-                   PhiDOT * r * pow(rDOT, 6) -
-               672 * (70 + 311 * Nu - 2394 * pow(Nu, 2) + 2253 * pow(Nu, 3)) *
-                   pow(rDOT, 7)))) /
-        (8.16816e6 * sqrt(6) * pow(r, 4)));
+                   (499 + 1018 * Nu - 11789 * params.eta2 + 11502 * params.eta3) *
+                   PhiDOT * r * params.rDOT6 -
+               672 * (70 + 311 * Nu - 2394 * params.eta2 + 2253 * params.eta3) *
+                   params.rDOT7))) /
+        (8.16816e6 * sqrt(6) * params.r4));
   }
 
   else {
@@ -7585,7 +7585,7 @@ static COMPLEX16 hGO_7_m_3(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
 }
 
 static COMPLEX16 hl_7_m_3(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT, REAL8 Phi,
-                          REAL8 PhiDOT, REAL8 R, UINT4 vpnorder) {
+                          REAL8 PhiDOT, REAL8 R, UINT4 vpnorder, struct kepler_vars params) {
 
   if ((vpnorder < 0) || (vpnorder > 8)) {
     XLAL_ERROR(XLAL_EINVAL, "Error in hl_7_m_3: Input PN order parameter "
@@ -7594,12 +7594,12 @@ static COMPLEX16 hl_7_m_3(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT, REAL8 Phi,
 
   else {
     return ((4 * mass * Nu * sqrt(M_PI / 5.)) / R) *
-           hGO_7_m_3(mass, Nu, r, rDOT, PhiDOT, vpnorder) * cpolar(1, -3 * Phi);
+           hGO_7_m_3(mass, Nu, r, rDOT, PhiDOT, vpnorder, params) * cpolar(1, -3 * Phi);
   }
 }
 
 static COMPLEX16 hl_7_m_min3(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
-                             REAL8 Phi, REAL8 PhiDOT, REAL8 R, UINT4 vpnorder) {
+                             REAL8 Phi, REAL8 PhiDOT, REAL8 R, UINT4 vpnorder, struct kepler_vars params) {
 
   if ((vpnorder < 0) || (vpnorder > 8)) {
     XLAL_ERROR(XLAL_EINVAL, "Error in hl_7_m_min3: Input PN order parameter "
@@ -7607,8 +7607,8 @@ static COMPLEX16 hl_7_m_min3(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
   }
 
   else {
-    return ((4 * mass * Nu * sqrt(M_PI / 5.)) / R) * pow(-1, 7) *
-           conj(hGO_7_m_3(mass, Nu, r, rDOT, PhiDOT, vpnorder)) *
+    return ((- 4 * mass * Nu * sqrt(M_PI / 5.)) / R) *
+           conj(hGO_7_m_3(mass, Nu, r, rDOT, PhiDOT, vpnorder, params)) *
            cpolar(1, 3 * Phi);
   }
 }
@@ -8581,7 +8581,7 @@ static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
       return (hlm);
     case 3:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
-        hlm += hl_7_m_3(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
+        hlm += hl_7_m_3(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, orbital_vars);
       }
       return (hlm);
     case 2:
@@ -8608,7 +8608,7 @@ static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
       return (hlm);
     case -3:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
-        hlm += hl_7_m_min3(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno);
+        hlm += hl_7_m_min3(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, orbital_vars);
       }
       return (hlm);
     case -4:
