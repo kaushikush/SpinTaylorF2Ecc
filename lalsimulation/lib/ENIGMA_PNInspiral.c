@@ -1247,7 +1247,7 @@ static REAL8 phi_dot_3pn(REAL8 e, REAL8 eta, REAL8 u) {
 
 // The non-spinning quasi-circular piece of phi_dot at 4PN and 4.5PN order is 0.
 
-static REAL8 phi_dot_4pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
+static REAL8 phi_dot_4pn_SS(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
                             REAL8 S2z) /* Computed using inputs from energy and
 flux expressions. See Blanchet liv. rev.
 + Bohe et al. arXiv: 1501.01529 + Marsat et al. arXiv: 1411.4118*/
@@ -1731,7 +1731,7 @@ static REAL8 dphi_dt(REAL8 u, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
             phi_dot_3pn(
                 e, eta,
                 u) /* + phi_dot_3_5pn_SO(e,m1,m2,S1z,S2z) * x_pow_3_2 * x * x */
-        + phi_dot_4pn_SO(e, m1, m2, S1z, S2z) * x_pow_3_2 * x * x * sqrt(x)) *
+        + phi_dot_4pn_SS(e, m1, m2, S1z, S2z) * x_pow_3_2 * x * x * sqrt(x)) *
        x_pow_3_2);
 
   return phidot;
