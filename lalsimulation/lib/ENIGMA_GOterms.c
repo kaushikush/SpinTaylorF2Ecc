@@ -7345,9 +7345,26 @@ static COMPLEX16 hGO_7_m_7(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
                            REAL8 PhiDOT, UINT4 vpnorder, struct kepler_vars params) {
   REAL8 delta = sqrt(1 - 4 * Nu);
 
+  REAL8 combination_b = (PhiDOT * r + Complex(0, 1) * rDOT);
+  REAL8 combination_b2 = combination_b * combination_b;
+  REAL8 combination_b3 = combination_b2 * combination_b;
+  REAL8 combination_b4 = combination_b3 * combination_b;
+  REAL8 combination_b5 = combination_b4 * combination_b;
+  REAL8 combination_b6 = combination_b5 * combination_b;
+  REAL8 combination_b7 = combination_b6 * combination_b;
+  REAL8 combination_b8 = combination_b7 * combination_b;
+
+  REAL8 combination_c = (Complex(0, 1) * PhiDOT * r - rDOT);
+  REAL8 combination_c2 = combination_c * combination_c;
+  REAL8 combination_c3 = combination_c2 * combination_c;
+  REAL8 combination_c4 = combination_c3 * combination_c;
+  REAL8 combination_c5 = combination_c4 * combination_c;
+  REAL8 combination_c6 = combination_c5 * combination_c;
+  REAL8 combination_c7 = combination_c6 * combination_c;
+
   if (vpnorder == 5) {
     return (delta * (1 - 4 * Nu + 3 * params.eta2) *
-            (720 * params.r3 * pow(Complex(0, 1) * PhiDOT * r - rDOT, 7) +
+            (720 * params.r3 * combination_c7 +
              2 * params.Mtot3 * (Complex(0, -4559) * PhiDOT * r + 1976 * rDOT) +
              18 * params.Mtot2 * r *
                  (Complex(0, -3317) * params.PhiDOT3 * params.r3 +
@@ -7369,7 +7386,7 @@ static COMPLEX16 hGO_7_m_7(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
     return (
         (delta *
          (5040 * (-59 + 473 * Nu - 1185 * params.eta2 + 831 * params.eta3) *
-              params.r4 * pow(PhiDOT * r + Complex(0, 1) * rDOT, 8) *
+              params.r4 * combination_b8 *
               (Complex(0, 1) * PhiDOT * r + rDOT) +
           4 * params.Mtot4 *
               (Complex(0, -7) *
