@@ -22,6 +22,9 @@ static COMPLEX16 hGO_2_m_2(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
   REAL8 lambda1 = 1.0;
   REAL8 lambda2 = 1.0;
   REAL8 delta = sqrt(1 - 4 * Nu);
+  REAL8 combination_a = (PhiDOT * r + Complex(0, 1) * rDOT);
+  REAL8 combination_a2 = combination_a * combination_a;
+  REAL8 combination_a3 = combination_a2 * combination_a;
 
   if (vpnorder == 0) {
     return (mass / r + params.PhiDOT2 * params.r2 +
@@ -32,7 +35,7 @@ static COMPLEX16 hGO_2_m_2(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
     return (
         (21 * params.Mtot2 * (-10 + Nu) -
          27 * (-1 + 3 * Nu) * params.r2 * (PhiDOT * r - Complex(0, 1) * rDOT) *
-             pow(PhiDOT * r + Complex(0, 1) * rDOT, 3) +
+             combination_a3 +
          mass * r *
              ((11 + 156 * Nu) * params.PhiDOT2 * params.r2 +
               Complex(0, 10) * (5 + 27 * Nu) * PhiDOT * r * rDOT -
@@ -2086,6 +2089,9 @@ static COMPLEX16 hGO_3_m_1(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
   REAL8 kappa1 = 1.0;
   REAL8 kappa2 = 1.0;
   REAL8 r0 = 1.0;
+  REAL8 combination_a = (PhiDOT * r + Complex(0, 1) * rDOT);
+  REAL8 combination_a2 = combination_a * combination_a;
+  REAL8 combination_a3 = combination_a2 * combination_a;
 
   if (vpnorder == 1) {
     return (delta * (mass * (Complex(0, 7) * PhiDOT * r - 12 * rDOT) -
@@ -2098,7 +2104,7 @@ static COMPLEX16 hGO_3_m_1(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
     return (delta *
             (Complex(0, 6) * (-5 + 19 * Nu) * params.r2 *
                  pow(PhiDOT * r - Complex(0, 1) * rDOT, 2) *
-                 pow(PhiDOT * r + Complex(0, 1) * rDOT, 3) +
+                 combination_a3 +
              2 * params.Mtot2 *
                  (Complex(0, 1) * (-101 + 43 * Nu) * PhiDOT * r +
                   (109 - 86 * Nu) * rDOT) +
@@ -3483,12 +3489,15 @@ static COMPLEX16 hGO_4_m_2(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
   REAL8 delta = sqrt(1 - 4 * Nu);
   REAL8 kappa1 = 1.0;
   REAL8 kappa2 = 1.0;
+  REAL8 combination_a = (PhiDOT * r + Complex(0, 1) * rDOT);
+  REAL8 combination_a2 = combination_a * combination_a;
+  REAL8 combination_a3 = combination_a2 * combination_a;
 
   if (vpnorder == 2) {
     return (-(sqrt(5) * (-1 + 3 * Nu) *
               (7 * params.Mtot2 -
                6 * params.r2 * (PhiDOT * r - Complex(0, 1) * rDOT) *
-                   pow(PhiDOT * r + Complex(0, 1) * rDOT, 3) +
+                   combination_a3 +
                3 * mass * r *
                    (params.PhiDOT2 * params.r2 +
                     Complex(0, 9) * PhiDOT * r * rDOT - 6 * params.rDOT2))) /
