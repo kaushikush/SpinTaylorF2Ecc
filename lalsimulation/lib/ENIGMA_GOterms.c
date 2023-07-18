@@ -3546,11 +3546,19 @@ static COMPLEX16 hGO_4_m_2(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
   REAL8 combination_a = (PhiDOT * r + Complex(0, 1) * rDOT);
   REAL8 combination_a2 = combination_a * combination_a;
   REAL8 combination_a3 = combination_a2 * combination_a;
+  REAL8 combination_a4 = combination_a3 * combination_a;
+  REAL8 combination_a5 = combination_a4 * combination_a;
+
+  REAL8 combination_b = (PhiDOT * r - Complex(0, 1) * rDOT);
+  REAL8 combination_b2 = combination_b * combination_b; 
+  REAL8 combination_b3 = combination_b2 * combination_b;
+  REAL8 combination_b4 = combination_b3 * combination_b;
+  REAL8 combination_b5 = combination_b4 * combination_b;
 
   if (vpnorder == 2) {
     return (-(sqrt(5) * (-1 + 3 * Nu) *
               (7 * params.Mtot2 -
-               6 * params.r2 * (PhiDOT * r - Complex(0, 1) * rDOT) *
+               6 * params.r2 * combination_b *
                    combination_a3 +
                3 * mass * r *
                    (params.PhiDOT2 * params.r2 +
@@ -3561,8 +3569,8 @@ static COMPLEX16 hGO_4_m_2(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
   else if (vpnorder == 4) {
     return (-(40 * params.Mtot3 * (314 - 987 * Nu + 195 * params.eta2) +
               60 * (23 - 159 * Nu + 291 * params.eta2) * params.r3 *
-                  pow(PhiDOT * r - Complex(0, 1) * rDOT, 2) *
-                  pow(PhiDOT * r + Complex(0, 1) * rDOT, 4) +
+                  combination_b2 *
+                  combination_a4 +
               params.Mtot2 * r *
                   ((1987 - 11200 * Nu + 12960 * params.eta2) * params.PhiDOT2 *
                        params.r2 +
@@ -3648,8 +3656,8 @@ static COMPLEX16 hGO_4_m_2(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
              (-4477296 + 12734393 * Nu - 6895 * params.eta2 +
               1043805 * params.eta3) +
          3150 * (-367 + 4337 * Nu - 17462 * params.eta2 + 23577 * params.eta3) *
-             params.r4 * pow(PhiDOT * r - Complex(0, 1) * rDOT, 3) *
-             pow(PhiDOT * r + Complex(0, 1) * rDOT, 5) -
+             params.r4 * combination_b3 *
+             combination_a5 -
          2 * params.Mtot3 * r *
              (7 *
                   (-100473 + 3430399 * Nu - 9132990 * params.eta2 +
