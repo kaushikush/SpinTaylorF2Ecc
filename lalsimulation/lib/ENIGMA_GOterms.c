@@ -7674,10 +7674,33 @@ static COMPLEX16 hGO_7_m_3(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
                            REAL8 PhiDOT, UINT4 vpnorder, struct kepler_vars params) {
   REAL8 delta = sqrt(1 - 4 * Nu);
 
+  REAL8 combination_a = (PhiDOT * r - Complex(0, 1) * rDOT);
+  REAL8 combination_a2 = combination_a * combination_a;
+
+  REAL8 combination_b = (Complex(0, -1) * PhiDOT * r + rDOT);
+  REAL8 combination_b2 = combination_b * combination_b;
+  REAL8 combination_b3 = combination_b2 * combination_b;
+  REAL8 combination_b4 = combination_b3 * combination_b;
+  REAL8 combination_b5 = combination_b4 * combination_b;
+
+  REAL8 combination_c = (PhiDOT * r + Complex(0, 1) * rDOT);
+  REAL8 combination_c2 = combination_c * combination_c;
+  REAL8 combination_c3 = combination_c2 * combination_c;
+  REAL8 combination_c4 = combination_c3 * combination_c;
+  REAL8 combination_c5 = combination_c4 * combination_c;
+  REAL8 combination_c6 = combination_c5 * combination_c;
+
+
+  REAL8 combination_d = (Complex(0, 1) * PhiDOT * r + rDOT);
+  REAL8 combination_d2 = combination_d * combination_d;
+  REAL8 combination_d3 = combination_d2 * combination_d;
+
+  
+
   if (vpnorder == 5) {
     return (delta * (1 - 4 * Nu + 3 * params.eta2) *
-            (5040 * params.r3 * pow(PhiDOT * r - Complex(0, 1) * rDOT, 2) *
-                 pow(Complex(0, -1) * PhiDOT * r + rDOT, 5) +
+            (5040 * params.r3 * combination_a2 *
+                 combination_b5 +
              2 * params.Mtot3 *
                  (Complex(0, -13677) * PhiDOT * r + 13832 * rDOT) +
              18 * params.Mtot2 * r *
@@ -7699,8 +7722,8 @@ static COMPLEX16 hGO_7_m_3(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
     return (
         (delta *
          (-5040 * (-59 + 473 * Nu - 1185 * params.eta2 + 831 * params.eta3) *
-              params.r4 * pow(PhiDOT * r + Complex(0, 1) * rDOT, 6) *
-              pow(Complex(0, 1) * PhiDOT * r + rDOT, 3) +
+              params.r4 * combination_c6 *
+              combination_d3 +
           4 * params.Mtot4 *
               (Complex(0, -3) *
                    (-845315 + 3567934 * Nu - 3505793 * params.eta2 +
