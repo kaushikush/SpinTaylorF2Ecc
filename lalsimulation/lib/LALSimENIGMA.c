@@ -56,7 +56,7 @@
 /***********************************************************************************/
 
 #define L_MIN 2
-#define L_MAX 8
+#define L_MAX 5
 #define ONLY_LeqM_MODES false
 
 #ifndef ENIGMADEBUG
@@ -235,7 +235,7 @@ static REAL8 separation(REAL8 u, REAL8 eta, REAL8 x, REAL8 e, REAL8 m1,
 #define M_PI3 (31.00627668)
 #define M_PI4 (97.40909103)
 #define M_PI5 (306.01968479)
- 
+
 static REAL8 x_dot_0pn(REAL8 e, REAL8 eta);
 static REAL8 x_dot_1pn(REAL8 e, REAL8 eta);
 static REAL8 x_dot_1_5_pn(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
@@ -293,7 +293,8 @@ static REAL8 phi_dot_0pn(REAL8 e, REAL8 eta, REAL8 u);
 static REAL8 phi_dot_1pn(REAL8 e, REAL8 eta, REAL8 u);
 static REAL8 phi_dot_2pn(REAL8 e, REAL8 eta, REAL8 u);
 static REAL8 phi_dot_3pn(REAL8 e, REAL8 eta, REAL8 u);
-//static REAL8 phi_dot_3_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+// static REAL8 phi_dot_3_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8
+// S2z);
 static REAL8 phi_dot_4pn_SS(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 phi_dot_1_5_pnSO_ecc(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
                                   REAL8 S2z, REAL8 u);
@@ -539,7 +540,7 @@ static REAL8 *interp_to_uniform_and_point(
     XLAL_ERROR_FAIL(errorcode);
   }
 
-  dynamics_interp = gsl_interp_alloc(gsl_interp_steffen, vec_length);
+  dynamics_interp = gsl_interp_alloc(gsl_interp_cspline, vec_length);
   dynamics_accel = gsl_interp_accel_alloc();
   if (dynamics_interp == NULL || dynamics_accel == NULL) {
     errorcode = XLAL_ENOMEM;
@@ -619,8 +620,6 @@ static void compute_mode_from_dynamics(
   orbital_vars.S2z4 = S2z * orbital_vars.S2z3;
   orbital_vars.S2z5 = S2z * orbital_vars.S2z4;
   orbital_vars.S2z6 = S2z * orbital_vars.S2z5;
-  
-  
 
   for (long i = 0; i < length; ++i) {
     PopulateKeplerParams(&orbital_vars, 0., x_vec[i], r_vec[i] * total_mass,
@@ -964,12 +963,12 @@ static int x_model_eccbbh_imr_waveform(
   REAL8 matching_Hp, matching_Hc;
   REAL8 t_val =
       imr_matching_time; // is modified by compute_strain_from_dynamics
-  compute_strain_from_dynamics(
-      &t_val, &imr_matching_x, &imr_matching_phi, &imr_matching_phi_dot,
-      &imr_matching_r, &imr_matching_r_dot, mass1, mass2, S1z,
-      S2z, /* x_evol->data->data[0], */
-      euler_iota, euler_beta, distance, 1, (UINT4)ModePNOrder, &matching_Hp,
-      &matching_Hc);
+  compute_strain_from_dynamics(&t_val, &imr_matching_x, &imr_matching_phi,
+                               &imr_matching_phi_dot, &imr_matching_r,
+                               &imr_matching_r_dot, mass1, mass2, S1z,
+                               S2z, /* x_evol->data->data[0], */
+                               euler_iota, euler_beta, distance, 1,
+                               (UINT4)ModePNOrder, &matching_Hp, &matching_Hc);
 
   // get merger and ringdown and attach at the end of the existing time series
   REAL8 time_of_merger = 0.0;
@@ -1244,7 +1243,7 @@ int XLALSimInspiralENIGMADynamics(
       XLAL_ERROR_FAIL(XLAL_EFUNC);
     // omega_attach*= 0.5;
   } else {
-    rad_pn_order = (UINT4) RadiationPNOrder;
+    rad_pn_order = (UINT4)RadiationPNOrder;
     omega_attach = 1.0; // deliberately use unphysical value.
   }
   /* store the mass and pn params in the param structure */
@@ -1282,7 +1281,7 @@ int XLALSimInspiralENIGMADynamics(
   dt = 1.0 / sampling_rate;
 
   /* Transition to merger */
-  REAL8 TRANS = 4.;
+  REAL8 TRANS = 3.;
 
   /* grab memory for vector variables */
   int statevec_allocated;
