@@ -1121,9 +1121,34 @@ static COMPLEX16 hGO_3_m_3(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
   REAL8 kappa2 = 1.0;
   REAL8 r0 = 1.0;
 
+  REAL8 combination_a = (Complex(0, 1) * PhiDOT * r - rDOT);
+  REAL8 combination_a2 = combination_a * combination_a;
+  REAL8 combination_a3 = combination_a2 * combination_a;
+
+  REAL8 combination_b = (PhiDOT * r + Complex(0, 1) * rDOT);
+  REAL8 combination_b2 = combination_b * combination_b;
+  REAL8 combination_b3 = combination_b2 * combination_b;
+  REAL8 combination_b4 = combination_b3 * combination_b;
+  REAL8 combination_b5 = combination_b4 * combination_b;
+  REAL8 combination_b6 = combination_b5 * combination_b;
+
+  REAL8 combination_c = (PhiDOT * r - Complex(0, 1) * rDOT);
+  REAL8 combination_c2 = combination_c * combination_c;
+
+  REAL8 combination_d = (Complex(0, -1) * PhiDOT * r + rDOT);
+  REAL8 combination_d2 = combination_d * combination_d;
+  REAL8 combination_d3 = combination_d2 * combination_d;
+  REAL8 combination_d4 = combination_d3 * combination_d;
+  REAL8 combination_d5 = combination_d4 * combination_d;
+
+  REAL8 combination_e = (Complex(0, 1) * PhiDOT * r + rDOT);
+  REAL8 combination_e2 = combination_e * combination_e;
+  REAL8 combination_e3 = combination_e2 * combination_e;
+
+
   if (vpnorder == 1) {
     return ((sqrt(0.11904761904761904) * delta *
-             (2 * r * pow(Complex(0, 1) * PhiDOT * r - rDOT, 3) +
+             (2 * r * combination_a3 +
               mass * (Complex(0, -7) * PhiDOT * r + 4 * rDOT))) /
             (2. * r));
   }
@@ -1131,7 +1156,7 @@ static COMPLEX16 hGO_3_m_3(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
   else if (vpnorder == 3) {
     return ((sqrt(0.11904761904761904) * delta *
              (6 * (-5 + 19 * Nu) * params.r2 *
-                  pow(PhiDOT * r + Complex(0, 1) * rDOT, 4) *
+                  combination_b4 *
                   (Complex(0, 1) * PhiDOT * r + rDOT) +
               2 * params.Mtot2 *
                   (Complex(0, -3) * (-101 + 43 * Nu) * PhiDOT * r +
@@ -1171,8 +1196,8 @@ static COMPLEX16 hGO_3_m_3(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
     return (
         (delta *
          (30 * (183 - 1579 * Nu + 3387 * params.eta2) * params.r3 *
-              pow(PhiDOT * r - Complex(0, 1) * rDOT, 2) *
-              pow(Complex(0, -1) * PhiDOT * r + rDOT, 5) +
+              combination_c2 *
+              combination_d5 +
           10 * params.Mtot3 *
               (Complex(0, -1) * (26473 - 27451 * Nu + 9921 * params.eta2) *
                    PhiDOT * r +
@@ -1392,8 +1417,8 @@ static COMPLEX16 hGO_3_m_3(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
                                          S2z))))) +
           delta *
               (-17640 * (-4083 + Nu * (58311 + Nu * (-269240 + 405617 * Nu))) *
-                   params.r4 * pow(PhiDOT * r + Complex(0, 1) * rDOT, 6) *
-                   pow(Complex(0, 1) * PhiDOT * r + rDOT, 3) +
+                   params.r4 * combination_b6 *
+                   combination_e3 +
                168 * params.Mtot2 * params.r2 *
                    (Complex(0, 1) *
                         (-7508635 +
