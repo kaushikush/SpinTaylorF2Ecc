@@ -8415,13 +8415,22 @@ static COMPLEX16 hl_8_m_min6(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
 // 84
 static COMPLEX16 hGO_8_m_4(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
                            REAL8 PhiDOT, UINT4 vpnorder, struct kepler_vars params) {
+  REAL8 combination_a = (PhiDOT * r - Complex(0, 1) * rDOT);
+  REAL8 combination_a2 = combination_a * combination_a;
+
+  REAL8 combination_b = (PhiDOT * r + Complex(0, 1) * rDOT);
+  REAL8 combination_b2 = combination_b * combination_b;
+  REAL8 combination_b3 = combination_b2 * combination_b;
+  REAL8 combination_b4 = combination_b3 * combination_b;
+  REAL8 combination_b5 = combination_b4 * combination_b;
+  REAL8 combination_b6 = combination_b5 * combination_b;
 
   if (vpnorder == 6) {
     return (
         ((-1 + 7 * Nu - 14 * params.eta2 + 7 *params.eta3) *
          (9118 * params.Mtot4 +
-          5040 * params.r4 * pow(PhiDOT * r - Complex(0, 1) * rDOT, 2) *
-              pow(PhiDOT * r + Complex(0, 1) * rDOT, 6) +
+          5040 * params.r4 * combination_a2 *
+              combination_b6 +
           4 * params.Mtot3 * r *
               (14623 * params.PhiDOT2 * params.r2 +
                Complex(0, 33880) * PhiDOT * r * rDOT - 16717 * params.rDOT2) -
@@ -8479,13 +8488,22 @@ static COMPLEX16 hl_8_m_min4(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
 // 82
 static COMPLEX16 hGO_8_m_2(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
                            REAL8 PhiDOT, UINT4 vpnorder, struct kepler_vars params) {
+  REAL8 combination_a = (PhiDOT * r - Complex(0, 1) * rDOT);
+  REAL8 combination_a2 = combination_a * combination_a;
+  REAL8 combination_a3 = combination_a2 * combination_a;
+
+  REAL8 combination_b = (PhiDOT * r + Complex(0, 1) * rDOT);
+  REAL8 combination_b2 = combination_b * combination_b;
+  REAL8 combination_b3 = combination_b2 * combination_b;
+  REAL8 combination_b4 = combination_b3 * combination_b;
+  REAL8 combination_b5 = combination_b4 * combination_b;
 
   if (vpnorder == 6) {
     return (
         ((-1 + 7 * Nu - 14 * params.eta2 + 7 * params.eta3) *
          (-18236 * params.Mtot4 +
-          10080 * params.r4 * pow(PhiDOT * r - Complex(0, 1) * rDOT, 3) *
-              pow(PhiDOT * r + Complex(0, 1) * rDOT, 5) +
+          10080 * params.r4 * combination_a3 *
+              combination_b5 +
           8 * params.Mtot3 * r *
               (2357 * params.PhiDOT2 * params.r2 -
                Complex(0, 16940) * PhiDOT * r * rDOT + 16717 * params.rDOT2) +
