@@ -34,7 +34,6 @@ static COMPLEX16 hGO_2_m_2(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
 
   
   
-  
 
   if (vpnorder == 0) {
     return (mass / r + params.PhiDOT2 * params.r2 +
@@ -2127,18 +2126,25 @@ static COMPLEX16 hGO_3_m_1(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
   REAL8 combination_a = (PhiDOT * r + Complex(0, 1) * rDOT);
   REAL8 combination_a2 = combination_a * combination_a;
   REAL8 combination_a3 = combination_a2 * combination_a;
+  REAL8 combination_a4 = combination_a3 * combination_a;
+  REAL8 combination_a5 = combination_a4 * combination_a;
+
+  REAL8 combination_b = (PhiDOT * r - Complex(0, 1) * rDOT);
+  REAL8 combination_b2 = combination_b * combination_b; 
+  REAL8 combination_b3 = combination_b2 * combination_b;
+  REAL8 combination_b4 = combination_b3 * combination_b;
 
   if (vpnorder == 1) {
     return (delta * (mass * (Complex(0, 7) * PhiDOT * r - 12 * rDOT) -
-                     Complex(0, 6) * r * (PhiDOT * r - Complex(0, 1) * rDOT) *
-                         pow(PhiDOT * r + Complex(0, 1) * rDOT, 2))) /
+                     Complex(0, 6) * r * combination_b *
+                         combination_a2)) /
            (6. * sqrt(14) * r);
   }
 
   else if (vpnorder == 3) {
     return (delta *
             (Complex(0, 6) * (-5 + 19 * Nu) * params.r2 *
-                 pow(PhiDOT * r - Complex(0, 1) * rDOT, 2) *
+                 combination_b2 *
                  combination_a3 +
              2 * params.Mtot2 *
                  (Complex(0, 1) * (-101 + 43 * Nu) * PhiDOT * r +
@@ -2182,8 +2188,8 @@ static COMPLEX16 hGO_3_m_1(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
     return (
         (delta *
          (Complex(0, -18) * (183 - 1579 * Nu + 3387 * params.eta2) * params.r3 *
-              pow(PhiDOT * r - Complex(0, 1) * rDOT, 3) *
-              pow(PhiDOT * r + Complex(0, 1) * rDOT, 4) +
+              combination_b3 *
+              combination_a4 +
           2 * params.Mtot3 *
               (Complex(0, 1) * (26473 - 27451 * Nu + 9921 * params.eta2) *
                    PhiDOT * r -
@@ -2427,8 +2433,8 @@ Nu*(59*(-S1z + S2z) + 99*delta*(S1z + S2z)))*params.x4)/sqrt(14)) */
                             (-4083 +
                              Nu * (58311 + Nu * (-269240 + 405617 * Nu))) *
                             params.r4 *
-                            pow(PhiDOT * r - Complex(0, 1) * rDOT, 4) *
-                            pow(PhiDOT * r + Complex(0, 1) * rDOT, 5) +
+                            combination_b4 *
+                            combination_a5 +
                         840 * params.Mtot2 * params.r2 *
                             ((-2555489 +
                               7 * Nu *
