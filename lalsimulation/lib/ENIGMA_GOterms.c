@@ -5988,11 +5988,8 @@ static COMPLEX16 hGO_6_m_6(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
   REAL8 delta = sqrt(1 - 4 * Nu);
 
   REAL8 combination_b = (PhiDOT * r + Complex(0, 1) * rDOT);
-  REAL8 combination_b2 = combination_b * combination_b;
-  REAL8 combination_b3 = combination_b2 * combination_b;
-  REAL8 combination_b4 = combination_b3 * combination_b;
-  REAL8 combination_b5 = combination_b4 * combination_b;
-  REAL8 combination_b6 = combination_b5 * combination_b;
+  REAL8 combination_b3 = combination_b * combination_b * combination_b;
+  REAL8 combination_b6 = combination_b3 * combination_b3;
   REAL8 combination_b7 = combination_b6 * combination_b;
 
   if (vpnorder == 4) {
@@ -6909,15 +6906,11 @@ static COMPLEX16 hGO_6_m_2(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
   REAL8 combination_a = (PhiDOT * r - Complex(0, 1) * rDOT);
   REAL8 combination_a2 = combination_a * combination_a;
   REAL8 combination_a3 = combination_a2 * combination_a;
-  REAL8 combination_a4 = combination_a3 * combination_a;
 
   REAL8 combination_b = (PhiDOT * r + Complex(0, 1) * rDOT);
   REAL8 combination_b2 = combination_b * combination_b;
-  REAL8 combination_b3 = combination_b2 * combination_b;
-  REAL8 combination_b4 = combination_b3 * combination_b;
+  REAL8 combination_b4 = combination_b2 * combination_b2;
   REAL8 combination_b5 = combination_b4 * combination_b;
-  REAL8 combination_b6 = combination_b5 * combination_b;
-  REAL8 combination_b7 = combination_b6 * combination_b;
 
   if (vpnorder == 4) {
     return ((1 - 5 * Nu + 5 * params.eta2) *
@@ -7358,20 +7351,13 @@ static COMPLEX16 hGO_7_m_7(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
 
   REAL8 combination_b = (PhiDOT * r + Complex(0, 1) * rDOT);
   REAL8 combination_b2 = combination_b * combination_b;
-  REAL8 combination_b3 = combination_b2 * combination_b;
-  REAL8 combination_b4 = combination_b3 * combination_b;
-  REAL8 combination_b5 = combination_b4 * combination_b;
-  REAL8 combination_b6 = combination_b5 * combination_b;
-  REAL8 combination_b7 = combination_b6 * combination_b;
-  REAL8 combination_b8 = combination_b7 * combination_b;
+  REAL8 combination_b4 = combination_b2 * combination_b2;
+  REAL8 combination_b8 = combination_b4 * combination_b4;
 
   REAL8 combination_c = (Complex(0, 1) * PhiDOT * r - rDOT);
   REAL8 combination_c2 = combination_c * combination_c;
-  REAL8 combination_c3 = combination_c2 * combination_c;
-  REAL8 combination_c4 = combination_c3 * combination_c;
-  REAL8 combination_c5 = combination_c4 * combination_c;
-  REAL8 combination_c6 = combination_c5 * combination_c;
-  REAL8 combination_c7 = combination_c6 * combination_c;
+  REAL8 combination_c7 =
+      combination_c2 * combination_c2 * combination_c2 * combination_c;
 
   if (vpnorder == 5) {
     return (delta * (1 - 4 * Nu + 3 * params.eta2) *
@@ -7526,17 +7512,11 @@ static COMPLEX16 hGO_7_m_5(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
 
   REAL8 combination_a = (PhiDOT * r - Complex(0, 1) * rDOT);
   REAL8 combination_a2 = combination_a * combination_a;
-  REAL8 combination_a3 = combination_a2 * combination_a;
-  REAL8 combination_a4 = combination_a3 * combination_a;
 
   REAL8 combination_b = (PhiDOT * r + Complex(0, 1) * rDOT);
   REAL8 combination_b2 = combination_b * combination_b;
-  REAL8 combination_b3 = combination_b2 * combination_b;
-  REAL8 combination_b4 = combination_b3 * combination_b;
-  REAL8 combination_b5 = combination_b4 * combination_b;
-  REAL8 combination_b6 = combination_b5 * combination_b;
+  REAL8 combination_b6 = combination_b2 * combination_b2 * combination_b2;
   REAL8 combination_b7 = combination_b6 * combination_b;
-  REAL8 combination_b8 = combination_b7 * combination_b;
 
   if (vpnorder == 5) {
     return (
@@ -7697,20 +7677,14 @@ static COMPLEX16 hGO_7_m_3(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
 
   REAL8 combination_b = (Complex(0, -1) * PhiDOT * r + rDOT);
   REAL8 combination_b2 = combination_b * combination_b;
-  REAL8 combination_b3 = combination_b2 * combination_b;
-  REAL8 combination_b4 = combination_b3 * combination_b;
-  REAL8 combination_b5 = combination_b4 * combination_b;
+  REAL8 combination_b5 = combination_b2 * combination_b2 * combination_b;
 
   REAL8 combination_c = (PhiDOT * r + Complex(0, 1) * rDOT);
   REAL8 combination_c2 = combination_c * combination_c;
-  REAL8 combination_c3 = combination_c2 * combination_c;
-  REAL8 combination_c4 = combination_c3 * combination_c;
-  REAL8 combination_c5 = combination_c4 * combination_c;
-  REAL8 combination_c6 = combination_c5 * combination_c;
+  REAL8 combination_c6 = combination_c2 * combination_c2 * combination_c2;
 
   REAL8 combination_d = (Complex(0, 1) * PhiDOT * r + rDOT);
-  REAL8 combination_d2 = combination_d * combination_d;
-  REAL8 combination_d3 = combination_d2 * combination_d;
+  REAL8 combination_d3 = combination_d * combination_d * combination_d;
 
   if (vpnorder == 5) {
     return (delta * (1 - 4 * Nu + 3 * params.eta2) *
@@ -7865,14 +7839,12 @@ static COMPLEX16 hGO_7_m_1(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
   REAL8 delta = sqrt(1 - 4 * Nu);
 
   REAL8 combination_a = (PhiDOT * r - Complex(0, 1) * rDOT);
-  REAL8 combination_a2 = combination_a * combination_a;
-  REAL8 combination_a3 = combination_a2 * combination_a;
+  REAL8 combination_a3 = combination_a * combination_a * combination_a;
   REAL8 combination_a4 = combination_a3 * combination_a;
 
   REAL8 combination_c = (PhiDOT * r + Complex(0, 1) * rDOT);
   REAL8 combination_c2 = combination_c * combination_c;
-  REAL8 combination_c3 = combination_c2 * combination_c;
-  REAL8 combination_c4 = combination_c3 * combination_c;
+  REAL8 combination_c4 = combination_c2 * combination_c2;
   REAL8 combination_c5 = combination_c4 * combination_c;
 
   if (vpnorder == 5) {
@@ -8302,12 +8274,8 @@ static COMPLEX16 hGO_8_m_8(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
                            struct kepler_vars params) {
   REAL8 combination_b = (PhiDOT * r + Complex(0, 1) * rDOT);
   REAL8 combination_b2 = combination_b * combination_b;
-  REAL8 combination_b3 = combination_b2 * combination_b;
-  REAL8 combination_b4 = combination_b3 * combination_b;
-  REAL8 combination_b5 = combination_b4 * combination_b;
-  REAL8 combination_b6 = combination_b5 * combination_b;
-  REAL8 combination_b7 = combination_b6 * combination_b;
-  REAL8 combination_b8 = combination_b7 * combination_b;
+  REAL8 combination_b4 = combination_b2 * combination_b2;
+  REAL8 combination_b8 = combination_b4 * combination_b4;
 
   if (vpnorder == 6) {
     return (
@@ -8376,11 +8344,8 @@ static COMPLEX16 hGO_8_m_6(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
                            struct kepler_vars params) {
   REAL8 combination_b = (PhiDOT * r + Complex(0, 1) * rDOT);
   REAL8 combination_b2 = combination_b * combination_b;
-  REAL8 combination_b3 = combination_b2 * combination_b;
-  REAL8 combination_b4 = combination_b3 * combination_b;
-  REAL8 combination_b5 = combination_b4 * combination_b;
-  REAL8 combination_b6 = combination_b5 * combination_b;
-  REAL8 combination_b7 = combination_b6 * combination_b;
+  REAL8 combination_b7 =
+      combination_b2 * combination_b2 * combination_b2 * combination_b;
 
   if (vpnorder == 6) {
     return (
@@ -8453,11 +8418,8 @@ static COMPLEX16 hGO_8_m_4(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
   REAL8 combination_a2 = combination_a * combination_a;
 
   REAL8 combination_b = (PhiDOT * r + Complex(0, 1) * rDOT);
-  REAL8 combination_b2 = combination_b * combination_b;
-  REAL8 combination_b3 = combination_b2 * combination_b;
-  REAL8 combination_b4 = combination_b3 * combination_b;
-  REAL8 combination_b5 = combination_b4 * combination_b;
-  REAL8 combination_b6 = combination_b5 * combination_b;
+  REAL8 combination_b3 = combination_b * combination_b * combination_b;
+  REAL8 combination_b6 = combination_b3 * combination_b3;
 
   if (vpnorder == 6) {
     return (
@@ -8526,14 +8488,11 @@ static COMPLEX16 hGO_8_m_2(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
                            REAL8 PhiDOT, UINT4 vpnorder,
                            struct kepler_vars params) {
   REAL8 combination_a = (PhiDOT * r - Complex(0, 1) * rDOT);
-  REAL8 combination_a2 = combination_a * combination_a;
-  REAL8 combination_a3 = combination_a2 * combination_a;
+  REAL8 combination_a3 = combination_a * combination_a * combination_a;
 
   REAL8 combination_b = (PhiDOT * r + Complex(0, 1) * rDOT);
   REAL8 combination_b2 = combination_b * combination_b;
-  REAL8 combination_b3 = combination_b2 * combination_b;
-  REAL8 combination_b4 = combination_b3 * combination_b;
-  REAL8 combination_b5 = combination_b4 * combination_b;
+  REAL8 combination_b5 = combination_b2 * combination_b2 * combination_b;
 
   if (vpnorder == 6) {
     return (
