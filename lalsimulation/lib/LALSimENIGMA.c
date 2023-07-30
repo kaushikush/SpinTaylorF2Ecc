@@ -57,7 +57,7 @@
 
 #define L_MIN 2
 #define L_MAX 5
-#define ONLY_LeqM_MODES false
+#define ONLY_LeqM_MODES true
 
 #ifndef ENIGMADEBUG
 #define DEBUG 0
@@ -230,7 +230,7 @@ static REAL8 separation(REAL8 u, REAL8 eta, REAL8 x, REAL8 e, REAL8 m1,
 #define d4 (5.383192)
 #define cz0 (10.22474)
 #define ModePNOrder (8)
-#define RadiationPNOrder (8)
+#define RadiationPNOrder (9)
 #define M_PI2 (9.86960440)
 #define M_PI3 (31.00627668)
 #define M_PI4 (97.40909103)
