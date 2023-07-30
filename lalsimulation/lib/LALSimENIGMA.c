@@ -56,7 +56,7 @@
 /***********************************************************************************/
 
 #define L_MIN 2
-#define L_MAX 5
+#define L_MAX 2
 #define ONLY_LeqM_MODES true
 
 #ifndef ENIGMADEBUG
