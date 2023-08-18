@@ -1281,7 +1281,7 @@ int XLALSimInspiralENIGMADynamics(
   dt = 1.0 / sampling_rate;
 
   /* Transition to merger */
-  REAL8 TRANS = 3.;
+  REAL8 TRANS = 4.;
 
   /* grab memory for vector variables */
   int statevec_allocated;
