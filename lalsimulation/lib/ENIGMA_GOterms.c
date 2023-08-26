@@ -106,12 +106,12 @@ static COMPLEX16 hGO_2_m_2(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
                847 * params.PhiDOT2 * params.r2 * rDOT +
                Complex(0, 184) * PhiDOT * r * params.rDOT2 -
                122 * params.rDOT3))) /
-            (105. * params.r3) /* Henry et al. QC spin terms */ +
+            (105. * params.r3) /* Henry et al. QC spin terms */ /* +
 ((2*(56*delta*Nu*(-S1z + S2z)
 + 101*Nu*(S1z + S2z) + 132*params.eta2*(S1z + S2z) - 80*(S1z + delta*S1z + S2z -
-delta*S2z))*params.x3p5)/63.)
-        /* + */
-        /* Henry et al. ecc spin terms */ /* (
+delta*S2z))*params.x3p5)/63.) */
+        +
+        /* Henry et al. ecc spin terms */ (
             (params.Mtot2 *
              (mass *
                   ((238 + delta * (238 - 141 * Nu) + Nu * (-181 + 474 * Nu)) *
@@ -154,7 +154,7 @@ delta*S2z))*params.x3p5)/63.)
                         (120 + 3 * Nu * (-161 + 78 * Nu) -
                          delta * (120 + 83 * Nu)) *
                             S2z)))) /
-            (84. * params.r3)) */);
+            (84. * params.r3)));
   }
 
   else if (vpnorder == 6) {
@@ -225,15 +225,15 @@ delta*S2z))*params.x3p5)/63.)
                   (16743 - 75104 * Nu + 26920 * params.eta2 +
                    207200 * params.eta3) *
                   params.rDOT6)) /
-            (3.3264e6 * params.r4) /* Henry et al. QC spin terms */ + (((4*(1
+            (3.3264e6 * params.r4) /* Henry et al. QC spin terms */ /* + (((4*(1
 + delta)*(-7 + 9*kappa1)
 - 7*(9 + 17*delta)*Nu - 9*(15 + 7*delta)*kappa1*Nu + 12*(7 -
 17*kappa1)*params.eta2)*params.S1z2 + 2*S1z*(Complex(0,-42)*(1 + delta - 2*Nu) -
 84*(1 + delta - Nu)*M_PI + Nu*(-271 + 288*Nu)*S2z) + S2z*(12*(7 -
 17*kappa2)*params.eta2*S2z + 4*(-1 + delta)*(Complex(0,21) + 42*M_PI + 7*S2z -
 9*kappa2*S2z) + Nu*(168*(Complex(0,1) + M_PI) + 7*delta*(17 + 9*kappa2)*S2z -
-9*(7 + 15*kappa2)*S2z)))*params.x4)/63.
-        /*+  Henry et al. ecc spin terms */ /* (
+9*(7 + 15*kappa2)*S2z)))*params.x4)/63. */
+        + /* Henry et al. ecc spin terms */ (
               -0.005952380952380952 *
               (params.Mtot3 *
                (2 * mass *
@@ -296,14 +296,14 @@ delta*S2z))*params.x3p5)/63.)
                                                 (23 + 211 * delta) * Nu +
                                                 390 * params.eta2)) *
                                      S2z))))) /
-              params.r4) + */ /* Henry et al. QC spinning hereditary terms */
-        /* (((-8 * M_PI * ((1 + delta - Nu) * S1z + S2z - (delta + Nu) * S2z) *
+              params.r4) + /* Henry et al. QC spinning hereditary terms */
+        (((-8 * M_PI * ((1 + delta - Nu) * S1z + S2z - (delta + Nu) * S2z) *
            params.x4) /
-          3.)) */);
+          3.)));
   } else if (vpnorder == 7) {
 
     return (
-        /* Henry et al QC spin terms */ ((3318*params.eta3*(S1z + S2z) +
+        /* Henry et al QC spin terms */ /* ((3318*params.eta3*(S1z + S2z) +
     Nu*(-504*((7 + delta)*kappa1 - 3*(3 + delta)*lambda1)*params.S1z3 -
     1008*params.S1z2*(3*kappa1*M_PI - 3*(1 + delta)*S2z + 2*(1 +
     delta)*kappa1*S2z) + S1z*(17387 + 20761*delta + 1008*S2z*(6*M_PI + (-1 +
@@ -314,9 +314,9 @@ delta*S2z))*params.x3p5)/63.)
     lambda1)*params.S1z3 -
     (-1 + delta)*S2z*(2809 + 756*S2z*(-(lambda2*S2z) + kappa2*(M_PI + S2z)))) -
     2*params.eta2*(708*delta*(-S1z + S2z) + (S1z + S2z)*(4427 +
-    1008*(kappa1*params.S1z2 + S2z*(-2*S1z + kappa2*S2z)))))*params.x4p5)/756.
+    1008*(kappa1*params.S1z2 + S2z*(-2*S1z + kappa2*S2z)))))*params.x4p5)/756. */
  
-        /* + */ /* Henry et al. ecc+spin terms */ /* (
+         + /* */ /* Henry et al. ecc+spin terms */ (
             (params.Mtot2 *
              (-3 * mass * r *
                   (Complex(0, -16) * params.rDOT3 *
@@ -483,11 +483,11 @@ delta*S2z))*params.x3p5)/63.)
                                         6 * (-3 + delta) * lambda2) *
                                        params.S2z3)))))) /
             (317520. *
-             params.r4)) + */ /* Henry et al. QC spinning hereditary terms */
-        /* (2 * M_PI *
+             params.r4)) + /* Henry et al. QC spinning hereditary terms */
+        (2 * M_PI *
          (kappa1 * (1 + delta - 2 * Nu) * params.S1z2 +
           S2z * (4 * Nu * S1z - kappa2 * (-1 + delta + 2 * Nu) * S2z)) *
-         params.x4p5) */);
+         params.x4p5));
   }
 
   else {
