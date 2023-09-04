@@ -695,11 +695,22 @@ static REAL8 e_dot_2pn_SS(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
   REAL8 e_2pn_SS;
   REAL8 kappa1 = 1.0;
   REAL8 kappa2 = 1.0;
+  REAL8 e_2=e*e;
+  REAL8 e_4=e_2*e_2;
+  REAL8 e_fact = (1- e_2);
+  REAL8 e_fact_45 = e_fact*e_fact*e_fact*e_fact*sqrt(e_fact);
+  REAL8 M_fact_2 = (m1+m2)*(m1+m2);
+  REAL8 M_fact_4 = M_fact_2*M_fact_2; 
+
 
   if (e) {
-
-    e_2pn_SS =
-        -0.008333333333333333 *
+   /* Quentin Henry et al terms, arXiv:2308.13606v1 */
+    e_2pn_SS = -0.008333333333333333*(e*m1*m2*((45*(8 + 12*e_2 + e_4) + 
+           4*(3752 + 5950*e_2 + 555*e_4)*kappa1)*m1*m1*S1z*S1z + 
+        2*(14648 + 23260*e_2 + 2175*e_4)*m1*m2*S1z*S2z + 
+        (45*(8 + 12*e_2 + e_4) + 4*(3752 + 5950*e_2 + 555*e_4)*kappa2)*
+         m2*m2*S2z*S2z))/(e_fact_45*M_fact_4);
+        /* Klein et al expressions *//* -0.008333333333333333 *
         (e * m1 * m2 *
          ((8 * (45 + 1876 * kappa1) +
            5 * pow(e, 2) *
@@ -711,7 +722,7 @@ static REAL8 e_dot_2pn_SS(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
            5 * pow(e, 2) *
                (108 + 4760 * kappa2 + 3 * pow(e, 2) * (3 + 37 * kappa2))) *
               pow(m2, 2) * pow(S2z, 2))) /
-        (pow(1 - pow(e, 2), 4.5) * pow(m1 + m2, 4));
+        (pow(1 - pow(e, 2), 4.5) * pow(m1 + m2, 4)); */
   } else {
     e_2pn_SS = 0.0;
   }
@@ -1584,14 +1595,12 @@ static REAL8 de_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2,
     edot = e_dot_0pn(e, eta) * x_pow_4;
   } else if (radiation_pn_order == 2) /* 1 pN term */
   {
-    edot = (e_dot_0pn(e, eta) + e_dot_1pn(e, eta) * x +
-            e_dot_1_5pn_SO(e, m1, m2, S1z, S2z) * x * sqrt(x)) *
+    edot = (e_dot_0pn(e, eta) + e_dot_1pn(e, eta) * x ) *
            x_pow_4;
   } else if (radiation_pn_order == 3) /* 1.5 pN term */
   {
     edot = (e_dot_0pn(e, eta) + e_dot_1pn(e, eta) * x +
-            e_dot_1_5pn_SO(e, m1, m2, S1z, S2z) * x * sqrt(x) +
-            e_dot_2pn_SS(e, m1, m2, S1z, S2z) * x * x) *
+            e_dot_1_5pn_SO(e, m1, m2, S1z, S2z) * x * sqrt(x)) *
                x_pow_4 +
            e_rad_hereditary_1_5(e, eta, x);
   } else if (radiation_pn_order == 4) /* 2 pN term */
