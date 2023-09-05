@@ -1617,6 +1617,135 @@ static REAL8 phi_dot_3pn(REAL8 e, REAL8 eta, REAL8 u) {
                                         rt_cosu_3 + rt_cosu_4 + rt_cosu_5)));
 }
 
+static REAL8 phi_dot_3pn_SS(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z,
+                   REAL8 u)/* Quentin Henry et al terms, arXiv:2308.13606v1 */
+{
+  REAL8 phi_3pn_SS;
+  REAL8 kappa1=1.0;
+  REAL8 kappa2=1.0;
+  REAL8 e_2=e*e;
+  REAL8 e_3=e_2*e;
+  REAL8 e_4=e_2*e_2;
+  REAL8 e_6=e_4*e_2;
+  REAL8 e_fact = (1- e_2);
+  REAL8 e_fact_sqrt=sqrt(e_fact);
+  REAL8 M_fact_2 = (m1+m2)*(m1+m2);
+  REAL8 M_fact_4 = M_fact_2*M_fact_2;
+
+
+  phi_3pn_SS=((6*(4*e_6*e_fact_sqrt*kappa1 - 2*(-1 + e_fact_sqrt)*(4 + 7*kappa1) - 
+        e_2*(24 + 20*e_fact_sqrt + 42*kappa1 + 19*e_fact_sqrt*kappa1) - 
+        4*e_4*(-4 + (-7 + 3*e_fact_sqrt)*kappa1))*m1*m1*m1*m1*S1z*S1z + 
+     6*(4*e_6*e_fact_sqrt*kappa2 - 2*(-1 + e_fact_sqrt)*(4 + 7*kappa2) - 
+        e_2*(24 + 20*e_fact_sqrt + 42*kappa2 + 19*e_fact_sqrt*kappa2) - 
+        4*e_4*(-4 + (-7 + 3*e_fact_sqrt)*kappa2))*m2*m2*m2*m2*S2z*S2z + 
+     m1*m1*m1*m2*S1z*((48*e_6*e_fact_sqrt*(-1 + kappa1) - 
+           6*(-1 + e_fact_sqrt)*(3 + 23*kappa1) - 
+           4*e_4*(-9 - 60*e_fact_sqrt - 69*kappa1 + 32*e_fact_sqrt*kappa1) - 
+           e_2*(54 + 297*e_fact_sqrt + 414*kappa1 + 145*e_fact_sqrt*kappa1))*S1z\
+         + 6*(60*e_4 + 4*e_6*e_fact_sqrt - 30*(-1 + e_fact_sqrt) - 
+           e_2*(90 + 67*e_fact_sqrt))*S2z) + 
+     m1*m2*m2*m2*S2z*(6*(60*e_4 + 4*e_6*e_fact_sqrt - 
+           30*(-1 + e_fact_sqrt) - e_2*(90 + 67*e_fact_sqrt))*S1z + 
+        (48*e_6*e_fact_sqrt*(-1 + kappa2) - 
+           6*(-1 + e_fact_sqrt)*(3 + 23*kappa2) - 
+           4*e_4*(-9 - 60*e_fact_sqrt - 69*kappa2 + 32*e_fact_sqrt*kappa2) - 
+           e_2*(54 + 297*e_fact_sqrt + 414*kappa2 + 145*e_fact_sqrt*kappa2))*S2z)
+       + m1*m1*m2*m2*(3*(4*e_6*e_fact_sqrt*(-4 + 3*kappa1) - 
+           6*(-1 + e_fact_sqrt)*(-1 + 4*kappa1) - 
+           e_2*(-18 + 55*e_fact_sqrt + 4*(18 + e_fact_sqrt)*kappa1) + 
+           e_4*(-12 + 68*e_fact_sqrt - 8*(-6 + 5*e_fact_sqrt)*kappa1))*
+         S1z*S1z + 2*(12*e_6*e_fact_sqrt - 174*(-1 + e_fact_sqrt) + 
+           4*e_4*(87 + 7*e_fact_sqrt) - e_2*(522 + 409*e_fact_sqrt))*S1z*
+         S2z + 3*(4*e_6*e_fact_sqrt*(-4 + 3*kappa2) - 
+           6*(-1 + e_fact_sqrt)*(-1 + 4*kappa2) - 
+           e_2*(-18 + 55*e_fact_sqrt + 4*(18 + e_fact_sqrt)*kappa2) + 
+           e_4*(-12 + 68*e_fact_sqrt - 8*(-6 + 5*e_fact_sqrt)*kappa2))*
+         S2z*S2z) + e*(6*(-8 + 40*e_fact_sqrt + 2*(-7 + 25*e_fact_sqrt)*kappa1 + 
+           4*e_4*(-8 + (-14 + 3*e_fact_sqrt)*kappa1) + 
+           e_2*(40 + 44*e_fact_sqrt + (70 + 61*e_fact_sqrt)*kappa1))*m1*m1*m1*m1*
+         S1z*S1z + 6*(-8 + 40*e_fact_sqrt + 2*(-7 + 25*e_fact_sqrt)*kappa2 + 
+           4*e_4*(-8 + (-14 + 3*e_fact_sqrt)*kappa2) + 
+           e_2*(40 + 44*e_fact_sqrt + (70 + 61*e_fact_sqrt)*kappa2))*m2*m2*m2*m2*
+         S2z*S2z + m1*m1*m1*m2*S1z*
+         ((-18 + 246*e_fact_sqrt + 46*(-3 + 10*e_fact_sqrt)*kappa1 + 
+              2*e_4*(-36 - 60*e_fact_sqrt - 276*kappa1 + 
+                 47*e_fact_sqrt*kappa1) + 
+              e_2*(90 + 243*e_fact_sqrt + (690 + 535*e_fact_sqrt)*kappa1))*S1z + 
+           18*(-10 + 42*e_fact_sqrt + 4*e_4*(-10 + e_fact_sqrt) + 
+              e_2*(50 + 47*e_fact_sqrt))*S2z) + 
+        m1*m2*m2*m2*S2z*(18*(-10 + 42*e_fact_sqrt + 
+              4*e_4*(-10 + e_fact_sqrt) + e_2*(50 + 47*e_fact_sqrt))*S1z\
+            + (-18 + 246*e_fact_sqrt + 46*(-3 + 10*e_fact_sqrt)*kappa2 + 
+              2*e_4*(-36 - 60*e_fact_sqrt - 276*kappa2 + 
+                 47*e_fact_sqrt*kappa2) + 
+              e_2*(90 + 243*e_fact_sqrt + (690 + 535*e_fact_sqrt)*kappa2))*S2z)\
+         + m1*m1*m2*m2*(3*(6 + 14*e_fact_sqrt + 
+              8*(-3 + 8*e_fact_sqrt)*kappa1 + 
+              4*e_4*(6 - 7*e_fact_sqrt + 8*(-3 + e_fact_sqrt)*kappa1) + 
+              e_2*(5*(-6 + e_fact_sqrt) + 24*(5 + 3*e_fact_sqrt)*kappa1))*
+            S1z*S1z + 2*(-174 + 760*e_fact_sqrt + 
+              e_4*(-696 + 34*e_fact_sqrt) + e_2*(870 + 835*e_fact_sqrt))*
+            S1z*S2z + 3*(6 + 14*e_fact_sqrt + 8*(-3 + 8*e_fact_sqrt)*kappa2 + 
+              4*e_4*(6 - 7*e_fact_sqrt + 8*(-3 + e_fact_sqrt)*kappa2) + 
+              e_2*(5*(-6 + e_fact_sqrt) + 24*(5 + 3*e_fact_sqrt)*kappa2))*
+            S2z*S2z))*cos(u) - e_2*
+      (6*(8 + 56*e_fact_sqrt + 14*kappa1 + 58*e_fact_sqrt*kappa1 + 
+           4*e_4*(-4 - 7*kappa1 + 3*e_fact_sqrt*kappa1) + 
+           e_2*(8 + 28*e_fact_sqrt + 14*kappa1 + 53*e_fact_sqrt*kappa1))*
+         m1*m1*m1*m1*S1z*S1z + 6*(8 + 56*e_fact_sqrt + 14*kappa2 + 
+           58*e_fact_sqrt*kappa2 + 
+           4*e_4*(-4 - 7*kappa2 + 3*e_fact_sqrt*kappa2) + 
+           e_2*(8 + 28*e_fact_sqrt + 14*kappa2 + 53*e_fact_sqrt*kappa2))*
+         m2*m2*m2*m2*S2z*S2z + m1*m1*m1*m2*S1z*
+         ((2*e_4*(-18 - 12*e_fact_sqrt - 138*kappa1 + 55*e_fact_sqrt*kappa1) + 
+              2*(9 + 111*e_fact_sqrt + 69*kappa1 + 262*e_fact_sqrt*kappa1) + 
+              e_2*(18 + 171*e_fact_sqrt + 138*kappa1 + 455*e_fact_sqrt*kappa1))*
+            S1z + 18*(10 + 46*e_fact_sqrt + 4*e_4*(-5 + 2*e_fact_sqrt) + 
+              e_2*(10 + 39*e_fact_sqrt))*S2z) + 
+        m1*m2*m2*m2*S2z*(18*(10 + 46*e_fact_sqrt + 
+              4*e_4*(-5 + 2*e_fact_sqrt) + e_2*(10 + 39*e_fact_sqrt))*S1z\
+            + (2*e_4*(-18 - 12*e_fact_sqrt - 138*kappa2 + 
+                 55*e_fact_sqrt*kappa2) + 
+              2*(9 + 111*e_fact_sqrt + 69*kappa2 + 262*e_fact_sqrt*kappa2) + 
+              e_2*(18 + 171*e_fact_sqrt + 138*kappa2 + 455*e_fact_sqrt*kappa2))*
+            S2z) + m1*m1*m2*m2*
+         (3*(-6 - 14*e_fact_sqrt + 24*kappa1 + 68*e_fact_sqrt*kappa1 + 
+              4*e_4*(3 - 2*e_fact_sqrt - 12*kappa1 + 7*e_fact_sqrt*kappa1) + 
+              e_2*(-6 + 13*e_fact_sqrt + 24*kappa1 + 72*e_fact_sqrt*kappa1))*
+            S1z*S1z + 2*(174 + 872*e_fact_sqrt + 
+              e_4*(-348 + 98*e_fact_sqrt) + e_2*(174 + 659*e_fact_sqrt))*
+            S1z*S2z + 3*(-6 - 14*e_fact_sqrt + 24*kappa2 + 68*e_fact_sqrt*kappa2 + 
+              4*e_4*(3 - 2*e_fact_sqrt - 12*kappa2 + 7*e_fact_sqrt*kappa2) + 
+              e_2*(-6 + 13*e_fact_sqrt + 24*kappa2 + 72*e_fact_sqrt*kappa2))*
+            S2z*S2z))*pow(cos(u),2) + 
+     e_3*(6*(8 + 24*e_fact_sqrt + 2*(7 + 9*e_fact_sqrt)*kappa1 + 
+           e_2*(-8 + 4*e_fact_sqrt - 14*kappa1 + 23*e_fact_sqrt*kappa1))*
+         m1*m1*m1*m1*S1z*S1z + 6*(8 + 24*e_fact_sqrt + 
+           2*(7 + 9*e_fact_sqrt)*kappa2 + 
+           e_2*(-8 + 4*e_fact_sqrt - 14*kappa2 + 23*e_fact_sqrt*kappa2))*
+         m2*m2*m2*m2*S2z*S2z + m1*m1*m1*m2*S1z*
+         ((18 + 42*e_fact_sqrt + 2*(69 + 77*e_fact_sqrt)*kappa1 + 
+              e_2*(-18 + 81*e_fact_sqrt - 138*kappa1 + 209*e_fact_sqrt*kappa1))*
+            S1z + 6*(30 + 38*e_fact_sqrt + 5*e_2*(-6 + 11*e_fact_sqrt))*S2z) + 
+        m1*m2*m2*m2*S2z*(6*(30 + 38*e_fact_sqrt + 
+              5*e_2*(-6 + 11*e_fact_sqrt))*S1z + 
+           (18 + 42*e_fact_sqrt + 2*(69 + 77*e_fact_sqrt)*kappa2 + 
+              e_2*(-18 + 81*e_fact_sqrt - 138*kappa2 + 209*e_fact_sqrt*kappa2))*
+            S2z) + m1*m1*m2*m2*
+         (3*(-6 - 18*e_fact_sqrt + 8*(3 + 2*e_fact_sqrt)*kappa1 + 
+              e_2*(6 + 15*e_fact_sqrt + 8*(-3 + 5*e_fact_sqrt)*kappa1))*
+            S1z*S1z + 2*(174 + 274*e_fact_sqrt + 
+              e_2*(-174 + 269*e_fact_sqrt))*S1z*S2z + 
+           3*(-6 - 18*e_fact_sqrt + 8*(3 + 2*e_fact_sqrt)*kappa2 + 
+              e_2*(6 + 15*e_fact_sqrt + 8*(-3 + 5*e_fact_sqrt)*kappa2))*
+            S2z*S2z))*pow(cos(u),3))/
+   (12.*pow(-1 + e_2,3)*M_fact_4*pow(-1 + e*cos(u),5)));
+
+   return(phi_3pn_SS);
+
+}
+
 // static REAL8 phi_dot_3_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8
 // S2z) /* Computed using inputs from energy and flux expressions. See Blanchet
 // liv. rev.
@@ -2134,9 +2263,10 @@ static REAL8 dphi_dt(REAL8 u, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
         x * x * x *
             phi_dot_3pn(
                 e, eta,
-                u) /* + phi_dot_3_5pn_SO(e,m1,m2,S1z,S2z) * x_pow_3_2 * x * x */
+                u) + x_pow_3_2 * x_pow_3_2 * phi_dot_3pn_SS(e, m1, m2, S1z, S2z, u)
+                 /* + phi_dot_3_5pn_SO(e,m1,m2,S1z,S2z) * x_pow_3_2 * x * x */
         + phi_dot_4pn_SS(e, m1, m2, S1z, S2z) * x_pow_3_2 * x * x * sqrt(x)) *
-       x_pow_3_2);
+       x_pow_3_2); 
 
   return phidot;
 }

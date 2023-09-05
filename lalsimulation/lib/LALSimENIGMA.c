@@ -304,6 +304,7 @@ static REAL8 phi_dot_4pn_SS(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 phi_dot_1_5_pnSO_ecc(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,REAL8 S2z, REAL8 u);
 static REAL8 phi_dot_2_pnSS_ecc(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,REAL8 S2z, REAL8 u);
 static REAL8 phi_dot_2_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z,REAL8 u);
+static REAL8 phi_dot_3pn_SS(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z,REAL8 u);
 
 /* PN evolution equations */
 static REAL8 dx_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2,
