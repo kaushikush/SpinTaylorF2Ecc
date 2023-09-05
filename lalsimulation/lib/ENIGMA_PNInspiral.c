@@ -1073,8 +1073,7 @@ static REAL8 l_dot_1pn(REAL8 e, REAL8 eta) /* Eq. (A2) */
   return (3. / (e * e - 1.));
 }
 
-static REAL8
-l_dot_1_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
+static REAL8 l_dot_1_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
                REAL8 S2z) /*computed using inputs from klein et al.
                              arXiv:1801.08542. See equation B1e and B2e. */
 {
@@ -1087,8 +1086,7 @@ l_dot_1_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
           (4 * m1 * m1 * S1z + 4 * m2 * m2 * S2z + 3 * m1 * m2 * (S1z + S2z)));
 }
 
-static REAL8
-l_dot_2pn_SS(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
+static REAL8 l_dot_2pn_SS(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
              REAL8 S2z) /*computed using inputs from klein et al.
                            arXiv:1801.08542. See equation B1e and B2e. */
 {
@@ -1098,6 +1096,33 @@ l_dot_2pn_SS(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
   return ((-3 * (m1 * S1z * (2 * m2 * S2z + m1 * S1z * kappa1) +
                  pow(m2, 2) * pow(S2z, 2) * kappa2)) /
           (2. * pow(-1 + pow(e, 2), 2) * pow(m1 + m2, 2)));
+}
+
+static REAL8 l_dot_2_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
+               REAL8 S2z)/* Quentin Henry et al terms, arXiv:2308.13606v1 */
+{
+  REAL8 l_2_5pn_SO;
+  REAL8 e_2=e*e;
+  REAL8 e_4=e_2*e_2;
+  REAL8 e_fact = (1- e_2);
+  REAL8 e_fact_2=e_fact*e_fact;
+  REAL8 e_fact_sqrt=sqrt(e_fact);
+  REAL8 e_fact_25 = e_fact_2*e_fact_sqrt;
+  REAL8 M_fact_2 = (m1+m2)*(m1+m2);
+  REAL8 M_fact_4 = M_fact_2*M_fact_2;
+
+  if(e){
+    l_2_5pn_SO=((20*m1*m1*m1*m1*(S1z + 3*e_2*S1z) + 20*(1 + 3*e_2)*m2*m2*m2*m2*S2z + 
+     (5 + 129*e_2)*m1*m1*m2*m2*(S1z + S2z) + 
+     m1*m1*m1*m2*((23 + 137*e_2)*S1z + 45*e_2*S2z) + 
+     m1*m2*m2*m2*(23*S2z + e_2*(45*S1z + 137*S2z)))/
+   (2.*e_fact_25*M_fact_4));
+  }
+  else{
+    l_2_5pn_SO=((20*m1*m1*m1*m1*S1z + 23*m1*m1*m1*m2*S1z + 23*m1*m2*m2*m2*S2z + 20*m2*m2*m2*m2*S2z + 
+     5*m1*m1*m2*m2*(S1z + S2z))/(2.*M_fact_4));
+  }
+  return(l_2_5pn_SO);
 }
 
 static REAL8 l_dot_2pn(REAL8 e, REAL8 eta) /* Eq. (A3) */
@@ -1890,8 +1915,8 @@ static REAL8 dl_dt(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x,
       (1.0 + x * l_dot_1pn(e, eta) +
        x_pow_3_2 * l_dot_1_5pn_SO(e, m1, m2, S1z, S2z) +
        x * x * l_dot_2pn(e, eta) + x * x * l_dot_2pn_SS(e, m1, m2, S1z, S2z) +
-       x * x * x * l_dot_3pn(e, eta)) *
-      x_pow_3_2;
+        l_dot_2_5pn_SO(e, m1, m2, S1z, S2z) * x_pow_3_2 * x +
+       x * x * x * l_dot_3pn(e, eta)) * x_pow_3_2;
 
   return ldot;
 }

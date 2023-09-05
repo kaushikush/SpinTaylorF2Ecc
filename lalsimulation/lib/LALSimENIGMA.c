@@ -291,6 +291,7 @@ static REAL8 l_dot_2pn(REAL8 e, REAL8 eta);
 static REAL8 l_dot_3pn(REAL8 e, REAL8 eta);
 static REAL8 l_dot_1_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
 static REAL8 l_dot_2pn_SS(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z);
+static REAL8 l_dot_2_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,REAL8 S2z);
 
 static REAL8 phi_dot_0pn(REAL8 e, REAL8 eta, REAL8 u);
 static REAL8 phi_dot_1pn(REAL8 e, REAL8 eta, REAL8 u);
