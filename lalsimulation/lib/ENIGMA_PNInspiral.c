@@ -2744,15 +2744,138 @@ static REAL8 rel_sep_3pn(REAL8 e, REAL8 u, REAL8 eta) {
           77490. * pi_pow_2 * eta - 1814400.);
 }
 
+static REAL8 rel_sep_3pn_SS(REAL8 e, REAL8 u, REAL8 m1, REAL8 m2, REAL8 S1z,
+                            REAL8 S2z) {
+  REAL8 r_3pn_SS;
+  REAL8 kappa1 = 1.0;
+  REAL8 kappa2 = 1.0;
+  REAL8 e_2 = e * e;
+  REAL8 e_4 = e_2 * e_2;
+  REAL8 e_fact = (1 - e_2);
+  REAL8 e_fact_sqrt = sqrt(e_fact);
+  REAL8 e_fact_35 = e_fact_sqrt * e_fact * e_fact * e_fact;
+  REAL8 M_fact_2 = (m1 + m2) * (m1 + m2);
+  REAL8 M_fact_4 = M_fact_2 * M_fact_2;
+
+  r_3pn_SS =
+      (-0.05555555555555555 *
+       (-((-48 + 40 * e_fact_sqrt - 84 * kappa1 + 99 * e_fact_sqrt * kappa1 +
+           6 * e_2 *
+               (16 + 28 * e_fact_sqrt + 28 * kappa1 +
+                51 * e_fact_sqrt * kappa1) +
+           e_4 * (-48 + (-84 + 45 * e_fact_sqrt) * kappa1)) *
+          m1 * m1 * m1 * m1 * S1z * S1z) -
+        (-48 + 40 * e_fact_sqrt - 84 * kappa2 + 99 * e_fact_sqrt * kappa2 +
+         6 * e_2 *
+             (16 + 28 * e_fact_sqrt + 28 * kappa2 + 51 * e_fact_sqrt * kappa2) +
+         e_4 * (-48 + (-84 + 45 * e_fact_sqrt) * kappa2)) *
+            m2 * m2 * m2 * m2 * S2z * S2z -
+        3 * m1 * m1 * m1 * m2 * S1z *
+            ((-6 + 4 * e_fact_sqrt - 46 * kappa1 + 48 * e_fact_sqrt * kappa1 +
+              e_4 * (-6 - 6 * e_fact_sqrt - 46 * kappa1 +
+                     25 * e_fact_sqrt * kappa1) +
+              e_2 * (12 + 55 * e_fact_sqrt + 92 * kappa1 +
+                     158 * e_fact_sqrt * kappa1)) *
+                 S1z +
+             2 *
+                 (-30 + 29 * e_fact_sqrt +
+                  5 * e_2 *
+                      (12 + 25 * e_fact_sqrt + 3 * e_2 * (-2 + e_fact_sqrt))) *
+                 S2z) -
+        3 * m1 * m2 * m2 * m2 * S2z *
+            (2 *
+                 (-30 + 29 * e_fact_sqrt +
+                  5 * e_2 *
+                      (12 + 25 * e_fact_sqrt + 3 * e_2 * (-2 + e_fact_sqrt))) *
+                 S1z +
+             (-6 + 4 * e_fact_sqrt - 46 * kappa2 + 48 * e_fact_sqrt * kappa2 +
+              e_4 * (-6 - 6 * e_fact_sqrt - 46 * kappa2 +
+                     25 * e_fact_sqrt * kappa2) +
+              e_2 * (12 + 55 * e_fact_sqrt + 92 * kappa2 +
+                     158 * e_fact_sqrt * kappa2)) *
+                 S2z) -
+        m1 * m1 * m2 * m2 *
+            (9 *
+                 (2 - 2 * e_fact_sqrt - 8 * kappa1 + 6 * e_fact_sqrt * kappa1 +
+                  e_4 * (2 - 2 * e_fact_sqrt - 8 * kappa1 +
+                         6 * e_fact_sqrt * kappa1) +
+                  e_2 * (-4 + 3 * e_fact_sqrt +
+                         4 * (4 + 7 * e_fact_sqrt) * kappa1)) *
+                 S1z * S1z +
+             2 *
+                 (-174 + 175 * e_fact_sqrt + 348 * e_2 * (1 + 2 * e_fact_sqrt) +
+                  6 * e_4 * (-29 + 11 * e_fact_sqrt)) *
+                 S1z * S2z +
+             9 *
+                 (2 - 2 * e_fact_sqrt - 8 * kappa2 + 6 * e_fact_sqrt * kappa2 +
+                  e_4 * (2 - 2 * e_fact_sqrt - 8 * kappa2 +
+                         6 * e_fact_sqrt * kappa2) +
+                  e_2 * (-4 + 3 * e_fact_sqrt +
+                         4 * (4 + 7 * e_fact_sqrt) * kappa2)) *
+                 S2z * S2z) +
+        e *
+            (2 *
+                 (12 + 68 * e_fact_sqrt + 3 * (7 + 36 * e_fact_sqrt) * kappa1 +
+                  3 * e_4 * (4 + 7 * kappa1) +
+                  3 * e_2 *
+                      (-8 + 12 * e_fact_sqrt - 14 * kappa1 +
+                       39 * e_fact_sqrt * kappa1)) *
+                 m1 * m1 * m1 * m1 * S1z * S1z +
+             2 *
+                 (12 + 68 * e_fact_sqrt + 3 * (7 + 36 * e_fact_sqrt) * kappa2 +
+                  3 * e_4 * (4 + 7 * kappa2) +
+                  3 * e_2 *
+                      (-8 + 12 * e_fact_sqrt - 14 * kappa2 +
+                       39 * e_fact_sqrt * kappa2)) *
+                 m2 * m2 * m2 * m2 * S2z * S2z +
+             3 * m1 * m1 * m1 * m2 * S1z *
+                 (20 * e_fact_sqrt * S1z + 33 * e_2 * e_fact_sqrt * S1z +
+                  110 * e_fact_sqrt * kappa1 * S1z +
+                  121 * e_2 * e_fact_sqrt * kappa1 * S1z +
+                  pow(-1 + e_2, 2) * (3 + 23 * kappa1) * S1z +
+                  152 * e_fact_sqrt * S2z + 186 * e_2 * e_fact_sqrt * S2z +
+                  30 * pow(-1 + e_2, 2) * S2z) +
+             3 * m1 * m2 * m2 * m2 * S2z *
+                 (152 * e_fact_sqrt * S1z + 186 * e_2 * e_fact_sqrt * S1z +
+                  30 * pow(-1 + e_2, 2) * S1z + 20 * e_fact_sqrt * S2z +
+                  33 * e_2 * e_fact_sqrt * S2z +
+                  110 * e_fact_sqrt * kappa2 * S2z +
+                  121 * e_2 * e_fact_sqrt * kappa2 * S2z +
+                  pow(-1 + e_2, 2) * (3 + 23 * kappa2) * S2z) +
+             m1 * m1 * m2 * m2 *
+                 (9 *
+                      (e_4 * (-1 + 4 * kappa1) +
+                       (1 + 4 * e_fact_sqrt) * (-1 + 4 * kappa1) +
+                       e_2 * (2 + 3 * e_fact_sqrt - 8 * kappa1 +
+                              24 * e_fact_sqrt * kappa1)) *
+                      S1z * S1z +
+                  2 *
+                      (87 + 87 * e_4 + 466 * e_fact_sqrt +
+                       3 * e_2 * (-58 + 157 * e_fact_sqrt)) *
+                      S1z * S2z +
+                  9 *
+                      (e_4 * (-1 + 4 * kappa2) +
+                       (1 + 4 * e_fact_sqrt) * (-1 + 4 * kappa2) +
+                       e_2 * (2 + 3 * e_fact_sqrt - 8 * kappa2 +
+                              24 * e_fact_sqrt * kappa2)) *
+                      S2z * S2z)) *
+            cos(u)) /
+       (e_fact_35 * M_fact_4));
+
+  return (r_3pn_SS);
+}
+
 static REAL8 separation(REAL8 u, REAL8 eta, REAL8 x, REAL8 e, REAL8 m1,
                         REAL8 m2, REAL8 S1z, REAL8 S2z) {
   // 3PN accurate
 
   return ((1.0 / x) * rel_sep_0pn(e, u) + rel_sep_1pn(e, u, eta) +
-         rel_sep_1_5pn(e, u, m1, m2, S1z, S2z) * sqrt(x) +
-         rel_sep_2pnSS(e, u, m1, m2, S1z, S2z) * x +
-         rel_sep_2pn(e, u, eta) * x + rel_sep_2_5pn_SO(e, u, m1, m2, S1z, S2z) * x * sqrt(x) +
-          rel_sep_3pn(e, u, eta) * x * x);
+          rel_sep_1_5pn(e, u, m1, m2, S1z, S2z) * sqrt(x) +
+          rel_sep_2pnSS(e, u, m1, m2, S1z, S2z) * x +
+          rel_sep_2pn(e, u, eta) * x +
+          rel_sep_2_5pn_SO(e, u, m1, m2, S1z, S2z) * x * sqrt(x) +
+          rel_sep_3pn(e, u, eta) * x * x +
+          rel_sep_3pn_SS(e, u, m1, m2, S1z, S2z) * x * x);
 }
 
 static REAL8 dxdt_4pn(REAL8 x, REAL8 eta) {
