@@ -2627,6 +2627,49 @@ static REAL8 rel_sep_2pn(REAL8 e, REAL8 u, REAL8 eta) {
   return (num_1 / den_1 + num_2 / den_2);
 }
 
+static REAL8 rel_sep_2_5pn_SO(REAL8 e, REAL8 u, REAL8 m1, REAL8 m2, REAL8 S1z,
+                              REAL8 S2z) {
+  REAL8 r_2_5pn_SO;
+  REAL8 e_2 = e * e;
+  REAL8 e_4 = e_2 * e_2;
+  REAL8 e_fact = (1 - e_2);
+  REAL8 e_fact_sqrt = sqrt(e_fact);
+  REAL8 M_fact_2 = (m1 + m2) * (m1 + m2);
+  REAL8 M_fact_4 = M_fact_2 * M_fact_2;
+
+  r_2_5pn_SO =
+      ((2 * pow(-1 + e_2, 2) *
+            (-12 * m1 * m1 * m1 * m1 * S1z - 12 * m2 * m2 * m2 * m2 * S2z -
+             21 * m1 * m1 * m2 * m2 * (S1z + S2z) -
+             2 * m1 * m1 * m1 * m2 * (13 * S1z + 3 * S2z) -
+             2 * m1 * m2 * m2 * m2 * (3 * S1z + 13 * S2z)) *
+            (2 + e * cos(u)) +
+        2 * e_fact_sqrt *
+            (12 * (2 + 7 * e_2 + e_4) * m1 * m1 * m1 * m1 * S1z +
+             12 * (2 + 7 * e_2 + e_4) * m2 * m2 * m2 * m2 * S2z +
+             2 * (22 + 85 * e_2 + 10 * e_4) * m1 * m1 * m2 * m2 * (S1z + S2z) +
+             m1 * m1 * m1 * m2 *
+                 (2 * (28 + 96 * e_2 + 11 * e_4) * S1z +
+                  3 * (4 + 19 * e_2 + 2 * e_4) * S2z) +
+             m1 * m2 * m2 * m2 *
+                 (3 * (4 + 19 * e_2 + 2 * e_4) * S1z +
+                  2 * (28 + 96 * e_2 + 11 * e_4) * S2z) -
+             e *
+                 (60 * (1 + e_2) * m1 * m1 * m1 * m1 * S1z +
+                  60 * (1 + e_2) * m2 * m2 * m2 * m2 * S2z +
+                  3 * (35 + 43 * e_2) * m1 * m1 * m2 * m2 * (S1z + S2z) +
+                  m1 * m1 * m1 * m2 *
+                      (133 * S1z + 137 * e_2 * S1z + 30 * S2z +
+                       45 * e_2 * S2z) +
+                  m1 * m2 * m2 * m2 *
+                      (30 * S1z + 45 * e_2 * S1z + 133 * S2z +
+                       137 * e_2 * S2z)) *
+                 cos(u))) /
+       (6. * pow(-1 + e_2, 3) * M_fact_4));
+
+  return (r_2_5pn_SO);
+}
+
 static REAL8
 rel_sep_2pnSS(REAL8 e, REAL8 u, REAL8 m1, REAL8 m2, REAL8 S1z,
               REAL8 S2z) /*computed using inputs from klein et al.
@@ -2705,10 +2748,11 @@ static REAL8 separation(REAL8 u, REAL8 eta, REAL8 x, REAL8 e, REAL8 m1,
                         REAL8 m2, REAL8 S1z, REAL8 S2z) {
   // 3PN accurate
 
-  return (1.0 / x) * rel_sep_0pn(e, u) + rel_sep_1pn(e, u, eta) +
+  return ((1.0 / x) * rel_sep_0pn(e, u) + rel_sep_1pn(e, u, eta) +
          rel_sep_1_5pn(e, u, m1, m2, S1z, S2z) * sqrt(x) +
          rel_sep_2pnSS(e, u, m1, m2, S1z, S2z) * x +
-         rel_sep_2pn(e, u, eta) * x + rel_sep_3pn(e, u, eta) * x * x;
+         rel_sep_2pn(e, u, eta) * x + rel_sep_2_5pn_SO(e, u, m1, m2, S1z, S2z) * x * sqrt(x) +
+          rel_sep_3pn(e, u, eta) * x * x);
 }
 
 static REAL8 dxdt_4pn(REAL8 x, REAL8 eta) {
