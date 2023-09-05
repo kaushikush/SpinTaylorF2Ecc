@@ -1121,6 +1121,29 @@ static REAL8 l_dot_2_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
   return(l_2_5pn_SO);
 }
 
+static REAL8 l_dot_3pn_SS(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
+               REAL8 S2z)/* Quentin Henry et al terms, arXiv:2308.13606v1 */
+{
+  REAL8 l_3pn_SS;
+  REAL8 kappa1=1.0;
+  REAL8 kappa2=1.0;
+  REAL8 e_2=e*e;
+  REAL8 M_fact_2 = (m1+m2)*(m1+m2);
+  REAL8 M_fact_4 = M_fact_2*M_fact_2;
+
+  l_3pn_SS=((m1*m1*((-8 + 42*kappa1 + 6*e_2*(4 + 13*kappa1))*m1*m1 + 
+        (-60 + 50*kappa1 + 11*e_2*(3 + 11*kappa1))*m1*m2 + 
+        3*(-14 + 6*kappa1 + 3*e_2*(1 + 8*kappa1))*m2*m2)*S1z*S1z + 
+     2*m1*m2*((6 + 93*e_2)*m1*m1 + (12 + 157*e_2)*m1*m2 + 
+        3*(2 + 31*e_2)*m2*m2)*S1z*S2z + 
+     m2*m2*(3*(-14 + 6*kappa2 + 3*e_2*(1 + 8*kappa2))*m1*m1 + 
+        (-60 + 50*kappa2 + 11*e_2*(3 + 11*kappa2))*m1*m2 + 
+        2*(-4 + 21*kappa2 + 3*e_2*(4 + 13*kappa2))*m2*m2)*S2z*S2z)/
+     (4.*pow(-1 + e_2,3)*M_fact_4));
+
+  return(l_3pn_SS);
+}
+
 static REAL8 l_dot_2pn(REAL8 e, REAL8 eta) /* Eq. (A3) */
 {
   REAL8 e_fact = 1 - e * e;
@@ -1912,7 +1935,7 @@ static REAL8 dl_dt(REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z, REAL8 S2z, REAL8 x,
        x_pow_3_2 * l_dot_1_5pn_SO(e, m1, m2, S1z, S2z) +
        x * x * l_dot_2pn(e, eta) + x * x * l_dot_2pn_SS(e, m1, m2, S1z, S2z) +
         l_dot_2_5pn_SO(e, m1, m2, S1z, S2z) * x_pow_3_2 * x +
-       x * x * x * l_dot_3pn(e, eta)) * x_pow_3_2;
+       x * x * x * l_dot_3pn(e, eta)+ x * x * x * l_dot_3pn_SS(e, m1, m2, S1z, S2z)) * x_pow_3_2;
 
   return ldot;
 }
