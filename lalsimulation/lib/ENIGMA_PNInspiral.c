@@ -977,6 +977,83 @@ static REAL8 e_dot_3pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
   return(e_3pn_SO);
 }
 
+static REAL8 e_dot_3pn_SS(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
+                          REAL8 S2z)/* Quentin Henry et al terms, arXiv:2308.13606v1 */
+{
+  REAL8 e_3pn_SS;
+  REAL8 kappa1=1.0;
+  REAL8 kappa2=1.0;
+  REAL8 e_2=e*e;
+  REAL8 e_4=e_2*e_2;
+  REAL8 e_6=e_4*e_2;
+  REAL8 e_fact = (1- e_2);
+  REAL8 e_fact_2=e_fact*e_fact;
+  REAL8 e_fact_sqrt=sqrt(e_fact);
+  REAL8 e_fact_55 = e_fact_2*e_fact_2*e_fact*e_fact_sqrt;
+  REAL8 M_fact_2 = (m1+m2)*(m1+m2);
+  REAL8 M_fact_4 = M_fact_2*M_fact_2;
+  REAL8 M_fact_6 = M_fact_4*M_fact_2;
+
+  if(e){
+    e_3pn_SS=(-0.000016534391534391536*(e*m1*m2*((27*e_6*(53837 + 368940*kappa1) + 
+           12*e_4*(6350925 + 27328*e_fact_sqrt + 16634634*kappa1 + 
+              47824*e_fact_sqrt*kappa1) + 
+           32*(2226847 + 545664*e_fact_sqrt + 538758*kappa1 + 
+              954912*e_fact_sqrt*kappa1) + 
+           32*e_2*(7292761 + 1157688*e_fact_sqrt + 
+              9*(847619 + 225106*e_fact_sqrt)*kappa1))*m1*m1*m1*m1*S1z*S1z + 
+        (27*e_6*(53837 + 368940*kappa2) + 
+           12*e_4*(6350925 + 27328*e_fact_sqrt + 16634634*kappa2 + 
+              47824*e_fact_sqrt*kappa2) + 
+           32*(2226847 + 545664*e_fact_sqrt + 538758*kappa2 + 
+              954912*e_fact_sqrt*kappa2) + 
+           32*e_2*(7292761 + 1157688*e_fact_sqrt + 
+              9*(847619 + 225106*e_fact_sqrt)*kappa2))*m2*m2*m2*m2*S2z*S2z + 
+        6*m1*m1*m1*m2*S1z*((9*e_6*(55293 + 221219*kappa1) + 
+              2*e_4*(11036963 + 10248*e_fact_sqrt + 19572200*kappa1 + 
+                 78568*e_fact_sqrt*kappa1) + 
+              16*(798819 + 68208*e_fact_sqrt - 336460*kappa1 + 
+                 522928*e_fact_sqrt*kappa1) + 
+              8*e_2*(7063231 + 289422*e_fact_sqrt + 
+                 6*(698816 + 369817*e_fact_sqrt)*kappa1))*S1z + 
+           2*(1818549*e_6 + 240*(31249 + 22736*e_fact_sqrt) + 
+              2*e_4*(20863999 + 51240*e_fact_sqrt) + 
+              8*e_2*(7764719 + 1447110*e_fact_sqrt))*S2z) + 
+        6*m1*m2*m2*m2*S2z*(2*(1818549*e_6 + 240*(31249 + 22736*e_fact_sqrt) + 
+              2*e_4*(20863999 + 51240*e_fact_sqrt) + 
+              8*e_2*(7764719 + 1447110*e_fact_sqrt))*S1z + 
+           (9*e_6*(55293 + 221219*kappa2) + 
+              2*e_4*(11036963 + 10248*e_fact_sqrt + 19572200*kappa2 + 
+                 78568*e_fact_sqrt*kappa2) + 
+              16*(798819 + 68208*e_fact_sqrt - 336460*kappa2 + 
+                 522928*e_fact_sqrt*kappa2) + 
+              8*e_2*(7063231 + 289422*e_fact_sqrt + 
+                 6*(698816 + 369817*e_fact_sqrt)*kappa2))*S2z) + 
+        m1*m1*m2*m2*(9*(3*e_6*(63301 + 361786*kappa1) + 
+              4*e_4*(1667883 - 3416*e_fact_sqrt + 5133138*kappa1 + 
+                 13664*e_fact_sqrt*kappa1) + 
+              32*(69895 - 22736*e_fact_sqrt - 37046*kappa1 + 
+                 90944*e_fact_sqrt*kappa1) + 
+              32*e_2*(439124 - 48237*e_fact_sqrt + 616472*kappa1 + 
+                 192948*e_fact_sqrt*kappa1))*S1z*S1z + 
+           8*(3553929*e_6 + 3*e_4*(29583761 + 99064*e_fact_sqrt) + 
+              116*e_2*(1176325 + 289422*e_fact_sqrt) + 
+              8*(2057131 + 1978032*e_fact_sqrt))*S1z*S2z + 
+           9*(3*e_6*(63301 + 361786*kappa2) + 
+              4*e_4*(1667883 - 3416*e_fact_sqrt + 5133138*kappa2 + 
+                 13664*e_fact_sqrt*kappa2) + 
+              32*(69895 - 22736*e_fact_sqrt - 37046*kappa2 + 
+                 90944*e_fact_sqrt*kappa2) + 
+              32*e_2*(439124 - 48237*e_fact_sqrt + 616472*kappa2 + 
+                 192948*e_fact_sqrt*kappa2))*S2z*S2z)))/
+    (e_fact_55*M_fact_6));
+  }
+  else{
+    e_3pn_SS=0.0;
+  }
+  return(e_3pn_SS);
+}
+
 static REAL8 e_dot_3_5pn(REAL8 e, REAL8 eta) /* Eq. (C10) */
 {
   (void)eta;
@@ -1709,8 +1786,8 @@ static REAL8 de_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2,
             e_dot_1_5pn_SO(e, m1, m2, S1z, S2z) * x * sqrt(x) +
             e_dot_2pn_SS(e, m1, m2, S1z, S2z) * x * x + 
             e_dot_2_5pn_SO(e, m1, m2, S1z, S2z) * x * x * sqrt(x) +
-            e_dot_3pn_SO(e, m1, m2, S1z, S2z) * x * x * x) *
-               x_pow_4 +
+            (e_dot_3pn_SO(e, m1, m2, S1z, S2z) + e_dot_3pn_SS(e, m1, m2, S1z, S2z)) 
+            * x * x * x) * x_pow_4 +
            e_rad_hereditary_1_5(e, eta, x) + e_rad_hereditary_2_5(e, eta, x) +
            e_rad_hereditary_3(e, eta, x);
   } else if (radiation_pn_order ==
@@ -1722,8 +1799,8 @@ static REAL8 de_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2,
             e_dot_1_5pn_SO(e, m1, m2, S1z, S2z) * x * sqrt(x) +
             e_dot_2pn_SS(e, m1, m2, S1z, S2z) * x * x + 
             e_dot_2_5pn_SO(e, m1, m2, S1z, S2z) * x * x * sqrt(x)+
-            e_dot_3pn_SO(e, m1, m2, S1z, S2z) * x * x * x) *
-               x_pow_4 +
+            (e_dot_3pn_SO(e, m1, m2, S1z, S2z)+ e_dot_3pn_SS(e, m1, m2, S1z, S2z))
+             * x * x * x) * x_pow_4 +
            e_rad_hereditary_1_5(e, eta, x) + e_rad_hereditary_2_5(e, eta, x) +
            e_rad_hereditary_3(e, eta, x);
   } else if (radiation_pn_order ==
@@ -1735,8 +1812,8 @@ static REAL8 de_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2,
             e_dot_1_5pn_SO(e, m1, m2, S1z, S2z) * x * sqrt(x) +
             e_dot_2pn_SS(e, m1, m2, S1z, S2z) * x * x + 
             e_dot_2_5pn_SO(e, m1, m2, S1z, S2z) * x * x * sqrt(x)+
-            e_dot_3pn_SO(e, m1, m2, S1z, S2z) * x * x * x) *
-               x_pow_4 +
+            (e_dot_3pn_SO(e, m1, m2, S1z, S2z)+ e_dot_3pn_SS(e, m1, m2, S1z, S2z))
+             * x * x * x) * x_pow_4 +
            e_rad_hereditary_1_5(e, eta, x) + e_rad_hereditary_2_5(e, eta, x) +
            e_rad_hereditary_3(e, eta, x);
   } else if (radiation_pn_order ==
@@ -1748,8 +1825,8 @@ static REAL8 de_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2,
             e_dot_1_5pn_SO(e, m1, m2, S1z, S2z) * x * sqrt(x) +
             e_dot_2pn_SS(e, m1, m2, S1z, S2z) * x * x + 
             e_dot_2_5pn_SO(e, m1, m2, S1z, S2z) * x * x * sqrt(x)+
-            e_dot_3pn_SO(e, m1, m2, S1z, S2z) * x * x * x) *
-               x_pow_4 +
+            (e_dot_3pn_SO(e, m1, m2, S1z, S2z) + + e_dot_3pn_SS(e, m1, m2, S1z, S2z))
+             * x * x * x) *  x_pow_4 +
            e_rad_hereditary_1_5(e, eta, x) + e_rad_hereditary_2_5(e, eta, x) +
            e_rad_hereditary_3(e, eta, x);
   } else if (radiation_pn_order ==
@@ -1761,8 +1838,8 @@ static REAL8 de_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2,
             e_dot_1_5pn_SO(e, m1, m2, S1z, S2z) * x * sqrt(x) +
             e_dot_2pn_SS(e, m1, m2, S1z, S2z) * x * x + 
             e_dot_2_5pn_SO(e, m1, m2, S1z, S2z) * x * x * sqrt(x)+
-            e_dot_3pn_SO(e, m1, m2, S1z, S2z) * x * x * x) *
-               x_pow_4 +
+            (e_dot_3pn_SO(e, m1, m2, S1z, S2z) + e_dot_3pn_SS(e, m1, m2, S1z, S2z))
+             * x * x * x ) * x_pow_4 +
            e_rad_hereditary_1_5(e, eta, x) + e_rad_hereditary_2_5(e, eta, x) +
            e_rad_hereditary_3(e, eta, x);
   } else if (radiation_pn_order ==
@@ -1774,8 +1851,8 @@ static REAL8 de_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2,
             e_dot_1_5pn_SO(e, m1, m2, S1z, S2z) * x * sqrt(x) +
             e_dot_2pn_SS(e, m1, m2, S1z, S2z) * x * x + 
             e_dot_2_5pn_SO(e, m1, m2, S1z, S2z) * x * x * sqrt(x)+
-            e_dot_3pn_SO(e, m1, m2, S1z, S2z) * x * x * x) *
-               x_pow_4 +
+            (e_dot_3pn_SO(e, m1, m2, S1z, S2z) + e_dot_3pn_SS(e, m1, m2, S1z, S2z))
+            * x * x * x) * x_pow_4 +
            e_rad_hereditary_1_5(e, eta, x) + e_rad_hereditary_2_5(e, eta, x) +
            e_rad_hereditary_3(e, eta, x);
   } else if (radiation_pn_order ==
@@ -1787,8 +1864,8 @@ static REAL8 de_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2,
             e_dot_1_5pn_SO(e, m1, m2, S1z, S2z) * x * sqrt(x) +
             e_dot_2pn_SS(e, m1, m2, S1z, S2z) * x * x + 
             e_dot_2_5pn_SO(e, m1, m2, S1z, S2z) * x * x * sqrt(x)+
-            e_dot_3pn_SO(e, m1, m2, S1z, S2z) * x * x * x) *
-               x_pow_4 +
+            (e_dot_3pn_SO(e, m1, m2, S1z, S2z) + e_dot_3pn_SS(e, m1, m2, S1z, S2z))
+             * x * x * x) * x_pow_4 +
            e_rad_hereditary_1_5(e, eta, x) + e_rad_hereditary_2_5(e, eta, x) +
            e_rad_hereditary_3(e, eta, x);
   } else {
