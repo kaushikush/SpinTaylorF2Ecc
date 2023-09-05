@@ -251,7 +251,7 @@ static REAL8 x_dot_hereditary_3(REAL8 e, REAL8 eta, REAL8 x);
 static REAL8 x_dot_3pn(REAL8 e, REAL8 eta, REAL8 x);
 static REAL8 x_dot_3pn_SO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
                          REAL8 S2z);
-static REAL8 x_dot_3pnSS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
+static REAL8 x_dot_3pn_SS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
                          REAL8 S2z);
 static REAL8 x_dot_3_5_pn(REAL8 e, REAL8 eta);
 static REAL8 x_dot_3_5pnSO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
