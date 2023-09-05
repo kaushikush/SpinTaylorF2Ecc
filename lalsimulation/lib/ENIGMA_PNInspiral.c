@@ -116,12 +116,30 @@ static REAL8 x_dot_2pn_SS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
 {
   REAL8 kappa1 = 1.0; /*for black holes kappa_{1,2} is 1*/
   REAL8 kappa2 = 1.0;
-  REAL8 x_dot_2pn_SS;
+  REAL8 x_2pn_SS;
   REAL8 pre_factor = 64. * eta / 5;
+  REAL8 e_2=e*e;
+  REAL8 e_4=e_2*e_2;
+  REAL8 e_6=e_4*e_2;
+  REAL8 e_fact = (1- e_2);
+  REAL8 e_fact_2=e_fact*e_fact;
+  REAL8 e_fact_sqrt=sqrt(e_fact);
+  REAL8 e_fact_55 = e_fact_2*e_fact_2*e_fact*e_fact_sqrt;
+  REAL8 M_fact_2 = (m1+m2)*(m1+m2);
+  REAL8 M_fact_4 = M_fact_2*M_fact_2;
 
   if (e) {
+    /* Quentin Henry et al terms, arXiv:2308.13606 */
+    x_2pn_SS=((m1*m2*((48*(1 + 80*kappa1) + 3*e_6*(9 + 236*kappa1) 
+        + 8*e_2*(57 + 2692*kappa1) + 
+          2*e_4*(207 + 7472*kappa1))*m1*m1*S1z*S1z + 
+       2*(3792 + 21080*e_2 + 14530*e_4 + 681*e_6)*m1*m2*S1z*S2z + 
+       (48*(1 + 80*kappa2) + 3*e_6*(9 + 236*kappa2) + 8*e_2*(57 + 2692*kappa2) + 
+          2*e_4*(207 + 7472*kappa2))*m2*m2*S2z*S2z))/
+       (60.*e_fact_55*M_fact_4));
 
-    x_dot_2pn_SS =
+    /* Klein et al. terms */
+    /*x_2pn_SS =
         (-0.016666666666666666 *
          (m1 * m2 *
           ((-48 * (1 + 80 * kappa1) + 3 * pow(e, 6) * (-9 + 319 * kappa1) -
@@ -136,18 +154,18 @@ static REAL8 x_dot_2pn_SS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
             8 * pow(e, 2) * (57 + 2692 * kappa2) -
             2 * pow(e, 4) * (207 + 7472 * kappa2)) *
                pow(m2, 2) * pow(S2z, 2))) /
-         (pow(1 - pow(e, 2), 5.5) * pow(m1 + m2, 4)));
+         (pow(1 - pow(e, 2), 5.5) * pow(m1 + m2, 4)));*/
 
   } else {
 
-    x_dot_2pn_SS =
+    x_2pn_SS =
         pre_factor * (((1 + 80 * kappa1) * pow(m1, 2) * pow(S1z, 2) +
                        158 * m1 * m2 * S1z * S2z +
                        (1 + 80 * kappa2) * pow(m2, 2) * pow(S2z, 2)) /
                       (16. * pow(m1 + m2, 2)));
   }
 
-  return (x_dot_2pn_SS);
+  return (x_2pn_SS);
 }
 
 static REAL8 x_dot_hereditary_2_5(REAL8 e, REAL8 eta,
