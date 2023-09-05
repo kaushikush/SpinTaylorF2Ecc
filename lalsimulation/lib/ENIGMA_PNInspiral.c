@@ -1111,17 +1111,13 @@ static REAL8 l_dot_2_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
   REAL8 M_fact_2 = (m1+m2)*(m1+m2);
   REAL8 M_fact_4 = M_fact_2*M_fact_2;
 
-  if(e){
-    l_2_5pn_SO=((20*m1*m1*m1*m1*(S1z + 3*e_2*S1z) + 20*(1 + 3*e_2)*m2*m2*m2*m2*S2z + 
+  
+  l_2_5pn_SO=((20*m1*m1*m1*m1*(S1z + 3*e_2*S1z) + 20*(1 + 3*e_2)*m2*m2*m2*m2*S2z + 
      (5 + 129*e_2)*m1*m1*m2*m2*(S1z + S2z) + 
      m1*m1*m1*m2*((23 + 137*e_2)*S1z + 45*e_2*S2z) + 
      m1*m2*m2*m2*(23*S2z + e_2*(45*S1z + 137*S2z)))/
    (2.*e_fact_25*M_fact_4));
-  }
-  else{
-    l_2_5pn_SO=((20*m1*m1*m1*m1*S1z + 23*m1*m1*m1*m2*S1z + 23*m1*m2*m2*m2*S2z + 20*m2*m2*m2*m2*S2z + 
-     5*m1*m1*m2*m2*(S1z + S2z))/(2.*M_fact_4));
-  }
+  
   return(l_2_5pn_SO);
 }
 
