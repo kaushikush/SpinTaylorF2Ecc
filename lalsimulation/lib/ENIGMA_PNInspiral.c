@@ -881,6 +881,7 @@ static REAL8 e_dot_2_5pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
   return(e_2_5pn_SO);
   }
 
+
 static REAL8 e_dot_3pn(REAL8 e, REAL8 eta, REAL8 x) /* Eq. (C10) */
 {
   REAL8 e_3_pn;
@@ -946,6 +947,34 @@ static REAL8 e_dot_3pn(REAL8 e, REAL8 eta, REAL8 x) /* Eq. (C10) */
     e_3_pn = 0.0;
   }
   return (e_3_pn);
+}
+
+static REAL8 e_dot_3pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
+                          REAL8 S2z) /* Quentin Henry et al terms, arXiv:2308.13606v1 */
+{
+  REAL8 e_3pn_SO;
+  REAL8 e_2=e*e;
+  REAL8 e_4=e_2*e_2;
+  REAL8 e_6=e_4*e_2;
+  REAL8 e_fact = (1- e_2);
+  REAL8 e_fact_2=e_fact*e_fact;
+  REAL8 e_fact_sqrt=sqrt(e_fact);
+  REAL8 e_fact_55 = e_fact_2*e_fact_2*e_fact*e_fact_sqrt;
+  REAL8 M_fact_2 = (m1+m2)*(m1+m2);
+  REAL8 M_fact_4 = M_fact_2*M_fact_2;
+
+  if(e){
+    e_3pn_SO=((e*m1*m2*M_PI*((64622592 + 238783104*e_2 
+          + 96887280*e_4 + 2313613*e_6)*m1*m1*
+        S1z + (64622592 + 238783104*e_2 + 96887280*e_4 
+        + 2313613*e_6)*m2*m2*S2z + 24*(1744704 + 8150400*e_2
+         + 3941409*e_4 + 122714*e_6)*m1*m2*
+        (S1z + S2z)))/(51840.*e_fact_55*M_fact_4));
+  }
+  else{
+    e_3pn_SO=0.0;
+  }
+  return(e_3pn_SO);
 }
 
 static REAL8 e_dot_3_5pn(REAL8 e, REAL8 eta) /* Eq. (C10) */
@@ -1679,7 +1708,8 @@ static REAL8 de_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2,
             e_dot_2pn(e, eta) * x * x + e_dot_3pn(e, eta, x) * x * x * x +
             e_dot_1_5pn_SO(e, m1, m2, S1z, S2z) * x * sqrt(x) +
             e_dot_2pn_SS(e, m1, m2, S1z, S2z) * x * x + 
-            e_dot_2_5pn_SO(e, m1, m2, S1z, S2z) * x * x * sqrt(x)) *
+            e_dot_2_5pn_SO(e, m1, m2, S1z, S2z) * x * x * sqrt(x) +
+            e_dot_3pn_SO(e, m1, m2, S1z, S2z) * x * x * x) *
                x_pow_4 +
            e_rad_hereditary_1_5(e, eta, x) + e_rad_hereditary_2_5(e, eta, x) +
            e_rad_hereditary_3(e, eta, x);
@@ -1691,7 +1721,8 @@ static REAL8 de_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2,
             e_dot_3_5pn(e, eta) * x * x * x * sqrt(x) +
             e_dot_1_5pn_SO(e, m1, m2, S1z, S2z) * x * sqrt(x) +
             e_dot_2pn_SS(e, m1, m2, S1z, S2z) * x * x + 
-            e_dot_2_5pn_SO(e, m1, m2, S1z, S2z) * x * x * sqrt(x)) *
+            e_dot_2_5pn_SO(e, m1, m2, S1z, S2z) * x * x * sqrt(x)+
+            e_dot_3pn_SO(e, m1, m2, S1z, S2z) * x * x * x) *
                x_pow_4 +
            e_rad_hereditary_1_5(e, eta, x) + e_rad_hereditary_2_5(e, eta, x) +
            e_rad_hereditary_3(e, eta, x);
@@ -1703,7 +1734,8 @@ static REAL8 de_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2,
             e_dot_3_5pn(e, eta) * x * x * x * sqrt(x) +
             e_dot_1_5pn_SO(e, m1, m2, S1z, S2z) * x * sqrt(x) +
             e_dot_2pn_SS(e, m1, m2, S1z, S2z) * x * x + 
-            e_dot_2_5pn_SO(e, m1, m2, S1z, S2z) * x * x * sqrt(x)) *
+            e_dot_2_5pn_SO(e, m1, m2, S1z, S2z) * x * x * sqrt(x)+
+            e_dot_3pn_SO(e, m1, m2, S1z, S2z) * x * x * x) *
                x_pow_4 +
            e_rad_hereditary_1_5(e, eta, x) + e_rad_hereditary_2_5(e, eta, x) +
            e_rad_hereditary_3(e, eta, x);
@@ -1715,7 +1747,8 @@ static REAL8 de_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2,
             e_dot_3_5pn(e, eta) * x * x * x * sqrt(x) +
             e_dot_1_5pn_SO(e, m1, m2, S1z, S2z) * x * sqrt(x) +
             e_dot_2pn_SS(e, m1, m2, S1z, S2z) * x * x + 
-            e_dot_2_5pn_SO(e, m1, m2, S1z, S2z) * x * x * sqrt(x)) *
+            e_dot_2_5pn_SO(e, m1, m2, S1z, S2z) * x * x * sqrt(x)+
+            e_dot_3pn_SO(e, m1, m2, S1z, S2z) * x * x * x) *
                x_pow_4 +
            e_rad_hereditary_1_5(e, eta, x) + e_rad_hereditary_2_5(e, eta, x) +
            e_rad_hereditary_3(e, eta, x);
@@ -1727,7 +1760,8 @@ static REAL8 de_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2,
             e_dot_3_5pn(e, eta) * x * x * x * sqrt(x) +
             e_dot_1_5pn_SO(e, m1, m2, S1z, S2z) * x * sqrt(x) +
             e_dot_2pn_SS(e, m1, m2, S1z, S2z) * x * x + 
-            e_dot_2_5pn_SO(e, m1, m2, S1z, S2z) * x * x * sqrt(x)) *
+            e_dot_2_5pn_SO(e, m1, m2, S1z, S2z) * x * x * sqrt(x)+
+            e_dot_3pn_SO(e, m1, m2, S1z, S2z) * x * x * x) *
                x_pow_4 +
            e_rad_hereditary_1_5(e, eta, x) + e_rad_hereditary_2_5(e, eta, x) +
            e_rad_hereditary_3(e, eta, x);
@@ -1739,7 +1773,8 @@ static REAL8 de_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2,
             e_dot_3_5pn(e, eta) * x * x * x * sqrt(x) +
             e_dot_1_5pn_SO(e, m1, m2, S1z, S2z) * x * sqrt(x) +
             e_dot_2pn_SS(e, m1, m2, S1z, S2z) * x * x + 
-            e_dot_2_5pn_SO(e, m1, m2, S1z, S2z) * x * x * sqrt(x)) *
+            e_dot_2_5pn_SO(e, m1, m2, S1z, S2z) * x * x * sqrt(x)+
+            e_dot_3pn_SO(e, m1, m2, S1z, S2z) * x * x * x) *
                x_pow_4 +
            e_rad_hereditary_1_5(e, eta, x) + e_rad_hereditary_2_5(e, eta, x) +
            e_rad_hereditary_3(e, eta, x);
@@ -1751,7 +1786,8 @@ static REAL8 de_dt(int radiation_pn_order, REAL8 eta, REAL8 m1, REAL8 m2,
             e_dot_3_5pn(e, eta) * x * x * x * sqrt(x) +
             e_dot_1_5pn_SO(e, m1, m2, S1z, S2z) * x * sqrt(x) +
             e_dot_2pn_SS(e, m1, m2, S1z, S2z) * x * x + 
-            e_dot_2_5pn_SO(e, m1, m2, S1z, S2z) * x * x * sqrt(x)) *
+            e_dot_2_5pn_SO(e, m1, m2, S1z, S2z) * x * x * sqrt(x)+
+            e_dot_3pn_SO(e, m1, m2, S1z, S2z) * x * x * x) *
                x_pow_4 +
            e_rad_hereditary_1_5(e, eta, x) + e_rad_hereditary_2_5(e, eta, x) +
            e_rad_hereditary_3(e, eta, x);
