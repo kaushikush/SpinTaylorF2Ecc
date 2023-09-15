@@ -229,8 +229,8 @@ static REAL8 separation(REAL8 u, REAL8 eta, REAL8 x, REAL8 e, REAL8 m1,
 #define d3 (-20.5092515)
 #define d4 (5.383192)
 #define cz0 (10.22474)
-#define ModePNOrder (8)
-#define RadiationPNOrder (8)
+#define ModePNOrderDefault (8)
+#define RadiationPNOrderDefault (8)
 #define M_PI2 (9.86960440)
 #define M_PI3 (31.00627668)
 #define M_PI4 (97.40909103)
@@ -972,12 +972,16 @@ static int x_model_eccbbh_imr_waveform(
   REAL8 matching_Hp, matching_Hc;
   REAL8 t_val =
       imr_matching_time; // is modified by compute_strain_from_dynamics
+  UINT4 ModePNOrder = (UINT4)ModePNOrderDefault;
+  if(getenv("ModePNOrder")) {
+    ModePNOrder = atoi(getenv("ModePNOrder"));
+  }
   compute_strain_from_dynamics(&t_val, &imr_matching_x, &imr_matching_phi,
                                &imr_matching_phi_dot, &imr_matching_r,
                                &imr_matching_r_dot, mass1, mass2, S1z,
                                S2z, /* x_evol->data->data[0], */
                                euler_iota, euler_beta, distance, 1,
-                               (UINT4)ModePNOrder, &matching_Hp, &matching_Hc);
+                               ModePNOrder, &matching_Hp, &matching_Hc);
 
   // get merger and ringdown and attach at the end of the existing time series
   REAL8 time_of_merger = 0.0;
@@ -1047,10 +1051,14 @@ int XLALSimInspiralENIGMAModeFromDynamics(
     XLAL_ERROR_FAIL(XLAL_EFUNC);
   }
 
+  UINT4 ModePNOrder = (UINT4)ModePNOrderDefault;
+  if(getenv("ModePNOrder")) {
+    ModePNOrder = atoi(getenv("ModePNOrder"));
+  }
   compute_mode_from_dynamics(
       l, m, t_vector->data, x_vector->data, phi_vector->data,
       phi_dot_vector->data, r_vector->data, r_dot_vector->data, mass1, mass2,
-      S1z, S2z, R, length, (UINT4)ModePNOrder, (*h_lm)->data);
+      S1z, S2z, R, length, ModePNOrder, (*h_lm)->data);
 
 XLAL_FAIL:
   // We do not free h_lm
@@ -1083,11 +1091,15 @@ int XLALSimInspiralENIGMAStrainFromDynamics(
     XLAL_ERROR_FAIL(XLAL_EFUNC);
   }
 
+  UINT4 ModePNOrder = (UINT4)ModePNOrderDefault;
+  if(getenv("ModePNOrder")) {
+    ModePNOrder = atoi(getenv("ModePNOrder"));
+  }
   compute_strain_from_dynamics(
       t_vector->data, x_vector->data, phi_vector->data, phi_dot_vector->data,
       r_vector->data, r_dot_vector->data, mass1, mass2, S1z,
       S2z, /* x_vector->data[0], */
-      euler_iota, euler_beta, R, length, (UINT4)ModePNOrder, (*h_plus)->data,
+      euler_iota, euler_beta, R, length, ModePNOrder, (*h_plus)->data,
       (*h_cross)->data);
 
 XLAL_FAIL:
@@ -1252,7 +1264,12 @@ int XLALSimInspiralENIGMADynamics(
       XLAL_ERROR_FAIL(XLAL_EFUNC);
     // omega_attach*= 0.5;
   } else {
-    rad_pn_order = (UINT4)RadiationPNOrder;
+
+    if(getenv("RadiationPNOrder")) {
+      rad_pn_order = (UINT4)atoi(getenv("RadiationPNOrder"));
+    } else {
+      rad_pn_order = (UINT4)RadiationPNOrderDefault;
+    }
     omega_attach = 1.0; // deliberately use unphysical value.
   }
   /* store the mass and pn params in the param structure */
