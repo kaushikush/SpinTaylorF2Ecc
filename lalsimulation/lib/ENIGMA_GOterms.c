@@ -316,7 +316,7 @@ delta*S2z))*params.x3p5)/63.) */
     2*params.eta2*(708*delta*(-S1z + S2z) + (S1z + S2z)*(4427 +
     1008*(kappa1*params.S1z2 + S2z*(-2*S1z + kappa2*S2z)))))*params.x4p5)/756. */
  
-         + /* */ /* Henry et al. ecc+spin terms */ (
+         /*+  */ /* Henry et al. ecc+spin terms */ (
             (params.Mtot2 *
              (-3 * mass * r *
                   (Complex(0, -16) * params.rDOT3 *

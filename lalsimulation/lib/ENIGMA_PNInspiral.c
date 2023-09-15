@@ -1207,8 +1207,7 @@ e_dot_3pn_SO(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
   return (e_3pn_SO);
 }
 
-static REAL8
-e_dot_3pn_SS(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
+static REAL8 e_dot_3pn_SS(REAL8 e, REAL8 m1, REAL8 m2, REAL8 S1z,
              REAL8 S2z) /* Quentin Henry et al terms, arXiv:2308.13606v1 */
 {
   REAL8 e_3pn_SS;

@@ -260,12 +260,12 @@ static REAL8 x_dot_3_5pn_SS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
                             REAL8 S2z);
 static REAL8 x_dot_3_5pn_cubicSpin(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2,
                                    REAL8 S1z, REAL8 S2z);
-/* static REAL8 x_dot_4pn(REAL8 e, REAL8 eta, REAL8 x);
+static REAL8 x_dot_4pn(REAL8 e, REAL8 eta, REAL8 x);
 static REAL8 x_dot_4pnSO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
                          REAL8 S2z);
 static REAL8 x_dot_4pnSS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
                          REAL8 S2z);
-static REAL8 x_dot_4_5_pn(REAL8 e, REAL8 eta, REAL8 x); */
+static REAL8 x_dot_4_5_pn(REAL8 e, REAL8 eta, REAL8 x);
 static REAL8 dxdt_4pn(REAL8 x, REAL8 eta);
 static REAL8 dxdt_4_5pn(REAL8 x, REAL8 eta);
 static REAL8 dxdt_5pn(REAL8 x, REAL8 eta);
@@ -1526,7 +1526,7 @@ int XLALSimInspiralENIGMADynamics(
   int Length = -1;
   REAL8 matching_time = -1;
   if (will_attach_mr) {
-    phi_dot_interp = gsl_interp_alloc(gsl_interp_steffen, final_i_reached);
+    phi_dot_interp = gsl_interp_alloc(gsl_interp_cspline, final_i_reached);
     phi_dot_accel = gsl_interp_accel_alloc();
     if (phi_dot_interp == NULL || phi_dot_accel == NULL) {
       errorcode = XLAL_ENOMEM;
