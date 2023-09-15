@@ -974,7 +974,7 @@ static int x_model_eccbbh_imr_waveform(
       imr_matching_time; // is modified by compute_strain_from_dynamics
   UINT4 ModePNOrder = (UINT4)ModePNOrderDefault;
   if(getenv("ModePNOrder")) {
-    ModePNOrder = atoi(getenv("ModePNOrder"));
+    ModePNOrder = (UINT4)atoi(getenv("ModePNOrder"));
   }
   compute_strain_from_dynamics(&t_val, &imr_matching_x, &imr_matching_phi,
                                &imr_matching_phi_dot, &imr_matching_r,
@@ -1053,7 +1053,7 @@ int XLALSimInspiralENIGMAModeFromDynamics(
 
   UINT4 ModePNOrder = (UINT4)ModePNOrderDefault;
   if(getenv("ModePNOrder")) {
-    ModePNOrder = atoi(getenv("ModePNOrder"));
+    ModePNOrder = (UINT4)atoi(getenv("ModePNOrder"));
   }
   compute_mode_from_dynamics(
       l, m, t_vector->data, x_vector->data, phi_vector->data,
@@ -1093,7 +1093,7 @@ int XLALSimInspiralENIGMAStrainFromDynamics(
 
   UINT4 ModePNOrder = (UINT4)ModePNOrderDefault;
   if(getenv("ModePNOrder")) {
-    ModePNOrder = atoi(getenv("ModePNOrder"));
+    ModePNOrder = (UINT4)atoi(getenv("ModePNOrder"));
   }
   compute_strain_from_dynamics(
       t_vector->data, x_vector->data, phi_vector->data, phi_dot_vector->data,
