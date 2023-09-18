@@ -30,7 +30,7 @@ dependencies:
   - pillow
   - pkg-config >=0.18.0
   - pytest
-  - python
+  - python <3.10.13
   #- python-ligo-lw  <-- depends upon python-lal
   - scipy >=0.9.0
   - six
