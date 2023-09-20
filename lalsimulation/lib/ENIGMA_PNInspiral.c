@@ -2076,6 +2076,7 @@ flux expressions. See Blanchet liv. rev.
 
     return 0;
   } else {
+    return 0;
 
     /* previous */ /* return((pow(m1,6)*S1z*(2481357312*M_PI +
          S1z*(-15106969445 + 2637038096*kappa1 -
@@ -2120,16 +2121,29 @@ flux expressions. See Blanchet liv. rev.
                31752*pow(S2z + 80*kappa2*S2z,2)))))/
       (1.6257024e7*pow(m1 + m2,6))); */
 
-    return (-0.00390625 *
+    /*return (-0.00390625 *
             (((1 + 32 * kappa1) * pow(m1, 2) * pow(S1z, 2) +
               62 * m1 * m2 * S1z * S2z +
               (1 + 32 * kappa2) * pow(m2, 2) * pow(S2z, 2)) *
              ((1 + 80 * kappa1) * pow(m1, 2) * pow(S1z, 2) +
               158 * m1 * m2 * S1z * S2z +
               (1 + 80 * kappa2) * pow(m2, 2) * pow(S2z, 2))) /
-            pow(m1 + m2, 4));
+            pow(m1 + m2, 4));*/
   }
 }
+
+static REAL8 phi_dot_4_5_pn(REAL8 e, REAL8 eta, REAL8 x) {
+  REAL8 phi_4_5pn;
+
+  if(e){
+    phi_4_5pn=0.0;
+  }
+  else{
+    phi_4_5pn=0.0;
+  }
+  return(phi_4_5pn);
+}
+
 
 static int eccentric_x_model_odes(REAL8 t, const REAL8 y[], REAL8 dydt[],
                                   void *params) {
@@ -2576,7 +2590,8 @@ static REAL8 dphi_dt(REAL8 u, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
         x * x * x * phi_dot_3pn(e, eta, u) +
         x_pow_3_2 * x_pow_3_2 * phi_dot_3pn_SS(e, m1, m2, S1z, S2z, u)
         /* + phi_dot_3_5pn_SO(e,m1,m2,S1z,S2z) * x_pow_3_2 * x * x */
-        + phi_dot_4pn_SS(e, m1, m2, S1z, S2z) * x_pow_3_2 * x * x * sqrt(x)) *
+        + phi_dot_4pn_SS(e, m1, m2, S1z, S2z) * x_pow_3_2 * x * x * sqrt(x)
+        + phi_dot_4_5_pn(e, eta, x)*x_pow_3_2*x_pow_3_2*x*sqrt(x)) *
        x_pow_3_2);
 
   return phidot;
