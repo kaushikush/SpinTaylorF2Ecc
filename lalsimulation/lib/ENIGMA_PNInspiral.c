@@ -769,17 +769,20 @@ static REAL8 x_dot_4pnSO(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
                          REAL8 S2z) {
   REAL8 x_4pn_SO;
   REAL8 pre_factor = 64. * eta / 5;
+  REAL8 x_4pn_SO_e0;
 
-  if (e) {
-    x_4pn_SO = 0;
-  } else {
-    x_4pn_SO = pre_factor *
+  x_4pn_SO_e0=(pre_factor *
                (-0.000496031746031746 *
                 (M_PI * (307708 * pow(m1, 4) * S1z + 307708 * pow(m2, 4) * S2z +
                          93121 * pow(m1, 2) * pow(m2, 2) * (S1z + S2z) +
                          m1 * pow(m2, 3) * (119880 * S1z + 75131 * S2z) +
                          pow(m1, 3) * m2 * (75131 * S1z + 119880 * S2z))) /
-                pow(m1 + m2, 4));
+                pow(m1 + m2, 4)));
+
+  if (e) {
+    x_4pn_SO = x_4pn_SO_e0;
+  } else {
+    x_4pn_SO = x_4pn_SO_e0;
   }
   return (x_4pn_SO);
 }
