@@ -659,20 +659,22 @@ flux expressions. See Blanchet liv. rev.
   REAL8 kappa1 = 1.0; /*for black holes kappa_{1,2} is 1*/
   REAL8 kappa2 = 1.0;
   REAL8 pre_factor = 64. * eta / 5;
+  REAL8 x_3_5pn_SS_e0;
+
+  x_3_5pn_SS_e0=(pre_factor * ((M_PI * ((1 + 160 * kappa1) * pow(m1, 2) * pow(S1z, 2) +
+                               318 * m1 * m2 * S1z * S2z +
+                               (1 + 160 * kappa2) * pow(m2, 2) * pow(S2z, 2))) /
+                      (8. * pow(m1 + m2, 2))));
 
   if (e) {
 
-    return (0.0);
+    x_3_5pn_SS =x_3_5pn_SS_e0;
   } else {
     /* previous */ /* x_3_5pn_SS = pre_factor *
                       ((12*M_PI*(kappa1*pow(m1,2)*pow(S1z,2) + m2*S2z*(2*m1*S1z
                       + kappa2*m2*S2z)))/pow(m1 + m2,2)); */
 
-    x_3_5pn_SS =
-        pre_factor * ((M_PI * ((1 + 160 * kappa1) * pow(m1, 2) * pow(S1z, 2) +
-                               318 * m1 * m2 * S1z * S2z +
-                               (1 + 160 * kappa2) * pow(m2, 2) * pow(S2z, 2))) /
-                      (8. * pow(m1 + m2, 2)));
+    x_3_5pn_SS =x_3_5pn_SS_e0;
   }
   return (x_3_5pn_SS);
 }
