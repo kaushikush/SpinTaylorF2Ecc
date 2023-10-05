@@ -794,11 +794,9 @@ static REAL8 x_dot_4pnSS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
   REAL8 kappa1 = 1.0; /*for black holes kappa_{1,2} is 1*/
   REAL8 kappa2 = 1.0;
 
-  if (e) {
-    x_4pn_SS = 0;
-  } else {
-    x_4pn_SS =
-        pre_factor *
+  REAL8 x_4pn_SS_e0;
+
+  x_4pn_SS_e0=(pre_factor *
         (((41400957 + 10676336 * kappa1) * pow(m1, 6) * pow(S1z, 2) +
           (41400957 + 10676336 * kappa2) * pow(m2, 6) * pow(S2z, 2) +
           pow(m1, 5) * m2 * S1z *
@@ -817,7 +815,12 @@ static REAL8 x_dot_4pnSS(REAL8 e, REAL8 eta, REAL8 m1, REAL8 m2, REAL8 S1z,
               ((43557309 + 18675776 * kappa1) * pow(S1z, 2) +
                226571670 * S1z * S2z +
                (43557309 + 18675776 * kappa2) * pow(S2z, 2))) /
-         (72576. * pow(m1 + m2, 6)));
+         (72576. * pow(m1 + m2, 6))));
+
+  if (e) {
+    x_4pn_SS = x_4pn_SS_e0;
+  } else {
+    x_4pn_SS = x_4pn_SS_e0;
   }
   return (x_4pn_SS);
 }
@@ -827,18 +830,21 @@ static REAL8 x_dot_4_5_pn(REAL8 e, REAL8 eta, REAL8 x) {
   REAL8 pre_factor = 64. * eta / 5;
   double EulerGamma = 0.5772156649015329;
 
-  if (e) {
-    x_4_5_pn = 0;
-  } else {
-    x_4_5_pn =
-        pre_factor *
+  REAL8 x_4_5_pn_e0;
+
+  x_4_5_pn_e0=(pre_factor *
         ((451 * eta * pow(M_PI, 3)) / 12. -
          (M_PI *
           (700 * eta * (3098001198 + eta * (525268513 + 289286988 * eta)) +
            145786798080 * EulerGamma +
            3 * (-343801320119 + 97191198720 * log(2)))) /
              2.2353408e9 -
-         (3424 * M_PI * log(x)) / 105.);
+         (3424 * M_PI * log(x)) / 105.));
+
+  if (e) {
+    x_4_5_pn = x_4_5_pn_e0;
+  } else {
+    x_4_5_pn = x_4_5_pn_e0;
   }
   return (x_4_5_pn);
 }
