@@ -626,13 +626,9 @@ flux expressions. See Blanchet liv. rev.
 
   REAL8 pre_factor = 64. * eta / 5;
 
-  if (e) {
+  REAL8 x_3_5pnSO_e0;
 
-    x_3_5pnSO = 0.0;
-
-  } else {
-
-    x_3_5pnSO = pre_factor *
+  x_3_5pnSO_e0=(pre_factor *
                 (-0.00005511463844797178 *
                  (3127800 * pow(m1, 6) * S1z + 3127800 * pow(m2, 6) * S2z +
                   4914306 * pow(m1, 3) * pow(m2, 3) * (S1z + S2z) +
@@ -640,7 +636,15 @@ flux expressions. See Blanchet liv. rev.
                   pow(m1, 4) * pow(m2, 2) * (6694579 * S1z + 3284422 * S2z) +
                   m1 * pow(m2, 5) * (1195759 * S1z + 6542338 * S2z) +
                   pow(m1, 2) * pow(m2, 4) * (3284422 * S1z + 6694579 * S2z)) /
-                 pow(m1 + m2, 6));
+                 pow(m1 + m2, 6)));
+
+  if (e) {
+
+    x_3_5pnSO = x_3_5pnSO_e0;
+
+  } else {
+
+    x_3_5pnSO = x_3_5pnSO_e0;
   }
 
   return (x_3_5pnSO);
