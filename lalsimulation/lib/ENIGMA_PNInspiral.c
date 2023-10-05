@@ -690,15 +690,9 @@ inputs from energy and flux expressions. See Blanchet liv. rev.
   REAL8 lambda1 = 1.0; /*for black holes lambda_{1,2} is 1*/
   REAL8 lambda2 = 1.0;
   REAL8 pre_factor = 64. * eta / 5;
+  REAL8 x_3_5pn_cubicSpin_e0;
 
-  if (e) {
-
-    x_3_5pn_cubicSpin = 0.0;
-
-  } else {
-
-    x_3_5pn_cubicSpin =
-        pre_factor *
+  x_3_5pn_cubicSpin_e0=(pre_factor *
         (-0.020833333333333332 *
          (2 * (15 + 1016 * kappa1 + 528 * lambda1) * pow(m1, 4) * pow(S1z, 3) +
           2 * (15 + 1016 * kappa2 + 528 * lambda2) * pow(m2, 4) * pow(S2z, 3) +
@@ -710,7 +704,15 @@ inputs from energy and flux expressions. See Blanchet liv. rev.
           m1 * pow(m2, 3) * pow(S2z, 2) *
               ((4033 + 3712 * kappa2) * S1z +
                (21 + 536 * kappa2 + 1056 * lambda2) * S2z)) /
-         pow(m1 + m2, 4));
+         pow(m1 + m2, 4)));
+
+  if (e) {
+
+    x_3_5pn_cubicSpin = x_3_5pn_cubicSpin_e0;
+
+  } else {
+
+    x_3_5pn_cubicSpin = x_3_5pn_cubicSpin_e0;
   }
 
   return (x_3_5pn_cubicSpin);
