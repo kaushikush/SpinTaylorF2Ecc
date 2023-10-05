@@ -742,12 +742,9 @@ static REAL8 x_dot_4pn(REAL8 e, REAL8 eta, REAL8 x) {
   REAL8 x_4_pn;
   REAL8 pre_factor = 64. * eta / 5;
   double EulerGamma = 0.5772156649015329;
+  REAL8 x_4_pn_e0;
 
-  if (e) {
-    x_4_pn = 0;
-  } else {
-    x_4_pn =
-        pre_factor *
+  x_4_pn_e0=(pre_factor *
         ((3959271176713 - 20643291551545 * eta) / 2.54270016e10 +
          (pow(eta, 2) * (2016887396 + 21 * eta * (-1909807 + 49518 * eta))) /
              1.306368e6 -
@@ -757,7 +754,13 @@ static REAL8 x_dot_4pn(REAL8 e, REAL8 eta, REAL8 x) {
          (eta * (1472377 + 928158 * eta) * pow(M_PI, 2)) / 16128. +
          (127751 * log(2)) / 1470. - (47385 * log(3)) / 1568. +
          eta * ((-850042 * log(2)) / 2205. + (47385 * log(3)) / 392.) +
-         ((124741 - 582500 * eta) * log(x)) / 8820.);
+         ((124741 - 582500 * eta) * log(x)) / 8820.));
+
+
+  if (e) {
+    x_4_pn = x_4_pn_e0;
+  } else {
+    x_4_pn = x_4_pn_e0;
   }
   return (x_4_pn);
 }
