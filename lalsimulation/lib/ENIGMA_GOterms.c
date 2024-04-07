@@ -3118,6 +3118,10 @@ static COMPLEX16 hQC_4_m_4(REAL8 Nu, UINT4 vpnorder, REAL8 x,
        (452194*params.eta3)/(3861.*sqrt(35)))*params.x4);
    } */
 
+   else if (vpnorder == 7){
+    return ((32*(1779 - 6200*Nu + 2130*Nu*Nu)*params.x4p5*(M_PI + Complex(0,2)*log(2)))/(297.*sqrt(35)));
+   }
+
   else {
     return 0;
   }
