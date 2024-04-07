@@ -5607,25 +5607,30 @@ static COMPLEX16 hGO_5_m_2(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
   }
 }
 
-/* static COMPLEX16 hQC_5_m_2(REAL8 Nu, UINT4 vpnorder, REAL8 x){
+ static COMPLEX16 hQC_5_m_2(REAL8 Nu, UINT4 vpnorder, REAL8 x, struct kepler_vars params){
 
-    if(vpnorder == 4){
-        return((4/(27.*sqrt(55)) - (4*sqrt(0.45454545454545453)*Nu)/27. +
-        (4*sqrt(0.45454545454545453)*params.eta2)/27.)*params.x3);
-    }
-    else if(vpnorder == 6){
-        return((-7822/(12285.*sqrt(55)) + (6158*Nu)/(1755.*sqrt(55)) -
-        (1652*params.eta2)/(351.*sqrt(55)) +
-        (14*sqrt(2.2)*params.eta3)/117.)*params.x4);
-    }
+    // if(vpnorder == 4){
+    //     return((4/(27.*sqrt(55)) - (4*sqrt(0.45454545454545453)*Nu)/27. +
+    //     (4*sqrt(0.45454545454545453)*params.eta2)/27.)*params.x3);
+    // }
+    // else if(vpnorder == 6){
+    //     return((-7822/(12285.*sqrt(55)) + (6158*Nu)/(1755.*sqrt(55)) -
+    //     (1652*params.eta2)/(351.*sqrt(55)) +
+    //     (14*sqrt(2.2)*params.eta3)/117.)*params.x4);
+    // }
+     
+     if (vpnorder == 7){
+        return ((8*(1 - 5*Nu + 5*Nu*Nu)*M_PI*params.x4p5)/(27.*sqrt(55)));
+     }
+
     else{
         return 0;
     }
-} */
+} 
 
 static COMPLEX16 hl_5_m_2(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT, REAL8 Phi,
                           REAL8 PhiDOT, REAL8 R, UINT4 vpnorder, REAL8 S1z,
-                          REAL8 S2z, struct kepler_vars params) {
+                          REAL8 S2z, REAL8 x, struct kepler_vars params) {
 
   if ((vpnorder < 0) || (vpnorder > 8)) {
     XLAL_ERROR(XLAL_EINVAL, "Error in hl_5_m_2: Input PN order parameter "
@@ -5635,14 +5640,14 @@ static COMPLEX16 hl_5_m_2(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT, REAL8 Phi,
   else {
     return ((4 * mass * Nu * sqrt(M_PI / 5.)) / R) *
            (hGO_5_m_2(mass, Nu, r, rDOT, PhiDOT, vpnorder, S1z, S2z,
-                      params) /* +hQC_5_m_2(Nu,vpnorder,x) */) *
+                      params)  +hQC_5_m_2(Nu,vpnorder,x, params) ) *
            cpolar(1, -2 * Phi);
   }
 }
 
 static COMPLEX16 hl_5_m_min2(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
                              REAL8 Phi, REAL8 PhiDOT, REAL8 R, UINT4 vpnorder,
-                             REAL8 S1z, REAL8 S2z, struct kepler_vars params) {
+                             REAL8 S1z, REAL8 S2z, REAL8 x, struct kepler_vars params) {
 
   if ((vpnorder < 0) || (vpnorder > 8)) {
     XLAL_ERROR(XLAL_EINVAL, "Error in hl_5_m_min2: Input PN order parameter "
@@ -5652,7 +5657,7 @@ static COMPLEX16 hl_5_m_min2(REAL8 mass, REAL8 Nu, REAL8 r, REAL8 rDOT,
   else {
     return ((-4 * mass * Nu * sqrt(M_PI / 5.)) / R) *
            conj(hGO_5_m_2(mass, Nu, r, rDOT, PhiDOT, vpnorder, S1z, S2z,
-                          params) /* +hQC_5_m_2(Nu,vpnorder,x) */) *
+                          params)  +hQC_5_m_2(Nu,vpnorder,x, params) ) *
            cpolar(1, 2 * Phi);
   }
 }
@@ -8760,7 +8765,7 @@ static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
       return (hlm);
     case 2:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
-        hlm += hl_5_m_2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z,
+        hlm += hl_5_m_2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x,
                         orbital_vars);
       }
       return (hlm);
@@ -8780,7 +8785,7 @@ static COMPLEX16 hlmGOresult(UINT4 l, INT4 m, REAL8 mass, REAL8 Nu, REAL8 r,
       return (hlm);
     case -2:
       for (INT4 pno = vpnorder; pno >= 0; pno--) {
-        hlm += hl_5_m_min2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z,
+        hlm += hl_5_m_min2(mass, Nu, r, rDOT, Phi, PhiDOT, R, pno, S1z, S2z, x,
                            orbital_vars);
       }
       return (hlm);
