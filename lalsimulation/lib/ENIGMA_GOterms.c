@@ -2077,6 +2077,10 @@ static COMPLEX16 hQC_3_m_2(REAL8 Nu, UINT4 vpnorder, REAL8 x,
        (763*sqrt(1.4)*params.eta3)/396.)*params.x4);
    } */
 
+  else if (vpnorder == 7){
+    return ((-2*(193 - 680*Nu + 230*Nu*Nu)*M_PI*params.x4p5)/(27.*sqrt(35)));
+  }
+
   else {
     return 0;
   }
