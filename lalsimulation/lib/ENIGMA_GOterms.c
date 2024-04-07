@@ -3948,6 +3948,11 @@ static COMPLEX16 hQC_4_m_2(REAL8 Nu, UINT4 vpnorder, REAL8 x,
        (400453*params.eta2)/(162162.*sqrt(5)) +
        (25783*params.eta3)/(108108.*sqrt(5)))*params.x4);
    } */
+
+   else if (vpnorder == 7){
+    return ((2*(-1311 + 3860*Nu + 210*Nu*Nu)*M_PI*params.x4p5)/(2079.*sqrt(5)));
+   }
+   
   else {
     return 0;
   }
