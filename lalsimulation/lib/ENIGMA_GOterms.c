@@ -1033,6 +1033,7 @@ delta)*kappa2*params.S2z2)))*params.x4) */
 static COMPLEX16 hQC_2_m_1(REAL8 Nu, UINT4 vpnorder, REAL8 x,
                            struct kepler_vars params) {
   REAL8 delta = sqrt(1 - 4 * Nu);
+  double EulerGamma = 0.5772156649015329;
 
   /* if(vpnorder == 1){
        return(Complex(0,0.6666666666666666)*delta*params.x1p5);
@@ -1059,6 +1060,11 @@ static COMPLEX16 hQC_2_m_1(REAL8 Nu, UINT4 vpnorder, REAL8 x,
                 Complex(0, 0.14285714285714285) * delta * Nu * params.x4) +
         ((-17 * delta * params.x4) / 21. + (2 * delta * Nu * params.x4) / 7.) *
             log(2));
+  }
+
+  else if (vpnorder == 7) {
+    return (Complex(0,-0.0000496031746031746)*delta*params.x4p5*(27392*EulerGamma - Complex(0,6976)*M_PI - 2240*M_PI2 
+    - 21525*Nu*M_PI2 + 40832*log(2) + Complex(0,26880)*M_PI*log(2) + 26880*log(2)*log(2) + 13696*log(x)));
   }
 
   else {
