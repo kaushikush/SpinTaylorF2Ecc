@@ -133,6 +133,7 @@ const char * usage =
 "                             SEOBNRv5_ROM\n"
 "                             TaylorF2\n"
 "                             TaylorF2Ecc\n"
+"                             SpinTaylorF2Ecc\n"
 "                             SpinTaylorF2\n"
 "                             TaylorR2F4\n"
 "                             SpinTaylorT4Fourier\n"

@@ -309,6 +309,7 @@ noinst_HEADERS = \
 	LALSimInspiralGenerator_private.h \
 	LALSimInspiralPNCoefficients.c \
 	LALSimInspiralTaylorF2Ecc.c \
+	LALSimInspiralSpinTaylorF2Ecc.c \
 	LALSimInspiraldEnergyFlux.c \
 	LALSimInspiralWaveformParams_common.c \
 	LALSimNeutronStarEOSPiecewisePolytrope.c \

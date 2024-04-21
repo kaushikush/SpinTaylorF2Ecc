@@ -294,6 +294,7 @@ DEFINE_GENERATOR_TEMPLATE(SpinTaylorT4Fourier, NULL, generate_fd_waveform, NULL,
 DEFINE_GENERATOR_TEMPLATE(SpinTaylorT5Fourier, NULL, generate_fd_waveform, NULL, NULL)
 DEFINE_GENERATOR_TEMPLATE(TaylorF2, NULL, generate_fd_waveform, NULL, NULL)
 DEFINE_GENERATOR_TEMPLATE(TaylorF2Ecc, NULL, generate_fd_waveform, NULL, NULL)
+DEFINE_GENERATOR_TEMPLATE(SpinTaylorF2Ecc, NULL, generate_fd_waveform, NULL, NULL)
 DEFINE_GENERATOR_TEMPLATE(TaylorF2NLTides, NULL, generate_fd_waveform, NULL, NULL)
 DEFINE_GENERATOR_TEMPLATE(TaylorF2RedSpin, NULL, generate_fd_waveform, NULL, NULL)
 DEFINE_GENERATOR_TEMPLATE(TaylorF2RedSpinTidal, NULL, generate_fd_waveform, NULL, NULL)
@@ -1405,6 +1406,36 @@ static int XLALSimInspiralChooseFDWaveform_legacy(
 
         /* Call the waveform driver routine */
         ret = XLALSimInspiralTaylorF2Ecc(hptilde, phiRef, deltaF, m1, m2, S1z, S2z, f_min, f_max, f_ref, distance, eccentricity, params);
+        if (ret == XLAL_FAILURE)
+            XLAL_ERROR(XLAL_EFUNC);
+        /* Produce both polarizations */
+        *hctilde = XLALCreateCOMPLEX16FrequencySeries("FD hcross", &((*hptilde)->epoch), (*hptilde)->f0, (*hptilde)->deltaF, &((*hptilde)->sampleUnits), (*hptilde)->data->length);
+        for (j = 0; j < (*hptilde)->data->length; j++) {
+            (*hctilde)->data->data[j] = -I * cfac * (*hptilde)->data->data[j];
+            (*hptilde)->data->data[j] *= pfac;
+        }
+        break;
+
+    case SpinTaylorF2Ecc:
+        /* Waveform-specific sanity checks */
+        if (!XLALSimInspiralWaveformParamsFrameAxisIsDefault(params))
+            XLAL_ERROR(XLAL_EINVAL, "Non-default LALSimInspiralFrameAxis provided, but this approximant does not use that flag.");
+        if (!XLALSimInspiralWaveformParamsModesChoiceIsDefault(params))
+            XLAL_ERROR(XLAL_EINVAL, "Non-default LALSimInspiralModesChoice provided, but this approximant does not use that flag.");
+        if (!checkTransverseSpinsZero(S1x, S1y, S2x, S2y))
+            XLAL_ERROR(XLAL_EINVAL, "Non-zero transverse spins were given, but this is a non-precessing approximant.");
+        REAL8 f_ecc_2 = XLALSimInspiralWaveformParamsLookupEccentricityFreq(params);     /** get f_ecc */
+        if (eccentricity > 0.0 && eccentricity < 1.0 && f_ecc_2 < 0.0) {
+            /* we set f_ecc to be f_ref for correct eccentricity but not specifying f_ecc. */
+            f_ecc_2 = f_ref;
+            if (f_ecc_2 == 0)
+                f_ecc_2 = f_min;
+            XLALSimInspiralWaveformParamsInsertEccentricityFreq(params, f_ecc_2);
+            XLAL_PRINT_WARNING("Warning... The reference frequency for eccentricity was set as default value(%f). This might be not optimal case for you.\n", f_ecc_2);
+        }
+
+        /* Call the waveform driver routine */
+        ret = XLALSimInspiralSpinTaylorF2Ecc(hptilde, phiRef, deltaF, m1, m2, S1z, S2z, f_min, f_max, f_ref, distance, eccentricity, params);
         if (ret == XLAL_FAILURE)
             XLAL_ERROR(XLAL_EFUNC);
         /* Produce both polarizations */

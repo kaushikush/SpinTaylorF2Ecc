@@ -44,6 +44,7 @@
 #include <lal/LALSimInspiralWaveformParams.h>
 
 #include "LALSimInspiralPNCoefficients.c"
+#include "LALSimInspiralPNCoefficientsEccSpin.c" // This is the PN file corresponding to SpinTaylorF2Ecc
 #include "check_series_macros.h"
 #include "check_waveform_macros.h"
 #include "LALSimUniversalRelations.h"
@@ -82,6 +83,7 @@ static const char *lalSimulationApproximantNames[] = {
     INITIALIZE_NAME(TaylorF1),
     INITIALIZE_NAME(TaylorF2),
     INITIALIZE_NAME(TaylorF2Ecc),
+    INITIALIZE_NAME(SpinTaylorF2Ecc),
     INITIALIZE_NAME(TaylorF2NLTides),
     INITIALIZE_NAME(TaylorR2F4),
     INITIALIZE_NAME(TaylorF2RedSpin),
@@ -358,6 +360,7 @@ const LALSimInspiralGenerator *lalSimInspiralGeneratorTemplates[NumApproximants]
     [TEOBResum_ROM] = &lalTEOBResum_ROMGeneratorTemplate,
     [TaylorEt] = &lalTaylorEtGeneratorTemplate,
     [TaylorF2Ecc] = &lalTaylorF2EccGeneratorTemplate,
+    [SpinTaylorF2Ecc] = &lalSpinTaylorF2EccGeneratorTemplate,
     [TaylorF2NLTides] = &lalTaylorF2NLTidesGeneratorTemplate,
     [TaylorF2RedSpinTidal] = &lalTaylorF2RedSpinTidalGeneratorTemplate,
     [TaylorF2RedSpin] = &lalTaylorF2RedSpinGeneratorTemplate,
@@ -4069,6 +4072,7 @@ int XLALSimInspiralImplementedFDApproximants(
         //case TaylorR2F4:
         case TaylorF2:
         case TaylorF2Ecc:
+        case SpinTaylorF2Ecc:
         case TaylorF2NLTides:
         case EccentricFD:
         case SpinTaylorF2:
@@ -4499,6 +4503,7 @@ int XLALSimInspiralGetSpinSupportFromApproximant(Approximant approx){
       break;
     case TaylorF2:
     case TaylorF2Ecc:
+    case SpinTaylorF2Ecc:
     case TaylorF2NLTides:
     case TaylorF2RedSpin:
     case TaylorF2RedSpinTidal:
@@ -4621,6 +4626,7 @@ int XLALSimInspiralGetSpinFreqFromApproximant(Approximant approx){
     case HGimri:
     case TaylorF2:
     case TaylorF2Ecc:
+    case SpinTaylorF2Ecc:
     case TaylorF2NLTides:
     case TaylorF2RedSpin:
     case TaylorF2RedSpinTidal:
@@ -4808,6 +4814,7 @@ int XLALSimInspiralApproximantAcceptTestGRParams(Approximant approx){
       break;
     case TaylorF2:
     case TaylorF2Ecc:
+    case SpinTaylorF2Ecc:
     case TaylorF2NLTides:
     case SpinTaylorF2:
     case EccentricFD:
@@ -5306,6 +5313,7 @@ double XLALSimInspiralGetFinalFreq(
         case EccentricFD:
         case TaylorF2:
         case TaylorF2Ecc:
+        case SpinTaylorF2Ecc:
         case TaylorF2NLTides:
         case TaylorF2RedSpin:
         case TaylorF2RedSpinTidal:

@@ -251,6 +251,8 @@ typedef enum tagApproximant {
                          * @remarks Implemented in lalsimulation (frequency domain). */
    TaylorF2Ecc,		/**< The standard stationary phase approximation with eccentricity; Outputs a frequency-domain wave.
                          * @remarks Implemented in lalsimulation (frequency domain). */
+   SpinTaylorF2Ecc,		/**< The standard stationary phase approximation with eccentricity and aligned-spin; Outputs a frequency-domain wave.
+                         * @remarks Implemented in lalsimulation (frequency domain). */
    TaylorF2NLTides,     /**< The standard stationary phase approximation including a phenomenological model of nonlinear tidal effects; Outputs a frequency-domain wave.
                          * @remarks Implemented in lalsimulation (frequency domain). */
    TaylorR2F4,		/**< A frequency domain model closely related to TaylorT4
@@ -732,6 +734,11 @@ int XLALSimInspiralTaylorF2(COMPLEX16FrequencySeries **htilde, const REAL8 phi_r
 int XLALSimInspiralTaylorF2CoreEcc(COMPLEX16FrequencySeries **htilde, const REAL8Sequence *freqs, const REAL8 phi_ref, const REAL8 m1_SI, const REAL8 m2_SI, const REAL8 f_ref, const REAL8 shft, const REAL8 r, const REAL8 eccentricity, LALDict *LALparams, PNPhasingSeries *pfaP);
 int XLALSimInspiralTaylorF2Ecc(COMPLEX16FrequencySeries **htilde, const REAL8 phi_ref, const REAL8 deltaF, const REAL8 m1_SI, const REAL8 m2_SI, const REAL8 S1z, const REAL8 S2z, const REAL8 fStart, const REAL8 fEnd, const REAL8 f_ref, const REAL8 r, const REAL8 eccentricity, LALDict *LALparams);
 
+/* SpinTaylorF2Ecc functions */
+/* in module LALSimInspiralSpinTaylorF2Ecc.c */
+int XLALSimInspiralSpinTaylorF2CoreEcc(COMPLEX16FrequencySeries **htilde, const REAL8Sequence *freqs, const REAL8 phi_ref, const REAL8 m1_SI, const REAL8 m2_SI, const REAL8 f_ref, const REAL8 shft, const REAL8 r, const REAL8 eccentricity, const REAL8 S1z, const REAL8 S2z, LALDict *LALparams, PNPhasingSeries *pfaP);
+int XLALSimInspiralSpinTaylorF2Ecc(COMPLEX16FrequencySeries **htilde, const REAL8 phi_ref, const REAL8 deltaF, const REAL8 m1_SI, const REAL8 m2_SI, const REAL8 S1z, const REAL8 S2z, const REAL8 fStart, const REAL8 fEnd, const REAL8 f_ref, const REAL8 r, const REAL8 eccentricity, LALDict *LALparams);
+
 /* TaylorF2NLPhase functions */
 /* in module LALSimInspiralTaylorF2NLTides.c */
 
@@ -1026,6 +1033,7 @@ extern const LALSimInspiralGenerator lalTEOBResumSGeneratorTemplate;
 extern const LALSimInspiralGenerator lalTEOBResum_ROMGeneratorTemplate;
 extern const LALSimInspiralGenerator lalTaylorEtGeneratorTemplate;
 extern const LALSimInspiralGenerator lalTaylorF2EccGeneratorTemplate;
+extern const LALSimInspiralGenerator lalSpinTaylorF2EccGeneratorTemplate;
 extern const LALSimInspiralGenerator lalTaylorF2NLTidesGeneratorTemplate;
 extern const LALSimInspiralGenerator lalTaylorF2RedSpinTidalGeneratorTemplate;
 extern const LALSimInspiralGenerator lalTaylorF2RedSpinGeneratorTemplate;
