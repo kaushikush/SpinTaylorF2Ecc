@@ -308,6 +308,7 @@ noinst_HEADERS = \
 	LALSimTEOBResumS.h \
 	LALSimInspiralGenerator_private.h \
 	LALSimInspiralPNCoefficients.c \
+	LALSimInspiralPNCoefficientsEccSpin.c\
 	LALSimInspiralTaylorF2Ecc.c \
 	LALSimInspiralSpinTaylorF2Ecc.c \
 	LALSimInspiraldEnergyFlux.c \
