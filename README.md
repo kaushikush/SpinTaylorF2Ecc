@@ -1,1 +1,1 @@
-# SpinTaylorF2Ecc--git.ligo.org
+# SpinTaylorF2Ecc
