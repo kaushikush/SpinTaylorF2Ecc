@@ -217,8 +217,8 @@ extern "C" {
 
 #define LAL_PN_MODE_L_MAX 3
 /* (2x) Highest available PN order - UPDATE IF NEW ORDERS ADDED!!*/
-#define LAL_MAX_PN_ORDER 8
-#define LAL_MAX_ECC_PN_ORDER 6
+#define LAL_MAX_PN_ORDER 24
+#define LAL_MAX_ECC_PN_ORDER 10
 #define LAL_DEFAULT_F_ECC -1.0
 
 /**
@@ -541,6 +541,8 @@ typedef struct tagPNPhasingSeries
     REAL8 v[PN_PHASING_SERIES_MAX_ORDER+1];
     REAL8 vlogv[PN_PHASING_SERIES_MAX_ORDER+1];
     REAL8 vlogvsq[PN_PHASING_SERIES_MAX_ORDER+1];
+    REAL8 vlogvcu[PN_PHASING_SERIES_MAX_ORDER+1];
+    REAL8 vlogvquar[PN_PHASING_SERIES_MAX_ORDER+1];
     REAL8 vneg[PN_PHASING_SERIES_MAX_ORDER+1];
 }
 PNPhasingSeries;

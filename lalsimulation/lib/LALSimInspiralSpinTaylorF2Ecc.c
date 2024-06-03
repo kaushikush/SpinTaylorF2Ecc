@@ -43,6 +43,7 @@
 #endif
 
 #define INCLUDE_SPIN_ECC_PIECE true
+#define INCLUDE_BHP_ECC_PIECE true
 
 /**
  * @addtogroup LALSimInspiralTaylorF2Ecc_c
@@ -129,11 +130,154 @@ int XLALSimInspiralSpinTaylorF2CoreEcc(
     REAL8 pfa5 = 0.; REAL8 pfl5 = 0.;
     REAL8 pfa6 = 0.; REAL8 pfl6 = 0.;
     REAL8 pfa7 = 0.;
+    REAL8 pfa8 = 0.; REAL8 pfl8 = 0.; REAL8 pflsq8 = 0;
+    REAL8 pfa9 = 0.; REAL8 pfl9 = 0.;
+    REAL8 pfa10 = 0.; REAL8 pfl10 = 0.;
+    REAL8 pfa11 = 0.; REAL8 pfl11 = 0.; 
+    REAL8 pfa12 = 0.; REAL8 pfl12 = 0.; REAL8 pflsq12 = 0;
+    REAL8 pfa13 = 0.; REAL8 pfl13 = 0.;
+    REAL8 pfa14 = 0.; REAL8 pfl14 = 0.; REAL8 pflsq14 = 0;
+    REAL8 pfa15 = 0.; REAL8 pfl15 = 0.; REAL8 pflsq15 = 0;
+    REAL8 pfa16 = 0.; REAL8 pfl16 = 0.; REAL8 pflsq16 = 0;
+    REAL8 pfa17 = 0.; REAL8 pfl17 = 0.; REAL8 pflsq17 = 0;
+    REAL8 pfa18 = 0.; REAL8 pfl18 = 0.; REAL8 pflsq18 = 0; REAL8 pflcu18 = 0;
+    REAL8 pfa19 = 0.; REAL8 pfl19 = 0.; REAL8 pflsq19 = 0;
+    REAL8 pfa20 = 0.; REAL8 pfl20 = 0.; REAL8 pflsq20 = 0; REAL8 pflcu20 = 0;
+    REAL8 pfa21 = 0.; REAL8 pfl21 = 0.; REAL8 pflsq21 = 0; REAL8 pflcu21 = 0;
+    REAL8 pfa22 = 0.; REAL8 pfl22 = 0.; REAL8 pflsq22 = 0; REAL8 pflcu22 = 0;
+    REAL8 pfa23 = 0.; REAL8 pfl23 = 0.; REAL8 pflsq23 = 0; REAL8 pflcu23 = 0;
+    REAL8 pfa24 = 0.; REAL8 pfl24 = 0.; REAL8 pflsq24 = 0; REAL8 pflcu24 = 0; REAL8 pflquar24 = 0;
+
+
 
     INT4 phaseO=XLALSimInspiralWaveformParamsLookupPNPhaseOrder(p);
     switch (phaseO)
     {
         case -1:
+
+        case 24:
+            pfa24 = pfa.v[24];
+            pfl24 = pfa.vlogv[24];
+            pflsq24 = pfa.vlogvsq[24];
+            pflcu24 = pfa.vlogvcu[24];
+            pflquar24 = pfa.vlogvquar[24];
+#if __GNUC__ >= 7 && !defined __INTEL_COMPILER
+                __attribute__ ((fallthrough));
+#endif
+        case 23:
+            pfa23 = pfa.v[23];
+            pfl23 = pfa.vlogv[23];
+            pflsq23 = pfa.vlogvsq[23];
+            pflcu23 = pfa.vlogvcu[23];
+#if __GNUC__ >= 7 && !defined __INTEL_COMPILER
+                __attribute__ ((fallthrough));
+#endif
+        case 22:
+            pfa22 = pfa.v[22];
+            pfl22 = pfa.vlogv[22];
+            pflsq22 = pfa.vlogvsq[22];
+            pflcu22 = pfa.vlogvcu[22];
+#if __GNUC__ >= 7 && !defined __INTEL_COMPILER
+                __attribute__ ((fallthrough));
+#endif
+        case 21:
+            pfa21 = pfa.v[21];
+            pfl21 = pfa.vlogv[21];
+            pflsq21 = pfa.vlogvsq[21];
+            pflcu21 = pfa.vlogvcu[21];
+#if __GNUC__ >= 7 && !defined __INTEL_COMPILER
+                __attribute__ ((fallthrough));
+#endif
+        case 20:
+            pfa20 = pfa.v[20];
+            pfl20 = pfa.vlogv[20];
+            pflsq20 = pfa.vlogvsq[20];
+            pflcu20 = pfa.vlogvcu[20];
+#if __GNUC__ >= 7 && !defined __INTEL_COMPILER
+                __attribute__ ((fallthrough));
+#endif
+        case 19:
+            pfa19 = pfa.v[19];
+            pfl19 = pfa.vlogv[19];
+            pflsq19 = pfa.vlogvsq[19];
+#if __GNUC__ >= 7 && !defined __INTEL_COMPILER
+                __attribute__ ((fallthrough));
+#endif
+        case 18:
+            pfa18 = pfa.v[18];
+            pfl18 = pfa.vlogv[18];
+            pflsq18 = pfa.vlogvsq[18];
+            pflcu18 = pfa.vlogvcu[18];
+#if __GNUC__ >= 7 && !defined __INTEL_COMPILER
+                __attribute__ ((fallthrough));
+#endif
+        case 17:
+            pfa17 = pfa.v[17];
+            pfl17 = pfa.vlogv[17];
+            pflsq17 = pfa.vlogvsq[17];
+#if __GNUC__ >= 7 && !defined __INTEL_COMPILER
+                __attribute__ ((fallthrough));
+#endif
+        case 16:
+            pfa16 = pfa.v[16];
+            pfl16 = pfa.vlogv[16];
+            pflsq16 = pfa.vlogvsq[16];
+#if __GNUC__ >= 7 && !defined __INTEL_COMPILER
+                __attribute__ ((fallthrough));
+#endif
+        case 15:
+            pfa15 = pfa.v[15];
+            pfl15 = pfa.vlogv[15];
+            pflsq15 = pfa.vlogvsq[15];
+#if __GNUC__ >= 7 && !defined __INTEL_COMPILER
+                __attribute__ ((fallthrough));
+#endif
+        case 14:
+            pfa14 = pfa.v[14];
+            pfl14 = pfa.vlogv[14];
+            pflsq14 = pfa.vlogvsq[14];
+#if __GNUC__ >= 7 && !defined __INTEL_COMPILER
+                __attribute__ ((fallthrough));
+#endif
+        case 13:
+            pfa13 = pfa.v[13];
+            pfl13 = pfa.vlogv[13];
+#if __GNUC__ >= 7 && !defined __INTEL_COMPILER
+                __attribute__ ((fallthrough));
+#endif
+        case 12:
+            pfa12 = pfa.v[12];
+            pfl12 = pfa.vlogv[12];
+            pflsq12 = pfa.vlogvsq[12];
+#if __GNUC__ >= 7 && !defined __INTEL_COMPILER
+                __attribute__ ((fallthrough));
+#endif
+        case 11:
+            pfa11 = pfa.v[11];
+            pfl11 = pfa.vlogv[11];
+#if __GNUC__ >= 7 && !defined __INTEL_COMPILER
+                __attribute__ ((fallthrough));
+#endif
+        case 10:
+            pfa10 = pfa.v[10];
+            pfl10 = pfa.vlogv[10];
+#if __GNUC__ >= 7 && !defined __INTEL_COMPILER
+                __attribute__ ((fallthrough));
+#endif
+        case 9:
+            pfa9 = pfa.v[9];
+            pfl9 = pfa.vlogv[9];
+#if __GNUC__ >= 7 && !defined __INTEL_COMPILER
+                __attribute__ ((fallthrough));
+#endif
+        case 8:
+            pfa8 = pfa.v[8];
+            pfl8 = pfa.vlogv[8];
+            pflsq8 = pfa.vlogvsq[8];
+#if __GNUC__ >= 7 && !defined __INTEL_COMPILER
+                __attribute__ ((fallthrough));
+#endif
+
         case 7:
             pfa7 = pfa.v[7];
 #if __GNUC__ >= 7 && !defined __INTEL_COMPILER
@@ -291,6 +435,9 @@ int XLALSimInspiralSpinTaylorF2CoreEcc(
     if( f_ref != 0. ) {
         const REAL8 vref = cbrt(piM*f_ref);
         const REAL8 logvref = log(vref);
+        const REAL8 logvrefsq = logvref * logvref;
+        const REAL8 logvrefcu = logvrefsq * logvref;
+        const REAL8 logvrefquar = logvrefcu * logvref;
         const REAL8 v2ref = vref * vref;
         const REAL8 v3ref = vref * v2ref;
         const REAL8 v4ref = vref * v3ref;
@@ -300,10 +447,22 @@ int XLALSimInspiralSpinTaylorF2CoreEcc(
         const REAL8 v8ref = vref * v7ref;
         const REAL8 v9ref = vref * v8ref;
         const REAL8 v10ref = vref * v9ref;
+        const REAL8 v11ref = vref * v10ref;
         const REAL8 v12ref = v2ref * v10ref;
         const REAL8 v13ref = vref * v12ref;
         const REAL8 v14ref = vref * v13ref;
         const REAL8 v15ref = vref * v14ref;
+        /*BHP orders*/
+        const REAL8 v16ref = vref * v15ref;
+        const REAL8 v17ref = vref * v16ref;
+        const REAL8 v18ref = vref * v17ref;
+        const REAL8 v19ref = vref * v18ref;
+        const REAL8 v20ref = vref * v19ref;
+        const REAL8 v21ref = vref * v20ref;
+        const REAL8 v22ref = vref * v21ref;
+        const REAL8 v23ref = vref * v22ref;
+        const REAL8 v24ref = vref * v23ref;        
+
         ref_phasing += pfa7 * v7ref;
         ref_phasing += (pfa6 + pfl6 * logvref) * v6ref;
         ref_phasing += (pfa5 + pfl5 * logvref) * v5ref;
@@ -320,6 +479,25 @@ int XLALSimInspiralSpinTaylorF2CoreEcc(
         ref_phasing += pft12 * v12ref;
         ref_phasing += pft10 * v10ref;
 
+        /*Circular BHP terms in reference phasing*/
+        ref_phasing += (pfa24 + pfl24 * logvref + pflsq24 * logvrefsq + pflcu24 * logvrefcu + pflquar24 * logvrefquar) * v24ref;
+        ref_phasing += (pfa23 + pfl23 * logvref + pflsq23 * logvrefsq + pflcu23 * logvrefcu) * v23ref;
+        ref_phasing += (pfa22 + pfl22 * logvref + pflsq22 * logvrefsq + pflcu22 * logvrefcu) * v22ref;
+        ref_phasing += (pfa21 + pfl21 * logvref + pflsq21 * logvrefsq + pflcu21 * logvrefcu) * v21ref;
+        ref_phasing += (pfa20 + pfl20 * logvref + pflsq20 * logvrefsq + pflcu20 * logvrefcu) * v20ref;
+        ref_phasing += (pfa19 + pfl19 * logvref + pflsq19 * logvrefsq) * v19ref;
+        ref_phasing += (pfa18 + pfl18 * logvref + pflsq18 * logvrefsq + pflcu18 * logvrefcu) * v18ref;
+        ref_phasing += (pfa17 + pfl17 * logvref + pflsq17 * logvrefsq) * v17ref;
+        ref_phasing += (pfa16 + pfl16 * logvref + pflsq16 * logvrefsq) * v16ref;
+        ref_phasing += (pfa15 + pfl15 * logvref + pflsq15 * logvrefsq) * v15ref;
+        ref_phasing += (pfa14 + pfl14 * logvref + pflsq14 * logvrefsq) * v14ref;
+        ref_phasing += (pfa13 + pfl13 * logvref) * v13ref;
+        ref_phasing += (pfa12 + pfl12 * logvref + pflsq12 * logvrefsq) * v12ref;
+        ref_phasing += (pfa11 + pfl11 * logvref) * v11ref;
+        ref_phasing += (pfa10 + pfl10 * logvref) * v10ref;
+        ref_phasing += (pfa9 + pfl9 * logvref) * v9ref;
+        ref_phasing += (pfa8 + pfl8 * logvref + pflsq8 * logvrefsq) * v8ref;
+
         /* Eccentricity terms in phasing */
         if( eccentricity > 0 ) {
           ref_phasing += eccentricityPhasing_F2(vref, v_ecc_ref, eccentricity, eta, ecc_order);
@@ -330,6 +508,14 @@ int XLALSimInspiralSpinTaylorF2CoreEcc(
           ref_phasing += SpinEccentricityPhasing_F2(vref, v_ecc_ref, eccentricity, m1, m2, chi1L, chi2L, chi1sq, chi2sq, ecc_order);
         }
         }
+        
+        /* Eccentric BHP terms in phasing */
+        if (INCLUDE_BHP_ECC_PIECE){        
+        if( eccentricity > 0 ) {
+          ref_phasing += eccentricityPhasingBHP_F2(vref, v_ecc_ref, eccentricity, eta, ecc_order);
+        }
+        }
+
         ref_phasing /= v5ref;
     } /* End of if(f_ref != 0) block */
     #pragma omp parallel for
@@ -337,6 +523,9 @@ int XLALSimInspiralSpinTaylorF2CoreEcc(
         const REAL8 f = freqs->data[i];
         const REAL8 v = cbrt(piM*f);
         const REAL8 logv = log(v);
+        const REAL8 logvsq = logv * logv;
+        const REAL8 logvcu = logvsq * logv;
+        const REAL8 logvquar = logvcu * logv;
         const REAL8 v2 = v * v;
         const REAL8 v3 = v * v2;
         const REAL8 v4 = v * v3;
@@ -346,10 +535,22 @@ int XLALSimInspiralSpinTaylorF2CoreEcc(
         const REAL8 v8 = v * v7;
         const REAL8 v9 = v * v8;
         const REAL8 v10 = v * v9;
+        const REAL8 v11 = v * v10;
         const REAL8 v12 = v2 * v10;
         const REAL8 v13 = v * v12;
         const REAL8 v14 = v * v13;
         const REAL8 v15 = v * v14;
+        /*BHP orders*/
+        const REAL8 v16 = v * v15;
+        const REAL8 v17 = v * v16;
+        const REAL8 v18 = v * v17;
+        const REAL8 v19 = v * v18;
+        const REAL8 v20 = v * v19;
+        const REAL8 v21 = v * v20;
+        const REAL8 v22 = v * v21;
+        const REAL8 v23 = v * v22;
+        const REAL8 v24 = v * v23;
+
         REAL8 phasing = 0.;
         REAL8 dEnergy = 0.;
         REAL8 flux = 0.;
@@ -371,16 +572,43 @@ int XLALSimInspiralSpinTaylorF2CoreEcc(
         phasing += pft12 * v12;
         phasing += pft10 * v10;
 
+        /*Circular BHP terms in phasing*/
+        phasing += (pfa24 + pfl24 * logv + pflsq24 * logvsq + pflcu24 * logvcu + pflquar24 * logvquar) * v24;
+        phasing += (pfa23 + pfl23 * logv + pflsq23 * logvsq + pflcu23 * logvcu) * v23;
+        phasing += (pfa22 + pfl22 * logv + pflsq22 * logvsq + pflcu22 * logvcu) * v22;
+        phasing += (pfa21 + pfl21 * logv + pflsq21 * logvsq + pflcu21 * logvcu) * v21;
+        phasing += (pfa20 + pfl20 * logv + pflsq20 * logvsq + pflcu20 * logvcu) * v20;
+        phasing += (pfa19 + pfl19 * logv + pflsq19 * logvsq) * v19;
+        phasing += (pfa18 + pfl18 * logv + pflsq18 * logvsq + pflcu18 * logvcu) * v18;
+        phasing += (pfa17 + pfl17 * logv + pflsq17 * logvsq) * v17;
+        phasing += (pfa16 + pfl16 * logv + pflsq16 * logvsq) * v16;
+        phasing += (pfa15 + pfl15 * logv + pflsq15 * logvsq) * v15;
+        phasing += (pfa14 + pfl14 * logv + pflsq14 * logvsq) * v14;
+        phasing += (pfa13 + pfl13 * logv) * v13;
+        phasing += (pfa12 + pfl12 * logv + pflsq12 * logvsq) * v12;
+        phasing += (pfa11 + pfl11 * logv) * v11;
+        phasing += (pfa10 + pfl10 * logv) * v10;
+        phasing += (pfa9 + pfl9 * logv) * v9;
+        phasing += (pfa8 + pfl8 * logv + pflsq8 * logvsq) * v8;
+
         /* Eccentricity terms in phasing */
         if( eccentricity > 0 ) {
           phasing += eccentricityPhasing_F2(v, v_ecc_ref, eccentricity, eta, ecc_order);
         }
-        
+    
         if(INCLUDE_SPIN_ECC_PIECE){
         if(eccentricity > 0 && (fabs(chi1L) > 0 || fabs(chi2L) > 0)) {
           phasing += SpinEccentricityPhasing_F2(v, v_ecc_ref, eccentricity, m1, m2, chi1L, chi2L, chi1sq, chi2sq, ecc_order);
         }
         }
+
+        /* Eccentric BHP terms in phasing */
+        if(INCLUDE_BHP_ECC_PIECE){    
+        if( eccentricity > 0 ) {
+          phasing += eccentricityPhasingBHP_F2(v, v_ecc_ref, eccentricity, eta, ecc_order);
+        }
+        }
+
         phasing /= v5;
 
     /* WARNING! Amplitude orders beyond 0 have NOT been reviewed!
