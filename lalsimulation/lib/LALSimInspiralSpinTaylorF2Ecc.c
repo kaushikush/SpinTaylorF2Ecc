@@ -43,7 +43,7 @@
 #endif
 
 #define INCLUDE_SPIN_ECC_PIECE true
-#define INCLUDE_BHP_ECC_PIECE true
+#define INCLUDE_BHP_PIECE true
 
 /**
  * @addtogroup LALSimInspiralTaylorF2Ecc_c
@@ -510,7 +510,7 @@ int XLALSimInspiralSpinTaylorF2CoreEcc(
         }
         
         /* Eccentric BHP terms in phasing */
-        if (INCLUDE_BHP_ECC_PIECE){        
+        if (INCLUDE_BHP_PIECE){        
         if( eccentricity > 0 ) {
           ref_phasing += eccentricityPhasingBHP_F2(vref, v_ecc_ref, eccentricity, eta, ecc_order);
         }
@@ -603,7 +603,7 @@ int XLALSimInspiralSpinTaylorF2CoreEcc(
         }
 
         /* Eccentric BHP terms in phasing */
-        if(INCLUDE_BHP_ECC_PIECE){    
+        if(INCLUDE_BHP_PIECE){    
         if( eccentricity > 0 ) {
           phasing += eccentricityPhasingBHP_F2(v, v_ecc_ref, eccentricity, eta, ecc_order);
         }
@@ -777,7 +777,7 @@ int XLALSimInspiralSpinTaylorF2Ecc(
 
     /* phasing coefficients */
     PNPhasingSeries pfa;
-    XLALSimInspiralPNPhasing_F2(&pfa, m1, m2, S1z, S2z, S1z*S1z, S2z*S2z, S1z*S2z, p);
+    XLALSimInspiralPNBHPPhasing_F2(&pfa, m1, m2, S1z, S2z, S1z*S1z, S2z*S2z, S1z*S2z, p);
     ret = XLALSimInspiralSpinTaylorF2CoreEcc(&htilde, freqs, phi_ref, m1_SI, m2_SI,
                                       f_ref, shft, r, eccentricity, S1z, S2z, p, &pfa);
 

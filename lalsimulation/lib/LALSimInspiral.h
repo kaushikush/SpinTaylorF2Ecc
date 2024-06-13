@@ -535,7 +535,7 @@ typedef enum tagTestGRaccept {
  * Structure for passing around PN phasing coefficients.
  * For use with the TaylorF2 waveform.
  */
-#define PN_PHASING_SERIES_MAX_ORDER 15
+#define PN_PHASING_SERIES_MAX_ORDER 24
 typedef struct tagPNPhasingSeries
 {
     REAL8 v[PN_PHASING_SERIES_MAX_ORDER+1];
