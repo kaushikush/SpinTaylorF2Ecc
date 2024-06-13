@@ -480,6 +480,7 @@ int XLALSimInspiralSpinTaylorF2CoreEcc(
         ref_phasing += pft10 * v10ref;
 
         /*Circular BHP terms in reference phasing*/
+        if (INCLUDE_BHP_PIECE){
         ref_phasing += (pfa24 + pfl24 * logvref + pflsq24 * logvrefsq + pflcu24 * logvrefcu + pflquar24 * logvrefquar) * v24ref;
         ref_phasing += (pfa23 + pfl23 * logvref + pflsq23 * logvrefsq + pflcu23 * logvrefcu) * v23ref;
         ref_phasing += (pfa22 + pfl22 * logvref + pflsq22 * logvrefsq + pflcu22 * logvrefcu) * v22ref;
@@ -497,6 +498,7 @@ int XLALSimInspiralSpinTaylorF2CoreEcc(
         ref_phasing += (pfa10 + pfl10 * logvref) * v10ref;
         ref_phasing += (pfa9 + pfl9 * logvref) * v9ref;
         ref_phasing += (pfa8 + pfl8 * logvref + pflsq8 * logvrefsq) * v8ref;
+        }
 
         /* Eccentricity terms in phasing */
         if( eccentricity > 0 ) {
@@ -573,6 +575,7 @@ int XLALSimInspiralSpinTaylorF2CoreEcc(
         phasing += pft10 * v10;
 
         /*Circular BHP terms in phasing*/
+        if (INCLUDE_BHP_PIECE){
         phasing += (pfa24 + pfl24 * logv + pflsq24 * logvsq + pflcu24 * logvcu + pflquar24 * logvquar) * v24;
         phasing += (pfa23 + pfl23 * logv + pflsq23 * logvsq + pflcu23 * logvcu) * v23;
         phasing += (pfa22 + pfl22 * logv + pflsq22 * logvsq + pflcu22 * logvcu) * v22;
@@ -590,6 +593,7 @@ int XLALSimInspiralSpinTaylorF2CoreEcc(
         phasing += (pfa10 + pfl10 * logv) * v10;
         phasing += (pfa9 + pfl9 * logv) * v9;
         phasing += (pfa8 + pfl8 * logv + pflsq8 * logvsq) * v8;
+        }
 
         /* Eccentricity terms in phasing */
         if( eccentricity > 0 ) {
