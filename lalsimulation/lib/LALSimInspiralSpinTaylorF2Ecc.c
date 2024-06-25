@@ -1,12 +1,5 @@
 /*
- *  Copyright (C) 2019 HyunWon Lee, JeongCho Kim, Chunglee Kim, Marc Favata, K.G. Arun
- *  Assembled from code found in:
- *    - LALInspiralStationaryPhaseApproximation2.c
- *    - LALInspiralChooseModel.c
- *    - LALInspiralSetup.c
- *    - LALSimInspiralTaylorF2ReducedSpin.c
- *    - LALSimInspiralTaylorF2.c
- *
+ *  Copyright (C) 2024 Kaushik Paul, Omkar Sridhar
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -66,7 +59,7 @@
  */
 
 /**
- * \author Jeongcho Kim, Chunglee Kim, Hyung Won Lee, Marc Favata, K.G. Arun
+ * \author Kaushik Paul, Omkar Sridhar, Soham Bhattacharyya, Chandra Kant Mishra
  * \file
  *
  * \brief Module to compute the eccentric TaylorF2 inspiral waveform for small eccentricity.

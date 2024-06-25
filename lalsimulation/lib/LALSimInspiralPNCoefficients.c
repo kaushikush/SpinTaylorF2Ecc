@@ -984,60 +984,6 @@ XLALSimInspiralPNPhasing_F2(
     pfa->v[6] =  XLALSimInspiralTaylorF2Phasing_6PNCoeff(eta);
     pfa->vlogv[6] = XLALSimInspiralTaylorF2Phasing_6PNLogCoeff(eta);
     pfa->v[7] = XLALSimInspiralTaylorF2Phasing_7PNCoeff(eta);
-    /* pfa->v[8] = XLALSimInspiralTaylorF2Phasing_8PNCoeff(0);
-    pfa->vlogv[8] = XLALSimInspiralTaylorF2Phasing_8PNCoeff(1);
-    pfa->vlogvsq[8] = XLALSimInspiralTaylorF2Phasing_8PNCoeff(2);
-    pfa->v[9] = XLALSimInspiralTaylorF2Phasing_9PNCoeff(0);
-    pfa->vlogv[9] = XLALSimInspiralTaylorF2Phasing_9PNCoeff(1);
-    pfa->v[10] = XLALSimInspiralTaylorF2Phasing_10PNCoeff(0);
-    pfa->vlogv[10] = XLALSimInspiralTaylorF2Phasing_10PNCoeff(1);
-    pfa->v[11] = XLALSimInspiralTaylorF2Phasing_11PNCoeff(0);
-    pfa->vlogv[11] = XLALSimInspiralTaylorF2Phasing_11PNCoeff(1);
-    pfa->v[12] = XLALSimInspiralTaylorF2Phasing_12PNCoeff(0);
-    pfa->vlogv[12] = XLALSimInspiralTaylorF2Phasing_12PNCoeff(1);
-    pfa->vlogvsq[12] = XLALSimInspiralTaylorF2Phasing_12PNCoeff(2);
-    pfa->v[13] = XLALSimInspiralTaylorF2Phasing_13PNCoeff(0);
-    pfa->vlogv[13] = XLALSimInspiralTaylorF2Phasing_13PNCoeff(1);
-    pfa->v[14] = XLALSimInspiralTaylorF2Phasing_14PNCoeff(0);
-    pfa->vlogv[14] = XLALSimInspiralTaylorF2Phasing_14PNCoeff(1);
-    pfa->vlogvsq[14] = XLALSimInspiralTaylorF2Phasing_14PNCoeff(2);
-    pfa->v[15] = XLALSimInspiralTaylorF2Phasing_15PNCoeff(0);
-    pfa->vlogv[15] = XLALSimInspiralTaylorF2Phasing_15PNCoeff(1);
-    pfa->vlogvsq[15] = XLALSimInspiralTaylorF2Phasing_15PNCoeff(2);
-    pfa->v[16] = XLALSimInspiralTaylorF2Phasing_16PNCoeff(0);
-    pfa->vlogv[16] = XLALSimInspiralTaylorF2Phasing_16PNCoeff(1);
-    pfa->vlogvsq[16] = XLALSimInspiralTaylorF2Phasing_16PNCoeff(2);
-    pfa->v[17] = XLALSimInspiralTaylorF2Phasing_17PNCoeff(0);
-    pfa->vlogv[17] = XLALSimInspiralTaylorF2Phasing_17PNCoeff(1);
-    pfa->vlogvsq[17] = XLALSimInspiralTaylorF2Phasing_17PNCoeff(2);
-    pfa->v[18] = XLALSimInspiralTaylorF2Phasing_18PNCoeff(0);
-    pfa->vlogv[18] = XLALSimInspiralTaylorF2Phasing_18PNCoeff(1);
-    pfa->vlogvsq[18] = XLALSimInspiralTaylorF2Phasing_18PNCoeff(2);
-    pfa->vlogvcu[18] = XLALSimInspiralTaylorF2Phasing_18PNCoeff(3);
-    pfa->v[19] = XLALSimInspiralTaylorF2Phasing_19PNCoeff(0);
-    pfa->vlogv[19] = XLALSimInspiralTaylorF2Phasing_19PNCoeff(1);
-    pfa->vlogvsq[19] = XLALSimInspiralTaylorF2Phasing_19PNCoeff(2);
-    pfa->v[20] = XLALSimInspiralTaylorF2Phasing_20PNCoeff(0);
-    pfa->vlogv[20] = XLALSimInspiralTaylorF2Phasing_20PNCoeff(1);
-    pfa->vlogvsq[20] = XLALSimInspiralTaylorF2Phasing_20PNCoeff(2);
-    pfa->vlogvcu[20] = XLALSimInspiralTaylorF2Phasing_20PNCoeff(3);
-    pfa->v[21] = XLALSimInspiralTaylorF2Phasing_21PNCoeff(0);
-    pfa->vlogv[21] = XLALSimInspiralTaylorF2Phasing_21PNCoeff(1);
-    pfa->vlogvsq[21] = XLALSimInspiralTaylorF2Phasing_21PNCoeff(2);
-    pfa->vlogvcu[21] = XLALSimInspiralTaylorF2Phasing_21PNCoeff(3);
-    pfa->v[22] = XLALSimInspiralTaylorF2Phasing_22PNCoeff(0);
-    pfa->vlogv[22] = XLALSimInspiralTaylorF2Phasing_22PNCoeff(1);
-    pfa->vlogvsq[22] = XLALSimInspiralTaylorF2Phasing_22PNCoeff(2);
-    pfa->vlogvcu[22] = XLALSimInspiralTaylorF2Phasing_22PNCoeff(3);
-    pfa->v[23] = XLALSimInspiralTaylorF2Phasing_23PNCoeff(0);
-    pfa->vlogv[23] = XLALSimInspiralTaylorF2Phasing_23PNCoeff(1);
-    pfa->vlogvsq[23] = XLALSimInspiralTaylorF2Phasing_23PNCoeff(2);
-    pfa->vlogvcu[23] = XLALSimInspiralTaylorF2Phasing_23PNCoeff(3);
-    pfa->v[24] = XLALSimInspiralTaylorF2Phasing_24PNCoeff(0);
-    pfa->vlogv[24] = XLALSimInspiralTaylorF2Phasing_24PNCoeff(1);
-    pfa->vlogvsq[24] = XLALSimInspiralTaylorF2Phasing_24PNCoeff(2);
-    pfa->vlogvcu[24] = XLALSimInspiralTaylorF2Phasing_24PNCoeff(3);
-    pfa->vlogvquar[24] = XLALSimInspiralTaylorF2Phasing_24PNCoeff(4); */
 
     /* modify the PN coefficients if a non null LALSimInspiralTestGRParam structure is passed */
     /* BEWARE: this is for the non-spinning case only!*/
@@ -1154,8 +1100,6 @@ XLALSimInspiralPNPhasing_F2(
         pfa->v[ii] *= pfaN;
         pfa->vlogv[ii] *= pfaN;
         pfa->vlogvsq[ii] *= pfaN;
-       /*  pfa->vlogvcu[ii] *= pfaN;
-        pfa->vlogvquar[ii] *= pfaN; */
     }
 }
 
